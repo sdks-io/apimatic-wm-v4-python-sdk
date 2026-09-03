@@ -1,0 +1,87 @@
+[project]
+name = "walmart-apis"
+version = "v4"
+description = "OAuth token issuance for Walmart Marketplace, covering **both** v4 authorization\nflows in one contract:\n\n1. **Seller-direct** (`client_credentials`) — a seller's own application exchanges\n   its client credentials for a short-lived access token, then calls the v4 APIs\n   with `Authorization: Bearer <token>`.\n2. **Solution-Provider delegated** (`authorization_code` + PKCE, `refresh_token`,\n   and Dynamic Client Registration) — a seller grants a Solution Provider's\n   application access to their Marketplace account.\n\nBoth flows are served by `the Authorization API` as a **stateless proxy** to\nWalmart IAM : IAM remains the sole issuer; no secrets are stored and no\ntokens are signed here. Access tokens are opaque, `Bearer`-type, short-lived;\nrefresh tokens (delegated flow) are rotated on use. Never log tokens.\n\n## One token endpoint, grant dispatch\n`POST /auth/v4/token` handles all three grants (`client_credentials`,\n`authorization_code`, `refresh_token`) via `grant_type` dispatch — the merged v4\ncontract ( for seller-direct, for delegated). This is why the two\nformerly separate specs (`openapi.yaml` + `delegated-oauth.yaml`) are now a single\ndocument: a path can carry exactly one `post:`, so one file makes the shared\nendpoint unambiguous for codegen and for the implementing controller.\n\n## Posture\n- **Seller-direct is OAuth 2.0** : documents what IAM/Apigee already do.\n  IAM cannot add new auth features for this flow, so `client_credentials` issues\n  **no** refresh token, `scope=` is accepted-but-ignored (no down-scoping), and\n  introspection (RFC 7662) / revocation (RFC 7009) / discovery (RFC 8414) are\n  **deliberately absent**.\n- **Delegated is OAuth 2.1** : IAM already supports PKCE (`S256`), refresh\n  rotation (~1-year TTL via `offline_access`), and Dynamic Client Registration\n  (RFC 7591), so this flow specifies them properly.\n\nThe one modernization over `/v3` shared by both flows is the **access-token\nheader**: v4 uses the standard `Authorization: Bearer` and **does not use\n`WM_SEC.ACCESS_TOKEN`** (the gateway already tolerates Bearer).\n\n## Delegated-flow upstream gaps (, pending)\n`GET /auth/v4/authorize` documents the OAuth-2.1-correct target. Three of its\nguarantees depend on upstream changes that are **not yet in place**: `iss`\nemission (RFC 9207), exact `redirect_uri` enforcement, and server-side PKCE `S256`\nenforcement (rejecting `plain`) are IAM / app-store responsibilities tracked in\n. the Authorization API validates the request-side invariants it can and\nredirects correctly; the full end-to-end guarantee lands when IAM + app-store ship\nthose changes.\n\n**Pod Owner:** Pod 0 — Core & Auth\n**Implementation target:** the Authorization API (proxy) → Walmart IAM\n, Retrieve catalog and product information from the Walmart Marketplace catalog.\n\n\n**Pod Owner:** Pod 1 — Items & Catalog\n**Implementation target:** Partner Item Query Service (PIQS), Submit analytics queries and retrieve structured data from Walmart's\ndata platform. Modeled after Walmart Seller API Data Kiosk API.\n\nADR pending: GraphQL vs REST query language — see docs/adr/ once filed.\nUntil the ADR resolves, the query body is treated as an opaque string.\n\n**Pod Owner:** Pod 4 — Feeds & Reports\n**Implementation target:** Walmart Analytics / Data Platform, Submit bulk data to Walmart Marketplace via asynchronous feed processing.\nSellers submit a feed file in a single API call; the server handles\ndocument storage and initiates async processing. Poll feed status\nwith the feedId returned in the submission response.\n\n**Pod Owner:** Pod 4 — Feeds & Reports\n**Implementation target:** Walmart Feed Service / Bulk Operations\n\n<!-- hello: Atul Soman (@a0s1r2d) joined Pod 4 — 2026-06-04 -->\n<!-- hello: Ramprabhu Murugesan (@rmurug3) joined Pod 4 as lead — 2026-06-04 -->, WFS Inbound Plans API. Walmart Seller API — Fulfillment Inbound contract.\nTerminology: WFS = Walmart Fulfillment Services, Ship Node = fulfillment center., WFS Inbound Delivery Windows, Self-Ship Appointments & Operation Status API. Walmart Seller API — Fulfillment Inbound contract.\nTerminology: WFS = Walmart Fulfillment Services, Ship Node = fulfillment center., WFS Inbound Packing. Walmart Seller API — Fulfillment Inbound contract.\nTerminology: WFS = Walmart Fulfillment Services, Ship Node = fulfillment center., WFS Inbound Packing & Placement API. Walmart Seller API — Fulfillment Inbound contract.\nTerminology: WFS = Walmart Fulfillment Services, Ship Node = fulfillment center., WFS Inbound Items, Compliance, Labels & Prep API. Walmart Seller API — Fulfillment Inbound contract.\nTerminology: WFS = Walmart Fulfillment Services, Ship Node = fulfillment center., WFS Inbound Shipments API. Walmart Seller API — Fulfillment Inbound contract.\nTerminology: WFS = Walmart Fulfillment Services, Ship Node = fulfillment center., Create and manage WFS (Walmart Fulfillment Services) outbound fulfillment orders.\nSellers ship inventory to Walmart ship nodes; Walmart picks, packs, and ships\nto end customers.\n\n\n**Pod Owner:** Pod 2 — Orders & Fulfillment\n**Implementation target:** WFS Outbound / Ship Node Service, Manage seller inventory on the Walmart Marketplace.\n\n\n**Pod Owner:** Pod 3 — Inventory & Pricing\n**Implementation target:** Walmart Inventory Service, Create, fully update, patch, and delete listings items for sellers on the\nWalmart Marketplace. Modeled after Walmart Seller API Listings Items API.\n\n**Pod Owner:** Pod 1 — Items & Catalog\n**Implementation target:** Walmart Item Setup Service, Get information about listing restrictions on items in the Walmart Marketplace.\nIdentifies compliance blocks, category restrictions, and approval requirements.\n\n\n**Pod Owner:** Pod 3 — Inventory & Pricing\n**Implementation target:** Walmart Item Compliance / Restriction Service, SUPERSEDED — NOT SCHEDULED FOR IMPLEMENTATION.\nthe Merchant Fulfillment API is obsolete: its operations are covered by\nthe Shipping API, and both front the same upstream (Ship With Walmart).\nPer Suresh's SWW-consolidation analysis, every operation below is marked\ncounts toward Pod 2 implementation scope. This spec is retained for\nreference only (tombstone) — no code is being built against it. New\nseller-fulfilled shipping work goes to the Shipping API.\n\nTracking: (this deprecation). The one partial-coverage gap\n(MFN full-record `getShipment` has no single the Shipping API equivalent)\nis owned by Suresh for decision in .\n\n---\nGet eligible shipping services and purchase shipping labels for seller-fulfilled\norders. Modeled after Walmart Seller API Merchant Fulfillment API.\n\n**Pod Owner:** Pod 2 — Orders & Fulfillment\n**Implementation target:** Ship With Walmart (SWW) — SWW-LABEL-SERVICE\n(internal `/v3/sww/labels/*` synchronous REST; see\ndocs/mapper/mfn-mapper-feasibility.md), Retrieve and manage Walmart Marketplace orders.\n\n\n**Pod Owner:** Pod 2 — Orders & Fulfillment\n**Implementation target:** Walmart Order Management Service (OMS)\n<!-- hello: Vikram Godbole (@vgodbol) joined Pod 2 — 2026-06-03 -->\n<!-- hello: Suresh Dussa (@s0d08o6) joined Pod 2 — 2026-06-08 -->\n<!-- hello: Leon Jiang (@r0j09pq) joined Pod 2 — 2026-08-10 -->\n<!-- hello: Rashmi Das (@r0d01sm) joined Pod 2 — 2026-08-18 -->, Unified Payments domain API for Walmart Marketplace sellers.\nConsolidates Pod 5 (Finances / financial event reporting) and Pod 6\n(Outbound Payments — settlement, reconciliation, payout execution) into a\nsingle service under the Payments domain .\n\n**Category A (7 routes):** Reporting — delegated to mp-payment-reporting upstream.\n**Category B (9 routes):** Execution — delegated to GMPPayments upstream.\n**Finances (4 routes):** Financial event reporting — delegated to GMP partnerTxnSearch\nand commission endpoints (, ).\n\nRoutes with x-walmart-pii: true contain order/seller PII and require an RDT\nissued by the Tokens service (Pod 0, ) in production.\n\n**Domain Owner:** Payments Domain (consolidated Pod 5 + Pod 6)\n**Tech Lead:** @cssehga\n**Replaces:** the payments settlement backend (v3 BFF); the Payments API (Pod 5), Pricing information for seller items and competitive pricing summaries.\nAligned to SP-API productPricingV0 surface (April 2026 release), with\nWalmart Item ID substituted for ASIN as the primary item identifier .\n\nThree GET endpoints are backed by IQS / GCI catalog_index .\nFive batch/item endpoints are Phase 1 stubs pending implementation —\nthrough .\n\n**Pod Owner:** Pod 3 — Inventory & Pricing\n**Implementation target:** Walmart Price Service / Competitive Intelligence, Fee estimate endpoints for seller items.\nAligned to SP-API productFeesV0 surface, with Walmart Item ID substituted\nfor ASIN as the primary item identifier , and Amazon-specific\nbranding replaced with Walmart equivalents.\n\nAll three endpoints are Phase 2 implementations backed by:\n- IQS catalog_index — item enrichment (category, weight, dims, GTIN)\n- Partner Rate Service (Columbus) — referral fee by category\n- WFS Fulfillment Fee Service (payment-app.wfs) — WFS pick-and-pack fees\n\n**Pod Owner:** Pod 3 — Inventory & Pricing, Retrieve Walmart product type definitions, attribute schemas, and\nitem classification rules used when setting up seller listings.\n\n**Pod Owner:** Pod 1 — Items & Catalog\n**Implementation target:** Walmart Item Classification Service, Create, cancel, and retrieve seller reports.\nSupports scheduled and on-demand reports with async processing.\n\n\n**Pod Owner:** Pod 4 — Feeds & Reports\n**Implementation target:** Walmart Seller Reporting Service, Retrieve information about a seller's Walmart Marketplace account\nand marketplace participations.\n\n\n**Pod Owner:** Pod 5 — Seller & Finances\n**Implementation target:** Walmart Seller Account Service / Seller Center, Shipping API for sellers to request rates, purchase shipping labels,\ntrack shipments, and manage delivery exceptions across Walmart\nMarketplace and WFS channels.\n\nSurface aligned with industry SP-API Shipping v2. Pod 2 — Orders &\nFulfillment owns this service. Common types (Address, Money, Weight,\nPackageDimensions) are inlined per Pod 2 convention, byte-identical to\nthe canonical copies in the Merchant Fulfillment API; (proposed)\ndefines the future promotion path to models/_shared/ once the Rule of\nThree triggers a coordinated extraction PR., Create upload destinations (pre-signed URLs) for feed documents and\nretrieve previously uploaded documents. Used in conjunction with the\nFeeds service for async bulk operations.\n\n\nPre-signed URLs must not appear in logs — treat as secrets.\n\n**Pod Owner:** Pod 4 — Feeds & Reports\n**Implementation target:** Walmart Document Store / S3 pre-signed URLs"
+authors = [
+    { name = "Pod 0 — Core & Auth", email = "pod-0@sellers.walmart.com" },
+]
+maintainers = [
+    { name = "APIMatic", email = "support@apimatic.io" },
+]
+keywords = ["sdk", "api-client", "openapi", "rest", "http", "apimatic"]
+license = "MIT"                 # SPDX expression (PEP 639); poetry-core bundles the root LICENSE
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "httpx (>=0.28.1,<1.0.0)",
+    # 2.11 added the alias-control `model_config` keys core/models.py names --
+    # validate_by_name, validate_by_alias and serialize_by_alias. No 2.12-only pydantic API
+    # is used anywhere.
+    "pydantic[email] (>=2.11.0,<3.0.0)",
+    # NotRequired / TypedDict backport for the 3.10 floor (both live in `typing` from 3.11),
+    # used by the model input companions; and TypeForm (PEP 747, added in 4.13.0), which
+    # core/ uses to type the runtime type expressions its factories accept. PEP 747 is Final
+    # and TypeForm reaches `typing` in 3.15, so both move when the floor does.
+    "typing-extensions (>=4.13.0,<5.0.0)",
+]
+
+classifiers = [
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Typing :: Typed",
+    "Operating System :: OS Independent",
+    "Topic :: Internet :: WWW/HTTP",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
+[dependency-groups]
+dev = [
+    # 2.2 is where PEP 747 TypeForm became default-on; below it, core/'s signatures need an
+    # --enable-incomplete-feature flag.
+    "mypy (>=2.2.0,<3.0.0)",
+    "ruff (>=0.14.14,<0.15.0)",
+]
+
+
+[build-system]
+# 2.2.0 is the first release that understands PEP 639 -- below it the backend emits the
+# deprecated `License:` field, re-adds the license classifier and drops `:: 3.14`.
+requires = ["poetry-core>=2.2.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.ruff]
+# target-version is inferred from requires-python -- the floor is single-sourced there
+line-length = 120
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "I", "UP", "B", "RUF"]
+# Deliberately excluded:
+#   TC  - would move pydantic-validated imports under TYPE_CHECKING, breaking the
+#         runtime annotation resolution that pydantic depends on
+#   Q   - the CI-gated formatter normalizes quotes everywhere it runs
+ignore = [
+    # Typographic punctuation flagged as confusable. Every docstring here is the spec
+    # author's own description, copied verbatim -- normalizing their apostrophes and
+    # dashes would silently alter the API's documentation.
+    "RUF001", "RUF002", "RUF003",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"**/__init__.py" = ["RUF022"]   # curated, grouped __all__
+
+[tool.mypy]
+python_version = "3.10"         # the supported floor, not whichever interpreter is local
+files = ["walmart_apis"]
+strict = true
+warn_unreachable = true
+enable_error_code = ["redundant-expr", "truthy-bool", "ignore-without-code", "possibly-undefined"]
+# already inside `strict` at mypy 2.3, pinned deliberately: `strict`'s flag set is versioned
+# and the dev floor spans >=2.2.0,<3.0.0
+warn_return_any = true
+pretty = true
