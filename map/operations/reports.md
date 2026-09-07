@@ -2,7 +2,7 @@
 
 # Reports — operations
 
-Accessor: `client.reports` · Source: `walmart_apis/apis/reports.py` · 5 operations
+Accessor: `client.reports` · Source: `walmart_apis/apis/reports.py` · 7 operations
 
 Each `###` block is one operation and assumes `sdk-map.md` is loaded: blocks omit what its invariants table covers and are otherwise self-contained, so chunk at block level. Signatures are the sync parsed spelling; the async and raw spellings take the same parameters (see sdk-map.md). **Type sources** names the module declaring each type an operation mentions, so resolving a body, return or error payload is a lookup rather than a search; the runtime types `RawError` and `ApiResult` are excluded.
 
@@ -44,6 +44,42 @@ Each `###` block is one operation and assumes `sdk-map.md` is loaded: blocks omi
 | `CreateReportSpecificationDict` | `walmart_apis/models/create_report_specification.py` |
 | `CreateReportResponse` | `walmart_apis/models/create_report_response.py` |
 | `CreateReportErrorBody` | `walmart_apis/errors/create_report_error.py` |
+| `ErrorList` | `walmart_apis/models/error_list.py` |
+
+### client.reports.download_new_report
+
+- **Route**: `GET /disbursements/v4/payment/summary/newReportDownload`
+- **Auth**: `wallet_auth`
+- **Server**: `default1`
+- **Signature**: `def download_new_report(partner_id: str, report_date: str, *, request_options: RequestOptionsOrDict | None = None)`
+  - required, positional: `partner_id`, `report_date`
+- **Params**: `partner_id` — query `partnerId` · `report_date` — query `reportDate`
+- **Returns (parsed)**: `FileResponse`
+- **Returns (raw)**: `ApiResult[FileResponse, DownloadNewReportErrorBody]`
+- **Error**: `DownloadNewReportErrorBody` — **Case A (typed)**
+- **Error arms**: `ErrorList` [400, 404, 500] · `RawError` [anything unmapped]
+
+| Type | Source |
+| --- | --- |
+| `DownloadNewReportErrorBody` | `walmart_apis/errors/download_new_report_error.py` |
+| `ErrorList` | `walmart_apis/models/error_list.py` |
+
+### client.reports.download_old_report
+
+- **Route**: `GET /disbursements/v4/payment/summary/oldReportDownload`
+- **Auth**: `wallet_auth`
+- **Server**: `default1`
+- **Signature**: `def download_old_report(partner_id: str, report_date: str, *, request_options: RequestOptionsOrDict | None = None)`
+  - required, positional: `partner_id`, `report_date`
+- **Params**: `partner_id` — query `partnerId` · `report_date` — query `reportDate`
+- **Returns (parsed)**: `FileResponse`
+- **Returns (raw)**: `ApiResult[FileResponse, DownloadOldReportErrorBody]`
+- **Error**: `DownloadOldReportErrorBody` — **Case A (typed)**
+- **Error arms**: `ErrorList` [400, 404, 500] · `RawError` [anything unmapped]
+
+| Type | Source |
+| --- | --- |
+| `DownloadOldReportErrorBody` | `walmart_apis/errors/download_old_report_error.py` |
 | `ErrorList` | `walmart_apis/models/error_list.py` |
 
 ### client.reports.get_report

@@ -12,7 +12,7 @@ The request and response shapes live here; the body shapes a request can carry l
 from __future__ import annotations
 
 import json
-from collections.abc import Mapping
+from collections.abc import AsyncIterator, Iterator, Mapping
 from dataclasses import dataclass
 from typing import Any, Protocol
 
@@ -34,7 +34,10 @@ class HttpRequest:
 
 @dataclass(frozen=True, slots=True)
 class HttpResponse:
-    """A buffered response. ``content`` is the raw body; decoding is the caller's choice."""
+    """A buffered response. ``content`` is the raw body; decoding is the caller's choice.
+
+    On the success branch of a *streamed* call ``content`` is empty, deliberately: the body is the
+    payload there, carried unread by the streamed response instead of buffered here."""
 
     status_code: int
     headers: Mapping[str, str]
@@ -80,8 +83,58 @@ class HttpResponse:
             raise ValueError("Response body is not valid JSON") from e
 
 
+class StreamedResponse(Protocol):
+    """A response whose head has arrived and whose body has not been read.
+
+    The status and headers are facts as soon as this exists, which is what lets a streamed call
+    still yield a ``Success`` or a ``Failure``: only the payload is deferred, never the outcome.
+    It holds a connection until it is closed. Header names MUST be lowercased, exactly as on
+    :class:`HttpResponse`.
+
+    ``read`` is the error path's seam, not a convenience over ``iter_bytes``: it must both buffer
+    the whole body *and* release the connection, so an error body survives the close that frees
+    the socket."""
+
+    @property
+    def status_code(self) -> int: ...
+
+    @property
+    def headers(self) -> Mapping[str, str]: ...
+
+    def iter_bytes(self, chunk_size: int) -> Iterator[bytes]: ...
+
+    def read(self) -> bytes: ...
+
+    def close(self) -> None: ...
+
+
+class AsyncStreamedResponse(Protocol):
+    """The awaited twin. ``aclose`` rather than ``close``, matching the SDK's async client.
+
+    ``status_code`` and ``headers`` stay synchronous properties -- the head has already arrived.
+    Header names MUST be lowercased, exactly as on :class:`HttpResponse`, and ``aread`` carries
+    ``read``'s obligation: buffer the whole body and release the connection."""
+
+    @property
+    def status_code(self) -> int: ...
+
+    @property
+    def headers(self) -> Mapping[str, str]: ...
+
+    def aiter_bytes(self, chunk_size: int) -> AsyncIterator[bytes]: ...
+
+    async def aread(self) -> bytes: ...
+
+    async def aclose(self) -> None: ...
+
+
 class HttpClient(Protocol):
     """Sync transport contract.
+
+    The contract deliberately carries **two** request seams: ``send`` returns a buffered response,
+    and ``stream`` returns one whose body has not been read. A caller-supplied transport must
+    implement both -- the accepted cost, stated in ADR-0046, of keeping streamed downloads on the
+    same ``ApiResult`` surface as everything else.
 
     Implementations:
     - MUST NOT mutate the incoming :class:`HttpRequest`.
@@ -90,7 +143,8 @@ class HttpClient(Protocol):
     - MUST lowercase the header names on the returned :class:`HttpResponse`: HTTP/1.1 treats them
       case-insensitively and HTTP/2 requires lowercase, so a caller's lookup needs no case
       handling -- the same rule, for the same reason, as the request side in
-      ``_internal/headers.py``.
+      ``_internal/headers.py``. A :class:`StreamedResponse`'s ``headers`` carry the same
+      obligation.
     - SHOULD be idempotent for ``close()``.
     - MAY raise their underlying library's exceptions."""
 
@@ -104,6 +158,19 @@ class HttpClient(Protocol):
             The response, fully buffered, with its header names lowercased."""
         ...
 
+    def stream(self, request: HttpRequest) -> StreamedResponse:
+        """Execute a request and return its response with the body unread.
+
+        Returns once the response head has arrived; the connection stays checked out until the
+        returned response is closed.
+
+        Args:
+            request: The request to send, which MUST NOT be mutated.
+
+        Returns:
+            The response head, its body pending, its header names lowercased."""
+        ...
+
     def close(self) -> None:
         """Release underlying resources (connections, pools). Should be idempotent."""
         ...
@@ -112,9 +179,9 @@ class HttpClient(Protocol):
 class AsyncHttpClient(Protocol):
     """Async transport contract -- the same shape as :class:`HttpClient`, awaited.
 
-    The same obligations apply, including honouring ``request.timeout`` and lowercasing the
-    response's header names. ``aclose`` rather than ``close`` matches httpx and the SDK's own
-    async client."""
+    The same obligations apply, including honouring ``request.timeout``, lowercasing the
+    response's header names, and carrying both request seams. ``aclose`` rather than ``close``
+    matches httpx and the SDK's own async client."""
 
     async def send(self, request: HttpRequest) -> HttpResponse:
         """Execute a request and return a buffered response.
@@ -124,6 +191,19 @@ class AsyncHttpClient(Protocol):
 
         Returns:
             The response, fully buffered, with its header names lowercased."""
+        ...
+
+    async def stream(self, request: HttpRequest) -> AsyncStreamedResponse:
+        """Execute a request and return its response with the body unread.
+
+        Returns once the response head has arrived; the connection stays checked out until the
+        returned response is closed.
+
+        Args:
+            request: The request to send, which MUST NOT be mutated.
+
+        Returns:
+            The response head, its body pending, its header names lowercased."""
         ...
 
     async def aclose(self) -> None:

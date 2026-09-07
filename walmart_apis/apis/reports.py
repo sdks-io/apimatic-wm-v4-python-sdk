@@ -5,17 +5,23 @@ from uuid import UUID, uuid4
 from ..auth import AsyncAuthSchemes, AuthSchemes
 from ..core import (
     ApiResult,
+    AsyncFileResponse,
     AsyncRawClient,
+    FileResponse,
     RawClient,
     RequestOptionsOrDict,
     RFC3339DateTime,
     SecuredRawResponse,
+    async_file_decoder,
+    file_decoder,
     json_body,
     json_decoder,
     param,
 )
 from ..errors.cancel_report_error import CancelReportErrorBody, cancel_report_error_mapper
 from ..errors.create_report_error import CreateReportErrorBody, create_report_error_mapper
+from ..errors.download_new_report_error import DownloadNewReportErrorBody, download_new_report_error_mapper
+from ..errors.download_old_report_error import DownloadOldReportErrorBody, download_old_report_error_mapper
 from ..errors.get_report_document_error import GetReportDocumentErrorBody, get_report_document_error_mapper
 from ..errors.get_report_error import GetReportErrorBody, get_report_error_mapper
 from ..errors.get_reports_error import GetReportsErrorBody, get_reports_error_mapper
@@ -71,6 +77,46 @@ class Reports:
             ApiError: Bad Request Forbidden Rate limit exceeded Internal Server Error ``error`` is ``ErrorList |
                 RawError``."""
         return self._with_raw_response.create_report(body, request_options=request_options).unwrap()
+
+    def download_new_report(
+        self, partner_id: str, report_date: str, *, request_options: RequestOptionsOrDict | None = None
+    ) -> FileResponse:
+        """Downloads the current-format settlement summary report ZIP. Delegates to mp-payment-reporting GET
+        /v3/report/reconreport/v1/reconFile (Swift v1 storage).
+
+        Args:
+            partner_id: Numeric partner/seller ID
+            report_date: Report date in MMddyyyy format (e.g. 06172026)
+            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+
+        Returns:
+            ZIP file stream
+
+        Raises:
+            ApiError: Bad Request Not Found Internal Server Error ``error`` is ``ErrorList | RawError``."""
+        return self._with_raw_response.download_new_report(
+            partner_id, report_date, request_options=request_options
+        ).unwrap()
+
+    def download_old_report(
+        self, partner_id: str, report_date: str, *, request_options: RequestOptionsOrDict | None = None
+    ) -> FileResponse:
+        """Downloads the legacy-format settlement summary report ZIP. Delegates to mp-payment-reporting GET
+        /v3/report/reconreport/reconFile (legacy Swift storage).
+
+        Args:
+            partner_id: Numeric partner/seller ID
+            report_date: Report date in MMddyyyy format (e.g. 06172026)
+            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+
+        Returns:
+            ZIP file stream
+
+        Raises:
+            ApiError: Bad Request Not Found Internal Server Error ``error`` is ``ErrorList | RawError``."""
+        return self._with_raw_response.download_old_report(
+            partner_id, report_date, request_options=request_options
+        ).unwrap()
 
     def get_report(self, report_id: str, *, request_options: RequestOptionsOrDict | None = None) -> Report:
         """Send a ``GET`` request.
@@ -189,6 +235,46 @@ class AsyncReports:
             ApiError: Bad Request Forbidden Rate limit exceeded Internal Server Error ``error`` is ``ErrorList |
                 RawError``."""
         return (await self._with_raw_response.create_report(body, request_options=request_options)).unwrap()
+
+    async def download_new_report(
+        self, partner_id: str, report_date: str, *, request_options: RequestOptionsOrDict | None = None
+    ) -> AsyncFileResponse:
+        """Downloads the current-format settlement summary report ZIP. Delegates to mp-payment-reporting GET
+        /v3/report/reconreport/v1/reconFile (Swift v1 storage).
+
+        Args:
+            partner_id: Numeric partner/seller ID
+            report_date: Report date in MMddyyyy format (e.g. 06172026)
+            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+
+        Returns:
+            ZIP file stream
+
+        Raises:
+            ApiError: Bad Request Not Found Internal Server Error ``error`` is ``ErrorList | RawError``."""
+        return (
+            await self._with_raw_response.download_new_report(partner_id, report_date, request_options=request_options)
+        ).unwrap()
+
+    async def download_old_report(
+        self, partner_id: str, report_date: str, *, request_options: RequestOptionsOrDict | None = None
+    ) -> AsyncFileResponse:
+        """Downloads the legacy-format settlement summary report ZIP. Delegates to mp-payment-reporting GET
+        /v3/report/reconreport/reconFile (legacy Swift storage).
+
+        Args:
+            partner_id: Numeric partner/seller ID
+            report_date: Report date in MMddyyyy format (e.g. 06172026)
+            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+
+        Returns:
+            ZIP file stream
+
+        Raises:
+            ApiError: Bad Request Not Found Internal Server Error ``error`` is ``ErrorList | RawError``."""
+        return (
+            await self._with_raw_response.download_old_report(partner_id, report_date, request_options=request_options)
+        ).unwrap()
 
     async def get_report(self, report_id: str, *, request_options: RequestOptionsOrDict | None = None) -> Report:
         """Send a ``GET`` request.
@@ -316,6 +402,52 @@ class ReportsWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes])
             auth_scheme=self._auth.wallet_auth,
             decoder=json_decoder[CreateReportResponse],
             error_mapper=create_report_error_mapper,
+            request_options=request_options,
+        )
+
+    def download_new_report(
+        self, partner_id: str, report_date: str, *, request_options: RequestOptionsOrDict | None = None
+    ) -> ApiResult[FileResponse, DownloadNewReportErrorBody]:
+        """Downloads the current-format settlement summary report ZIP. Delegates to mp-payment-reporting GET
+        /v3/report/reconreport/v1/reconFile (Swift v1 storage).
+
+        Args:
+            partner_id: Numeric partner/seller ID
+            report_date: Report date in MMddyyyy format (e.g. 06172026)
+            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+
+        Returns:
+            An ``ApiResult`` holding the body unread or the error body."""
+        return self._client.stream(
+            http_method="GET",
+            url_template=self._server.default1("/disbursements/v4/payment/summary/newReportDownload"),
+            query_params=[param[str]("partnerId", partner_id), param[str]("reportDate", report_date)],
+            auth_scheme=self._auth.wallet_auth,
+            decoder=file_decoder,
+            error_mapper=download_new_report_error_mapper,
+            request_options=request_options,
+        )
+
+    def download_old_report(
+        self, partner_id: str, report_date: str, *, request_options: RequestOptionsOrDict | None = None
+    ) -> ApiResult[FileResponse, DownloadOldReportErrorBody]:
+        """Downloads the legacy-format settlement summary report ZIP. Delegates to mp-payment-reporting GET
+        /v3/report/reconreport/reconFile (legacy Swift storage).
+
+        Args:
+            partner_id: Numeric partner/seller ID
+            report_date: Report date in MMddyyyy format (e.g. 06172026)
+            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+
+        Returns:
+            An ``ApiResult`` holding the body unread or the error body."""
+        return self._client.stream(
+            http_method="GET",
+            url_template=self._server.default1("/disbursements/v4/payment/summary/oldReportDownload"),
+            query_params=[param[str]("partnerId", partner_id), param[str]("reportDate", report_date)],
+            auth_scheme=self._auth.wallet_auth,
+            decoder=file_decoder,
+            error_mapper=download_old_report_error_mapper,
             request_options=request_options,
         )
 
@@ -450,6 +582,52 @@ class AsyncReportsWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asy
             auth_scheme=self._auth.wallet_auth,
             decoder=json_decoder[CreateReportResponse],
             error_mapper=create_report_error_mapper,
+            request_options=request_options,
+        )
+
+    async def download_new_report(
+        self, partner_id: str, report_date: str, *, request_options: RequestOptionsOrDict | None = None
+    ) -> ApiResult[AsyncFileResponse, DownloadNewReportErrorBody]:
+        """Downloads the current-format settlement summary report ZIP. Delegates to mp-payment-reporting GET
+        /v3/report/reconreport/v1/reconFile (Swift v1 storage).
+
+        Args:
+            partner_id: Numeric partner/seller ID
+            report_date: Report date in MMddyyyy format (e.g. 06172026)
+            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+
+        Returns:
+            An ``ApiResult`` holding the body unread or the error body."""
+        return await self._client.stream(
+            http_method="GET",
+            url_template=self._server.default1("/disbursements/v4/payment/summary/newReportDownload"),
+            query_params=[param[str]("partnerId", partner_id), param[str]("reportDate", report_date)],
+            auth_scheme=self._auth.wallet_auth,
+            decoder=async_file_decoder,
+            error_mapper=download_new_report_error_mapper,
+            request_options=request_options,
+        )
+
+    async def download_old_report(
+        self, partner_id: str, report_date: str, *, request_options: RequestOptionsOrDict | None = None
+    ) -> ApiResult[AsyncFileResponse, DownloadOldReportErrorBody]:
+        """Downloads the legacy-format settlement summary report ZIP. Delegates to mp-payment-reporting GET
+        /v3/report/reconreport/reconFile (legacy Swift storage).
+
+        Args:
+            partner_id: Numeric partner/seller ID
+            report_date: Report date in MMddyyyy format (e.g. 06172026)
+            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+
+        Returns:
+            An ``ApiResult`` holding the body unread or the error body."""
+        return await self._client.stream(
+            http_method="GET",
+            url_template=self._server.default1("/disbursements/v4/payment/summary/oldReportDownload"),
+            query_params=[param[str]("partnerId", partner_id), param[str]("reportDate", report_date)],
+            auth_scheme=self._auth.wallet_auth,
+            decoder=async_file_decoder,
+            error_mapper=download_old_report_error_mapper,
             request_options=request_options,
         )
 

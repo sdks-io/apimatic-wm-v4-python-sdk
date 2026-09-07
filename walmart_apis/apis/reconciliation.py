@@ -3,17 +3,25 @@ from __future__ import annotations
 from ..auth import AsyncAuthSchemes, AuthSchemes
 from ..core import (
     ApiResult,
+    AsyncFileResponse,
     AsyncRawClient,
     Date,
+    FileResponse,
     RawClient,
     RequestOptionsOrDict,
     SecuredRawResponse,
+    async_file_decoder,
+    file_decoder,
     json_decoder,
     param,
 )
 from ..errors.check_download_report_by_period_error import (
     CheckDownloadReportByPeriodErrorBody,
     check_download_report_by_period_error_mapper,
+)
+from ..errors.download_reconciliation_report_error import (
+    DownloadReconciliationReportErrorBody,
+    download_reconciliation_report_error_mapper,
 )
 from ..errors.list_reconciliation_dates_error import (
     ListReconciliationDatesErrorBody,
@@ -47,6 +55,27 @@ class Reconciliation:
                 ``error`` is ``ErrorList | RawError``."""
         return self._with_raw_response.check_download_report_by_period(
             partner_id, date, request_options=request_options
+        ).unwrap()
+
+    def download_reconciliation_report(
+        self, partner_id: str, report_date: str, *, request_options: RequestOptionsOrDict | None = None
+    ) -> FileResponse:
+        """Downloads a reconciliation report ZIP for the given partner and date. Delegates to mp-payment-reporting GET
+        /v1/mt/report/reconreport/reconFile (Azure MT storage).
+
+        Args:
+            partner_id: Numeric partner/seller ID
+            report_date: Report date in MMddyyyy format (e.g. 06172026)
+            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+
+        Returns:
+            ZIP file stream
+
+        Raises:
+            ApiError: Bad Request Unauthorized — missing, expired, or invalid OAuth2 token Not Found Internal Server
+                Error ``error`` is ``ErrorList | RawError``."""
+        return self._with_raw_response.download_reconciliation_report(
+            partner_id, report_date, request_options=request_options
         ).unwrap()
 
     def list_reconciliation_dates(
@@ -100,6 +129,29 @@ class AsyncReconciliation:
             )
         ).unwrap()
 
+    async def download_reconciliation_report(
+        self, partner_id: str, report_date: str, *, request_options: RequestOptionsOrDict | None = None
+    ) -> AsyncFileResponse:
+        """Downloads a reconciliation report ZIP for the given partner and date. Delegates to mp-payment-reporting GET
+        /v1/mt/report/reconreport/reconFile (Azure MT storage).
+
+        Args:
+            partner_id: Numeric partner/seller ID
+            report_date: Report date in MMddyyyy format (e.g. 06172026)
+            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+
+        Returns:
+            ZIP file stream
+
+        Raises:
+            ApiError: Bad Request Unauthorized — missing, expired, or invalid OAuth2 token Not Found Internal Server
+                Error ``error`` is ``ErrorList | RawError``."""
+        return (
+            await self._with_raw_response.download_reconciliation_report(
+                partner_id, report_date, request_options=request_options
+            )
+        ).unwrap()
+
     async def list_reconciliation_dates(
         self, partner_id: str, *, request_options: RequestOptionsOrDict | None = None
     ) -> ReportAvailabilityResponse:
@@ -150,6 +202,29 @@ class ReconciliationWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSc
             request_options=request_options,
         )
 
+    def download_reconciliation_report(
+        self, partner_id: str, report_date: str, *, request_options: RequestOptionsOrDict | None = None
+    ) -> ApiResult[FileResponse, DownloadReconciliationReportErrorBody]:
+        """Downloads a reconciliation report ZIP for the given partner and date. Delegates to mp-payment-reporting GET
+        /v1/mt/report/reconreport/reconFile (Azure MT storage).
+
+        Args:
+            partner_id: Numeric partner/seller ID
+            report_date: Report date in MMddyyyy format (e.g. 06172026)
+            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+
+        Returns:
+            An ``ApiResult`` holding the body unread or the error body."""
+        return self._client.stream(
+            http_method="GET",
+            url_template=self._server.default1("/disbursements/v4/payment/reconciliation/download"),
+            query_params=[param[str]("partnerId", partner_id), param[str]("reportDate", report_date)],
+            auth_scheme=self._auth.wallet_auth,
+            decoder=file_decoder,
+            error_mapper=download_reconciliation_report_error_mapper,
+            request_options=request_options,
+        )
+
     def list_reconciliation_dates(
         self, partner_id: str, *, request_options: RequestOptionsOrDict | None = None
     ) -> ApiResult[ReportAvailabilityResponse, ListReconciliationDatesErrorBody]:
@@ -195,6 +270,29 @@ class AsyncReconciliationWithRawResponse(SecuredRawResponse[AsyncRawClient, Serv
             auth_scheme=self._auth.wallet_auth,
             decoder=json_decoder[ReportAvailabilityResponse],
             error_mapper=check_download_report_by_period_error_mapper,
+            request_options=request_options,
+        )
+
+    async def download_reconciliation_report(
+        self, partner_id: str, report_date: str, *, request_options: RequestOptionsOrDict | None = None
+    ) -> ApiResult[AsyncFileResponse, DownloadReconciliationReportErrorBody]:
+        """Downloads a reconciliation report ZIP for the given partner and date. Delegates to mp-payment-reporting GET
+        /v1/mt/report/reconreport/reconFile (Azure MT storage).
+
+        Args:
+            partner_id: Numeric partner/seller ID
+            report_date: Report date in MMddyyyy format (e.g. 06172026)
+            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+
+        Returns:
+            An ``ApiResult`` holding the body unread or the error body."""
+        return await self._client.stream(
+            http_method="GET",
+            url_template=self._server.default1("/disbursements/v4/payment/reconciliation/download"),
+            query_params=[param[str]("partnerId", partner_id), param[str]("reportDate", report_date)],
+            auth_scheme=self._auth.wallet_auth,
+            decoder=async_file_decoder,
+            error_mapper=download_reconciliation_report_error_mapper,
             request_options=request_options,
         )
 

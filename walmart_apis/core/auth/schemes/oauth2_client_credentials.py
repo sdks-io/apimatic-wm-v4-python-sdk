@@ -99,7 +99,7 @@ class ClientCredentialsTokenSource(Generic[ScopeT]):
             http_method="POST",
             url_template=self.token_url,
             headers=headers,
-            body=form_body((*_token_params(credentials), *client_params)),
+            body=form_body(*_token_params(credentials), *client_params),
             decoder=json_decoder[OAuthToken],
             error_mapper=oauth_error_response,
         ).unwrap()
@@ -120,7 +120,7 @@ class AsyncClientCredentialsTokenSource(Generic[ScopeT]):
                 http_method="POST",
                 url_template=self.token_url,
                 headers=headers,
-                body=form_body((*_token_params(credentials), *client_params)),
+                body=form_body(*_token_params(credentials), *client_params),
                 decoder=json_decoder[OAuthToken],
                 error_mapper=oauth_error_response,
             )

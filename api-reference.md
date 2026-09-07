@@ -1102,7 +1102,7 @@ Mapped in first-match order -- an earlier row wins over a later range that also 
 </details>
 
 <details>
-<summary><code>def create_feed(feed_type: FeedTypeOrStr, file: bytes, *, marketplace_id: str | None = None, content_type: ContentTypeOrStr | None = None, request_options: RequestOptionsOrDict | None = None) -> CreateFeedResponse</code></summary>
+<summary><code>def create_feed(feed_type: FeedTypeOrStr, file: FileInput, *, marketplace_id: str | None = None, content_type: ContentTypeOrStr | None = None, request_options: RequestOptionsOrDict | None = None) -> CreateFeedResponse</code></summary>
 
 <dl>
 <dd>
@@ -1155,7 +1155,7 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>feed_type</code> | <code>[FeedTypeOrStr](walmart_apis/models/enums/feed_type.py)</code> | The type of feed being submitted |
-| <code>file</code> | <code>bytes</code> | The feed content file to upload and process |
+| <code>file</code> | <code>FileInput</code> | The feed content file to upload and process |
 | <code>marketplace_id</code> | <code>str \| None</code> | Marketplace identifier (opaque token). If omitted, the service applies WALMART_US.<br>**Default**: <code>None</code> |
 | <code>content_type</code> | <code>[ContentTypeOrStr](walmart_apis/models/enums/content_type.py) \| None</code> | MIME type of the uploaded feed content.<br>If omitted, the server infers from the file's Content-Type in the multipart header.<br>**Default**: <code>None</code> |
 | <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
@@ -1252,6 +1252,93 @@ except ApiError as e:
 **OnSuccess**: <code>[Feed](walmart_apis/models/feed.py)</code> -- Success
 
 **OnError**: <code>[ApiError](walmart_apis/core/exceptions.py)&#91;[GetFeedErrorBody](walmart_apis/errors/get_feed_error.py)&#93;</code>
+
+Mapped in first-match order -- an earlier row wins over a later range that also covers the status:
+
+| Status | `error` is |
+| --- | --- |
+| 400, 403, 404, 429, 500 | <code>[ErrorList1](walmart_apis/models/error_list1.py)</code> |
+| anything unmapped | <code>[RawError](walmart_apis/core/results.py)</code> |
+
+</dd>
+</dl>
+
+</dd>
+</dl>
+
+</details>
+
+<details>
+<summary><code>def get_feed_document(feed_id: str, *, request_options: RequestOptionsOrDict | None = None) -> FileResponse</code></summary>
+
+<dl>
+<dd>
+
+### Description
+
+<dl>
+<dd>
+
+Downloads the raw feed document file. The response is a binary stream
+(application/octet-stream). The Content-Disposition header contains the
+original filename when available. Content-Length header is always set
+to enable download progress tracking.
+
+An IDOR check is performed before the download — the authenticated
+seller must own the feed referenced by feedId.
+
+</dd>
+</dl>
+
+### Usage
+
+<dl>
+<dd>
+
+**Sync**
+
+```python
+try:
+    response = client.feeds.get_feed_document(feed_id)
+    # TODO: Handle 'response' of type FileResponse
+except ApiError as e:
+    ...  # TODO: Handle 'e.error' of type GetFeedDocumentErrorBody
+```
+
+**Async**
+
+```python
+try:
+    response = await async_client.feeds.get_feed_document(feed_id)
+    # TODO: Handle 'response' of type FileResponse
+except ApiError as e:
+    ...  # TODO: Handle 'e.error' of type GetFeedDocumentErrorBody
+```
+
+</dd>
+</dl>
+
+### Parameters
+
+<dl>
+<dd>
+
+| Name | Type | Description |
+| --- | --- | --- |
+| <code>feed_id</code> | <code>str</code> | Value sent with the request. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+
+</dd>
+</dl>
+
+### Response
+
+<dl>
+<dd>
+
+**OnSuccess**: <code>FileResponse</code> -- Binary file stream
+
+**OnError**: <code>[ApiError](walmart_apis/core/exceptions.py)&#91;[GetFeedDocumentErrorBody](walmart_apis/errors/get_feed_document_error.py)&#93;</code>
 
 Mapped in first-match order -- an earlier row wins over a later range that also covers the status:
 
@@ -5628,6 +5715,89 @@ Mapped in first-match order -- an earlier row wins over a later range that also 
 </details>
 
 <details>
+<summary><code>def download_reconciliation_report(partner_id: str, report_date: str, *, request_options: RequestOptionsOrDict | None = None) -> FileResponse</code></summary>
+
+<dl>
+<dd>
+
+### Description
+
+<dl>
+<dd>
+
+Downloads a reconciliation report ZIP for the given partner and date.
+Delegates to mp-payment-reporting GET /v1/mt/report/reconreport/reconFile (Azure MT storage).
+
+</dd>
+</dl>
+
+### Usage
+
+<dl>
+<dd>
+
+**Sync**
+
+```python
+try:
+    response = client.reconciliation.download_reconciliation_report(partner_id, report_date)
+    # TODO: Handle 'response' of type FileResponse
+except ApiError as e:
+    ...  # TODO: Handle 'e.error' of type DownloadReconciliationReportErrorBody
+```
+
+**Async**
+
+```python
+try:
+    response = await async_client.reconciliation.download_reconciliation_report(partner_id, report_date)
+    # TODO: Handle 'response' of type FileResponse
+except ApiError as e:
+    ...  # TODO: Handle 'e.error' of type DownloadReconciliationReportErrorBody
+```
+
+</dd>
+</dl>
+
+### Parameters
+
+<dl>
+<dd>
+
+| Name | Type | Description |
+| --- | --- | --- |
+| <code>partner_id</code> | <code>str</code> | Numeric partner/seller ID |
+| <code>report_date</code> | <code>str</code> | Report date in MMddyyyy format (e.g. 06172026) |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+
+</dd>
+</dl>
+
+### Response
+
+<dl>
+<dd>
+
+**OnSuccess**: <code>FileResponse</code> -- ZIP file stream
+
+**OnError**: <code>[ApiError](walmart_apis/core/exceptions.py)&#91;[DownloadReconciliationReportErrorBody](walmart_apis/errors/download_reconciliation_report_error.py)&#93;</code>
+
+Mapped in first-match order -- an earlier row wins over a later range that also covers the status:
+
+| Status | `error` is |
+| --- | --- |
+| 400, 401, 404, 500 | <code>[ErrorList](walmart_apis/models/error_list.py)</code> |
+| anything unmapped | <code>[RawError](walmart_apis/core/results.py)</code> |
+
+</dd>
+</dl>
+
+</dd>
+</dl>
+
+</details>
+
+<details>
 <summary><code>def list_reconciliation_dates(partner_id: str, *, request_options: RequestOptionsOrDict | None = None) -> ReportAvailabilityResponse</code></summary>
 
 <dl>
@@ -6194,6 +6364,172 @@ Mapped in first-match order -- an earlier row wins over a later range that also 
 | Status | `error` is |
 | --- | --- |
 | 400, 403, 429, 500 | <code>[ErrorList](walmart_apis/models/error_list.py)</code> |
+| anything unmapped | <code>[RawError](walmart_apis/core/results.py)</code> |
+
+</dd>
+</dl>
+
+</dd>
+</dl>
+
+</details>
+
+<details>
+<summary><code>def download_new_report(partner_id: str, report_date: str, *, request_options: RequestOptionsOrDict | None = None) -> FileResponse</code></summary>
+
+<dl>
+<dd>
+
+### Description
+
+<dl>
+<dd>
+
+Downloads the current-format settlement summary report ZIP.
+Delegates to mp-payment-reporting GET /v3/report/reconreport/v1/reconFile (Swift v1 storage).
+
+</dd>
+</dl>
+
+### Usage
+
+<dl>
+<dd>
+
+**Sync**
+
+```python
+try:
+    response = client.reports.download_new_report(partner_id, report_date)
+    # TODO: Handle 'response' of type FileResponse
+except ApiError as e:
+    ...  # TODO: Handle 'e.error' of type DownloadNewReportErrorBody
+```
+
+**Async**
+
+```python
+try:
+    response = await async_client.reports.download_new_report(partner_id, report_date)
+    # TODO: Handle 'response' of type FileResponse
+except ApiError as e:
+    ...  # TODO: Handle 'e.error' of type DownloadNewReportErrorBody
+```
+
+</dd>
+</dl>
+
+### Parameters
+
+<dl>
+<dd>
+
+| Name | Type | Description |
+| --- | --- | --- |
+| <code>partner_id</code> | <code>str</code> | Numeric partner/seller ID |
+| <code>report_date</code> | <code>str</code> | Report date in MMddyyyy format (e.g. 06172026) |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+
+</dd>
+</dl>
+
+### Response
+
+<dl>
+<dd>
+
+**OnSuccess**: <code>FileResponse</code> -- ZIP file stream
+
+**OnError**: <code>[ApiError](walmart_apis/core/exceptions.py)&#91;[DownloadNewReportErrorBody](walmart_apis/errors/download_new_report_error.py)&#93;</code>
+
+Mapped in first-match order -- an earlier row wins over a later range that also covers the status:
+
+| Status | `error` is |
+| --- | --- |
+| 400, 404, 500 | <code>[ErrorList](walmart_apis/models/error_list.py)</code> |
+| anything unmapped | <code>[RawError](walmart_apis/core/results.py)</code> |
+
+</dd>
+</dl>
+
+</dd>
+</dl>
+
+</details>
+
+<details>
+<summary><code>def download_old_report(partner_id: str, report_date: str, *, request_options: RequestOptionsOrDict | None = None) -> FileResponse</code></summary>
+
+<dl>
+<dd>
+
+### Description
+
+<dl>
+<dd>
+
+Downloads the legacy-format settlement summary report ZIP.
+Delegates to mp-payment-reporting GET /v3/report/reconreport/reconFile (legacy Swift storage).
+
+</dd>
+</dl>
+
+### Usage
+
+<dl>
+<dd>
+
+**Sync**
+
+```python
+try:
+    response = client.reports.download_old_report(partner_id, report_date)
+    # TODO: Handle 'response' of type FileResponse
+except ApiError as e:
+    ...  # TODO: Handle 'e.error' of type DownloadOldReportErrorBody
+```
+
+**Async**
+
+```python
+try:
+    response = await async_client.reports.download_old_report(partner_id, report_date)
+    # TODO: Handle 'response' of type FileResponse
+except ApiError as e:
+    ...  # TODO: Handle 'e.error' of type DownloadOldReportErrorBody
+```
+
+</dd>
+</dl>
+
+### Parameters
+
+<dl>
+<dd>
+
+| Name | Type | Description |
+| --- | --- | --- |
+| <code>partner_id</code> | <code>str</code> | Numeric partner/seller ID |
+| <code>report_date</code> | <code>str</code> | Report date in MMddyyyy format (e.g. 06172026) |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+
+</dd>
+</dl>
+
+### Response
+
+<dl>
+<dd>
+
+**OnSuccess**: <code>FileResponse</code> -- ZIP file stream
+
+**OnError**: <code>[ApiError](walmart_apis/core/exceptions.py)&#91;[DownloadOldReportErrorBody](walmart_apis/errors/download_old_report_error.py)&#93;</code>
+
+Mapped in first-match order -- an earlier row wins over a later range that also covers the status:
+
+| Status | `error` is |
+| --- | --- |
+| 400, 404, 500 | <code>[ErrorList](walmart_apis/models/error_list.py)</code> |
 | anything unmapped | <code>[RawError](walmart_apis/core/results.py)</code> |
 
 </dd>

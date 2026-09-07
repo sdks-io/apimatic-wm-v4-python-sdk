@@ -5,17 +5,24 @@ from uuid import UUID, uuid4
 from ..auth import AsyncAuthSchemes, AuthSchemes
 from ..core import (
     ApiResult,
+    AsyncFileResponse,
     AsyncRawClient,
+    FileInput,
+    FileResponse,
     RawClient,
     RequestOptionsOrDict,
     RFC3339DateTime,
     SecuredRawResponse,
+    async_file_decoder,
+    file_decoder,
+    file_part,
     json_decoder,
     multipart_body,
     param,
 )
 from ..errors.cancel_feed_error import CancelFeedErrorBody, cancel_feed_error_mapper
 from ..errors.create_feed_error import CreateFeedErrorBody, create_feed_error_mapper
+from ..errors.get_feed_document_error import GetFeedDocumentErrorBody, get_feed_document_error_mapper
 from ..errors.get_feed_error import GetFeedErrorBody, get_feed_error_mapper
 from ..errors.get_feeds_error import GetFeedsErrorBody, get_feeds_error_mapper
 from ..models.cancel_feed_response import CancelFeedResponse
@@ -53,7 +60,7 @@ class Feeds:
     def create_feed(
         self,
         feed_type: FeedTypeOrStr,
-        file: bytes,
+        file: FileInput,
         *,
         marketplace_id: str | None = None,
         content_type: ContentTypeOrStr | None = None,
@@ -94,6 +101,26 @@ class Feeds:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``ErrorList1 | RawError``."""
         return self._with_raw_response.get_feed(feed_id, request_options=request_options).unwrap()
+
+    def get_feed_document(self, feed_id: str, *, request_options: RequestOptionsOrDict | None = None) -> FileResponse:
+        """Downloads the raw feed document file. The response is a binary stream (application/octet-stream). The
+        Content-Disposition header contains the original filename when available. Content-Length header is always set to
+        enable download progress tracking.
+
+        An IDOR check is performed before the download — the authenticated seller must own the feed referenced by
+        feedId.
+
+        Args:
+            feed_id: Value sent with the request.
+            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+
+        Returns:
+            Binary file stream
+
+        Raises:
+            ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
+                ``ErrorList1 | RawError``."""
+        return self._with_raw_response.get_feed_document(feed_id, request_options=request_options).unwrap()
 
     def get_feeds(
         self,
@@ -165,7 +192,7 @@ class AsyncFeeds:
     async def create_feed(
         self,
         feed_type: FeedTypeOrStr,
-        file: bytes,
+        file: FileInput,
         *,
         marketplace_id: str | None = None,
         content_type: ContentTypeOrStr | None = None,
@@ -212,6 +239,28 @@ class AsyncFeeds:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``ErrorList1 | RawError``."""
         return (await self._with_raw_response.get_feed(feed_id, request_options=request_options)).unwrap()
+
+    async def get_feed_document(
+        self, feed_id: str, *, request_options: RequestOptionsOrDict | None = None
+    ) -> AsyncFileResponse:
+        """Downloads the raw feed document file. The response is a binary stream (application/octet-stream). The
+        Content-Disposition header contains the original filename when available. Content-Length header is always set to
+        enable download progress tracking.
+
+        An IDOR check is performed before the download — the authenticated seller must own the feed referenced by
+        feedId.
+
+        Args:
+            feed_id: Value sent with the request.
+            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+
+        Returns:
+            Binary file stream
+
+        Raises:
+            ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
+                ``ErrorList1 | RawError``."""
+        return (await self._with_raw_response.get_feed_document(feed_id, request_options=request_options)).unwrap()
 
     async def get_feeds(
         self,
@@ -287,7 +336,7 @@ class FeedsWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]):
     def create_feed(
         self,
         feed_type: FeedTypeOrStr,
-        file: bytes,
+        file: FileInput,
         *,
         marketplace_id: str | None = None,
         content_type: ContentTypeOrStr | None = None,
@@ -313,7 +362,7 @@ class FeedsWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]):
                 param[FeedTypeOrStr]("feedType", feed_type), param[str | None]("marketplaceId", marketplace_id)
             ],
             headers=[param[UUID]("Idempotency-Key", uuid4())],
-            body=multipart_body([param[ContentTypeOrStr | None]("contentType", content_type)], {"file": file}),
+            body=multipart_body(file_part("file", file), param[ContentTypeOrStr | None]("contentType", content_type)),
             auth_scheme=self._auth.wallet_auth,
             decoder=json_decoder[CreateFeedResponse],
             error_mapper=create_feed_error_mapper,
@@ -338,6 +387,32 @@ class FeedsWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]):
             auth_scheme=self._auth.wallet_auth,
             decoder=json_decoder[Feed],
             error_mapper=get_feed_error_mapper,
+            request_options=request_options,
+        )
+
+    def get_feed_document(
+        self, feed_id: str, *, request_options: RequestOptionsOrDict | None = None
+    ) -> ApiResult[FileResponse, GetFeedDocumentErrorBody]:
+        """Downloads the raw feed document file. The response is a binary stream (application/octet-stream). The
+        Content-Disposition header contains the original filename when available. Content-Length header is always set to
+        enable download progress tracking.
+
+        An IDOR check is performed before the download — the authenticated seller must own the feed referenced by
+        feedId.
+
+        Args:
+            feed_id: Value sent with the request.
+            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+
+        Returns:
+            An ``ApiResult`` holding the body unread or the error body."""
+        return self._client.stream(
+            http_method="GET",
+            url_template=self._server.default1("/feeds/v4/feeds/{feedId}/document"),
+            path_params=[param[str]("feedId", feed_id)],
+            auth_scheme=self._auth.wallet_auth,
+            decoder=file_decoder,
+            error_mapper=get_feed_document_error_mapper,
             request_options=request_options,
         )
 
@@ -412,7 +487,7 @@ class AsyncFeedsWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Async
     async def create_feed(
         self,
         feed_type: FeedTypeOrStr,
-        file: bytes,
+        file: FileInput,
         *,
         marketplace_id: str | None = None,
         content_type: ContentTypeOrStr | None = None,
@@ -438,7 +513,7 @@ class AsyncFeedsWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Async
                 param[FeedTypeOrStr]("feedType", feed_type), param[str | None]("marketplaceId", marketplace_id)
             ],
             headers=[param[UUID]("Idempotency-Key", uuid4())],
-            body=multipart_body([param[ContentTypeOrStr | None]("contentType", content_type)], {"file": file}),
+            body=multipart_body(file_part("file", file), param[ContentTypeOrStr | None]("contentType", content_type)),
             auth_scheme=self._auth.wallet_auth,
             decoder=json_decoder[CreateFeedResponse],
             error_mapper=create_feed_error_mapper,
@@ -463,6 +538,32 @@ class AsyncFeedsWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Async
             auth_scheme=self._auth.wallet_auth,
             decoder=json_decoder[Feed],
             error_mapper=get_feed_error_mapper,
+            request_options=request_options,
+        )
+
+    async def get_feed_document(
+        self, feed_id: str, *, request_options: RequestOptionsOrDict | None = None
+    ) -> ApiResult[AsyncFileResponse, GetFeedDocumentErrorBody]:
+        """Downloads the raw feed document file. The response is a binary stream (application/octet-stream). The
+        Content-Disposition header contains the original filename when available. Content-Length header is always set to
+        enable download progress tracking.
+
+        An IDOR check is performed before the download — the authenticated seller must own the feed referenced by
+        feedId.
+
+        Args:
+            feed_id: Value sent with the request.
+            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+
+        Returns:
+            An ``ApiResult`` holding the body unread or the error body."""
+        return await self._client.stream(
+            http_method="GET",
+            url_template=self._server.default1("/feeds/v4/feeds/{feedId}/document"),
+            path_params=[param[str]("feedId", feed_id)],
+            auth_scheme=self._auth.wallet_auth,
+            decoder=async_file_decoder,
+            error_mapper=get_feed_document_error_mapper,
             request_options=request_options,
         )
 

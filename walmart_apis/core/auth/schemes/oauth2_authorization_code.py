@@ -290,13 +290,11 @@ class AuthorizationCodeTokenSource(Generic[ScopeT]):
             url_template=self.token_url,
             headers=headers,
             body=form_body(
-                (
-                    param[str]("grant_type", "authorization_code"),
-                    param[str]("code", code),
-                    param[str]("redirect_uri", credentials.redirect_uri),
-                    *_code_verifier_params(pkce),
-                    *client_params,
-                )
+                param[str]("grant_type", "authorization_code"),
+                param[str]("code", code),
+                param[str]("redirect_uri", credentials.redirect_uri),
+                *_code_verifier_params(pkce),
+                *client_params,
             ),
             decoder=json_decoder[OAuthTokenRefreshable],
             error_mapper=oauth_error_response,
@@ -323,11 +321,9 @@ class AuthorizationCodeTokenSource(Generic[ScopeT]):
             url_template=self.refresh_url,
             headers=headers,
             body=form_body(
-                (
-                    param[str]("grant_type", "refresh_token"),
-                    param[str]("refresh_token", refresh_token),
-                    *client_params,
-                )
+                param[str]("grant_type", "refresh_token"),
+                param[str]("refresh_token", refresh_token),
+                *client_params,
             ),
             decoder=json_decoder[OAuthTokenRefreshable],
             error_mapper=oauth_error_response,
@@ -359,13 +355,11 @@ class AsyncAuthorizationCodeTokenSource(Generic[ScopeT]):
                 url_template=self.token_url,
                 headers=headers,
                 body=form_body(
-                    (
-                        param[str]("grant_type", "authorization_code"),
-                        param[str]("code", code),
-                        param[str]("redirect_uri", credentials.redirect_uri),
-                        *_code_verifier_params(pkce),
-                        *client_params,
-                    )
+                    param[str]("grant_type", "authorization_code"),
+                    param[str]("code", code),
+                    param[str]("redirect_uri", credentials.redirect_uri),
+                    *_code_verifier_params(pkce),
+                    *client_params,
                 ),
                 decoder=json_decoder[OAuthTokenRefreshable],
                 error_mapper=oauth_error_response,
@@ -389,11 +383,9 @@ class AsyncAuthorizationCodeTokenSource(Generic[ScopeT]):
             url_template=self.refresh_url,
             headers=headers,
             body=form_body(
-                (
-                    param[str]("grant_type", "refresh_token"),
-                    param[str]("refresh_token", refresh_token),
-                    *client_params,
-                )
+                param[str]("grant_type", "refresh_token"),
+                param[str]("refresh_token", refresh_token),
+                *client_params,
             ),
             decoder=json_decoder[OAuthTokenRefreshable],
             error_mapper=oauth_error_response,

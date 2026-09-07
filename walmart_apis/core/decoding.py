@@ -22,9 +22,16 @@ precise overload does not fit, inference falls through to the ``object`` one, yi
 the disagreement has nowhere left to surface.
 
 Not every decoder is subscripted: :data:`empty_response` is a shared singleton for an operation
-with no 2xx body, mirroring :data:`raw_error_response` on the error side. Between them, both
-arguments ``execute`` needs are always written out, so a payload type is never left to be inferred
-from the surrounding declaration."""
+with no 2xx body, mirroring :data:`raw_error_response` on the error side, and :data:`file_decoder`
+is one for an operation whose body is a file. None of the three has a type to name. Between them,
+every argument ``execute`` and ``stream`` need is always written out, so a payload type is never
+left to be inferred from the surrounding declaration.
+
+There are two decoder families, told apart by what they receive. A :class:`ResponseDecoder` takes a
+buffered :class:`HttpResponse` whose ``content`` is already in memory; a :class:`StreamDecoder`
+takes the still-open :class:`StreamedResponse` and hands the connection to the value it builds. So a
+streamed payload cannot be produced by the buffered protocol at all, which is why ``stream`` names
+its decoder from the second family."""
 
 from __future__ import annotations
 
@@ -36,8 +43,9 @@ from pydantic import TypeAdapter
 from typing_extensions import TypeForm
 
 from .adapters import adapter_for
+from .file_responses import AsyncFileResponse, FileResponse
 from .results import RawError
-from .transport import HttpResponse
+from .transport import AsyncStreamedResponse, HttpResponse, StreamedResponse
 
 T = TypeVar("T")
 T_co = TypeVar("T_co", covariant=True)
@@ -55,6 +63,30 @@ class ErrorMapper(Protocol[E_co]):
     documented error schemas, or ``RawError`` for an unmapped status."""
 
     def map(self, response: HttpResponse) -> E_co: ...
+
+
+class StreamDecoder(Protocol[T_co]):
+    """Builds a 2xx payload from a body that has not been read.
+
+    The lazy counterpart of :class:`ResponseDecoder`, and a sibling rather than a subtype: that one
+    receives a buffered :class:`HttpResponse` whose ``content`` is already in memory, this one
+    receives the open :class:`StreamedResponse` and hands the connection to the value it returns.
+
+    ``decode`` is synchronous in both flavours -- building the payload never touches the wire, and
+    the awaiting happens when a caller consumes it."""
+
+    def decode(self, streamed: StreamedResponse, url: str) -> T_co: ...
+
+
+class AsyncStreamDecoder(Protocol[T_co]):
+    """Builds a 2xx payload from an unread async body; the twin of :class:`StreamDecoder`.
+
+    A twin rather than one protocol over both streamed types, because the two are what make the
+    flavours non-interchangeable: an argument position is contravariant, so a decoder over an
+    :class:`AsyncStreamedResponse` cannot satisfy :class:`StreamDecoder`, and the sync seam can
+    never be handed the async decoder."""
+
+    def decode(self, streamed: AsyncStreamedResponse, url: str) -> T_co: ...
 
 
 @dataclass(frozen=True, slots=True)
@@ -199,3 +231,33 @@ class RawErrorResponse:
 
 
 raw_error_response: Final[ErrorMapper[RawError]] = RawErrorResponse()
+
+
+@dataclass(frozen=True, slots=True)
+class FileDecoder:
+    """Stream decoder for an operation whose 2xx body is a file.
+
+    Not subscripted, and not a factory: a file bypasses the model layer, so there is no adapter to
+    name -- the same absence that leaves ``file_part`` unsubscripted on the request side.
+
+    Naming it is what keeps the payload solved from an *argument* rather than from the seam's own
+    return type, which is what lets a second streamed payload shape join ``stream`` instead of
+    forking it. ``url`` is carried in because a :class:`StreamedResponse` does not know it and the
+    payload reports it when abandoned."""
+
+    def decode(self, streamed: StreamedResponse, url: str) -> FileResponse:
+        return FileResponse(streamed, url)
+
+
+file_decoder: Final[StreamDecoder[FileResponse]] = FileDecoder()
+
+
+@dataclass(frozen=True, slots=True)
+class AsyncFileDecoder:
+    """Stream decoder for an operation whose 2xx body is a file; the twin of :class:`FileDecoder`."""
+
+    def decode(self, streamed: AsyncStreamedResponse, url: str) -> AsyncFileResponse:
+        return AsyncFileResponse(streamed, url)
+
+
+async_file_decoder: Final[AsyncStreamDecoder[AsyncFileResponse]] = AsyncFileDecoder()

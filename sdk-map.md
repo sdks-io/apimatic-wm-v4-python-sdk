@@ -176,11 +176,11 @@ except ApiError as e:
         print(e.status_code, e.error.text())
 ```
 
-**Raw (`.with_raw_response`) variants: present on every operation** — the same call returns `ApiResult` instead of raising, with the same body on `Failure.error`. Of **170 operations**, **170 are Case A (typed)** and **0 are Case B (raw)**.
+**Raw (`.with_raw_response`) variants: present on every operation** — the same call returns `ApiResult` instead of raising, with the same body on `Failure.error`. Of **174 operations**, **174 are Case A (typed)** and **0 are Case B (raw)**.
 
 ---
 
-## Operations — by controller (30 pages, 170 operations)
+## Operations — by controller (30 pages, 174 operations)
 
 Each links to a sub-page with one block per operation, headed by its full accessor path: the HTTP verb and route (for a mock, a raw request or a provider-side log — never reconstruct it from the method name), the sync parsed signature with its required positional parameters, each parameter's role and — where it differs — wire name, both return types, and its error case — **Case A** names the alias and the status each arm maps from, **Case B** names `RawError`. Every block also carries a **Type sources** table — every type it names, with the module that declares it.
 
@@ -206,7 +206,7 @@ Sub-pages chunk per `###` block: each block is self-contained given the table ab
 | `client.catalog` | 2 | [map/operations/catalog.md](map/operations/catalog.md) |
 | `client.data_kiosk` | 5 | [map/operations/data_kiosk.md](map/operations/data_kiosk.md) |
 | `client.disputes` | 1 | [map/operations/disputes.md](map/operations/disputes.md) |
-| `client.feeds` | 4 | [map/operations/feeds.md](map/operations/feeds.md) |
+| `client.feeds` | 5 | [map/operations/feeds.md](map/operations/feeds.md) |
 | `client.final_payout` | 2 | [map/operations/final_payout.md](map/operations/final_payout.md) |
 | `client.finances` | 4 | [map/operations/finances.md](map/operations/finances.md) |
 | `client.fulfillment_outbound` | 7 | [map/operations/fulfillment_outbound.md](map/operations/fulfillment_outbound.md) |
@@ -217,9 +217,9 @@ Sub-pages chunk per `###` block: each block is self-contained given the table ab
 | `client.orders` | 14 | [map/operations/orders.md](map/operations/orders.md) |
 | `client.payouts` | 5 | [map/operations/payouts.md](map/operations/payouts.md) |
 | `client.product_type_definitions` | 2 | [map/operations/product_type_definitions.md](map/operations/product_type_definitions.md) |
-| `client.reconciliation` | 2 | [map/operations/reconciliation.md](map/operations/reconciliation.md) |
+| `client.reconciliation` | 3 | [map/operations/reconciliation.md](map/operations/reconciliation.md) |
 | `client.report_schedules` | 4 | [map/operations/report_schedules.md](map/operations/report_schedules.md) |
-| `client.reports` | 5 | [map/operations/reports.md](map/operations/reports.md) |
+| `client.reports` | 7 | [map/operations/reports.md](map/operations/reports.md) |
 | `client.sellers` | 2 | [map/operations/sellers.md](map/operations/sellers.md) |
 | `client.settlement` | 3 | [map/operations/settlement.md](map/operations/settlement.md) |
 | `client.uploads` | 1 | [map/operations/uploads.md](map/operations/uploads.md) |
@@ -285,13 +285,14 @@ A scheme you did not configure is skipped silently rather than raising, and the 
 | --- | --- |
 | `"production"` *(default)* | Production |
 | `"environment2"` | Sandbox |
+| `"environment3"` | mock |
 
 **2 servers.** Base-URL templates and override points (`walmart_apis/server/server_config.py`):
 
-| Server | `"production"` base URL | `"environment2"` base URL | Override point |
-| --- | --- | --- | --- |
-| `default` | `https://marketplace.walmart.com/seller` | `https://sandbox.marketplace.walmart.com/seller` | `{"default": {"production": {"base_url": …}}}` (and the other environments) |
-| `default1` | `https://marketplace.walmart.com/seller/v1` | `https://sandbox.marketplace.walmart.com/seller/v1` | `{"default1": {"production": {"base_url": …}}}` (and the other environments) |
+| Server | `"production"` base URL | `"environment2"` base URL | `"environment3"` base URL | Override point |
+| --- | --- | --- | --- | --- |
+| `default` | `https://marketplace.walmart.com/seller` | `https://sandbox.marketplace.walmart.com/seller` | `https://walmart-apis-mock-server.onrender.com/seller` | `{"default": {"production": {"base_url": …}}}` (and the other environments) |
+| `default1` | `https://marketplace.walmart.com/seller/v1` | `https://sandbox.marketplace.walmart.com/seller/v1` | `https://walmart-apis-mock-server.onrender.com/seller/v1` | `{"default1": {"production": {"base_url": …}}}` (and the other environments) |
 
 Pick a row with `environment=`, and override any of these by passing `server_config=` a dict nested exactly as the columns above read — `{"default": {"production": {"base_url": …}}}` — with each row's variables sitting beside its `base_url`.
 
