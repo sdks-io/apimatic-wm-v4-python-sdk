@@ -21,7 +21,7 @@ class Payload31(SdkBaseModel):
 class Payload31Dict(TypedDict):
     tracking_id: NotRequired[str]
     alternate_leg_tracking_id: NotRequired[str]
-    event_history: NotRequired[list[Event | EventDict]]
+    event_history: NotRequired[list[EventDict]]
     promised_delivery_date: NotRequired[RFC3339DateTime]
-    summary: NotRequired[TrackingSummary | TrackingSummaryDict]
-    proof_of_delivery: NotRequired[ProofOfDelivery | ProofOfDeliveryDict]
+    summary: NotRequired[TrackingSummaryDict]
+    proof_of_delivery: NotRequired[ProofOfDeliveryDict]

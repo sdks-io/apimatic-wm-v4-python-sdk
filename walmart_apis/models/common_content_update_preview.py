@@ -28,5 +28,5 @@ class CommonContentUpdatePreview(SdkBaseModel):
 class CommonContentUpdatePreviewDict(TypedDict):
     content_update_preview_id: str
     expiration: RFC3339DateTime
-    requested_updates: CommonRequestedUpdates | CommonRequestedUpdatesDict
-    transportation_option: CommonTransportationOption | CommonTransportationOptionDict
+    requested_updates: CommonRequestedUpdatesDict
+    transportation_option: CommonTransportationOptionDict

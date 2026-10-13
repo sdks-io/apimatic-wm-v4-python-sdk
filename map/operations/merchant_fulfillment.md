@@ -72,9 +72,9 @@ Each `###` block is one operation and assumes `sdk-map.md` is loaded: blocks omi
 - **Route**: `GET /mfn/v4/shipments/{shipmentId}/label`
 - **Auth**: `wallet_auth`
 - **Server**: `default1`
-- **Signature**: `def get_label(shipment_id: str, *, format: FormatOrStr | None = None, request_options: RequestOptionsOrDict | None = None)`
+- **Signature**: `def get_label(shipment_id: str, *, format_: FormatOrStr | None = Format.PDF, request_options: RequestOptionsOrDict | None = None)`
   - required, positional: `shipment_id`
-- **Params**: `shipment_id` — path `shipmentId` · `format` — query
+- **Params**: `shipment_id` — path `shipmentId` · `format_` — query `format`
 - **Returns (parsed)**: `Label`
 - **Returns (raw)**: `ApiResult[Label, GetLabelErrorBody]`
 - **Error**: `GetLabelErrorBody` — **Case A (typed)**

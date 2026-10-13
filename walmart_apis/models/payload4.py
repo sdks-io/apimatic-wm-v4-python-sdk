@@ -16,4 +16,4 @@ class Payload4(SdkBaseModel):
 
 class Payload4Dict(TypedDict):
     shipment_id: NotRequired[str]
-    package_document_details: NotRequired[list[PackageDocumentDetail | PackageDocumentDetailDict]]
+    package_document_details: NotRequired[list[PackageDocumentDetailDict]]

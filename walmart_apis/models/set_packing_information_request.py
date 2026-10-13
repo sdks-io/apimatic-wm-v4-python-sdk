@@ -15,4 +15,4 @@ class SetPackingInformationRequest(SdkBaseModel):
 
 
 class SetPackingInformationRequestDict(TypedDict):
-    package_groupings: list[CommonPackageGroupingInput | CommonPackageGroupingInputDict]
+    package_groupings: list[CommonPackageGroupingInputDict]

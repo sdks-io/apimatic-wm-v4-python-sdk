@@ -18,5 +18,5 @@ class ListInboundPlanPalletsResponse(SdkBaseModel):
 
 
 class ListInboundPlanPalletsResponseDict(TypedDict):
-    pallets: list[CommonPallet | CommonPalletDict]
-    pagination: NotRequired[CommonPagination | CommonPaginationDict]
+    pallets: list[CommonPalletDict]
+    pagination: NotRequired[CommonPaginationDict]

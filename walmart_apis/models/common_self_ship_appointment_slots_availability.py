@@ -19,4 +19,4 @@ class CommonSelfShipAppointmentSlotsAvailability(SdkBaseModel):
 
 class CommonSelfShipAppointmentSlotsAvailabilityDict(TypedDict):
     expires_at: NotRequired[RFC3339DateTime]
-    slots: NotRequired[list[CommonAppointmentSlot | CommonAppointmentSlotDict]]
+    slots: NotRequired[list[CommonAppointmentSlotDict]]

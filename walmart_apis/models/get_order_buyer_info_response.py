@@ -13,4 +13,4 @@ class GetOrderBuyerInfoResponse(SdkBaseModel):
 
 
 class GetOrderBuyerInfoResponseDict(TypedDict):
-    payload: NotRequired[BuyerInfo | BuyerInfoDict]
+    payload: NotRequired[BuyerInfoDict]

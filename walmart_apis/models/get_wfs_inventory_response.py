@@ -14,5 +14,5 @@ class GetWfsInventoryResponse(SdkBaseModel):
 
 
 class GetWfsInventoryResponseDict(TypedDict):
-    pagination: NotRequired[Pagination4 | Pagination4Dict]
-    inventory_summaries: NotRequired[list[WfsItem | WfsItemDict]]
+    pagination: NotRequired[Pagination4Dict]
+    inventory_summaries: NotRequired[list[WfsItemDict]]

@@ -18,5 +18,5 @@ class GetPricingResponse(SdkBaseModel):
 
 
 class GetPricingResponseDict(TypedDict):
-    payload: NotRequired[list[Price | PriceDict]]
-    errors: NotRequired[list[Error3 | Error3Dict]]
+    payload: NotRequired[list[PriceDict]]
+    errors: NotRequired[list[Error3Dict]]

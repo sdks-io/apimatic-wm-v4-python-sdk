@@ -17,4 +17,4 @@ class GetFeaturedOfferExpectedPriceBatchRequest(SdkBaseModel):
 
 
 class GetFeaturedOfferExpectedPriceBatchRequestDict(TypedDict):
-    requests: NotRequired[list[FeaturedOfferExpectedPriceRequest | FeaturedOfferExpectedPriceRequestDict]]
+    requests: NotRequired[list[FeaturedOfferExpectedPriceRequestDict]]

@@ -13,10 +13,12 @@ from ..core import (
     RFC3339DateTime,
     SecuredRawResponse,
     async_file_decoder,
+    async_json_decoder,
     file_decoder,
     json_body,
     json_decoder,
     param,
+    unwrap,
 )
 from ..errors.cancel_report_error import CancelReportErrorBody, cancel_report_error_mapper
 from ..errors.create_report_error import CreateReportErrorBody, create_report_error_mapper
@@ -47,7 +49,8 @@ class Reports:
 
         Args:
             report_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Report cancelled
@@ -55,7 +58,7 @@ class Reports:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return self._with_raw_response.cancel_report(report_id, request_options=request_options).unwrap()
+        return unwrap(self._with_raw_response.cancel_report(report_id, request_options=request_options))
 
     def create_report(
         self,
@@ -68,7 +71,8 @@ class Reports:
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Report request accepted
@@ -76,7 +80,7 @@ class Reports:
         Raises:
             ApiError: Bad Request Forbidden Rate limit exceeded Internal Server Error ``error`` is ``ErrorList |
                 RawError``."""
-        return self._with_raw_response.create_report(body, request_options=request_options).unwrap()
+        return unwrap(self._with_raw_response.create_report(body, request_options=request_options))
 
     def download_new_report(
         self, partner_id: str, report_date: str, *, request_options: RequestOptionsOrDict | None = None
@@ -87,16 +91,17 @@ class Reports:
         Args:
             partner_id: Numeric partner/seller ID
             report_date: Report date in MMddyyyy format (e.g. 06172026)
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             ZIP file stream
 
         Raises:
             ApiError: Bad Request Not Found Internal Server Error ``error`` is ``ErrorList | RawError``."""
-        return self._with_raw_response.download_new_report(
-            partner_id, report_date, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.download_new_report(partner_id, report_date, request_options=request_options)
+        )
 
     def download_old_report(
         self, partner_id: str, report_date: str, *, request_options: RequestOptionsOrDict | None = None
@@ -107,23 +112,25 @@ class Reports:
         Args:
             partner_id: Numeric partner/seller ID
             report_date: Report date in MMddyyyy format (e.g. 06172026)
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             ZIP file stream
 
         Raises:
             ApiError: Bad Request Not Found Internal Server Error ``error`` is ``ErrorList | RawError``."""
-        return self._with_raw_response.download_old_report(
-            partner_id, report_date, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.download_old_report(partner_id, report_date, request_options=request_options)
+        )
 
     def get_report(self, report_id: str, *, request_options: RequestOptionsOrDict | None = None) -> Report:
         """Send a ``GET`` request.
 
         Args:
             report_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -131,7 +138,7 @@ class Reports:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return self._with_raw_response.get_report(report_id, request_options=request_options).unwrap()
+        return unwrap(self._with_raw_response.get_report(report_id, request_options=request_options))
 
     def get_report_document(
         self, report_document_id: str, *, request_options: RequestOptionsOrDict | None = None
@@ -140,7 +147,8 @@ class Reports:
 
         Args:
             report_document_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -148,7 +156,7 @@ class Reports:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return self._with_raw_response.get_report_document(report_document_id, request_options=request_options).unwrap()
+        return unwrap(self._with_raw_response.get_report_document(report_document_id, request_options=request_options))
 
     def get_reports(
         self,
@@ -171,7 +179,8 @@ class Reports:
             created_until: Value sent with the request.
             page_size: Value sent with the request.
             next_token: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -179,15 +188,17 @@ class Reports:
         Raises:
             ApiError: Bad Request Forbidden Rate limit exceeded Internal Server Error ``error`` is ``ErrorList |
                 RawError``."""
-        return self._with_raw_response.get_reports(
-            report_types=report_types,
-            processing_statuses=processing_statuses,
-            created_since=created_since,
-            created_until=created_until,
-            page_size=page_size,
-            next_token=next_token,
-            request_options=request_options,
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.get_reports(
+                report_types=report_types,
+                processing_statuses=processing_statuses,
+                created_since=created_since,
+                created_until=created_until,
+                page_size=page_size,
+                next_token=next_token,
+                request_options=request_options,
+            ),
+        )
 
     @property
     def with_raw_response(self) -> ReportsWithRawResponse:
@@ -205,7 +216,8 @@ class AsyncReports:
 
         Args:
             report_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Report cancelled
@@ -213,7 +225,7 @@ class AsyncReports:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return (await self._with_raw_response.cancel_report(report_id, request_options=request_options)).unwrap()
+        return unwrap(await self._with_raw_response.cancel_report(report_id, request_options=request_options))
 
     async def create_report(
         self,
@@ -226,7 +238,8 @@ class AsyncReports:
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Report request accepted
@@ -234,7 +247,7 @@ class AsyncReports:
         Raises:
             ApiError: Bad Request Forbidden Rate limit exceeded Internal Server Error ``error`` is ``ErrorList |
                 RawError``."""
-        return (await self._with_raw_response.create_report(body, request_options=request_options)).unwrap()
+        return unwrap(await self._with_raw_response.create_report(body, request_options=request_options))
 
     async def download_new_report(
         self, partner_id: str, report_date: str, *, request_options: RequestOptionsOrDict | None = None
@@ -245,16 +258,17 @@ class AsyncReports:
         Args:
             partner_id: Numeric partner/seller ID
             report_date: Report date in MMddyyyy format (e.g. 06172026)
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             ZIP file stream
 
         Raises:
             ApiError: Bad Request Not Found Internal Server Error ``error`` is ``ErrorList | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.download_new_report(partner_id, report_date, request_options=request_options)
-        ).unwrap()
+        )
 
     async def download_old_report(
         self, partner_id: str, report_date: str, *, request_options: RequestOptionsOrDict | None = None
@@ -265,23 +279,25 @@ class AsyncReports:
         Args:
             partner_id: Numeric partner/seller ID
             report_date: Report date in MMddyyyy format (e.g. 06172026)
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             ZIP file stream
 
         Raises:
             ApiError: Bad Request Not Found Internal Server Error ``error`` is ``ErrorList | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.download_old_report(partner_id, report_date, request_options=request_options)
-        ).unwrap()
+        )
 
     async def get_report(self, report_id: str, *, request_options: RequestOptionsOrDict | None = None) -> Report:
         """Send a ``GET`` request.
 
         Args:
             report_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -289,7 +305,7 @@ class AsyncReports:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return (await self._with_raw_response.get_report(report_id, request_options=request_options)).unwrap()
+        return unwrap(await self._with_raw_response.get_report(report_id, request_options=request_options))
 
     async def get_report_document(
         self, report_document_id: str, *, request_options: RequestOptionsOrDict | None = None
@@ -298,7 +314,8 @@ class AsyncReports:
 
         Args:
             report_document_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -306,9 +323,9 @@ class AsyncReports:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.get_report_document(report_document_id, request_options=request_options)
-        ).unwrap()
+        )
 
     async def get_reports(
         self,
@@ -331,7 +348,8 @@ class AsyncReports:
             created_until: Value sent with the request.
             page_size: Value sent with the request.
             next_token: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -339,7 +357,7 @@ class AsyncReports:
         Raises:
             ApiError: Bad Request Forbidden Rate limit exceeded Internal Server Error ``error`` is ``ErrorList |
                 RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.get_reports(
                 report_types=report_types,
                 processing_statuses=processing_statuses,
@@ -348,8 +366,8 @@ class AsyncReports:
                 page_size=page_size,
                 next_token=next_token,
                 request_options=request_options,
-            )
-        ).unwrap()
+            ),
+        )
 
     @property
     def with_raw_response(self) -> AsyncReportsWithRawResponse:
@@ -364,7 +382,8 @@ class ReportsWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes])
 
         Args:
             report_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -390,7 +409,8 @@ class ReportsWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes])
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -414,11 +434,12 @@ class ReportsWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes])
         Args:
             partner_id: Numeric partner/seller ID
             report_date: Report date in MMddyyyy format (e.g. 06172026)
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the body unread or the error body."""
-        return self._client.stream(
+        return self._client.execute(
             http_method="GET",
             url_template=self._server.default1("/disbursements/v4/payment/summary/newReportDownload"),
             query_params=[param[str]("partnerId", partner_id), param[str]("reportDate", report_date)],
@@ -437,11 +458,12 @@ class ReportsWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes])
         Args:
             partner_id: Numeric partner/seller ID
             report_date: Report date in MMddyyyy format (e.g. 06172026)
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the body unread or the error body."""
-        return self._client.stream(
+        return self._client.execute(
             http_method="GET",
             url_template=self._server.default1("/disbursements/v4/payment/summary/oldReportDownload"),
             query_params=[param[str]("partnerId", partner_id), param[str]("reportDate", report_date)],
@@ -458,7 +480,8 @@ class ReportsWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes])
 
         Args:
             report_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -479,7 +502,8 @@ class ReportsWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes])
 
         Args:
             report_document_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -514,7 +538,8 @@ class ReportsWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes])
             created_until: Value sent with the request.
             page_size: Value sent with the request.
             next_token: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -544,7 +569,8 @@ class AsyncReportsWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asy
 
         Args:
             report_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -554,7 +580,7 @@ class AsyncReportsWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asy
             path_params=[param[str]("reportId", report_id)],
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[CancelReportResponse],
+            decoder=async_json_decoder[CancelReportResponse],
             error_mapper=cancel_report_error_mapper,
             request_options=request_options,
         )
@@ -570,7 +596,8 @@ class AsyncReportsWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asy
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -580,7 +607,7 @@ class AsyncReportsWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asy
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             body=json_body[CreateReportSpecification | CreateReportSpecificationDict](body),
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[CreateReportResponse],
+            decoder=async_json_decoder[CreateReportResponse],
             error_mapper=create_report_error_mapper,
             request_options=request_options,
         )
@@ -594,11 +621,12 @@ class AsyncReportsWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asy
         Args:
             partner_id: Numeric partner/seller ID
             report_date: Report date in MMddyyyy format (e.g. 06172026)
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the body unread or the error body."""
-        return await self._client.stream(
+        return await self._client.execute(
             http_method="GET",
             url_template=self._server.default1("/disbursements/v4/payment/summary/newReportDownload"),
             query_params=[param[str]("partnerId", partner_id), param[str]("reportDate", report_date)],
@@ -617,11 +645,12 @@ class AsyncReportsWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asy
         Args:
             partner_id: Numeric partner/seller ID
             report_date: Report date in MMddyyyy format (e.g. 06172026)
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the body unread or the error body."""
-        return await self._client.stream(
+        return await self._client.execute(
             http_method="GET",
             url_template=self._server.default1("/disbursements/v4/payment/summary/oldReportDownload"),
             query_params=[param[str]("partnerId", partner_id), param[str]("reportDate", report_date)],
@@ -638,7 +667,8 @@ class AsyncReportsWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asy
 
         Args:
             report_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -647,7 +677,7 @@ class AsyncReportsWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asy
             url_template=self._server.default1("/reports/v4/reports/{reportId}"),
             path_params=[param[str]("reportId", report_id)],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[Report],
+            decoder=async_json_decoder[Report],
             error_mapper=get_report_error_mapper,
             request_options=request_options,
         )
@@ -659,7 +689,8 @@ class AsyncReportsWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asy
 
         Args:
             report_document_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -668,7 +699,7 @@ class AsyncReportsWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asy
             url_template=self._server.default1("/reports/v4/documents/{reportDocumentId}"),
             path_params=[param[str]("reportDocumentId", report_document_id)],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[ReportDocument],
+            decoder=async_json_decoder[ReportDocument],
             error_mapper=get_report_document_error_mapper,
             request_options=request_options,
         )
@@ -694,7 +725,8 @@ class AsyncReportsWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asy
             created_until: Value sent with the request.
             page_size: Value sent with the request.
             next_token: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -710,7 +742,7 @@ class AsyncReportsWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asy
                 param[str | None]("nextToken", next_token),
             ],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[GetReportsResponse],
+            decoder=async_json_decoder[GetReportsResponse],
             error_mapper=get_reports_error_mapper,
             request_options=request_options,
         )

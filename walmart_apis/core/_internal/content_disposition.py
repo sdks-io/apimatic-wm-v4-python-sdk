@@ -1,26 +1,34 @@
-"""Reading a response's ``Content-Disposition``: the filename it suggests, made safe to use.
+"""``Content-Disposition``, both directions: the filename a response suggests, and the one a
+request carries.
 
-Response-side parsing lives beside the request-side header module but not inside it:
-``headers.py`` renders and resolves *outbound* layers, and this module never touches a request.
+One header, one module. The RFC 6266/8187 grammar is the shared asset, so reading it and writing
+it stay together rather than putting one table in two files. ``headers.py`` remains the
+*parameter*-layer module, resolving the outbound layers a caller and the spec contribute; what
+this module renders is a value a body carries, exactly as its media type is.
 
-The standard library gets this header wrong twice, both reproduced during planning
+The standard library gets the reading wrong twice, both reproduced during planning
 (docs/plans/file-handling.md, verified facts). ``Message.get_filename()`` returns the plain
 ``filename`` when both forms are present -- RFC 6266 §4.3 requires the extended ``filename*`` to
 win -- and the RFC 2231 machinery percent-decodes the extended value as latin-1 whatever charset
 it declares, so the text must be re-encoded through latin-1 and decoded with the declared charset
 to come back intact.
 
-Both functions treat their input as attacker-controlled. The parser is **total**: any malformed
+The two readers treat their input as attacker-controlled. The parser is **total**: any malformed
 header yields ``None`` rather than raising, because it runs while a streamed connection is held
 and a raise there would leak it. The sanitiser is the paranoid half: a server-suggested name is
 reduced to a basename, stripped of everything Windows refuses, and refused outright when what
-survives is empty, a reserved device name, or too long to create."""
+survives is empty, a reserved device name, or too long to create.
+
+The writer needs no such paranoia, and by construction rather than by trust: every byte outside
+RFC 8187's ``attr-char`` is percent-encoded, so no name can splice a header and there is nothing
+to refuse."""
 
 from __future__ import annotations
 
 import re
 from email.message import Message
 from typing import Final
+from urllib.parse import quote
 
 _SEPARATORS: Final = re.compile(r"[\\/]")
 _WINDOWS_ILLEGAL: Final = frozenset('<>:"|?*')
@@ -89,6 +97,30 @@ def _decode_extended(value: tuple[object, ...]) -> str | None:
         return text.encode("latin-1").decode("utf-8")
     except (UnicodeEncodeError, UnicodeDecodeError):
         return None
+
+
+def render_content_disposition(filename: str) -> str:
+    """The ``Content-Disposition`` value naming a raw request body.
+
+    RFC 6266's dual form: a quoted ``filename`` holding what a quoted-string can, and, whenever
+    that reduction lost something, the RFC 8187 ``filename*`` that did not. A conformant receiver
+    prefers the extended parameter (§4.3) and recovers the name exactly; one reading only the plain
+    parameter still gets a usable name.
+
+    Percent-encoding is what makes this safe rather than a character check: every byte outside
+    RFC 8187's ``attr-char`` becomes ``%XX``, so a CR, an LF or a ``"`` cannot reach the header
+    however the caller spelled the name. There is nothing to refuse.
+
+    Args:
+        filename: The name the caller gave the file, as ``NamedFile.filename`` holds it.
+
+    Returns:
+        The header value -- ``attachment``, and whichever parameters can carry the name."""
+    plain = "".join(c for c in filename if c.isascii() and c.isprintable() and c not in '"\\')
+    parameters = [f'filename="{plain}"'] if plain else []
+    if plain != filename:
+        parameters.append(f"filename*=UTF-8''{quote(filename, safe='', encoding='utf-8')}")
+    return "; ".join(["attachment", *parameters])
 
 
 def safe_filename(filename: str) -> str:

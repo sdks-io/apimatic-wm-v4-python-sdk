@@ -12,4 +12,4 @@ class ProductTypeList(SdkBaseModel):
 
 
 class ProductTypeListDict(TypedDict):
-    product_types: NotRequired[list[ProductTypeSummary | ProductTypeSummaryDict]]
+    product_types: NotRequired[list[ProductTypeSummaryDict]]

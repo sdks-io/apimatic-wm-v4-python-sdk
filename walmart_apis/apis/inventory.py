@@ -9,9 +9,11 @@ from ..core import (
     RawClient,
     RequestOptionsOrDict,
     SecuredRawResponse,
+    async_json_decoder,
     json_body,
     json_decoder,
     param,
+    unwrap,
 )
 from ..errors.bulk_update_inventory_error import BulkUpdateInventoryErrorBody, bulk_update_inventory_error_mapper
 from ..errors.get_inventory_for_sku_error import GetInventoryForSkuErrorBody, get_inventory_for_sku_error_mapper
@@ -43,7 +45,8 @@ class Inventory:
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Bulk update accepted
@@ -51,7 +54,7 @@ class Inventory:
         Raises:
             ApiError: Bad Request Forbidden Rate limit exceeded Internal Server Error ``error`` is ``ErrorList |
                 RawError``."""
-        return self._with_raw_response.bulk_update_inventory(body, request_options=request_options).unwrap()
+        return unwrap(self._with_raw_response.bulk_update_inventory(body, request_options=request_options))
 
     def get_inventory_for_sku(
         self, sku: str, *, ship_node: str | None = None, request_options: RequestOptionsOrDict | None = None
@@ -61,7 +64,8 @@ class Inventory:
         Args:
             sku: Value sent with the request.
             ship_node: Walmart Ship Node ID (for multi-node sellers)
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -69,9 +73,9 @@ class Inventory:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return self._with_raw_response.get_inventory_for_sku(
-            sku, ship_node=ship_node, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.get_inventory_for_sku(sku, ship_node=ship_node, request_options=request_options)
+        )
 
     def get_inventory_summaries(
         self,
@@ -89,7 +93,8 @@ class Inventory:
             ship_node: Walmart Ship Node ID (for multi-node sellers)
             page_size: Value sent with the request.
             next_token: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -97,9 +102,15 @@ class Inventory:
         Raises:
             ApiError: Bad Request Forbidden Rate limit exceeded Internal Server Error ``error`` is ``ErrorList |
                 RawError``."""
-        return self._with_raw_response.get_inventory_summaries(
-            skus=skus, ship_node=ship_node, page_size=page_size, next_token=next_token, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.get_inventory_summaries(
+                skus=skus,
+                ship_node=ship_node,
+                page_size=page_size,
+                next_token=next_token,
+                request_options=request_options,
+            ),
+        )
 
     def update_inventory_for_sku(
         self,
@@ -113,7 +124,8 @@ class Inventory:
         Args:
             sku: Value sent with the request.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Inventory updated successfully
@@ -121,7 +133,7 @@ class Inventory:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return self._with_raw_response.update_inventory_for_sku(sku, body, request_options=request_options).unwrap()
+        return unwrap(self._with_raw_response.update_inventory_for_sku(sku, body, request_options=request_options))
 
     @property
     def with_raw_response(self) -> InventoryWithRawResponse:
@@ -142,7 +154,8 @@ class AsyncInventory:
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Bulk update accepted
@@ -150,7 +163,7 @@ class AsyncInventory:
         Raises:
             ApiError: Bad Request Forbidden Rate limit exceeded Internal Server Error ``error`` is ``ErrorList |
                 RawError``."""
-        return (await self._with_raw_response.bulk_update_inventory(body, request_options=request_options)).unwrap()
+        return unwrap(await self._with_raw_response.bulk_update_inventory(body, request_options=request_options))
 
     async def get_inventory_for_sku(
         self, sku: str, *, ship_node: str | None = None, request_options: RequestOptionsOrDict | None = None
@@ -160,7 +173,8 @@ class AsyncInventory:
         Args:
             sku: Value sent with the request.
             ship_node: Walmart Ship Node ID (for multi-node sellers)
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -168,11 +182,11 @@ class AsyncInventory:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.get_inventory_for_sku(
                 sku, ship_node=ship_node, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     async def get_inventory_summaries(
         self,
@@ -190,7 +204,8 @@ class AsyncInventory:
             ship_node: Walmart Ship Node ID (for multi-node sellers)
             page_size: Value sent with the request.
             next_token: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -198,15 +213,15 @@ class AsyncInventory:
         Raises:
             ApiError: Bad Request Forbidden Rate limit exceeded Internal Server Error ``error`` is ``ErrorList |
                 RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.get_inventory_summaries(
                 skus=skus,
                 ship_node=ship_node,
                 page_size=page_size,
                 next_token=next_token,
                 request_options=request_options,
-            )
-        ).unwrap()
+            ),
+        )
 
     async def update_inventory_for_sku(
         self,
@@ -220,7 +235,8 @@ class AsyncInventory:
         Args:
             sku: Value sent with the request.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Inventory updated successfully
@@ -228,9 +244,9 @@ class AsyncInventory:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.update_inventory_for_sku(sku, body, request_options=request_options)
-        ).unwrap()
+        )
 
     @property
     def with_raw_response(self) -> AsyncInventoryWithRawResponse:
@@ -248,7 +264,8 @@ class InventoryWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -271,7 +288,8 @@ class InventoryWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes
         Args:
             sku: Value sent with the request.
             ship_node: Walmart Ship Node ID (for multi-node sellers)
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -302,7 +320,8 @@ class InventoryWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes
             ship_node: Walmart Ship Node ID (for multi-node sellers)
             page_size: Value sent with the request.
             next_token: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -333,7 +352,8 @@ class InventoryWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes
         Args:
             sku: Value sent with the request.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -361,7 +381,8 @@ class AsyncInventoryWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, A
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -371,7 +392,7 @@ class AsyncInventoryWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, A
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             body=json_body[BulkUpdateInventoryRequest | BulkUpdateInventoryRequestDict](body),
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[BulkUpdateInventoryResponse],
+            decoder=async_json_decoder[BulkUpdateInventoryResponse],
             error_mapper=bulk_update_inventory_error_mapper,
             request_options=request_options,
         )
@@ -384,7 +405,8 @@ class AsyncInventoryWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, A
         Args:
             sku: Value sent with the request.
             ship_node: Walmart Ship Node ID (for multi-node sellers)
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -394,7 +416,7 @@ class AsyncInventoryWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, A
             path_params=[param[str]("sku", sku)],
             query_params=[param[str | None]("shipNode", ship_node)],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[InventorySummary],
+            decoder=async_json_decoder[InventorySummary],
             error_mapper=get_inventory_for_sku_error_mapper,
             request_options=request_options,
         )
@@ -415,7 +437,8 @@ class AsyncInventoryWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, A
             ship_node: Walmart Ship Node ID (for multi-node sellers)
             page_size: Value sent with the request.
             next_token: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -429,7 +452,7 @@ class AsyncInventoryWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, A
                 param[str | None]("nextToken", next_token),
             ],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[GetInventorySummariesResponse],
+            decoder=async_json_decoder[GetInventorySummariesResponse],
             error_mapper=get_inventory_summaries_error_mapper,
             request_options=request_options,
         )
@@ -446,7 +469,8 @@ class AsyncInventoryWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, A
         Args:
             sku: Value sent with the request.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -457,7 +481,7 @@ class AsyncInventoryWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, A
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             body=json_body[UpdateInventoryRequest | UpdateInventoryRequestDict](body),
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[UpdateInventoryResponse],
+            decoder=async_json_decoder[UpdateInventoryResponse],
             error_mapper=update_inventory_for_sku_error_mapper,
             request_options=request_options,
         )

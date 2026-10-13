@@ -21,6 +21,6 @@ class CommonTransportationSelection(SdkBaseModel):
 
 
 class CommonTransportationSelectionDict(TypedDict):
-    contact_information: NotRequired[CommonContactInformation | CommonContactInformationDict]
+    contact_information: NotRequired[CommonContactInformationDict]
     shipment_id: str
     transportation_option_id: str

@@ -18,5 +18,5 @@ class UpdateFulfillmentOrderRequest(SdkBaseModel):
 class UpdateFulfillmentOrderRequestDict(TypedDict):
     displayable_order_comment: NotRequired[str]
     shipping_speed_category: NotRequired[ShippingSpeedCategoryOrStr]
-    destination_address: NotRequired[Address | AddressDict]
+    destination_address: NotRequired[AddressDict]
     notification_emails: NotRequired[list[EmailStr]]

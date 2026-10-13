@@ -19,5 +19,5 @@ class ListInboundPlansResponse(SdkBaseModel):
 
 
 class ListInboundPlansResponseDict(TypedDict):
-    inbound_plans: NotRequired[list[CommonInboundPlanSummary | CommonInboundPlanSummaryDict]]
-    pagination: NotRequired[CommonPagination | CommonPaginationDict]
+    inbound_plans: NotRequired[list[CommonInboundPlanSummaryDict]]
+    pagination: NotRequired[CommonPaginationDict]

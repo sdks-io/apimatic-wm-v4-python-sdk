@@ -21,5 +21,5 @@ class FeaturedOfferExpectedPriceResponse(SdkBaseModel):
 
 
 class FeaturedOfferExpectedPriceResponseDict(TypedDict):
-    status: NotRequired[GetOffersHttpStatusLine | GetOffersHttpStatusLineDict]
-    body: NotRequired[FeaturedOfferExpectedPriceResponseBody | FeaturedOfferExpectedPriceResponseBodyDict]
+    status: NotRequired[GetOffersHttpStatusLineDict]
+    body: NotRequired[FeaturedOfferExpectedPriceResponseBodyDict]

@@ -16,4 +16,4 @@ class SettlementDetailsResponse(SdkBaseModel):
 class SettlementDetailsResponseDict(TypedDict):
     next_token: NotRequired[str]
     total_records: NotRequired[int]
-    transactions: NotRequired[list[SettlementTransaction | SettlementTransactionDict]]
+    transactions: NotRequired[list[SettlementTransactionDict]]

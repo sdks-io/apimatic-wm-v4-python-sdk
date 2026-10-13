@@ -36,6 +36,6 @@ class OrderDict(TypedDict):
     fulfillment_type: NotRequired[FulfillmentTypeOrStr]
     purchase_date: RFC3339DateTime
     last_updated_date: NotRequired[RFC3339DateTime]
-    order_total: NotRequired[Money | MoneyDict]
-    shipping_address: NotRequired[Address2 | Address2Dict]
-    order_lines: NotRequired[list[OrderLine | OrderLineDict]]
+    order_total: NotRequired[MoneyDict]
+    shipping_address: NotRequired[Address2Dict]
+    order_lines: NotRequired[list[OrderLineDict]]

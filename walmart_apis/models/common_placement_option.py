@@ -32,9 +32,9 @@ class CommonPlacementOption(SdkBaseModel):
 
 
 class CommonPlacementOptionDict(TypedDict):
-    discounts: list[CommonIncentive | CommonIncentiveDict]
+    discounts: list[CommonIncentiveDict]
     expiration: NotRequired[RFC3339DateTime]
-    fees: list[CommonIncentive | CommonIncentiveDict]
+    fees: list[CommonIncentiveDict]
     placement_option_id: str
     shipment_ids: list[str]
     status: str

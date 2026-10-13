@@ -27,5 +27,5 @@ class CommonInboundOperationStatus(SdkBaseModel):
 class CommonInboundOperationStatusDict(TypedDict):
     operation: str
     operation_id: str
-    operation_problems: list[CommonOperationProblem | CommonOperationProblemDict]
+    operation_problems: list[CommonOperationProblemDict]
     operation_status: CommonOperationStatusOrStr

@@ -22,6 +22,6 @@ class CommonTaxDetails(SdkBaseModel):
 
 
 class CommonTaxDetailsDict(TypedDict):
-    declared_value: NotRequired[CommonCurrency | CommonCurrencyDict]
+    declared_value: NotRequired[CommonCurrencyDict]
     hsn_code: NotRequired[str]
-    tax_rates: NotRequired[list[CommonTaxRate | CommonTaxRateDict]]
+    tax_rates: NotRequired[list[CommonTaxRateDict]]

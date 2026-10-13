@@ -27,11 +27,11 @@ class GetRatesRequest(SdkBaseModel):
 
 
 class GetRatesRequestDict(TypedDict):
-    ship_to: Address1 | Address1Dict
-    ship_from: Address1 | Address1Dict
-    return_to: NotRequired[Address1 | Address1Dict]
+    ship_to: Address1Dict
+    ship_from: Address1Dict
+    return_to: NotRequired[Address1Dict]
     ship_date: NotRequired[RFC3339DateTime]
-    packages: list[Package | PackageDict]
-    channel_details: ChannelDetails | ChannelDetailsDict
-    service_selection: NotRequired[ServiceSelection | ServiceSelectionDict]
-    value_added_services: NotRequired[list[RequestedValueAddedService | RequestedValueAddedServiceDict]]
+    packages: list[PackageDict]
+    channel_details: ChannelDetailsDict
+    service_selection: NotRequired[ServiceSelectionDict]
+    value_added_services: NotRequired[list[RequestedValueAddedServiceDict]]

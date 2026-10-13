@@ -25,8 +25,6 @@ class FeaturedOfferExpectedPriceResponseBody(SdkBaseModel):
 
 
 class FeaturedOfferExpectedPriceResponseBodyDict(TypedDict):
-    offer_identifier: NotRequired[OfferIdentifier | OfferIdentifierDict]
-    featured_offer_expected_price_results: NotRequired[
-        list[FeaturedOfferExpectedPriceResult | FeaturedOfferExpectedPriceResultDict]
-    ]
-    errors: NotRequired[list[Error3 | Error3Dict]]
+    offer_identifier: NotRequired[OfferIdentifierDict]
+    featured_offer_expected_price_results: NotRequired[list[FeaturedOfferExpectedPriceResultDict]]
+    errors: NotRequired[list[Error3Dict]]

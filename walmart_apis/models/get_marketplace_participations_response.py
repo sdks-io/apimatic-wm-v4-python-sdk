@@ -11,4 +11,4 @@ class GetMarketplaceParticipationsResponse(SdkBaseModel):
 
 
 class GetMarketplaceParticipationsResponseDict(TypedDict):
-    payload: NotRequired[list[MarketplaceParticipation | MarketplaceParticipationDict]]
+    payload: NotRequired[list[MarketplaceParticipationDict]]

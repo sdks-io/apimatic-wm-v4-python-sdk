@@ -5,6 +5,7 @@ from uuid import UUID, uuid4
 from ..auth import AsyncAuthSchemes, AuthSchemes
 from ..core import (
     ApiResult,
+    AsyncFileInput,
     AsyncFileResponse,
     AsyncRawClient,
     FileInput,
@@ -14,11 +15,13 @@ from ..core import (
     RFC3339DateTime,
     SecuredRawResponse,
     async_file_decoder,
+    async_json_decoder,
     file_decoder,
     file_part,
     json_decoder,
     multipart_body,
     param,
+    unwrap,
 )
 from ..errors.cancel_feed_error import CancelFeedErrorBody, cancel_feed_error_mapper
 from ..errors.create_feed_error import CreateFeedErrorBody, create_feed_error_mapper
@@ -47,7 +50,8 @@ class Feeds:
 
         Args:
             feed_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Cancellation accepted
@@ -55,7 +59,7 @@ class Feeds:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``ErrorList1 | RawError``."""
-        return self._with_raw_response.cancel_feed(feed_id, request_options=request_options).unwrap()
+        return unwrap(self._with_raw_response.cancel_feed(feed_id, request_options=request_options))
 
     def create_feed(
         self,
@@ -75,7 +79,8 @@ class Feeds:
             marketplace_id: Marketplace identifier (opaque token). If omitted, the service applies WALMART_US.
             content_type: MIME type of the uploaded feed content. If omitted, the server infers from the file's
                 Content-Type in the multipart header.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Feed accepted for processing
@@ -83,16 +88,23 @@ class Feeds:
         Raises:
             ApiError: Bad Request Forbidden Rate limit exceeded Internal Server Error ``error`` is ``ErrorList1 |
                 RawError``."""
-        return self._with_raw_response.create_feed(
-            feed_type, file, marketplace_id=marketplace_id, content_type=content_type, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.create_feed(
+                feed_type,
+                file,
+                marketplace_id=marketplace_id,
+                content_type=content_type,
+                request_options=request_options,
+            ),
+        )
 
     def get_feed(self, feed_id: str, *, request_options: RequestOptionsOrDict | None = None) -> Feed:
         """Send a ``GET`` request.
 
         Args:
             feed_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -100,7 +112,7 @@ class Feeds:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``ErrorList1 | RawError``."""
-        return self._with_raw_response.get_feed(feed_id, request_options=request_options).unwrap()
+        return unwrap(self._with_raw_response.get_feed(feed_id, request_options=request_options))
 
     def get_feed_document(self, feed_id: str, *, request_options: RequestOptionsOrDict | None = None) -> FileResponse:
         """Downloads the raw feed document file. The response is a binary stream (application/octet-stream). The
@@ -112,7 +124,8 @@ class Feeds:
 
         Args:
             feed_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Binary file stream
@@ -120,7 +133,7 @@ class Feeds:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``ErrorList1 | RawError``."""
-        return self._with_raw_response.get_feed_document(feed_id, request_options=request_options).unwrap()
+        return unwrap(self._with_raw_response.get_feed_document(feed_id, request_options=request_options))
 
     def get_feeds(
         self,
@@ -142,7 +155,8 @@ class Feeds:
             created_until: Value sent with the request.
             page_size: Value sent with the request.
             next_token: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -150,15 +164,17 @@ class Feeds:
         Raises:
             ApiError: Bad Request Forbidden Rate limit exceeded Internal Server Error ``error`` is ``ErrorList1 |
                 RawError``."""
-        return self._with_raw_response.get_feeds(
-            feed_types=feed_types,
-            feed_statuses=feed_statuses,
-            created_since=created_since,
-            created_until=created_until,
-            page_size=page_size,
-            next_token=next_token,
-            request_options=request_options,
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.get_feeds(
+                feed_types=feed_types,
+                feed_statuses=feed_statuses,
+                created_since=created_since,
+                created_until=created_until,
+                page_size=page_size,
+                next_token=next_token,
+                request_options=request_options,
+            ),
+        )
 
     @property
     def with_raw_response(self) -> FeedsWithRawResponse:
@@ -179,7 +195,8 @@ class AsyncFeeds:
 
         Args:
             feed_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Cancellation accepted
@@ -187,12 +204,12 @@ class AsyncFeeds:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``ErrorList1 | RawError``."""
-        return (await self._with_raw_response.cancel_feed(feed_id, request_options=request_options)).unwrap()
+        return unwrap(await self._with_raw_response.cancel_feed(feed_id, request_options=request_options))
 
     async def create_feed(
         self,
         feed_type: FeedTypeOrStr,
-        file: FileInput,
+        file: AsyncFileInput,
         *,
         marketplace_id: str | None = None,
         content_type: ContentTypeOrStr | None = None,
@@ -207,7 +224,8 @@ class AsyncFeeds:
             marketplace_id: Marketplace identifier (opaque token). If omitted, the service applies WALMART_US.
             content_type: MIME type of the uploaded feed content. If omitted, the server infers from the file's
                 Content-Type in the multipart header.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Feed accepted for processing
@@ -215,22 +233,23 @@ class AsyncFeeds:
         Raises:
             ApiError: Bad Request Forbidden Rate limit exceeded Internal Server Error ``error`` is ``ErrorList1 |
                 RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.create_feed(
                 feed_type,
                 file,
                 marketplace_id=marketplace_id,
                 content_type=content_type,
                 request_options=request_options,
-            )
-        ).unwrap()
+            ),
+        )
 
     async def get_feed(self, feed_id: str, *, request_options: RequestOptionsOrDict | None = None) -> Feed:
         """Send a ``GET`` request.
 
         Args:
             feed_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -238,7 +257,7 @@ class AsyncFeeds:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``ErrorList1 | RawError``."""
-        return (await self._with_raw_response.get_feed(feed_id, request_options=request_options)).unwrap()
+        return unwrap(await self._with_raw_response.get_feed(feed_id, request_options=request_options))
 
     async def get_feed_document(
         self, feed_id: str, *, request_options: RequestOptionsOrDict | None = None
@@ -252,7 +271,8 @@ class AsyncFeeds:
 
         Args:
             feed_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Binary file stream
@@ -260,7 +280,7 @@ class AsyncFeeds:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``ErrorList1 | RawError``."""
-        return (await self._with_raw_response.get_feed_document(feed_id, request_options=request_options)).unwrap()
+        return unwrap(await self._with_raw_response.get_feed_document(feed_id, request_options=request_options))
 
     async def get_feeds(
         self,
@@ -282,7 +302,8 @@ class AsyncFeeds:
             created_until: Value sent with the request.
             page_size: Value sent with the request.
             next_token: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -290,7 +311,7 @@ class AsyncFeeds:
         Raises:
             ApiError: Bad Request Forbidden Rate limit exceeded Internal Server Error ``error`` is ``ErrorList1 |
                 RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.get_feeds(
                 feed_types=feed_types,
                 feed_statuses=feed_statuses,
@@ -299,8 +320,8 @@ class AsyncFeeds:
                 page_size=page_size,
                 next_token=next_token,
                 request_options=request_options,
-            )
-        ).unwrap()
+            ),
+        )
 
     @property
     def with_raw_response(self) -> AsyncFeedsWithRawResponse:
@@ -318,7 +339,8 @@ class FeedsWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]):
 
         Args:
             feed_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -351,7 +373,8 @@ class FeedsWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]):
             marketplace_id: Marketplace identifier (opaque token). If omitted, the service applies WALMART_US.
             content_type: MIME type of the uploaded feed content. If omitted, the server infers from the file's
                 Content-Type in the multipart header.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -376,7 +399,8 @@ class FeedsWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]):
 
         Args:
             feed_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -402,11 +426,12 @@ class FeedsWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]):
 
         Args:
             feed_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the body unread or the error body."""
-        return self._client.stream(
+        return self._client.execute(
             http_method="GET",
             url_template=self._server.default1("/feeds/v4/feeds/{feedId}/document"),
             path_params=[param[str]("feedId", feed_id)],
@@ -436,7 +461,8 @@ class FeedsWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]):
             created_until: Value sent with the request.
             page_size: Value sent with the request.
             next_token: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -469,7 +495,8 @@ class AsyncFeedsWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Async
 
         Args:
             feed_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -479,7 +506,7 @@ class AsyncFeedsWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Async
             path_params=[param[str]("feedId", feed_id)],
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[CancelFeedResponse],
+            decoder=async_json_decoder[CancelFeedResponse],
             error_mapper=cancel_feed_error_mapper,
             request_options=request_options,
         )
@@ -487,7 +514,7 @@ class AsyncFeedsWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Async
     async def create_feed(
         self,
         feed_type: FeedTypeOrStr,
-        file: FileInput,
+        file: AsyncFileInput,
         *,
         marketplace_id: str | None = None,
         content_type: ContentTypeOrStr | None = None,
@@ -502,7 +529,8 @@ class AsyncFeedsWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Async
             marketplace_id: Marketplace identifier (opaque token). If omitted, the service applies WALMART_US.
             content_type: MIME type of the uploaded feed content. If omitted, the server infers from the file's
                 Content-Type in the multipart header.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -515,7 +543,7 @@ class AsyncFeedsWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Async
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             body=multipart_body(file_part("file", file), param[ContentTypeOrStr | None]("contentType", content_type)),
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[CreateFeedResponse],
+            decoder=async_json_decoder[CreateFeedResponse],
             error_mapper=create_feed_error_mapper,
             request_options=request_options,
         )
@@ -527,7 +555,8 @@ class AsyncFeedsWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Async
 
         Args:
             feed_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -536,7 +565,7 @@ class AsyncFeedsWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Async
             url_template=self._server.default1("/feeds/v4/feeds/{feedId}"),
             path_params=[param[str]("feedId", feed_id)],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[Feed],
+            decoder=async_json_decoder[Feed],
             error_mapper=get_feed_error_mapper,
             request_options=request_options,
         )
@@ -553,11 +582,12 @@ class AsyncFeedsWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Async
 
         Args:
             feed_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the body unread or the error body."""
-        return await self._client.stream(
+        return await self._client.execute(
             http_method="GET",
             url_template=self._server.default1("/feeds/v4/feeds/{feedId}/document"),
             path_params=[param[str]("feedId", feed_id)],
@@ -587,7 +617,8 @@ class AsyncFeedsWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Async
             created_until: Value sent with the request.
             page_size: Value sent with the request.
             next_token: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -603,7 +634,7 @@ class AsyncFeedsWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Async
                 param[str | None]("nextToken", next_token),
             ],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[GetFeedsResponse],
+            decoder=async_json_decoder[GetFeedsResponse],
             error_mapper=get_feeds_error_mapper,
             request_options=request_options,
         )

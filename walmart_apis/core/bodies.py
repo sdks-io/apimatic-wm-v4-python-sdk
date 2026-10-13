@@ -16,15 +16,16 @@ import codecs
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, Final, Generic, TypeAlias, TypeVar, overload
+from typing import Any, Final, Generic, TypeAlias, TypeVar, overload
 
 from pydantic import TypeAdapter
 from typing_extensions import TypeForm, assert_never
 
 from ._internal.flattening import flatten, to_fields
+from ._internal.subscripts import SubscriptOnly
 from ._internal.wire import compact_json, to_text
 from .adapters import adapter_for, validation_target
-from .files import AsyncBinaryInput, FileContent, FileInput, NamedFile
+from .files import AsyncBinaryContent, AsyncFileInput, NamedFile
 from .optionality import strip_unset
 from .params import Param
 
@@ -82,7 +83,16 @@ class MultipartFile:
     unreachable."""
 
     name: str
-    content: FileContent
+
+    content: AsyncBinaryContent
+    """The bytes, however the caller held them.
+
+    The *async* union, for the reason :attr:`BinaryBody.content` is one: ``HttpRequest`` is a single
+    shape for both flavours, and which arms are reachable is fixed by the emitted endpoint's own
+    parameter type. A transport is handed them unresolved -- the sync one rejects the async arms
+    with a guided ``TypeError``, and an async one must read them before encoding, because a
+    multipart encoder pulls from a synchronous generator and cannot await."""
+
     filename: str | None
     media_type: str
 
@@ -117,14 +127,20 @@ class MultipartBody:
 
 @dataclass(frozen=True, slots=True)
 class BinaryBody:
-    """A raw request body -- the operation's declared media type, and the bytes themselves.
+    """A raw request body -- its declared media type, the caller's name for it, and the bytes.
 
     ``content`` is typed as the *async* union because ``HttpRequest`` is one shape for both
     flavours; which arms are reachable is fixed by the endpoint's own parameter type, exactly as
     ``custom_http_client`` vs ``custom_async_http_client`` fixes the transport -- and the sync
-    transport rejects the two async arms with a guided ``TypeError``."""
+    transport rejects the two async arms with a guided ``TypeError``.
 
-    content: AsyncBinaryInput
+    ``filename`` is resolved, in :class:`MultipartFile`'s exact sense: ``None`` means *resolved to
+    absent*, never *derive one*. :func:`binary_body` has already applied the same fallback a part
+    gets, so the two classes' ``filename`` fields mean the same thing. A transport renders it as
+    ``Content-Disposition``."""
+
+    content: AsyncBinaryContent
+    filename: str | None
     media_type: str
 
 
@@ -158,11 +174,12 @@ def _json_value(adapter: TypeAdapter[T], value: T) -> object:
     return strip_unset(validated, adapter.dump_python(validated, mode="json"))
 
 
-def _derive_filename(content: FileContent) -> str | None:
-    # A Path names its file; a handle may carry a filesystem-shaped ``name`` -- used only when it
-    # is a str, since ``open(fd)`` yields an int one. Otherwise no filename at all: the underlying
-    # library's fallback is the literal string "upload", which is worse than omitting an optional
-    # RFC 7578 parameter.
+def _derive_filename(content: AsyncBinaryContent) -> str | None:
+    # Both destinations' fallback. A Path names its file; a handle may carry a filesystem-shaped
+    # ``name`` -- used only when it is a str, since ``open(fd)`` yields an int one. The basename
+    # only, so a caller's directories never reach the wire. Otherwise no filename at all: the
+    # underlying library's fallback is the literal string "upload", which is worse than omitting an
+    # optional parameter (RFC 7578's at a part, RFC 6266's at a raw body).
     if isinstance(content, Path):
         return content.name
     name = getattr(content, "name", None)
@@ -186,7 +203,7 @@ class _DeclaredJsonBody(Generic[T]):
         return JsonBody(_json_value(self.adapter, value), media_type)
 
 
-class _JsonBodyFactory:
+class _JsonBodyFactory(SubscriptOnly):
     """``json_body[T](value)`` -- name the body's declared type in the subscript.
 
     **A subscript and then a call, and the split is the whole point.** ``T`` is solved from the
@@ -200,7 +217,8 @@ class _JsonBodyFactory:
 
     The factory declares no ``__call__``, so *omitting* the declared type is a build failure too:
     ``json_body(employee)`` is rejected statically (``[operator]``) -- the guarantee the curried
-    signature used to carry. The runtime ``__call__`` below is invisible to type checkers and
+    signature used to carry. The runtime ``__call__`` inherited from :class:`SubscriptOnly` is
+    invisible to type checkers and
     exists only to turn that same mistake into a guided ``TypeError``.
 
     The subscript is a ``TypeForm``, exactly as in ``json_decoder[...]``, so a runtime union alias
@@ -225,16 +243,11 @@ class _JsonBodyFactory:
     its own label, only the endpoint knows which, and the transport carries whichever the body holds
     (ADR-0048)."""
 
+    factory_name = "json_body"
+    spelling = "json_body[T](value), e.g. json_body[Employee | EmployeeDict](model)"
+
     def __getitem__(self, declared: TypeForm[T]) -> _DeclaredJsonBody[T]:
         return _DeclaredJsonBody(adapter_for(validation_target(declared)))
-
-    if not TYPE_CHECKING:
-
-        def __call__(self, *args, **kwargs):
-            raise TypeError(
-                "json_body is not called directly -- name the declared type in its subscript: "
-                "json_body[T](value), e.g. json_body[Employee | EmployeeDict](model)"
-            )
 
 
 json_body: Final = _JsonBodyFactory()
@@ -294,25 +307,57 @@ def multipart_body(*parts: Param[Any] | MultipartPart | MultipartFiles | None) -
     return MultipartBody(resolved)
 
 
-@overload
-def file_part(name: str, value: FileInput, *, media_type: str = "application/octet-stream") -> MultipartFile: ...
+def _resolve_file(name: str, value: AsyncFileInput, media_type: str) -> MultipartFile:
+    """One file's part, its filename and media type resolved through the two tiers.
+
+    The override first, then the operation's declared value -- the rule :func:`binary_body` applies
+    to the one of the two fields a raw body can carry.
+
+    Lifted out of :func:`file_part` rather than reached by recursion through its own overloads: the
+    list arm needs a :class:`MultipartFile` per item, and saying so beats resolving an overload
+    against the function being defined.
+
+    Args:
+        name: The form field name the part is sent under.
+        value: One file's content, or a ``NamedFile`` overriding its filename or media type.
+        media_type: The media type the operation declares for this field.
+
+    Returns:
+        A :class:`MultipartFile` with no unresolved field left."""
+    match value:
+        case NamedFile(content, filename, override):
+            return MultipartFile(
+                name=name,
+                content=content,
+                filename=filename if filename is not None else _derive_filename(content),
+                media_type=override if override is not None else media_type,
+            )
+        case _:
+            return MultipartFile(name=name, content=value, filename=_derive_filename(value), media_type=media_type)
 
 
 @overload
 def file_part(
-    name: str, value: Sequence[FileInput], *, media_type: str = "application/octet-stream"
+    name: str, value: Sequence[AsyncFileInput], *, media_type: str = "application/octet-stream"
 ) -> MultipartFiles: ...
 
 
+@overload
+def file_part(name: str, value: AsyncFileInput, *, media_type: str = "application/octet-stream") -> MultipartFile: ...
+
+
 def file_part(
-    name: str, value: FileInput | Sequence[FileInput], *, media_type: str = "application/octet-stream"
+    name: str,
+    value: AsyncFileInput | Sequence[AsyncFileInput],
+    *,
+    media_type: str = "application/octet-stream",
 ) -> MultipartFile | MultipartFiles:
     """One file part -- or one part per file of a list -- under ``name``; the annotation decides which.
 
     A binary field is emitted the same way whether its schema is one file or an array of them:
     ``file_part(name, value, media_type=...)`` with the parameter as declared, ``FileInput`` or
-    ``list[FileInput]``. A list yields a :class:`MultipartFiles` that ``multipart_body`` unfolds into
-    one :class:`MultipartFile` per item under the same name (RFC 7578's repeated field), each
+    ``list[FileInput]``. A list yields a :class:`MultipartFiles` that ``multipart_body`` unfolds
+    into one :class:`MultipartFile` per item under the same name (RFC 7578's repeated field), each
     resolved exactly as a single file is -- so an item may be a ``NamedFile`` overriding its own
     filename or media type.
 
@@ -326,10 +371,20 @@ def file_part(
     content here, which nothing in this module does. ``application/octet-stream`` is what the SDK
     actually knows; a caller who knows better says so through ``NamedFile(content, media_type=...)``.
 
-    The arms are told apart by a sequence pattern, which PEP 634 defines to exclude ``str``,
-    ``bytes`` and ``bytearray``: the one place the language already knows that a byte string is
-    content, not a collection of files. ``isinstance(value, Sequence)`` is true of ``bytes`` and
-    would send each byte as its own part.
+    **A list is always many files, and nothing has to arbitrate that.** One file's content streams
+    as an ``Iterator[bytes]``, never a ``Sequence`` of them, so a ``list[bytes]`` satisfies only the
+    first overload and the two arms do not overlap. A chunk *list* that is one file's content says
+    so by handing over an iterator -- ``NamedFile(iter([b"a", b"b"]))`` -- and that is the whole of
+    the rule (ADR-0049).
+
+    The runtime agrees by a different route: PEP 634 defines a sequence pattern to exclude ``str``,
+    ``bytes`` and ``bytearray``, the one place the language already knows a byte string is content
+    rather than a collection, and an iterator is no ``Sequence`` at either level.
+    ``isinstance(value, Sequence)`` would be true of ``bytes`` and send each byte as its own part.
+
+    The overloads earn their keep beyond the return type: they give a heterogeneous list literal --
+    ``[b"one", NamedFile(b"two", filename="2.bin")]`` -- an element type to check against. Collapsed
+    into one signature over a union, that literal joins to ``list[object]`` and is rejected.
 
     Nothing is opened or read here -- the content descriptor is carried as given, and the first read
     happens in the transport when the request is sent.
@@ -352,15 +407,9 @@ def file_part(
         a list, the resolved part for each item."""
     match value:
         case [*items]:
-            return MultipartFiles(tuple(file_part(name, item, media_type=media_type) for item in items))
+            return MultipartFiles(tuple(_resolve_file(name, item, media_type) for item in items))
         case _:
-            part = value if isinstance(value, NamedFile) else NamedFile(value)
-            return MultipartFile(
-                name=name,
-                content=part.content,
-                filename=part.filename if part.filename is not None else _derive_filename(part.content),
-                media_type=part.media_type if part.media_type is not None else media_type,
-            )
+            return _resolve_file(name, value, media_type)
 
 
 @dataclass(frozen=True, slots=True)
@@ -376,7 +425,7 @@ class _DeclaredJsonPart(Generic[T]):
         return MultipartText(name, compact_json(_json_value(self.adapter, value)), media_type)
 
 
-class _JsonPartFactory:
+class _JsonPartFactory(SubscriptOnly):
     """``json_part[T](name, value)`` -- a multipart part whose body is JSON, not a form field.
 
     Subscripted for the reason ``json_body`` documents: ``T`` is solved from the subscript alone,
@@ -389,39 +438,52 @@ class _JsonPartFactory:
     says otherwise (ADR-0048). Declaring it is what makes a map-as-JSON-part and a
     map-as-form-fields two different factories rather than one factory and a flag."""
 
+    factory_name = "json_part"
+    spelling = 'json_part[T](name, value), e.g. json_part[FileMetadata | FileMetadataDict]("metadata", metadata)'
+
     def __getitem__(self, declared: TypeForm[T]) -> _DeclaredJsonPart[T]:
         return _DeclaredJsonPart(adapter_for(validation_target(declared)))
-
-    if not TYPE_CHECKING:
-
-        def __call__(self, *args, **kwargs):
-            raise TypeError(
-                "json_part is not called directly -- name the declared type in its subscript: "
-                'json_part[T](name, value), e.g. json_part[FileMetadata | FileMetadataDict]("metadata", metadata)'
-            )
 
 
 json_part: Final = _JsonPartFactory()
 
 
-def binary_body(content: AsyncBinaryInput, *, media_type: str = "application/octet-stream") -> BinaryBody:
+def binary_body(content: AsyncFileInput, *, media_type: str = "application/octet-stream") -> BinaryBody:
     """A raw request body under the operation's declared media type.
 
     ``media_type`` is the operation's ``requestBody`` content key, defaulting to RFC 9110 8.3's own
     answer for a payload of unknown type -- so an endpoint writes it only where the key differs
     (``image/png``), the rule every other body factory follows (ADR-0048).
 
+    A ``NamedFile`` here contributes both of its overrides, and both resolve through the two tiers
+    :func:`file_part` applies -- the override, then the SDK's own answer. ``media_type`` falls back
+    to the operation's declared value; ``filename`` falls back to :func:`_derive_filename`, so a
+    ``Path`` or a named handle is sent under its name and a nameless source under none at all
+    (ADR-0053, amended). The transport renders it as a ``Content-Disposition``.
+
+    Only the basename is sent, so a caller's directories never reach the wire.
+
     Nothing is opened or read here -- the content descriptor is carried as given, and the first
     read happens in the transport when the request is sent.
 
     Args:
-        content: The body content descriptor.
+        content: The body content descriptor, or a ``NamedFile`` overriding its media type or
+            naming it.
         media_type: The media type the operation declares for the body;
             ``application/octet-stream`` when omitted.
 
     Returns:
-        A :class:`BinaryBody` carrying both unchanged."""
-    return BinaryBody(content, media_type)
+        A :class:`BinaryBody` carrying the content, its resolved name and its resolved media
+        type."""
+    match content:
+        case NamedFile(inner, filename, override):
+            return BinaryBody(
+                inner,
+                filename if filename is not None else _derive_filename(inner),
+                override if override is not None else media_type,
+            )
+        case _:
+            return BinaryBody(content, _derive_filename(content), media_type)
 
 
 @dataclass(frozen=True, slots=True)
@@ -461,29 +523,28 @@ class _DeclaredTextBody(Generic[T]):
         return TextBody(dumped if isinstance(dumped, str) else to_text(dumped), media_type, charset)
 
 
-class _TextBodyFactory:
+class _TextBodyFactory(SubscriptOnly):
     """``text_body[T](value)`` -- a text body whose *type* picks the wire text and whose *charset*
     picks the bytes.
 
     ``text_body[Base64AsciiEncodedBytes](data)`` is what carries an operation whose whole body is a
     base64 string: validation passes the raw bytes through, the dump encodes -- the encoding is the
-    declared type's own dump, not a call at the emission site. It is fully resident by construction;
-    base64 has no streaming path here (docs/plans/file-handling.md, *File lifetime*). The two
+    declared type's own dump, not a call at the emission site. It is fully resident by construction,
+    and the peak is about **3.7x** the payload: the caller's ``bytes``, the base64 ``str`` at 1.33x,
+    and the transport's ``encode(charset)`` of that at 1.33x again. Base64 has no streaming path here
+    -- the parameter is ``bytes``, so a caller cannot hand over a stream to begin with. It *is*
+    chunkable at any multiple of three bytes should a spec ever need it; the arm is absent rather
+    than impossible (ADR-0051 decision 6). The two
     keywords come from the operation's content key, split once at emission: the type and any other
     parameters in ``media_type``, the ``charset`` parameter on its own -- and each is written only
     where the spec differs from the default (``text/plain``, ``utf-8``), the rule ``param``'s
     ``serialization_format`` set."""
 
+    factory_name = "text_body"
+    spelling = "text_body[T](value), e.g. text_body[Base64AsciiEncodedBytes](data)"
+
     def __getitem__(self, declared: TypeForm[T]) -> _DeclaredTextBody[T]:
         return _DeclaredTextBody(adapter_for(validation_target(declared)))
-
-    if not TYPE_CHECKING:
-
-        def __call__(self, *args, **kwargs):
-            raise TypeError(
-                "text_body is not called directly -- name the declared type in its subscript: "
-                "text_body[T](value), e.g. text_body[Base64AsciiEncodedBytes](data)"
-            )
 
 
 text_body: Final = _TextBodyFactory()

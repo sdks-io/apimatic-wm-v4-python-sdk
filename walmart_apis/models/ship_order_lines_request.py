@@ -12,4 +12,4 @@ class ShipOrderLinesRequest(SdkBaseModel):
 
 
 class ShipOrderLinesRequestDict(TypedDict):
-    order_lines: list[ShipOrderLine | ShipOrderLineDict]
+    order_lines: list[ShipOrderLineDict]

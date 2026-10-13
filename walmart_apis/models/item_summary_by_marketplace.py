@@ -30,4 +30,4 @@ class ItemSummaryByMarketplaceDict(TypedDict):
     item_name: NotRequired[str]
     created_date: NotRequired[RFC3339DateTime]
     last_updated_date: NotRequired[RFC3339DateTime]
-    main_image: NotRequired[ItemImage1 | ItemImage1Dict]
+    main_image: NotRequired[ItemImage1Dict]

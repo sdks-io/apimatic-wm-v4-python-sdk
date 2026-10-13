@@ -18,5 +18,5 @@ class Payload12(SdkBaseModel):
 
 class Payload12Dict(TypedDict):
     shipment_id: NotRequired[str]
-    package_document_details: NotRequired[list[PackageDocumentDetail | PackageDocumentDetailDict]]
-    promise: NotRequired[Promise | PromiseDict]
+    package_document_details: NotRequired[list[PackageDocumentDetailDict]]
+    promise: NotRequired[PromiseDict]

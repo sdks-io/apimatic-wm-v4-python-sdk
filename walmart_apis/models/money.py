@@ -10,7 +10,7 @@ class Money(SdkBaseModel):
     amount: Optional[str] = UNSET
     """Monetary amount as string to preserve precision"""
 
-    currency_code: Optional[str] = Field(default=UNSET, alias="currencyCode")
+    currency_code: str = Field(default="USD", alias="currencyCode")
 
 
 class MoneyDict(TypedDict):

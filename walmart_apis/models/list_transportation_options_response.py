@@ -19,5 +19,5 @@ class ListTransportationOptionsResponse(SdkBaseModel):
 
 
 class ListTransportationOptionsResponseDict(TypedDict):
-    transportation_options: list[CommonTransportationOption | CommonTransportationOptionDict]
-    pagination: NotRequired[CommonPagination | CommonPaginationDict]
+    transportation_options: list[CommonTransportationOptionDict]
+    pagination: NotRequired[CommonPaginationDict]

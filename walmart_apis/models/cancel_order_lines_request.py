@@ -12,4 +12,4 @@ class CancelOrderLinesRequest(SdkBaseModel):
 
 
 class CancelOrderLinesRequestDict(TypedDict):
-    order_lines: list[CancelOrderLine | CancelOrderLineDict]
+    order_lines: list[CancelOrderLineDict]

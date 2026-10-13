@@ -1,7 +1,16 @@
 from __future__ import annotations
 
 from ..auth import AsyncAuthSchemes, AuthSchemes
-from ..core import ApiResult, AsyncRawClient, RawClient, RequestOptionsOrDict, SecuredRawResponse, json_decoder
+from ..core import (
+    ApiResult,
+    AsyncRawClient,
+    RawClient,
+    RequestOptionsOrDict,
+    SecuredRawResponse,
+    async_json_decoder,
+    json_decoder,
+    unwrap,
+)
 from ..errors.get_account_error import GetAccountErrorBody, get_account_error_mapper
 from ..errors.get_marketplace_participations_error import (
     GetMarketplaceParticipationsErrorBody,
@@ -21,7 +30,8 @@ class Sellers:
         seller type.
 
         Args:
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -29,7 +39,7 @@ class Sellers:
         Raises:
             ApiError: Bad Request Forbidden Rate limit exceeded Internal Server Error ``error`` is ``ErrorList |
                 RawError``."""
-        return self._with_raw_response.get_account(request_options=request_options).unwrap()
+        return unwrap(self._with_raw_response.get_account(request_options=request_options))
 
     def get_marketplace_participations(
         self, *, request_options: RequestOptionsOrDict | None = None
@@ -38,7 +48,8 @@ class Sellers:
         Walmart Mexico).
 
         Args:
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -46,7 +57,7 @@ class Sellers:
         Raises:
             ApiError: Bad Request Forbidden Rate limit exceeded Internal Server Error ``error`` is ``ErrorList |
                 RawError``."""
-        return self._with_raw_response.get_marketplace_participations(request_options=request_options).unwrap()
+        return unwrap(self._with_raw_response.get_marketplace_participations(request_options=request_options))
 
     @property
     def with_raw_response(self) -> SellersWithRawResponse:
@@ -62,7 +73,8 @@ class AsyncSellers:
         seller type.
 
         Args:
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -70,7 +82,7 @@ class AsyncSellers:
         Raises:
             ApiError: Bad Request Forbidden Rate limit exceeded Internal Server Error ``error`` is ``ErrorList |
                 RawError``."""
-        return (await self._with_raw_response.get_account(request_options=request_options)).unwrap()
+        return unwrap(await self._with_raw_response.get_account(request_options=request_options))
 
     async def get_marketplace_participations(
         self, *, request_options: RequestOptionsOrDict | None = None
@@ -79,7 +91,8 @@ class AsyncSellers:
         Walmart Mexico).
 
         Args:
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -87,7 +100,7 @@ class AsyncSellers:
         Raises:
             ApiError: Bad Request Forbidden Rate limit exceeded Internal Server Error ``error`` is ``ErrorList |
                 RawError``."""
-        return (await self._with_raw_response.get_marketplace_participations(request_options=request_options)).unwrap()
+        return unwrap(await self._with_raw_response.get_marketplace_participations(request_options=request_options))
 
     @property
     def with_raw_response(self) -> AsyncSellersWithRawResponse:
@@ -102,7 +115,8 @@ class SellersWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes])
         seller type.
 
         Args:
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -122,7 +136,8 @@ class SellersWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes])
         Walmart Mexico).
 
         Args:
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -144,7 +159,8 @@ class AsyncSellersWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asy
         seller type.
 
         Args:
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -152,7 +168,7 @@ class AsyncSellersWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asy
             http_method="GET",
             url_template=self._server.default1("/sellers/v4/account"),
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[SellerAccount],
+            decoder=async_json_decoder[SellerAccount],
             error_mapper=get_account_error_mapper,
             request_options=request_options,
         )
@@ -164,7 +180,8 @@ class AsyncSellersWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asy
         Walmart Mexico).
 
         Args:
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -172,7 +189,7 @@ class AsyncSellersWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asy
             http_method="GET",
             url_template=self._server.default1("/sellers/v4/marketplaceParticipations"),
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[GetMarketplaceParticipationsResponse],
+            decoder=async_json_decoder[GetMarketplaceParticipationsResponse],
             error_mapper=get_marketplace_participations_error_mapper,
             request_options=request_options,
         )

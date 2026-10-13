@@ -20,6 +20,6 @@ class ItemSearchResults(SdkBaseModel):
 
 class ItemSearchResultsDict(TypedDict):
     number_of_results: NotRequired[int]
-    pagination: NotRequired[Pagination | PaginationDict]
-    refinements: NotRequired[Refinements | RefinementsDict]
-    items: NotRequired[list[Item | ItemDict]]
+    pagination: NotRequired[PaginationDict]
+    refinements: NotRequired[RefinementsDict]
+    items: NotRequired[list[ItemDict]]

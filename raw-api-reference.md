@@ -60,7 +60,13 @@ unverified URI would be an open redirect.
 
 ```python
 result = client.authorization.with_raw_response.authorize(
-    response_type, client_id, redirect_uri, scope, state, code_challenge, code_challenge_method
+    ResponseType1.CODE,
+    "some example string",
+    "https://example.com",
+    "some example string",
+    "some example string",
+    "some example string",
+    CodeChallengeMethod.S256,
 )
 match result:
     case Success():
@@ -73,7 +79,13 @@ match result:
 
 ```python
 result = await async_client.authorization.with_raw_response.authorize(
-    response_type, client_id, redirect_uri, scope, state, code_challenge, code_challenge_method
+    ResponseType1.CODE,
+    "some example string",
+    "https://example.com",
+    "some example string",
+    "some example string",
+    "some example string",
+    CodeChallengeMethod.S256,
 )
 match result:
     case Success():
@@ -99,7 +111,7 @@ match result:
 | <code>state</code> | <code>str</code> | Opaque CSRF token; echoed back unchanged. |
 | <code>code_challenge</code> | <code>str</code> | PKCE challenge — base64url(SHA-256(code_verifier)). |
 | <code>code_challenge_method</code> | <code>[CodeChallengeMethodOrStr](walmart_apis/models/enums/code_challenge_method.py)</code> | Must be `S256`. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -184,7 +196,7 @@ TTL). A requested `scope` MUST NOT exceed the originally granted scope.
 **Sync**
 
 ```python
-result = client.authorization.with_raw_response.create_token(grant_type)
+result = client.authorization.with_raw_response.create_token(GrantType.CLIENT_CREDENTIALS)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type TokenResponse
@@ -195,7 +207,7 @@ match result:
 **Async**
 
 ```python
-result = await async_client.authorization.with_raw_response.create_token(grant_type)
+result = await async_client.authorization.with_raw_response.create_token(GrantType.CLIENT_CREDENTIALS)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type TokenResponse
@@ -221,7 +233,7 @@ match result:
 | <code>refresh_token</code> | <code>str \| None</code> | A previously issued refresh token (refresh_token grant). Rotated on use.<br>**Default**: <code>None</code> |
 | <code>redirect_uri</code> | <code>str \| None</code> | Accepted for OAuth 2.0 back-compat on authorization_code; not required in 2.1 (PKCE covers injection).<br>**Default**: <code>None</code> |
 | <code>scope</code> | <code>str \| None</code> | **client_credentials:** accepted for compatibility but **not honored**<br> — no down-scoping; not echoed. **refresh_token:** optional;<br>MUST NOT exceed the originally granted scope.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -285,7 +297,9 @@ registration management (read/update/delete via a
 **Sync**
 
 ```python
-result = client.authorization.with_raw_response.register_client(body)
+result = client.authorization.with_raw_response.register_client(
+    ClientRegistrationRequest(redirect_uris=["https://example.com"])
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type ClientRegistrationResponse
@@ -296,7 +310,9 @@ match result:
 **Async**
 
 ```python
-result = await async_client.authorization.with_raw_response.register_client(body)
+result = await async_client.authorization.with_raw_response.register_client(
+    ClientRegistrationRequest(redirect_uris=["https://example.com"])
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type ClientRegistrationResponse
@@ -315,7 +331,7 @@ match result:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>body</code> | <code>[ClientRegistrationRequest](walmart_apis/models/client_registration_request.py) \| [ClientRegistrationRequestDict](walmart_apis/models/client_registration_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -375,7 +391,7 @@ Send a `GET` request.
 **Sync**
 
 ```python
-result = client.catalog.with_raw_response.get_catalog_item(walmart_item_id, marketplace_ids)
+result = client.catalog.with_raw_response.get_catalog_item("00000000000000", ["some example string"])
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type Item
@@ -386,7 +402,7 @@ match result:
 **Async**
 
 ```python
-result = await async_client.catalog.with_raw_response.get_catalog_item(walmart_item_id, marketplace_ids)
+result = await async_client.catalog.with_raw_response.get_catalog_item("00000000000000", ["some example string"])
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type Item
@@ -407,7 +423,7 @@ match result:
 | <code>walmart_item_id</code> | <code>str</code> | Walmart Item ID (14-digit numeric identifier) |
 | <code>marketplace_ids</code> | <code>list&#91;str&#93;</code> | Walmart marketplace identifiers. Use WALMART_US for the US marketplace. |
 | <code>included_data</code> | <code>list&#91;[IncludedDatumOrStr](walmart_apis/models/enums/included_datum.py)&#93; \| None</code> | Data sections to include in the response<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -463,7 +479,7 @@ GTIN, UPC, or seller SKU. Returns matching catalog items.
 **Sync**
 
 ```python
-result = client.catalog.with_raw_response.search_catalog_items(marketplace_ids)
+result = client.catalog.with_raw_response.search_catalog_items(["some example string"])
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type ItemSearchResults
@@ -474,7 +490,7 @@ match result:
 **Async**
 
 ```python
-result = await async_client.catalog.with_raw_response.search_catalog_items(marketplace_ids)
+result = await async_client.catalog.with_raw_response.search_catalog_items(["some example string"])
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type ItemSearchResults
@@ -501,7 +517,7 @@ match result:
 | <code>included_data</code> | <code>list&#91;[IncludedDatumOrStr](walmart_apis/models/enums/included_datum.py)&#93; \| None</code> | Data sections to include in the response<br>**Default**: <code>None</code> |
 | <code>page_size</code> | <code>int \| None</code> | Number of results per page (1–20).<br>**Known limitation:** The PIQS keyword search backend hard-caps results at 40 items per call regardless of this value.<br>**Default**: <code>10</code> |
 | <code>page_token</code> | <code>str \| None</code> | Token for the next page of results, obtained from `pagination.nextToken` in a previous response.<br>**Known limitation:** Cursor-based pagination is not currently supported for keyword search. The PIQS search backend (`/v3/items/walmart/search`) does not return a `nextCursor` and does not honour this parameter. Results are capped at 40 items per call. Reserved for future use once PIQS exposes pagination support.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -560,7 +576,7 @@ Send a `DELETE` request.
 **Sync**
 
 ```python
-result = client.data_kiosk.with_raw_response.cancel_query(query_id)
+result = client.data_kiosk.with_raw_response.cancel_query("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type CancelQueryResponse
@@ -571,7 +587,7 @@ match result:
 **Async**
 
 ```python
-result = await async_client.data_kiosk.with_raw_response.cancel_query(query_id)
+result = await async_client.data_kiosk.with_raw_response.cancel_query("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type CancelQueryResponse
@@ -590,7 +606,7 @@ match result:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>query_id</code> | <code>str</code> | Value sent with the request. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -646,7 +662,7 @@ Query language TBD pending ADR (GraphQL vs REST hybrid — Pod 4).
 **Sync**
 
 ```python
-result = client.data_kiosk.with_raw_response.create_query(body)
+result = client.data_kiosk.with_raw_response.create_query(CreateQuerySpecification(query="some example string"))
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type CreateQueryResponse
@@ -657,7 +673,9 @@ match result:
 **Async**
 
 ```python
-result = await async_client.data_kiosk.with_raw_response.create_query(body)
+result = await async_client.data_kiosk.with_raw_response.create_query(
+    CreateQuerySpecification(query="some example string")
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type CreateQueryResponse
@@ -676,7 +694,7 @@ match result:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>body</code> | <code>[CreateQuerySpecification](walmart_apis/models/create_query_specification.py) \| [CreateQuerySpecificationDict](walmart_apis/models/create_query_specification.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -732,7 +750,7 @@ Do not log the pre-signed URL.
 **Sync**
 
 ```python
-result = client.data_kiosk.with_raw_response.get_document(document_id)
+result = client.data_kiosk.with_raw_response.get_document("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type Document
@@ -743,7 +761,7 @@ match result:
 **Async**
 
 ```python
-result = await async_client.data_kiosk.with_raw_response.get_document(document_id)
+result = await async_client.data_kiosk.with_raw_response.get_document("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type Document
@@ -762,7 +780,7 @@ match result:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>document_id</code> | <code>str</code> | Value sent with the request. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -852,7 +870,7 @@ match result:
 | <code>created_since</code> | <code>RFC3339DateTime \| None</code> | Value sent with the request.<br>**Default**: <code>None</code> |
 | <code>created_until</code> | <code>RFC3339DateTime \| None</code> | Value sent with the request.<br>**Default**: <code>None</code> |
 | <code>pagination_token</code> | <code>str \| None</code> | Value sent with the request.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -907,7 +925,7 @@ Send a `GET` request.
 **Sync**
 
 ```python
-result = client.data_kiosk.with_raw_response.get_query(query_id)
+result = client.data_kiosk.with_raw_response.get_query("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type Query
@@ -918,7 +936,7 @@ match result:
 **Async**
 
 ```python
-result = await async_client.data_kiosk.with_raw_response.get_query(query_id)
+result = await async_client.data_kiosk.with_raw_response.get_query("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type Query
@@ -937,7 +955,7 @@ match result:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>query_id</code> | <code>str</code> | Value sent with the request. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -1027,7 +1045,7 @@ match result:
 
 | Name | Type | Description |
 | --- | --- | --- |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -1090,7 +1108,7 @@ already reached DONE or ERROR cannot be cancelled.
 **Sync**
 
 ```python
-result = client.feeds.with_raw_response.cancel_feed(feed_id)
+result = client.feeds.with_raw_response.cancel_feed("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type CancelFeedResponse
@@ -1101,7 +1119,7 @@ match result:
 **Async**
 
 ```python
-result = await async_client.feeds.with_raw_response.cancel_feed(feed_id)
+result = await async_client.feeds.with_raw_response.cancel_feed("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type CancelFeedResponse
@@ -1120,7 +1138,7 @@ match result:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>feed_id</code> | <code>str</code> | Value sent with the request. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -1177,7 +1195,7 @@ processing status via GET /feeds/v4/feeds/{feedId}.
 **Sync**
 
 ```python
-result = client.feeds.with_raw_response.create_feed(feed_type, file)
+result = client.feeds.with_raw_response.create_feed(FeedType.LISTINGS_FEED, Path("path/to/file.bin"))
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type CreateFeedResponse
@@ -1188,7 +1206,7 @@ match result:
 **Async**
 
 ```python
-result = await async_client.feeds.with_raw_response.create_feed(feed_type, file)
+result = await async_client.feeds.with_raw_response.create_feed(FeedType.LISTINGS_FEED, Path("path/to/file.bin"))
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type CreateFeedResponse
@@ -1210,7 +1228,7 @@ match result:
 | <code>file</code> | <code>FileInput</code> | The feed content file to upload and process |
 | <code>marketplace_id</code> | <code>str \| None</code> | Marketplace identifier (opaque token). If omitted, the service applies WALMART_US.<br>**Default**: <code>None</code> |
 | <code>content_type</code> | <code>[ContentTypeOrStr](walmart_apis/models/enums/content_type.py) \| None</code> | MIME type of the uploaded feed content.<br>If omitted, the server infers from the file's Content-Type in the multipart header.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -1265,7 +1283,7 @@ Send a `GET` request.
 **Sync**
 
 ```python
-result = client.feeds.with_raw_response.get_feed(feed_id)
+result = client.feeds.with_raw_response.get_feed("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type Feed
@@ -1276,7 +1294,7 @@ match result:
 **Async**
 
 ```python
-result = await async_client.feeds.with_raw_response.get_feed(feed_id)
+result = await async_client.feeds.with_raw_response.get_feed("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type Feed
@@ -1295,7 +1313,7 @@ match result:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>feed_id</code> | <code>str</code> | Value sent with the request. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -1356,7 +1374,7 @@ seller must own the feed referenced by feedId.
 **Sync**
 
 ```python
-result = client.feeds.with_raw_response.get_feed_document(feed_id)
+result = client.feeds.with_raw_response.get_feed_document("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type FileResponse
@@ -1367,10 +1385,10 @@ match result:
 **Async**
 
 ```python
-result = await async_client.feeds.with_raw_response.get_feed_document(feed_id)
+result = await async_client.feeds.with_raw_response.get_feed_document("some example string")
 match result:
     case Success(payload=payload):
-        ...  # TODO: Handle 'payload' of type FileResponse
+        ...  # TODO: Handle 'payload' of type AsyncFileResponse
     case Failure(error=error):
         ...  # TODO: Handle 'error' of type GetFeedDocumentErrorBody
 ```
@@ -1386,7 +1404,7 @@ match result:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>feed_id</code> | <code>str</code> | Value sent with the request. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -1476,7 +1494,7 @@ match result:
 | <code>created_until</code> | <code>RFC3339DateTime \| None</code> | Value sent with the request.<br>**Default**: <code>None</code> |
 | <code>page_size</code> | <code>int \| None</code> | Value sent with the request.<br>**Default**: <code>10</code> |
 | <code>next_token</code> | <code>str \| None</code> | Value sent with the request.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -1566,7 +1584,7 @@ match result:
 
 | Name | Type | Description |
 | --- | --- | --- |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -1623,7 +1641,9 @@ scope. Delegates to GMPPaymentsPlatform (Phase 5).
 **Sync**
 
 ```python
-result = client.final_payout.with_raw_response.update_final_payout_case_status(body)
+result = client.final_payout.with_raw_response.update_final_payout_case_status(
+    DisbursementsV4FinalPayoutCaseUpdateStatusRequest(status=Status3.RESOLVED)
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type FinalPayoutCaseStatusResponse
@@ -1634,7 +1654,9 @@ match result:
 **Async**
 
 ```python
-result = await async_client.final_payout.with_raw_response.update_final_payout_case_status(body)
+result = await async_client.final_payout.with_raw_response.update_final_payout_case_status(
+    DisbursementsV4FinalPayoutCaseUpdateStatusRequest(status=Status3.RESOLVED)
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type FinalPayoutCaseStatusResponse
@@ -1653,7 +1675,7 @@ match result:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>body</code> | <code>[DisbursementsV4FinalPayoutCaseUpdateStatusRequest](walmart_apis/models/disbursements_v4_final_payout_case_update_status_request.py) \| [DisbursementsV4FinalPayoutCaseUpdateStatusRequestDict](walmart_apis/models/disbursements_v4_final_payout_case_update_status_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -1749,7 +1771,7 @@ match result:
 | <code>financial_event_group_started_before</code> | <code>RFC3339DateTime \| None</code> | Financial event groups that opened before this date/time (ISO 8601).<br>**Default**: <code>None</code> |
 | <code>financial_event_group_started_after</code> | <code>RFC3339DateTime \| None</code> | Financial event groups that opened after this date/time (ISO 8601).<br>**Default**: <code>None</code> |
 | <code>next_token</code> | <code>str \| None</code> | Cursor token for the next page of results.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -1843,7 +1865,7 @@ match result:
 | <code>posted_after</code> | <code>RFC3339DateTime \| None</code> | Not supported — returns 400 Bad Request if supplied.<br>**Default**: <code>None</code> |
 | <code>posted_before</code> | <code>RFC3339DateTime \| None</code> | Not supported — returns 400 Bad Request if supplied.<br>**Default**: <code>None</code> |
 | <code>next_token</code> | <code>str \| None</code> | Not supported — returns 400 Bad Request if supplied.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -1901,7 +1923,7 @@ set. Returns empty response pending Phase 5.
 **Sync**
 
 ```python
-result = client.finances.with_raw_response.list_financial_events_by_group_id(event_group_id)
+result = client.finances.with_raw_response.list_financial_events_by_group_id("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type Any
@@ -1912,7 +1934,7 @@ match result:
 **Async**
 
 ```python
-result = await async_client.finances.with_raw_response.list_financial_events_by_group_id(event_group_id)
+result = await async_client.finances.with_raw_response.list_financial_events_by_group_id("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type Any
@@ -1935,7 +1957,7 @@ match result:
 | <code>posted_after</code> | <code>RFC3339DateTime \| None</code> | Financial events posted after (or on) this date (ISO 8601).<br>**Default**: <code>None</code> |
 | <code>posted_before</code> | <code>RFC3339DateTime \| None</code> | Financial events posted before (but not on) this date (ISO 8601).<br>**Default**: <code>None</code> |
 | <code>next_token</code> | <code>str \| None</code> | Cursor token for the next page of results.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -1993,7 +2015,7 @@ refunds, fees, and adjustments are absent. IDOR ownership gate enforced.
 **Sync**
 
 ```python
-result = client.finances.with_raw_response.list_financial_events_by_order_id(order_id)
+result = client.finances.with_raw_response.list_financial_events_by_order_id("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type Any
@@ -2004,7 +2026,7 @@ match result:
 **Async**
 
 ```python
-result = await async_client.finances.with_raw_response.list_financial_events_by_order_id(order_id)
+result = await async_client.finances.with_raw_response.list_financial_events_by_order_id("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type Any
@@ -2025,7 +2047,7 @@ match result:
 | <code>order_id</code> | <code>str</code> | Walmart order number — must be numeric (1–50 digits). |
 | <code>max_results_per_page</code> | <code>int \| None</code> | Ignored — GMP returns all commission entries in one page.<br>**Default**: <code>None</code> |
 | <code>next_token</code> | <code>str \| None</code> | Not supported — returns 400 Bad Request if supplied.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -2084,7 +2106,7 @@ Send a `PUT` request.
 **Sync**
 
 ```python
-result = client.fulfillment_outbound.with_raw_response.cancel_fulfillment_order(seller_fulfillment_order_id)
+result = client.fulfillment_outbound.with_raw_response.cancel_fulfillment_order("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type CancelFulfillmentOrderResponse
@@ -2095,7 +2117,7 @@ match result:
 **Async**
 
 ```python
-result = await async_client.fulfillment_outbound.with_raw_response.cancel_fulfillment_order(seller_fulfillment_order_id)
+result = await async_client.fulfillment_outbound.with_raw_response.cancel_fulfillment_order("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type CancelFulfillmentOrderResponse
@@ -2114,7 +2136,7 @@ match result:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>seller_fulfillment_order_id</code> | <code>str</code> | Value sent with the request. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -2169,7 +2191,27 @@ Send a `POST` request.
 **Sync**
 
 ```python
-result = client.fulfillment_outbound.with_raw_response.create_fulfillment_order(body)
+result = client.fulfillment_outbound.with_raw_response.create_fulfillment_order(
+    CreateFulfillmentOrderRequest(
+        seller_fulfillment_order_id="some example string",
+        displayable_order_id="some example string",
+        displayable_order_date=datetime(2024, 1, 15, 9, 30, 0, tzinfo=timezone.utc),
+        shipping_speed_category=ShippingSpeedCategory.STANDARD,
+        destination_address=Address(
+            name="some example string",
+            address_line1="some example string",
+            city="some example string",
+            state_or_region="some example string",
+            postal_code="some example string",
+            country_code="some example string",
+        ),
+        items=[
+            CreateFulfillmentOrderItem(
+                seller_sku="some example string", seller_fulfillment_order_item_id="some example string", quantity=1
+            ),
+        ],
+    ),
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type CreateFulfillmentOrderResponse
@@ -2180,7 +2222,27 @@ match result:
 **Async**
 
 ```python
-result = await async_client.fulfillment_outbound.with_raw_response.create_fulfillment_order(body)
+result = await async_client.fulfillment_outbound.with_raw_response.create_fulfillment_order(
+    CreateFulfillmentOrderRequest(
+        seller_fulfillment_order_id="some example string",
+        displayable_order_id="some example string",
+        displayable_order_date=datetime(2024, 1, 15, 9, 30, 0, tzinfo=timezone.utc),
+        shipping_speed_category=ShippingSpeedCategory.STANDARD,
+        destination_address=Address(
+            name="some example string",
+            address_line1="some example string",
+            city="some example string",
+            state_or_region="some example string",
+            postal_code="some example string",
+            country_code="some example string",
+        ),
+        items=[
+            CreateFulfillmentOrderItem(
+                seller_sku="some example string", seller_fulfillment_order_item_id="some example string", quantity=1
+            ),
+        ],
+    ),
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type CreateFulfillmentOrderResponse
@@ -2199,7 +2261,7 @@ match result:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>body</code> | <code>[CreateFulfillmentOrderRequest](walmart_apis/models/create_fulfillment_order_request.py) \| [CreateFulfillmentOrderRequestDict](walmart_apis/models/create_fulfillment_order_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -2254,7 +2316,7 @@ Send a `GET` request.
 **Sync**
 
 ```python
-result = client.fulfillment_outbound.with_raw_response.get_fulfillment_order(seller_fulfillment_order_id)
+result = client.fulfillment_outbound.with_raw_response.get_fulfillment_order("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type GetFulfillmentOrderResponse
@@ -2265,7 +2327,7 @@ match result:
 **Async**
 
 ```python
-result = await async_client.fulfillment_outbound.with_raw_response.get_fulfillment_order(seller_fulfillment_order_id)
+result = await async_client.fulfillment_outbound.with_raw_response.get_fulfillment_order("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type GetFulfillmentOrderResponse
@@ -2284,7 +2346,7 @@ match result:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>seller_fulfillment_order_id</code> | <code>str</code> | Value sent with the request. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -2339,7 +2401,7 @@ Send a `GET` request.
 **Sync**
 
 ```python
-result = client.fulfillment_outbound.with_raw_response.get_fulfillment_order_shipments(seller_fulfillment_order_id)
+result = client.fulfillment_outbound.with_raw_response.get_fulfillment_order_shipments("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type GetFulfillmentOrderShipmentsResponse
@@ -2351,7 +2413,7 @@ match result:
 
 ```python
 result = await async_client.fulfillment_outbound.with_raw_response.get_fulfillment_order_shipments(
-    seller_fulfillment_order_id
+    "some example string"
 )
 match result:
     case Success(payload=payload):
@@ -2371,7 +2433,7 @@ match result:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>seller_fulfillment_order_id</code> | <code>str</code> | Value sent with the request. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -2427,7 +2489,23 @@ for a prospective fulfillment order. Use before creating the order.
 **Sync**
 
 ```python
-result = client.fulfillment_outbound.with_raw_response.get_fulfillment_preview(body)
+result = client.fulfillment_outbound.with_raw_response.get_fulfillment_preview(
+    GetFulfillmentPreviewRequest(
+        address=Address(
+            name="some example string",
+            address_line1="some example string",
+            city="some example string",
+            state_or_region="some example string",
+            postal_code="some example string",
+            country_code="some example string",
+        ),
+        items=[
+            GetFulfillmentPreviewItem(
+                seller_sku="some example string", quantity=1, seller_fulfillment_order_item_id="some example string"
+            ),
+        ],
+    ),
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type GetFulfillmentPreviewResponse
@@ -2438,7 +2516,23 @@ match result:
 **Async**
 
 ```python
-result = await async_client.fulfillment_outbound.with_raw_response.get_fulfillment_preview(body)
+result = await async_client.fulfillment_outbound.with_raw_response.get_fulfillment_preview(
+    GetFulfillmentPreviewRequest(
+        address=Address(
+            name="some example string",
+            address_line1="some example string",
+            city="some example string",
+            state_or_region="some example string",
+            postal_code="some example string",
+            country_code="some example string",
+        ),
+        items=[
+            GetFulfillmentPreviewItem(
+                seller_sku="some example string", quantity=1, seller_fulfillment_order_item_id="some example string"
+            ),
+        ],
+    ),
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type GetFulfillmentPreviewResponse
@@ -2457,7 +2551,7 @@ match result:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>body</code> | <code>[GetFulfillmentPreviewRequest](walmart_apis/models/get_fulfillment_preview_request.py) \| [GetFulfillmentPreviewRequestDict](walmart_apis/models/get_fulfillment_preview_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -2543,7 +2637,7 @@ match result:
 | --- | --- | --- |
 | <code>query_start_date</code> | <code>RFC3339DateTime \| None</code> | Value sent with the request.<br>**Default**: <code>None</code> |
 | <code>next_token</code> | <code>str \| None</code> | Value sent with the request.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -2598,7 +2692,9 @@ Send a `PUT` request.
 **Sync**
 
 ```python
-result = client.fulfillment_outbound.with_raw_response.update_fulfillment_order(seller_fulfillment_order_id, body)
+result = client.fulfillment_outbound.with_raw_response.update_fulfillment_order(
+    "some example string", UpdateFulfillmentOrderRequest()
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type UpdateFulfillmentOrderResponse
@@ -2610,7 +2706,7 @@ match result:
 
 ```python
 result = await async_client.fulfillment_outbound.with_raw_response.update_fulfillment_order(
-    seller_fulfillment_order_id, body
+    "some example string", UpdateFulfillmentOrderRequest()
 )
 match result:
     case Success(payload=payload):
@@ -2631,7 +2727,7 @@ match result:
 | --- | --- | --- |
 | <code>seller_fulfillment_order_id</code> | <code>str</code> | Value sent with the request. |
 | <code>body</code> | <code>[UpdateFulfillmentOrderRequest](walmart_apis/models/update_fulfillment_order_request.py) \| [UpdateFulfillmentOrderRequestDict](walmart_apis/models/update_fulfillment_order_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -2690,7 +2786,9 @@ Bulk inventory update. Max 500 items per request.
 **Sync**
 
 ```python
-result = client.inventory.with_raw_response.bulk_update_inventory(body)
+result = client.inventory.with_raw_response.bulk_update_inventory(
+    BulkUpdateInventoryRequest(items=[BulkInventoryItem(seller_sku="some example string", quantity=1)])
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type BulkUpdateInventoryResponse
@@ -2701,7 +2799,9 @@ match result:
 **Async**
 
 ```python
-result = await async_client.inventory.with_raw_response.bulk_update_inventory(body)
+result = await async_client.inventory.with_raw_response.bulk_update_inventory(
+    BulkUpdateInventoryRequest(items=[BulkInventoryItem(seller_sku="some example string", quantity=1)])
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type BulkUpdateInventoryResponse
@@ -2720,7 +2820,7 @@ match result:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>body</code> | <code>[BulkUpdateInventoryRequest](walmart_apis/models/bulk_update_inventory_request.py) \| [BulkUpdateInventoryRequestDict](walmart_apis/models/bulk_update_inventory_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -2775,7 +2875,7 @@ Send a `GET` request.
 **Sync**
 
 ```python
-result = client.inventory.with_raw_response.get_inventory_for_sku(sku)
+result = client.inventory.with_raw_response.get_inventory_for_sku("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type InventorySummary
@@ -2786,7 +2886,7 @@ match result:
 **Async**
 
 ```python
-result = await async_client.inventory.with_raw_response.get_inventory_for_sku(sku)
+result = await async_client.inventory.with_raw_response.get_inventory_for_sku("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type InventorySummary
@@ -2806,7 +2906,7 @@ match result:
 | --- | --- | --- |
 | <code>sku</code> | <code>str</code> | Value sent with the request. |
 | <code>ship_node</code> | <code>str \| None</code> | Walmart Ship Node ID (for multi-node sellers)<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -2894,7 +2994,7 @@ match result:
 | <code>ship_node</code> | <code>str \| None</code> | Walmart Ship Node ID (for multi-node sellers)<br>**Default**: <code>None</code> |
 | <code>page_size</code> | <code>int \| None</code> | Value sent with the request.<br>**Default**: <code>100</code> |
 | <code>next_token</code> | <code>str \| None</code> | Value sent with the request.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -2949,7 +3049,9 @@ Send a `PUT` request.
 **Sync**
 
 ```python
-result = client.inventory.with_raw_response.update_inventory_for_sku(sku, body)
+result = client.inventory.with_raw_response.update_inventory_for_sku(
+    "some example string", UpdateInventoryRequest(quantity=1)
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type UpdateInventoryResponse
@@ -2960,7 +3062,9 @@ match result:
 **Async**
 
 ```python
-result = await async_client.inventory.with_raw_response.update_inventory_for_sku(sku, body)
+result = await async_client.inventory.with_raw_response.update_inventory_for_sku(
+    "some example string", UpdateInventoryRequest(quantity=1)
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type UpdateInventoryResponse
@@ -2980,7 +3084,7 @@ match result:
 | --- | --- | --- |
 | <code>sku</code> | <code>str</code> | Value sent with the request. |
 | <code>body</code> | <code>[UpdateInventoryRequest](walmart_apis/models/update_inventory_request.py) \| [UpdateInventoryRequestDict](walmart_apis/models/update_inventory_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -3039,7 +3143,9 @@ Send a `DELETE` request.
 **Sync**
 
 ```python
-result = client.listings_items.with_raw_response.delete_listings_item(seller_id, sku, marketplace_ids)
+result = client.listings_items.with_raw_response.delete_listings_item(
+    "some example string", "some example string", ["some example string"]
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type ListingsItemSubmissionResponse
@@ -3050,7 +3156,9 @@ match result:
 **Async**
 
 ```python
-result = await async_client.listings_items.with_raw_response.delete_listings_item(seller_id, sku, marketplace_ids)
+result = await async_client.listings_items.with_raw_response.delete_listings_item(
+    "some example string", "some example string", ["some example string"]
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type ListingsItemSubmissionResponse
@@ -3072,7 +3180,7 @@ match result:
 | <code>sku</code> | <code>str</code> | Seller SKU identifying the listing |
 | <code>marketplace_ids</code> | <code>list&#91;str&#93;</code> | Value sent with the request. |
 | <code>issue_locale</code> | <code>str \| None</code> | Value sent with the request.<br>**Default**: <code>"en_US"</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -3127,7 +3235,9 @@ Send a `GET` request.
 **Sync**
 
 ```python
-result = client.listings_items.with_raw_response.get_listings_item(seller_id, sku, marketplace_ids)
+result = client.listings_items.with_raw_response.get_listings_item(
+    "some example string", "some example string", ["some example string"]
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type Item1
@@ -3138,7 +3248,9 @@ match result:
 **Async**
 
 ```python
-result = await async_client.listings_items.with_raw_response.get_listings_item(seller_id, sku, marketplace_ids)
+result = await async_client.listings_items.with_raw_response.get_listings_item(
+    "some example string", "some example string", ["some example string"]
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type Item1
@@ -3161,7 +3273,7 @@ match result:
 | <code>marketplace_ids</code> | <code>list&#91;str&#93;</code> | Value sent with the request. |
 | <code>issue_locale</code> | <code>str \| None</code> | Locale for issue messages (e.g. en_US)<br>**Default**: <code>"en_US"</code> |
 | <code>included_data</code> | <code>list&#91;[IncludedDatum1OrStr](walmart_apis/models/enums/included_datum1.py)&#93; \| None</code> | Value sent with the request.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -3216,7 +3328,14 @@ Send a `PATCH` request.
 **Sync**
 
 ```python
-result = client.listings_items.with_raw_response.patch_listings_item(seller_id, sku, marketplace_ids, body)
+result = client.listings_items.with_raw_response.patch_listings_item(
+    "some example string",
+    "some example string",
+    ["some example string"],
+    ListingsItemPatchRequest(
+        product_type="some example string", patches=[PatchOperation(op=Op.ADD, path="some example string")]
+    ),
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type ListingsItemSubmissionResponse
@@ -3227,7 +3346,14 @@ match result:
 **Async**
 
 ```python
-result = await async_client.listings_items.with_raw_response.patch_listings_item(seller_id, sku, marketplace_ids, body)
+result = await async_client.listings_items.with_raw_response.patch_listings_item(
+    "some example string",
+    "some example string",
+    ["some example string"],
+    ListingsItemPatchRequest(
+        product_type="some example string", patches=[PatchOperation(op=Op.ADD, path="some example string")]
+    ),
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type ListingsItemSubmissionResponse
@@ -3250,7 +3376,7 @@ match result:
 | <code>marketplace_ids</code> | <code>list&#91;str&#93;</code> | Value sent with the request. |
 | <code>body</code> | <code>[ListingsItemPatchRequest](walmart_apis/models/listings_item_patch_request.py) \| [ListingsItemPatchRequestDict](walmart_apis/models/listings_item_patch_request.py)</code> | The request body. |
 | <code>issue_locale</code> | <code>str \| None</code> | Value sent with the request.<br>**Default**: <code>"en_US"</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -3305,7 +3431,12 @@ Send a `PUT` request.
 **Sync**
 
 ```python
-result = client.listings_items.with_raw_response.put_listings_item(seller_id, sku, marketplace_ids, body)
+result = client.listings_items.with_raw_response.put_listings_item(
+    "some example string",
+    "some example string",
+    ["some example string"],
+    ListingsItemPutRequest(product_type="some example string", attributes={}),
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type ListingsItemSubmissionResponse
@@ -3316,7 +3447,12 @@ match result:
 **Async**
 
 ```python
-result = await async_client.listings_items.with_raw_response.put_listings_item(seller_id, sku, marketplace_ids, body)
+result = await async_client.listings_items.with_raw_response.put_listings_item(
+    "some example string",
+    "some example string",
+    ["some example string"],
+    ListingsItemPutRequest(product_type="some example string", attributes={}),
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type ListingsItemSubmissionResponse
@@ -3339,7 +3475,7 @@ match result:
 | <code>marketplace_ids</code> | <code>list&#91;str&#93;</code> | Value sent with the request. |
 | <code>body</code> | <code>[ListingsItemPutRequest](walmart_apis/models/listings_item_put_request.py) \| [ListingsItemPutRequestDict](walmart_apis/models/listings_item_put_request.py)</code> | The request body. |
 | <code>issue_locale</code> | <code>str \| None</code> | Value sent with the request.<br>**Default**: <code>"en_US"</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -3396,7 +3532,7 @@ seller-level collection endpoint (no SKU in the path) against v4.
 **Sync**
 
 ```python
-result = client.listings_items.with_raw_response.search_listings_items(seller_id, marketplace_ids)
+result = client.listings_items.with_raw_response.search_listings_items("some example string", ["some example string"])
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type ItemSearchResults1
@@ -3407,7 +3543,9 @@ match result:
 **Async**
 
 ```python
-result = await async_client.listings_items.with_raw_response.search_listings_items(seller_id, marketplace_ids)
+result = await async_client.listings_items.with_raw_response.search_listings_items(
+    "some example string", ["some example string"]
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type ItemSearchResults1
@@ -3430,7 +3568,7 @@ match result:
 | <code>included_data</code> | <code>list&#91;[IncludedDatum1OrStr](walmart_apis/models/enums/included_datum1.py)&#93; \| None</code> | Value sent with the request.<br>**Default**: <code>None</code> |
 | <code>page_size</code> | <code>int \| None</code> | Maximum number of results per page<br>**Default**: <code>10</code> |
 | <code>page_token</code> | <code>str \| None</code> | Opaque cursor returned by a previous call for the next page<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -3492,7 +3630,7 @@ the restrictions array.
 
 ```python
 result = client.listings_restrictions.with_raw_response.get_listings_restrictions(
-    asin, condition_type, seller_id, marketplace_ids
+    "some example string", ConditionType1.NEW_NEW, "some example string", ["some example string"]
 )
 match result:
     case Success(payload=payload):
@@ -3505,7 +3643,7 @@ match result:
 
 ```python
 result = await async_client.listings_restrictions.with_raw_response.get_listings_restrictions(
-    asin, condition_type, seller_id, marketplace_ids
+    "some example string", ConditionType1.NEW_NEW, "some example string", ["some example string"]
 )
 match result:
     case Success(payload=payload):
@@ -3529,7 +3667,7 @@ match result:
 | <code>seller_id</code> | <code>str</code> | Value sent with the request. |
 | <code>marketplace_ids</code> | <code>list&#91;str&#93;</code> | Value sent with the request. |
 | <code>reason_locale</code> | <code>str \| None</code> | Locale for localized restriction reason messages<br>**Default**: <code>"en_US"</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -3588,7 +3726,7 @@ Send a `DELETE` request.
 **Sync**
 
 ```python
-result = client.merchant_fulfillment.with_raw_response.cancel_shipment(shipment_id)
+result = client.merchant_fulfillment.with_raw_response.cancel_shipment("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type CancelShipmentResponse
@@ -3599,7 +3737,7 @@ match result:
 **Async**
 
 ```python
-result = await async_client.merchant_fulfillment.with_raw_response.cancel_shipment(shipment_id)
+result = await async_client.merchant_fulfillment.with_raw_response.cancel_shipment("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type CancelShipmentResponse
@@ -3618,7 +3756,7 @@ match result:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>shipment_id</code> | <code>str</code> | Value sent with the request. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -3674,7 +3812,34 @@ selected carrier, and returns the label for printing.
 **Sync**
 
 ```python
-result = client.merchant_fulfillment.with_raw_response.create_shipment(body)
+result = client.merchant_fulfillment.with_raw_response.create_shipment(
+    CreateShipmentRequest(
+        shipment_request_details=ShipmentRequestDetails(
+            purchase_order_id="some example string",
+            ship_from_address=Address1(
+                name="some example string",
+                address_line1="some example string",
+                city="some example string",
+                state_or_region="some example string",
+                postal_code="some example string",
+                country_code="some example string",
+            ),
+            ship_to_address=Address1(
+                name="some example string",
+                address_line1="some example string",
+                city="some example string",
+                state_or_region="some example string",
+                postal_code="some example string",
+                country_code="some example string",
+            ),
+            package_dimensions=PackageDimensions(length=1.5, width=1.5, height=1.5, unit=Unit.INCHES),
+            weight=Weight(value=1.5, unit=Unit1.OZ),
+            ship_date=datetime(2024, 1, 15, 9, 30, 0, tzinfo=timezone.utc),
+            shipping_service_options=ShippingServiceOptions(),
+        ),
+        shipping_service_id="some example string",
+    ),
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type CreateShipmentResponse
@@ -3685,7 +3850,34 @@ match result:
 **Async**
 
 ```python
-result = await async_client.merchant_fulfillment.with_raw_response.create_shipment(body)
+result = await async_client.merchant_fulfillment.with_raw_response.create_shipment(
+    CreateShipmentRequest(
+        shipment_request_details=ShipmentRequestDetails(
+            purchase_order_id="some example string",
+            ship_from_address=Address1(
+                name="some example string",
+                address_line1="some example string",
+                city="some example string",
+                state_or_region="some example string",
+                postal_code="some example string",
+                country_code="some example string",
+            ),
+            ship_to_address=Address1(
+                name="some example string",
+                address_line1="some example string",
+                city="some example string",
+                state_or_region="some example string",
+                postal_code="some example string",
+                country_code="some example string",
+            ),
+            package_dimensions=PackageDimensions(length=1.5, width=1.5, height=1.5, unit=Unit.INCHES),
+            weight=Weight(value=1.5, unit=Unit1.OZ),
+            ship_date=datetime(2024, 1, 15, 9, 30, 0, tzinfo=timezone.utc),
+            shipping_service_options=ShippingServiceOptions(),
+        ),
+        shipping_service_id="some example string",
+    ),
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type CreateShipmentResponse
@@ -3704,7 +3896,7 @@ match result:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>body</code> | <code>[CreateShipmentRequest](walmart_apis/models/create_shipment_request.py) \| [CreateShipmentRequestDict](walmart_apis/models/create_shipment_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -3760,7 +3952,33 @@ dimensions, weight, and destination address.
 **Sync**
 
 ```python
-result = client.merchant_fulfillment.with_raw_response.get_eligible_shipping_services(body)
+result = client.merchant_fulfillment.with_raw_response.get_eligible_shipping_services(
+    GetEligibleShippingServicesRequest(
+        shipment_request_details=ShipmentRequestDetails(
+            purchase_order_id="some example string",
+            ship_from_address=Address1(
+                name="some example string",
+                address_line1="some example string",
+                city="some example string",
+                state_or_region="some example string",
+                postal_code="some example string",
+                country_code="some example string",
+            ),
+            ship_to_address=Address1(
+                name="some example string",
+                address_line1="some example string",
+                city="some example string",
+                state_or_region="some example string",
+                postal_code="some example string",
+                country_code="some example string",
+            ),
+            package_dimensions=PackageDimensions(length=1.5, width=1.5, height=1.5, unit=Unit.INCHES),
+            weight=Weight(value=1.5, unit=Unit1.OZ),
+            ship_date=datetime(2024, 1, 15, 9, 30, 0, tzinfo=timezone.utc),
+            shipping_service_options=ShippingServiceOptions(),
+        ),
+    ),
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type GetEligibleShippingServicesResponse
@@ -3771,7 +3989,33 @@ match result:
 **Async**
 
 ```python
-result = await async_client.merchant_fulfillment.with_raw_response.get_eligible_shipping_services(body)
+result = await async_client.merchant_fulfillment.with_raw_response.get_eligible_shipping_services(
+    GetEligibleShippingServicesRequest(
+        shipment_request_details=ShipmentRequestDetails(
+            purchase_order_id="some example string",
+            ship_from_address=Address1(
+                name="some example string",
+                address_line1="some example string",
+                city="some example string",
+                state_or_region="some example string",
+                postal_code="some example string",
+                country_code="some example string",
+            ),
+            ship_to_address=Address1(
+                name="some example string",
+                address_line1="some example string",
+                city="some example string",
+                state_or_region="some example string",
+                postal_code="some example string",
+                country_code="some example string",
+            ),
+            package_dimensions=PackageDimensions(length=1.5, width=1.5, height=1.5, unit=Unit.INCHES),
+            weight=Weight(value=1.5, unit=Unit1.OZ),
+            ship_date=datetime(2024, 1, 15, 9, 30, 0, tzinfo=timezone.utc),
+            shipping_service_options=ShippingServiceOptions(),
+        ),
+    ),
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type GetEligibleShippingServicesResponse
@@ -3790,7 +4034,7 @@ match result:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>body</code> | <code>[GetEligibleShippingServicesRequest](walmart_apis/models/get_eligible_shipping_services_request.py) \| [GetEligibleShippingServicesRequestDict](walmart_apis/models/get_eligible_shipping_services_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -3822,7 +4066,7 @@ Mapped in first-match order -- an earlier row wins over a later range that also 
 </details>
 
 <details>
-<summary><code>def get_label(shipment_id: str, *, format: FormatOrStr | None = None, request_options: RequestOptionsOrDict | None = None) -> ApiResult[Label, GetLabelErrorBody]</code></summary>
+<summary><code>def get_label(shipment_id: str, *, format_: FormatOrStr | None = Format.PDF, request_options: RequestOptionsOrDict | None = None) -> ApiResult[Label, GetLabelErrorBody]</code></summary>
 
 <dl>
 <dd>
@@ -3846,7 +4090,7 @@ file format for printing.
 **Sync**
 
 ```python
-result = client.merchant_fulfillment.with_raw_response.get_label(shipment_id)
+result = client.merchant_fulfillment.with_raw_response.get_label("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type Label
@@ -3857,7 +4101,7 @@ match result:
 **Async**
 
 ```python
-result = await async_client.merchant_fulfillment.with_raw_response.get_label(shipment_id)
+result = await async_client.merchant_fulfillment.with_raw_response.get_label("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type Label
@@ -3876,8 +4120,8 @@ match result:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>shipment_id</code> | <code>str</code> | Value sent with the request. |
-| <code>format</code> | <code>[FormatOrStr](walmart_apis/models/enums/format.py) \| None</code> | Value sent with the request.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>format_</code> | <code>[FormatOrStr](walmart_apis/models/enums/format.py) \| None</code> | Value sent with the request.<br>**Default**: <code>Format.PDF</code> |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -3932,7 +4176,7 @@ Send a `GET` request.
 **Sync**
 
 ```python
-result = client.merchant_fulfillment.with_raw_response.get_shipment2(shipment_id)
+result = client.merchant_fulfillment.with_raw_response.get_shipment2("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type GetShipmentResponse
@@ -3943,7 +4187,7 @@ match result:
 **Async**
 
 ```python
-result = await async_client.merchant_fulfillment.with_raw_response.get_shipment2(shipment_id)
+result = await async_client.merchant_fulfillment.with_raw_response.get_shipment2("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type GetShipmentResponse
@@ -3962,7 +4206,7 @@ match result:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>shipment_id</code> | <code>str</code> | Value sent with the request. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -4021,7 +4265,10 @@ Send a `POST` request.
 **Sync**
 
 ```python
-result = client.orders.with_raw_response.acknowledge_order(purchase_order_id, body)
+result = client.orders.with_raw_response.acknowledge_order(
+    "some example string",
+    AcknowledgeOrderRequest(order_lines=[AcknowledgeOrderLine(line_number="some example string")]),
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type AcknowledgeOrderResponse
@@ -4032,7 +4279,10 @@ match result:
 **Async**
 
 ```python
-result = await async_client.orders.with_raw_response.acknowledge_order(purchase_order_id, body)
+result = await async_client.orders.with_raw_response.acknowledge_order(
+    "some example string",
+    AcknowledgeOrderRequest(order_lines=[AcknowledgeOrderLine(line_number="some example string")]),
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type AcknowledgeOrderResponse
@@ -4052,7 +4302,7 @@ match result:
 | --- | --- | --- |
 | <code>purchase_order_id</code> | <code>str</code> | Value sent with the request. |
 | <code>body</code> | <code>[AcknowledgeOrderRequest](walmart_apis/models/acknowledge_order_request.py) \| [AcknowledgeOrderRequestDict](walmart_apis/models/acknowledge_order_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -4107,7 +4357,16 @@ Send a `POST` request.
 **Sync**
 
 ```python
-result = client.orders.with_raw_response.cancel_order_lines(purchase_order_id, body)
+result = client.orders.with_raw_response.cancel_order_lines(
+    "some example string",
+    CancelOrderLinesRequest(
+        order_lines=[
+            CancelOrderLine(
+                line_number="some example string", cancellation_reason=CancellationReason.CUSTOMER_REQUESTED
+            ),
+        ],
+    ),
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type CancelOrderLinesResponse
@@ -4118,7 +4377,16 @@ match result:
 **Async**
 
 ```python
-result = await async_client.orders.with_raw_response.cancel_order_lines(purchase_order_id, body)
+result = await async_client.orders.with_raw_response.cancel_order_lines(
+    "some example string",
+    CancelOrderLinesRequest(
+        order_lines=[
+            CancelOrderLine(
+                line_number="some example string", cancellation_reason=CancellationReason.CUSTOMER_REQUESTED
+            ),
+        ],
+    ),
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type CancelOrderLinesResponse
@@ -4138,7 +4406,7 @@ match result:
 | --- | --- | --- |
 | <code>purchase_order_id</code> | <code>str</code> | Value sent with the request. |
 | <code>body</code> | <code>[CancelOrderLinesRequest](walmart_apis/models/cancel_order_lines_request.py) \| [CancelOrderLinesRequestDict](walmart_apis/models/cancel_order_lines_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -4200,7 +4468,9 @@ Walmart parity from gmp-orders-mono `deliverOrder`.
 **Sync**
 
 ```python
-result = client.orders.with_raw_response.deliver_order_lines(purchase_order_id, body)
+result = client.orders.with_raw_response.deliver_order_lines(
+    "some example string", DeliverOrderLinesRequest(order_lines=[DeliverOrderLine(line_number="some example string")])
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type DeliverOrderLinesResponse
@@ -4211,7 +4481,9 @@ match result:
 **Async**
 
 ```python
-result = await async_client.orders.with_raw_response.deliver_order_lines(purchase_order_id, body)
+result = await async_client.orders.with_raw_response.deliver_order_lines(
+    "some example string", DeliverOrderLinesRequest(order_lines=[DeliverOrderLine(line_number="some example string")])
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type DeliverOrderLinesResponse
@@ -4231,7 +4503,7 @@ match result:
 | --- | --- | --- |
 | <code>purchase_order_id</code> | <code>str</code> | Value sent with the request. |
 | <code>body</code> | <code>[DeliverOrderLinesRequest](walmart_apis/models/deliver_order_lines_request.py) \| [DeliverOrderLinesRequestDict](walmart_apis/models/deliver_order_lines_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -4286,7 +4558,7 @@ Send a `GET` request.
 **Sync**
 
 ```python
-result = client.orders.with_raw_response.get_order(purchase_order_id)
+result = client.orders.with_raw_response.get_order("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type GetOrderResponse
@@ -4297,7 +4569,7 @@ match result:
 **Async**
 
 ```python
-result = await async_client.orders.with_raw_response.get_order(purchase_order_id)
+result = await async_client.orders.with_raw_response.get_order("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type GetOrderResponse
@@ -4316,7 +4588,7 @@ match result:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>purchase_order_id</code> | <code>str</code> | Walmart Purchase Order ID |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -4374,7 +4646,7 @@ response body must NOT be logged.
 **Sync**
 
 ```python
-result = client.orders.with_raw_response.get_order_address(purchase_order_id)
+result = client.orders.with_raw_response.get_order_address("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type GetOrderAddressResponse
@@ -4385,7 +4657,7 @@ match result:
 **Async**
 
 ```python
-result = await async_client.orders.with_raw_response.get_order_address(purchase_order_id)
+result = await async_client.orders.with_raw_response.get_order_address("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type GetOrderAddressResponse
@@ -4404,7 +4676,7 @@ match result:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>purchase_order_id</code> | <code>str</code> | Value sent with the request. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -4463,7 +4735,7 @@ bodies must NOT be logged.
 **Sync**
 
 ```python
-result = client.orders.with_raw_response.get_order_buyer_info(purchase_order_id)
+result = client.orders.with_raw_response.get_order_buyer_info("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type GetOrderBuyerInfoResponse
@@ -4474,7 +4746,7 @@ match result:
 **Async**
 
 ```python
-result = await async_client.orders.with_raw_response.get_order_buyer_info(purchase_order_id)
+result = await async_client.orders.with_raw_response.get_order_buyer_info("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type GetOrderBuyerInfoResponse
@@ -4493,7 +4765,7 @@ match result:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>purchase_order_id</code> | <code>str</code> | Value sent with the request. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -4550,7 +4822,7 @@ PII-restricted: only product, quantity, and price are returned.
 **Sync**
 
 ```python
-result = client.orders.with_raw_response.get_order_items(purchase_order_id)
+result = client.orders.with_raw_response.get_order_items("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type GetFulfillmentOrderShipmentsResponse
@@ -4561,7 +4833,7 @@ match result:
 **Async**
 
 ```python
-result = await async_client.orders.with_raw_response.get_order_items(purchase_order_id)
+result = await async_client.orders.with_raw_response.get_order_items("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type GetFulfillmentOrderShipmentsResponse
@@ -4580,7 +4852,7 @@ match result:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>purchase_order_id</code> | <code>str</code> | Value sent with the request. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -4648,7 +4920,7 @@ values will become richer once OMS exposes the fields.
 **Sync**
 
 ```python
-result = client.orders.with_raw_response.get_order_regulated_info(purchase_order_id)
+result = client.orders.with_raw_response.get_order_regulated_info("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type GetOrderRegulatedInfoResponse
@@ -4659,7 +4931,7 @@ match result:
 **Async**
 
 ```python
-result = await async_client.orders.with_raw_response.get_order_regulated_info(purchase_order_id)
+result = await async_client.orders.with_raw_response.get_order_regulated_info("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type GetOrderRegulatedInfoResponse
@@ -4678,7 +4950,7 @@ match result:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>purchase_order_id</code> | <code>str</code> | Walmart Purchase Order ID |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -4793,7 +5065,7 @@ match result:
 | <code>fulfillment_types</code> | <code>list&#91;[FulfillmentTypeOrStr](walmart_apis/models/enums/fulfillment_type.py)&#93; \| None</code> | Filter by fulfillment type.<br><br>**the roadmap — not yet supported.** Sending this parameter today<br>returns `400 FILTER_NOT_SUPPORTED`; the underlying service accepts one<br>shipNodeType per call and multi-type fan-out is Phase 2. Tracked<br>by .<br>**Default**: <code>None</code> |
 | <code>page_size</code> | <code>int \| None</code> | Value sent with the request.<br>**Default**: <code>100</code> |
 | <code>next_token</code> | <code>str \| None</code> | Value sent with the request.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -4853,7 +5125,14 @@ nesting (`orderLines → refunds → refundCharges`).
 **Sync**
 
 ```python
-result = client.orders.with_raw_response.refund_order_lines(purchase_order_id, body)
+result = client.orders.with_raw_response.refund_order_lines(
+    "some example string",
+    RefundOrderLinesRequest(
+        order_lines=[
+            RefundOrderLine(line_number="some example string", refund_amount=Money(), refund_type=RefundType.RETURN)
+        ],
+    ),
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type RefundOrderLinesResponse
@@ -4864,7 +5143,14 @@ match result:
 **Async**
 
 ```python
-result = await async_client.orders.with_raw_response.refund_order_lines(purchase_order_id, body)
+result = await async_client.orders.with_raw_response.refund_order_lines(
+    "some example string",
+    RefundOrderLinesRequest(
+        order_lines=[
+            RefundOrderLine(line_number="some example string", refund_amount=Money(), refund_type=RefundType.RETURN)
+        ],
+    ),
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type RefundOrderLinesResponse
@@ -4884,7 +5170,7 @@ match result:
 | --- | --- | --- |
 | <code>purchase_order_id</code> | <code>str</code> | Value sent with the request. |
 | <code>body</code> | <code>[RefundOrderLinesRequest](walmart_apis/models/refund_order_lines_request.py) \| [RefundOrderLinesRequestDict](walmart_apis/models/refund_order_lines_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -4939,7 +5225,21 @@ Send a `POST` request.
 **Sync**
 
 ```python
-result = client.orders.with_raw_response.ship_order_lines(purchase_order_id, body)
+result = client.orders.with_raw_response.ship_order_lines(
+    "some example string",
+    ShipOrderLinesRequest(
+        order_lines=[
+            ShipOrderLine(
+                line_number="some example string",
+                tracking_info=TrackingInfo(
+                    carrier=CarrierName.UPS,
+                    tracking_number="some example string",
+                    shipped_date=datetime(2024, 1, 15, 9, 30, 0, tzinfo=timezone.utc),
+                ),
+            ),
+        ],
+    ),
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type ShipOrderLinesResponse
@@ -4950,7 +5250,21 @@ match result:
 **Async**
 
 ```python
-result = await async_client.orders.with_raw_response.ship_order_lines(purchase_order_id, body)
+result = await async_client.orders.with_raw_response.ship_order_lines(
+    "some example string",
+    ShipOrderLinesRequest(
+        order_lines=[
+            ShipOrderLine(
+                line_number="some example string",
+                tracking_info=TrackingInfo(
+                    carrier=CarrierName.UPS,
+                    tracking_number="some example string",
+                    shipped_date=datetime(2024, 1, 15, 9, 30, 0, tzinfo=timezone.utc),
+                ),
+            ),
+        ],
+    ),
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type ShipOrderLinesResponse
@@ -4970,7 +5284,7 @@ match result:
 | --- | --- | --- |
 | <code>purchase_order_id</code> | <code>str</code> | Value sent with the request. |
 | <code>body</code> | <code>[ShipOrderLinesRequest](walmart_apis/models/ship_order_lines_request.py) \| [ShipOrderLinesRequestDict](walmart_apis/models/ship_order_lines_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -5031,7 +5345,21 @@ line so the request stays self-evidently package-oriented.
 **Sync**
 
 ```python
-result = client.orders.with_raw_response.ship_order_multi_package(purchase_order_id, body)
+result = client.orders.with_raw_response.ship_order_multi_package(
+    "some example string",
+    MultiPackageShipRequest(
+        packages=[
+            ShipPackage(
+                tracking_info=TrackingInfo(
+                    carrier=CarrierName.UPS,
+                    tracking_number="some example string",
+                    shipped_date=datetime(2024, 1, 15, 9, 30, 0, tzinfo=timezone.utc),
+                ),
+                lines=[ShipPackageLine(line_number="some example string")],
+            ),
+        ],
+    ),
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type MultiPackageShipResponse
@@ -5042,7 +5370,21 @@ match result:
 **Async**
 
 ```python
-result = await async_client.orders.with_raw_response.ship_order_multi_package(purchase_order_id, body)
+result = await async_client.orders.with_raw_response.ship_order_multi_package(
+    "some example string",
+    MultiPackageShipRequest(
+        packages=[
+            ShipPackage(
+                tracking_info=TrackingInfo(
+                    carrier=CarrierName.UPS,
+                    tracking_number="some example string",
+                    shipped_date=datetime(2024, 1, 15, 9, 30, 0, tzinfo=timezone.utc),
+                ),
+                lines=[ShipPackageLine(line_number="some example string")],
+            ),
+        ],
+    ),
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type MultiPackageShipResponse
@@ -5062,7 +5404,7 @@ match result:
 | --- | --- | --- |
 | <code>purchase_order_id</code> | <code>str</code> | Value sent with the request. |
 | <code>body</code> | <code>[MultiPackageShipRequest](walmart_apis/models/multi_package_ship_request.py) \| [MultiPackageShipRequestDict](walmart_apis/models/multi_package_ship_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -5122,7 +5464,13 @@ Amazon SP-API Orders v0 `updateShipmentStatus` parity.
 **Sync**
 
 ```python
-result = client.orders.with_raw_response.update_shipment_status(purchase_order_id, body)
+result = client.orders.with_raw_response.update_shipment_status(
+    "some example string",
+    UpdateShipmentStatusRequest(
+        shipment_status=ShipmentStatus1.READY_FOR_PICKUP,
+        order_lines=[UpdateShipmentStatusLine(line_number="some example string")],
+    ),
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type UpdateShipmentStatusResponse
@@ -5133,7 +5481,13 @@ match result:
 **Async**
 
 ```python
-result = await async_client.orders.with_raw_response.update_shipment_status(purchase_order_id, body)
+result = await async_client.orders.with_raw_response.update_shipment_status(
+    "some example string",
+    UpdateShipmentStatusRequest(
+        shipment_status=ShipmentStatus1.READY_FOR_PICKUP,
+        order_lines=[UpdateShipmentStatusLine(line_number="some example string")],
+    ),
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type UpdateShipmentStatusResponse
@@ -5153,7 +5507,7 @@ match result:
 | --- | --- | --- |
 | <code>purchase_order_id</code> | <code>str</code> | Value sent with the request. |
 | <code>body</code> | <code>[UpdateShipmentStatusRequest](walmart_apis/models/update_shipment_status_request.py) \| [UpdateShipmentStatusRequestDict](walmart_apis/models/update_shipment_status_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -5216,7 +5570,9 @@ kill-switch (live-refreshable, parity with the cancel kill-switch).
 **Sync**
 
 ```python
-result = client.orders.with_raw_response.update_verification_status(purchase_order_id, body)
+result = client.orders.with_raw_response.update_verification_status(
+    "some example string", UpdateVerificationStatusRequest(verification_status=VerificationStatus.APPROVED)
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type UpdateVerificationStatusResponse
@@ -5227,7 +5583,9 @@ match result:
 **Async**
 
 ```python
-result = await async_client.orders.with_raw_response.update_verification_status(purchase_order_id, body)
+result = await async_client.orders.with_raw_response.update_verification_status(
+    "some example string", UpdateVerificationStatusRequest(verification_status=VerificationStatus.APPROVED)
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type UpdateVerificationStatusResponse
@@ -5247,7 +5605,7 @@ match result:
 | --- | --- | --- |
 | <code>purchase_order_id</code> | <code>str</code> | Walmart Purchase Order ID |
 | <code>body</code> | <code>[UpdateVerificationStatusRequest](walmart_apis/models/update_verification_status_request.py) \| [UpdateVerificationStatusRequestDict](walmart_apis/models/update_verification_status_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -5309,7 +5667,7 @@ Delegates to GMPPaymentsPlatform (Phase 5).
 **Sync**
 
 ```python
-result = client.payouts.with_raw_response.configure_auto_payout(body)
+result = client.payouts.with_raw_response.configure_auto_payout(DisbursementsV4PaymentAutoPayoutRequest(enabled=True))
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type PayoutStatusResponse
@@ -5320,7 +5678,9 @@ match result:
 **Async**
 
 ```python
-result = await async_client.payouts.with_raw_response.configure_auto_payout(body)
+result = await async_client.payouts.with_raw_response.configure_auto_payout(
+    DisbursementsV4PaymentAutoPayoutRequest(enabled=True)
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type PayoutStatusResponse
@@ -5339,7 +5699,7 @@ match result:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>body</code> | <code>[DisbursementsV4PaymentAutoPayoutRequest](walmart_apis/models/disbursements_v4_payment_auto_payout_request.py) \| [DisbursementsV4PaymentAutoPayoutRequestDict](walmart_apis/models/disbursements_v4_payment_auto_payout_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -5425,7 +5785,7 @@ match result:
 
 | Name | Type | Description |
 | --- | --- | --- |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -5511,7 +5871,7 @@ match result:
 
 | Name | Type | Description |
 | --- | --- | --- |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -5597,7 +5957,7 @@ match result:
 
 | Name | Type | Description |
 | --- | --- | --- |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -5684,7 +6044,7 @@ match result:
 
 | Name | Type | Description |
 | --- | --- | --- |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -5743,7 +6103,7 @@ Mapped in first-match order -- an earlier row wins over a later range that also 
 **Sync**
 
 ```python
-result = client.product_type_definitions.with_raw_response.get_definitions_product_type(product_type)
+result = client.product_type_definitions.with_raw_response.get_definitions_product_type("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type ProductTypeDefinition
@@ -5754,7 +6114,9 @@ match result:
 **Async**
 
 ```python
-result = await async_client.product_type_definitions.with_raw_response.get_definitions_product_type(product_type)
+result = await async_client.product_type_definitions.with_raw_response.get_definitions_product_type(
+    "some example string"
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type ProductTypeDefinition
@@ -5775,7 +6137,7 @@ match result:
 | <code>product_type</code> | <code>str</code> | Value sent with the request. |
 | <code>seller_id</code> | <code>str \| None</code> | Value sent with the request.<br>**Default**: <code>None</code> |
 | <code>locale</code> | <code>str \| None</code> | Value sent with the request.<br>**Default**: <code>"en_US"</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -5862,7 +6224,7 @@ match result:
 | <code>keywords</code> | <code>str \| None</code> | Value sent with the request.<br>**Default**: <code>None</code> |
 | <code>item_name</code> | <code>str \| None</code> | Value sent with the request.<br>**Default**: <code>None</code> |
 | <code>locale</code> | <code>str \| None</code> | Value sent with the request.<br>**Default**: <code>"en_US"</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -5924,7 +6286,9 @@ Note: the upstream date param is named `date` (not `reportDate`).
 **Sync**
 
 ```python
-result = client.reconciliation.with_raw_response.check_download_report_by_period(partner_id, date)
+result = client.reconciliation.with_raw_response.check_download_report_by_period(
+    "some example string", date(2024, 1, 15)
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type ReportAvailabilityResponse
@@ -5935,7 +6299,9 @@ match result:
 **Async**
 
 ```python
-result = await async_client.reconciliation.with_raw_response.check_download_report_by_period(partner_id, date)
+result = await async_client.reconciliation.with_raw_response.check_download_report_by_period(
+    "some example string", date(2024, 1, 15)
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type ReportAvailabilityResponse
@@ -5955,7 +6321,7 @@ match result:
 | --- | --- | --- |
 | <code>partner_id</code> | <code>str</code> | Numeric partner/seller ID |
 | <code>date</code> | <code>Date</code> | Report date in yyyy-MM-dd format |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -6011,7 +6377,9 @@ Delegates to mp-payment-reporting GET /v1/mt/report/reconreport/reconFile (Azure
 **Sync**
 
 ```python
-result = client.reconciliation.with_raw_response.download_reconciliation_report(partner_id, report_date)
+result = client.reconciliation.with_raw_response.download_reconciliation_report(
+    "some example string", "some example string"
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type FileResponse
@@ -6022,10 +6390,12 @@ match result:
 **Async**
 
 ```python
-result = await async_client.reconciliation.with_raw_response.download_reconciliation_report(partner_id, report_date)
+result = await async_client.reconciliation.with_raw_response.download_reconciliation_report(
+    "some example string", "some example string"
+)
 match result:
     case Success(payload=payload):
-        ...  # TODO: Handle 'payload' of type FileResponse
+        ...  # TODO: Handle 'payload' of type AsyncFileResponse
     case Failure(error=error):
         ...  # TODO: Handle 'error' of type DownloadReconciliationReportErrorBody
 ```
@@ -6042,7 +6412,7 @@ match result:
 | --- | --- | --- |
 | <code>partner_id</code> | <code>str</code> | Numeric partner/seller ID |
 | <code>report_date</code> | <code>str</code> | Report date in MMddyyyy format (e.g. 06172026) |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -6098,7 +6468,7 @@ Delegates to mp-payment-reporting GET /v3/report/reconreport/availableReconFiles
 **Sync**
 
 ```python
-result = client.reconciliation.with_raw_response.list_reconciliation_dates(partner_id)
+result = client.reconciliation.with_raw_response.list_reconciliation_dates("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type ReportAvailabilityResponse
@@ -6109,7 +6479,7 @@ match result:
 **Async**
 
 ```python
-result = await async_client.reconciliation.with_raw_response.list_reconciliation_dates(partner_id)
+result = await async_client.reconciliation.with_raw_response.list_reconciliation_dates("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type ReportAvailabilityResponse
@@ -6128,7 +6498,7 @@ match result:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>partner_id</code> | <code>str</code> | Numeric partner/seller ID |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -6187,7 +6557,7 @@ Send a `DELETE` request.
 **Sync**
 
 ```python
-result = client.report_schedules.with_raw_response.cancel_report_schedule(report_schedule_id)
+result = client.report_schedules.with_raw_response.cancel_report_schedule("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type CancelReportScheduleResponse
@@ -6198,7 +6568,7 @@ match result:
 **Async**
 
 ```python
-result = await async_client.report_schedules.with_raw_response.cancel_report_schedule(report_schedule_id)
+result = await async_client.report_schedules.with_raw_response.cancel_report_schedule("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type CancelReportScheduleResponse
@@ -6217,7 +6587,7 @@ match result:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>report_schedule_id</code> | <code>str</code> | Value sent with the request. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -6272,7 +6642,9 @@ Send a `POST` request.
 **Sync**
 
 ```python
-result = client.report_schedules.with_raw_response.create_report_schedule(body)
+result = client.report_schedules.with_raw_response.create_report_schedule(
+    CreateReportScheduleSpecification(report_type="some example string", period=Period1.PT5_M)
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type CreateReportScheduleResponse
@@ -6283,7 +6655,9 @@ match result:
 **Async**
 
 ```python
-result = await async_client.report_schedules.with_raw_response.create_report_schedule(body)
+result = await async_client.report_schedules.with_raw_response.create_report_schedule(
+    CreateReportScheduleSpecification(report_type="some example string", period=Period1.PT5_M)
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type CreateReportScheduleResponse
@@ -6302,7 +6676,7 @@ match result:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>body</code> | <code>[CreateReportScheduleSpecification](walmart_apis/models/create_report_schedule_specification.py) \| [CreateReportScheduleSpecificationDict](walmart_apis/models/create_report_schedule_specification.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -6357,7 +6731,7 @@ Send a `GET` request.
 **Sync**
 
 ```python
-result = client.report_schedules.with_raw_response.get_report_schedule(report_schedule_id)
+result = client.report_schedules.with_raw_response.get_report_schedule("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type ReportSchedule
@@ -6368,7 +6742,7 @@ match result:
 **Async**
 
 ```python
-result = await async_client.report_schedules.with_raw_response.get_report_schedule(report_schedule_id)
+result = await async_client.report_schedules.with_raw_response.get_report_schedule("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type ReportSchedule
@@ -6387,7 +6761,7 @@ match result:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>report_schedule_id</code> | <code>str</code> | Value sent with the request. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -6472,7 +6846,7 @@ match result:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>report_types</code> | <code>list&#91;[ReportType1OrStr](walmart_apis/models/enums/report_type1.py)&#93; \| None</code> | Filter by report type. Values are Walmart Partner Reporting Platform enum names. Runtime availability is CCM-controlled; consult PRP docs for current PROD-enabled types.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -6531,7 +6905,7 @@ Send a `DELETE` request.
 **Sync**
 
 ```python
-result = client.reports.with_raw_response.cancel_report(report_id)
+result = client.reports.with_raw_response.cancel_report("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type CancelReportResponse
@@ -6542,7 +6916,7 @@ match result:
 **Async**
 
 ```python
-result = await async_client.reports.with_raw_response.cancel_report(report_id)
+result = await async_client.reports.with_raw_response.cancel_report("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type CancelReportResponse
@@ -6561,7 +6935,7 @@ match result:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>report_id</code> | <code>str</code> | Value sent with the request. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -6617,7 +6991,7 @@ Report type taxonomy TBD — coordinate with Pod 5 for financial reports.
 **Sync**
 
 ```python
-result = client.reports.with_raw_response.create_report(body)
+result = client.reports.with_raw_response.create_report(CreateReportSpecification(report_type=ReportType.ITEM))
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type CreateReportResponse
@@ -6628,7 +7002,9 @@ match result:
 **Async**
 
 ```python
-result = await async_client.reports.with_raw_response.create_report(body)
+result = await async_client.reports.with_raw_response.create_report(
+    CreateReportSpecification(report_type=ReportType.ITEM)
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type CreateReportResponse
@@ -6647,7 +7023,7 @@ match result:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>body</code> | <code>[CreateReportSpecification](walmart_apis/models/create_report_specification.py) \| [CreateReportSpecificationDict](walmart_apis/models/create_report_specification.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -6703,7 +7079,7 @@ Delegates to mp-payment-reporting GET /v3/report/reconreport/v1/reconFile (Swift
 **Sync**
 
 ```python
-result = client.reports.with_raw_response.download_new_report(partner_id, report_date)
+result = client.reports.with_raw_response.download_new_report("some example string", "some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type FileResponse
@@ -6714,10 +7090,10 @@ match result:
 **Async**
 
 ```python
-result = await async_client.reports.with_raw_response.download_new_report(partner_id, report_date)
+result = await async_client.reports.with_raw_response.download_new_report("some example string", "some example string")
 match result:
     case Success(payload=payload):
-        ...  # TODO: Handle 'payload' of type FileResponse
+        ...  # TODO: Handle 'payload' of type AsyncFileResponse
     case Failure(error=error):
         ...  # TODO: Handle 'error' of type DownloadNewReportErrorBody
 ```
@@ -6734,7 +7110,7 @@ match result:
 | --- | --- | --- |
 | <code>partner_id</code> | <code>str</code> | Numeric partner/seller ID |
 | <code>report_date</code> | <code>str</code> | Report date in MMddyyyy format (e.g. 06172026) |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -6790,7 +7166,7 @@ Delegates to mp-payment-reporting GET /v3/report/reconreport/reconFile (legacy S
 **Sync**
 
 ```python
-result = client.reports.with_raw_response.download_old_report(partner_id, report_date)
+result = client.reports.with_raw_response.download_old_report("some example string", "some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type FileResponse
@@ -6801,10 +7177,10 @@ match result:
 **Async**
 
 ```python
-result = await async_client.reports.with_raw_response.download_old_report(partner_id, report_date)
+result = await async_client.reports.with_raw_response.download_old_report("some example string", "some example string")
 match result:
     case Success(payload=payload):
-        ...  # TODO: Handle 'payload' of type FileResponse
+        ...  # TODO: Handle 'payload' of type AsyncFileResponse
     case Failure(error=error):
         ...  # TODO: Handle 'error' of type DownloadOldReportErrorBody
 ```
@@ -6821,7 +7197,7 @@ match result:
 | --- | --- | --- |
 | <code>partner_id</code> | <code>str</code> | Numeric partner/seller ID |
 | <code>report_date</code> | <code>str</code> | Report date in MMddyyyy format (e.g. 06172026) |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -6876,7 +7252,7 @@ Send a `GET` request.
 **Sync**
 
 ```python
-result = client.reports.with_raw_response.get_report(report_id)
+result = client.reports.with_raw_response.get_report("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type Report
@@ -6887,7 +7263,7 @@ match result:
 **Async**
 
 ```python
-result = await async_client.reports.with_raw_response.get_report(report_id)
+result = await async_client.reports.with_raw_response.get_report("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type Report
@@ -6906,7 +7282,7 @@ match result:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>report_id</code> | <code>str</code> | Value sent with the request. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -6962,7 +7338,7 @@ Do not log the pre-signed URL.
 **Sync**
 
 ```python
-result = client.reports.with_raw_response.get_report_document(report_document_id)
+result = client.reports.with_raw_response.get_report_document("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type ReportDocument
@@ -6973,7 +7349,7 @@ match result:
 **Async**
 
 ```python
-result = await async_client.reports.with_raw_response.get_report_document(report_document_id)
+result = await async_client.reports.with_raw_response.get_report_document("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type ReportDocument
@@ -6992,7 +7368,7 @@ match result:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>report_document_id</code> | <code>str</code> | Value sent with the request. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -7082,7 +7458,7 @@ match result:
 | <code>created_until</code> | <code>RFC3339DateTime \| None</code> | Value sent with the request.<br>**Default**: <code>None</code> |
 | <code>page_size</code> | <code>int \| None</code> | Value sent with the request.<br>**Default**: <code>10</code> |
 | <code>next_token</code> | <code>str \| None</code> | Value sent with the request.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -7171,7 +7547,7 @@ match result:
 
 | Name | Type | Description |
 | --- | --- | --- |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -7256,7 +7632,7 @@ match result:
 
 | Name | Type | Description |
 | --- | --- | --- |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -7318,7 +7694,7 @@ nextToken is a Base64-encoded offset into the report file.
 **Sync**
 
 ```python
-result = client.settlement.with_raw_response.list_settlement_details(partner_id, report_date)
+result = client.settlement.with_raw_response.list_settlement_details("some example string", "some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type SettlementDetailsResponse
@@ -7329,7 +7705,9 @@ match result:
 **Async**
 
 ```python
-result = await async_client.settlement.with_raw_response.list_settlement_details(partner_id, report_date)
+result = await async_client.settlement.with_raw_response.list_settlement_details(
+    "some example string", "some example string"
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type SettlementDetailsResponse
@@ -7351,7 +7729,7 @@ match result:
 | <code>report_date</code> | <code>str</code> | Report date in MMddyyyy format (e.g. 06172026) |
 | <code>page_size</code> | <code>int \| None</code> | Value sent with the request.<br>**Default**: <code>10</code> |
 | <code>next_token</code> | <code>str \| None</code> | Opaque cursor from a prior response; omit for first page<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -7438,7 +7816,7 @@ match result:
 | --- | --- | --- |
 | <code>page_size</code> | <code>int \| None</code> | Value sent with the request.<br>**Default**: <code>10</code> |
 | <code>next_token</code> | <code>str \| None</code> | Opaque cursor from a prior response; omit for first page<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -7528,7 +7906,7 @@ match result:
 | <code>next_token</code> | <code>str \| None</code> | Opaque cursor from a prior response; omit for first page<br>**Default**: <code>None</code> |
 | <code>posted_after</code> | <code>RFC3339DateTime \| None</code> | Value sent with the request.<br>**Default**: <code>None</code> |
 | <code>posted_before</code> | <code>RFC3339DateTime \| None</code> | Value sent with the request.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -7590,7 +7968,7 @@ a document for the given resource (e.g. feeds, reports).
 
 ```python
 result = client.uploads.with_raw_response.create_upload_destination_for_resource(
-    resource, content_type, marketplace_ids, content_md5
+    Resource.FEEDS, ContentType1.TEXT_XML_CHARSET_UTF_8, ["some example string"], "some example string"
 )
 match result:
     case Success(payload=payload):
@@ -7603,7 +7981,7 @@ match result:
 
 ```python
 result = await async_client.uploads.with_raw_response.create_upload_destination_for_resource(
-    resource, content_type, marketplace_ids, content_md5
+    Resource.FEEDS, ContentType1.TEXT_XML_CHARSET_UTF_8, ["some example string"], "some example string"
 )
 match result:
     case Success(payload=payload):
@@ -7626,7 +8004,7 @@ match result:
 | <code>content_type</code> | <code>[ContentType1OrStr](walmart_apis/models/enums/content_type1.py)</code> | MIME type of the content to be uploaded |
 | <code>marketplace_ids</code> | <code>list&#91;str&#93;</code> | Value sent with the request. |
 | <code>content_md5</code> | <code>str</code> | MD5 hash of the content to be uploaded, encoded as base64 |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -7723,7 +8101,7 @@ match result:
 | <code>skus</code> | <code>str \| None</code> | Comma-separated seller SKUs to filter (max 50). Omit to return all WFS items.<br>**Default**: <code>None</code> |
 | <code>page_size</code> | <code>int \| None</code> | Value sent with the request.<br>**Default**: <code>100</code> |
 | <code>next_token</code> | <code>str \| None</code> | Value sent with the request.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -7782,7 +8160,7 @@ Send a `POST` request.
 **Sync**
 
 ```python
-result = client.messaging.with_raw_response.create_warranty(sp_api_order_id, marketplace_ids, body)
+result = client.messaging.with_raw_response.create_warranty("some example string", ["some example string"], {})
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type Any
@@ -7793,7 +8171,9 @@ match result:
 **Async**
 
 ```python
-result = await async_client.messaging.with_raw_response.create_warranty(sp_api_order_id, marketplace_ids, body)
+result = await async_client.messaging.with_raw_response.create_warranty(
+    "some example string", ["some example string"], {}
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type Any
@@ -7814,7 +8194,7 @@ match result:
 | <code>sp_api_order_id</code> | <code>str</code> | A marketplace order identifier. This identifies the order for which a message is sent. |
 | <code>marketplace_ids</code> | <code>list&#91;str&#93;</code> | A marketplace identifier. This identifies the marketplace in which the order was placed. You can only specify one market |
 | <code>body</code> | <code>Any</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -7869,7 +8249,7 @@ Send a `GET` request.
 **Sync**
 
 ```python
-result = client.messaging.with_raw_response.get_attributes(sp_api_order_id, marketplace_ids)
+result = client.messaging.with_raw_response.get_attributes("some example string", ["some example string"])
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type Any
@@ -7880,7 +8260,7 @@ match result:
 **Async**
 
 ```python
-result = await async_client.messaging.with_raw_response.get_attributes(sp_api_order_id, marketplace_ids)
+result = await async_client.messaging.with_raw_response.get_attributes("some example string", ["some example string"])
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type Any
@@ -7900,7 +8280,7 @@ match result:
 | --- | --- | --- |
 | <code>sp_api_order_id</code> | <code>str</code> | A marketplace order identifier. This identifies the order for which a message is sent. |
 | <code>marketplace_ids</code> | <code>list&#91;str&#93;</code> | A marketplace identifier. This identifies the marketplace in which the order was placed. You can only specify one market |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -7955,7 +8335,9 @@ Send a `POST` request.
 **Sync**
 
 ```python
-result = client.messaging.with_raw_response.confirm_customization_details(sp_api_order_id, marketplace_ids, body)
+result = client.messaging.with_raw_response.confirm_customization_details(
+    "some example string", ["some example string"], {}
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type Any
@@ -7967,7 +8349,7 @@ match result:
 
 ```python
 result = await async_client.messaging.with_raw_response.confirm_customization_details(
-    sp_api_order_id, marketplace_ids, body
+    "some example string", ["some example string"], {}
 )
 match result:
     case Success(payload=payload):
@@ -7989,7 +8371,7 @@ match result:
 | <code>sp_api_order_id</code> | <code>str</code> | A marketplace order identifier. This identifies the order for which a message is sent. |
 | <code>marketplace_ids</code> | <code>list&#91;str&#93;</code> | A marketplace identifier. This identifies the marketplace in which the order was placed. You can only specify one market |
 | <code>body</code> | <code>Any</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -8044,7 +8426,9 @@ Send a `POST` request.
 **Sync**
 
 ```python
-result = client.messaging.with_raw_response.create_confirm_delivery_details(sp_api_order_id, marketplace_ids, body)
+result = client.messaging.with_raw_response.create_confirm_delivery_details(
+    "some example string", ["some example string"], {}
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type Any
@@ -8056,7 +8440,7 @@ match result:
 
 ```python
 result = await async_client.messaging.with_raw_response.create_confirm_delivery_details(
-    sp_api_order_id, marketplace_ids, body
+    "some example string", ["some example string"], {}
 )
 match result:
     case Success(payload=payload):
@@ -8078,7 +8462,7 @@ match result:
 | <code>sp_api_order_id</code> | <code>str</code> | A marketplace order identifier. This identifies the order for which a message is sent. |
 | <code>marketplace_ids</code> | <code>list&#91;str&#93;</code> | A marketplace identifier. This identifies the marketplace in which the order was placed. You can only specify one market |
 | <code>body</code> | <code>Any</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -8133,7 +8517,9 @@ Send a `POST` request.
 **Sync**
 
 ```python
-result = client.messaging.with_raw_response.create_confirm_order_details(sp_api_order_id, marketplace_ids, body)
+result = client.messaging.with_raw_response.create_confirm_order_details(
+    "some example string", ["some example string"], {}
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type Any
@@ -8145,7 +8531,7 @@ match result:
 
 ```python
 result = await async_client.messaging.with_raw_response.create_confirm_order_details(
-    sp_api_order_id, marketplace_ids, body
+    "some example string", ["some example string"], {}
 )
 match result:
     case Success(payload=payload):
@@ -8167,7 +8553,7 @@ match result:
 | <code>sp_api_order_id</code> | <code>str</code> | A marketplace order identifier. This identifies the order for which a message is sent. |
 | <code>marketplace_ids</code> | <code>list&#91;str&#93;</code> | A marketplace identifier. This identifies the marketplace in which the order was placed. You can only specify one market |
 | <code>body</code> | <code>Any</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -8222,7 +8608,9 @@ Send a `POST` request.
 **Sync**
 
 ```python
-result = client.messaging.with_raw_response.create_confirm_service_details(sp_api_order_id, marketplace_ids, body)
+result = client.messaging.with_raw_response.create_confirm_service_details(
+    "some example string", ["some example string"], {}
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type Any
@@ -8234,7 +8622,7 @@ match result:
 
 ```python
 result = await async_client.messaging.with_raw_response.create_confirm_service_details(
-    sp_api_order_id, marketplace_ids, body
+    "some example string", ["some example string"], {}
 )
 match result:
     case Success(payload=payload):
@@ -8256,7 +8644,7 @@ match result:
 | <code>sp_api_order_id</code> | <code>str</code> | A marketplace order identifier. This identifies the order for which a message is sent. |
 | <code>marketplace_ids</code> | <code>list&#91;str&#93;</code> | A marketplace identifier. This identifies the marketplace in which the order was placed. You can only specify one market |
 | <code>body</code> | <code>Any</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -8311,7 +8699,9 @@ Send a `POST` request.
 **Sync**
 
 ```python
-result = client.messaging.with_raw_response.create_digital_access_key(sp_api_order_id, marketplace_ids, body)
+result = client.messaging.with_raw_response.create_digital_access_key(
+    "some example string", ["some example string"], {}
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type Any
@@ -8323,7 +8713,7 @@ match result:
 
 ```python
 result = await async_client.messaging.with_raw_response.create_digital_access_key(
-    sp_api_order_id, marketplace_ids, body
+    "some example string", ["some example string"], {}
 )
 match result:
     case Success(payload=payload):
@@ -8345,7 +8735,7 @@ match result:
 | <code>sp_api_order_id</code> | <code>str</code> | A marketplace order identifier. This identifies the order for which a message is sent. |
 | <code>marketplace_ids</code> | <code>list&#91;str&#93;</code> | A marketplace identifier. This identifies the marketplace in which the order was placed. You can only specify one market |
 | <code>body</code> | <code>Any</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -8400,7 +8790,7 @@ Send a `POST` request.
 **Sync**
 
 ```python
-result = client.messaging.with_raw_response.create_legal_disclosure(sp_api_order_id, marketplace_ids, body)
+result = client.messaging.with_raw_response.create_legal_disclosure("some example string", ["some example string"], {})
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type Any
@@ -8411,7 +8801,9 @@ match result:
 **Async**
 
 ```python
-result = await async_client.messaging.with_raw_response.create_legal_disclosure(sp_api_order_id, marketplace_ids, body)
+result = await async_client.messaging.with_raw_response.create_legal_disclosure(
+    "some example string", ["some example string"], {}
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type Any
@@ -8432,7 +8824,7 @@ match result:
 | <code>sp_api_order_id</code> | <code>str</code> | A marketplace order identifier. This identifies the order for which a message is sent. |
 | <code>marketplace_ids</code> | <code>list&#91;str&#93;</code> | A marketplace identifier. This identifies the marketplace in which the order was placed. You can only specify one market |
 | <code>body</code> | <code>Any</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -8487,7 +8879,9 @@ Send a `POST` request.
 **Sync**
 
 ```python
-result = client.messaging.with_raw_response.create_unexpected_problem(sp_api_order_id, marketplace_ids, body)
+result = client.messaging.with_raw_response.create_unexpected_problem(
+    "some example string", ["some example string"], {}
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type Any
@@ -8499,7 +8893,7 @@ match result:
 
 ```python
 result = await async_client.messaging.with_raw_response.create_unexpected_problem(
-    sp_api_order_id, marketplace_ids, body
+    "some example string", ["some example string"], {}
 )
 match result:
     case Success(payload=payload):
@@ -8521,7 +8915,7 @@ match result:
 | <code>sp_api_order_id</code> | <code>str</code> | A marketplace order identifier. This identifies the order for which a message is sent. |
 | <code>marketplace_ids</code> | <code>list&#91;str&#93;</code> | A marketplace identifier. This identifies the marketplace in which the order was placed. You can only specify one market |
 | <code>body</code> | <code>Any</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -8576,7 +8970,9 @@ Send a `GET` request.
 **Sync**
 
 ```python
-result = client.messaging.with_raw_response.get_messaging_actions_for_order(sp_api_order_id, marketplace_ids)
+result = client.messaging.with_raw_response.get_messaging_actions_for_order(
+    "some example string", ["some example string"]
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type Any
@@ -8588,7 +8984,7 @@ match result:
 
 ```python
 result = await async_client.messaging.with_raw_response.get_messaging_actions_for_order(
-    sp_api_order_id, marketplace_ids
+    "some example string", ["some example string"]
 )
 match result:
     case Success(payload=payload):
@@ -8609,7 +9005,7 @@ match result:
 | --- | --- | --- |
 | <code>sp_api_order_id</code> | <code>str</code> | A marketplace order identifier. This specifies the order for which you want a list of available message types. |
 | <code>marketplace_ids</code> | <code>list&#91;str&#93;</code> | A marketplace identifier. This identifies the marketplace in which the order was placed. You can only specify one market |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -8664,7 +9060,7 @@ Send a `POST` request.
 **Sync**
 
 ```python
-result = client.messaging.with_raw_response.send_invoice(sp_api_order_id, marketplace_ids, body)
+result = client.messaging.with_raw_response.send_invoice("some example string", ["some example string"], {})
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type Any
@@ -8675,7 +9071,7 @@ match result:
 **Async**
 
 ```python
-result = await async_client.messaging.with_raw_response.send_invoice(sp_api_order_id, marketplace_ids, body)
+result = await async_client.messaging.with_raw_response.send_invoice("some example string", ["some example string"], {})
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type Any
@@ -8696,7 +9092,7 @@ match result:
 | <code>sp_api_order_id</code> | <code>str</code> | A marketplace order identifier. This identifies the order for which a message is sent. |
 | <code>marketplace_ids</code> | <code>list&#91;str&#93;</code> | A marketplace identifier. This identifies the marketplace in which the order was placed. You can only specify one market |
 | <code>body</code> | <code>Any</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -8755,7 +9151,7 @@ Send a `POST` request.
 **Sync**
 
 ```python
-result = client.notifications.with_raw_response.create_destination(body)
+result = client.notifications.with_raw_response.create_destination({})
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type Channel
@@ -8766,7 +9162,7 @@ match result:
 **Async**
 
 ```python
-result = await async_client.notifications.with_raw_response.create_destination(body)
+result = await async_client.notifications.with_raw_response.create_destination({})
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type Channel
@@ -8785,7 +9181,7 @@ match result:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>body</code> | <code>Any</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -8840,7 +9236,7 @@ Send a `POST` request.
 **Sync**
 
 ```python
-result = client.notifications.with_raw_response.create_subscription(notification_type, body)
+result = client.notifications.with_raw_response.create_subscription("some example string", {})
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type Any
@@ -8851,7 +9247,7 @@ match result:
 **Async**
 
 ```python
-result = await async_client.notifications.with_raw_response.create_subscription(notification_type, body)
+result = await async_client.notifications.with_raw_response.create_subscription("some example string", {})
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type Any
@@ -8871,7 +9267,7 @@ match result:
 | --- | --- | --- |
 | <code>notification_type</code> | <code>str</code> | The type of notification. Must be one of: EMAIL, WEBHOOKS, SMS, PULL, MOBILE_PUSH. |
 | <code>body</code> | <code>Any</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -8926,7 +9322,7 @@ Send a `DELETE` request.
 **Sync**
 
 ```python
-result = client.notifications.with_raw_response.delete_destination(destination_id)
+result = client.notifications.with_raw_response.delete_destination("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type Channel
@@ -8937,7 +9333,7 @@ match result:
 **Async**
 
 ```python
-result = await async_client.notifications.with_raw_response.delete_destination(destination_id)
+result = await async_client.notifications.with_raw_response.delete_destination("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type Channel
@@ -8956,7 +9352,7 @@ match result:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>destination_id</code> | <code>str</code> | The identifier for the destination that you want to delete. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -9011,7 +9407,7 @@ Send a `DELETE` request.
 **Sync**
 
 ```python
-result = client.notifications.with_raw_response.delete_subscription_by_id(subscription_id, notification_type)
+result = client.notifications.with_raw_response.delete_subscription_by_id("some example string", "some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type Any
@@ -9023,7 +9419,7 @@ match result:
 
 ```python
 result = await async_client.notifications.with_raw_response.delete_subscription_by_id(
-    subscription_id, notification_type
+    "some example string", "some example string"
 )
 match result:
     case Success(payload=payload):
@@ -9044,7 +9440,7 @@ match result:
 | --- | --- | --- |
 | <code>subscription_id</code> | <code>str</code> | The identifier for the subscription that you want to delete. |
 | <code>notification_type</code> | <code>str</code> | The type of notification. Must be one of: EMAIL, WEBHOOKS, SMS, PULL, MOBILE_PUSH. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -9099,7 +9495,7 @@ Send a `GET` request.
 **Sync**
 
 ```python
-result = client.notifications.with_raw_response.get_destination(destination_id)
+result = client.notifications.with_raw_response.get_destination("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type Channel
@@ -9110,7 +9506,7 @@ match result:
 **Async**
 
 ```python
-result = await async_client.notifications.with_raw_response.get_destination(destination_id)
+result = await async_client.notifications.with_raw_response.get_destination("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type Channel
@@ -9129,7 +9525,7 @@ match result:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>destination_id</code> | <code>str</code> | The identifier generated when you created the destination. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -9213,7 +9609,7 @@ match result:
 
 | Name | Type | Description |
 | --- | --- | --- |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -9268,7 +9664,7 @@ Send a `GET` request.
 **Sync**
 
 ```python
-result = client.notifications.with_raw_response.get_subscription(notification_type)
+result = client.notifications.with_raw_response.get_subscription("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type Any
@@ -9279,7 +9675,7 @@ match result:
 **Async**
 
 ```python
-result = await async_client.notifications.with_raw_response.get_subscription(notification_type)
+result = await async_client.notifications.with_raw_response.get_subscription("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type Any
@@ -9299,7 +9695,7 @@ match result:
 | --- | --- | --- |
 | <code>notification_type</code> | <code>str</code> | The type of notification. Must be one of: EMAIL, WEBHOOKS, SMS, PULL, MOBILE_PUSH. |
 | <code>payload_version</code> | <code>str \| None</code> | The version of the payload object to be used in the notification.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -9354,7 +9750,7 @@ Send a `GET` request.
 **Sync**
 
 ```python
-result = client.notifications.with_raw_response.get_subscription_by_id(subscription_id, notification_type)
+result = client.notifications.with_raw_response.get_subscription_by_id("some example string", "some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type Any
@@ -9365,7 +9761,9 @@ match result:
 **Async**
 
 ```python
-result = await async_client.notifications.with_raw_response.get_subscription_by_id(subscription_id, notification_type)
+result = await async_client.notifications.with_raw_response.get_subscription_by_id(
+    "some example string", "some example string"
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type Any
@@ -9385,7 +9783,7 @@ match result:
 | --- | --- | --- |
 | <code>subscription_id</code> | <code>str</code> | The identifier for the subscription that you want to get. |
 | <code>notification_type</code> | <code>str</code> | The type of notification. Must be one of: EMAIL, WEBHOOKS, SMS, PULL, MOBILE_PUSH. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -9440,7 +9838,7 @@ Send a `POST` request.
 **Sync**
 
 ```python
-result = client.notifications.with_raw_response.send_test_notification(notification_type, body)
+result = client.notifications.with_raw_response.send_test_notification("some example string", {})
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type Any
@@ -9451,7 +9849,7 @@ match result:
 **Async**
 
 ```python
-result = await async_client.notifications.with_raw_response.send_test_notification(notification_type, body)
+result = await async_client.notifications.with_raw_response.send_test_notification("some example string", {})
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type Any
@@ -9471,7 +9869,7 @@ match result:
 | --- | --- | --- |
 | <code>notification_type</code> | <code>str</code> | The type of notification. Must be one of: EMAIL, WEBHOOKS, SMS, PULL, MOBILE_PUSH. |
 | <code>body</code> | <code>Any</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -9534,7 +9932,9 @@ ASIN to Walmart Item ID; request/response shape is otherwise 1:1).
 **Sync**
 
 ```python
-result = client.product_fees.with_raw_response.get_my_fees_estimate_for_item(walmart_item_id, body)
+result = client.product_fees.with_raw_response.get_my_fees_estimate_for_item(
+    "some example string", GetMyFeesEstimateRequest()
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type GetMyFeesEstimateResponse
@@ -9545,7 +9945,9 @@ match result:
 **Async**
 
 ```python
-result = await async_client.product_fees.with_raw_response.get_my_fees_estimate_for_item(walmart_item_id, body)
+result = await async_client.product_fees.with_raw_response.get_my_fees_estimate_for_item(
+    "some example string", GetMyFeesEstimateRequest()
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type GetMyFeesEstimateResponse
@@ -9565,7 +9967,7 @@ match result:
 | --- | --- | --- |
 | <code>walmart_item_id</code> | <code>str</code> | The Walmart Item ID of the item. Replaces SP-API ASIN. |
 | <code>body</code> | <code>[GetMyFeesEstimateRequest](walmart_apis/models/get_my_fees_estimate_request.py) \| [GetMyFeesEstimateRequestDict](walmart_apis/models/get_my_fees_estimate_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -9620,7 +10022,9 @@ Returns an estimated fee for a seller listing identified by Seller SKU.
 **Sync**
 
 ```python
-result = client.product_fees.with_raw_response.get_my_fees_estimate_for_sku(seller_sku, marketplace_id, body)
+result = client.product_fees.with_raw_response.get_my_fees_estimate_for_sku(
+    "some example string", "some example string", GetMyFeesEstimateRequest()
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type GetMyFeesEstimateResponse
@@ -9632,7 +10036,7 @@ match result:
 
 ```python
 result = await async_client.product_fees.with_raw_response.get_my_fees_estimate_for_sku(
-    seller_sku, marketplace_id, body
+    "some example string", "some example string", GetMyFeesEstimateRequest()
 )
 match result:
     case Success(payload=payload):
@@ -9654,7 +10058,7 @@ match result:
 | <code>seller_sku</code> | <code>str</code> | The seller's SKU for the listing. Scoped to the authenticated seller. |
 | <code>marketplace_id</code> | <code>str</code> | Marketplace identifier. |
 | <code>body</code> | <code>[GetMyFeesEstimateRequest](walmart_apis/models/get_my_fees_estimate_request.py) \| [GetMyFeesEstimateRequestDict](walmart_apis/models/get_my_fees_estimate_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -9710,7 +10114,19 @@ Walmart Item ID or Seller SKU.
 **Sync**
 
 ```python
-result = client.product_fees.with_raw_response.get_my_fees_estimates(body)
+result = client.product_fees.with_raw_response.get_my_fees_estimates(
+    [
+        FeesEstimateByIdRequest(
+            id_type=IdType.WALMART_ITEM_ID,
+            id_value="some example string",
+            fees_estimate_request=FeesEstimateRequest(
+                marketplace_id="some example string",
+                is_walmart_fulfilled=True,
+                price_to_estimate_fees=PriceToEstimateFees(listing_price=MoneyType1()),
+            ),
+        ),
+    ],
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type list[FeesEstimateResult]
@@ -9721,7 +10137,19 @@ match result:
 **Async**
 
 ```python
-result = await async_client.product_fees.with_raw_response.get_my_fees_estimates(body)
+result = await async_client.product_fees.with_raw_response.get_my_fees_estimates(
+    [
+        FeesEstimateByIdRequest(
+            id_type=IdType.WALMART_ITEM_ID,
+            id_value="some example string",
+            fees_estimate_request=FeesEstimateRequest(
+                marketplace_id="some example string",
+                is_walmart_fulfilled=True,
+                price_to_estimate_fees=PriceToEstimateFees(listing_price=MoneyType1()),
+            ),
+        ),
+    ],
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type list[FeesEstimateResult]
@@ -9740,7 +10168,7 @@ match result:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>body</code> | <code>list&#91;[FeesEstimateByIdRequest](walmart_apis/models/fees_estimate_by_id_request.py) \| [FeesEstimateByIdRequestDict](walmart_apis/models/fees_estimate_by_id_request.py)&#93;</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -9776,7 +10204,7 @@ Mapped in first-match order -- an earlier row wins over a later range that also 
 > Source: [ProductPricing](walmart_apis/apis/product_pricing.py)
 
 <details>
-<summary><code>def get_competitive_pricing(marketplace_id: str, item_type: ItemTypeOrStr, *, skus: list[str] | None = None, walmart_item_ids: list[str] | None = None, customer_type: CustomerTypeOrStr | None = None, request_options: RequestOptionsOrDict | None = None) -> ApiResult[GetPricingResponse, GetCompetitivePricingErrorBody]</code></summary>
+<summary><code>def get_competitive_pricing(marketplace_id: str, *, item_type: ItemTypeOrStr = ItemType.SKU, skus: list[str] | None = None, walmart_item_ids: list[str] | None = None, customer_type: CustomerTypeOrStr | None = None, request_options: RequestOptionsOrDict | None = None) -> ApiResult[GetPricingResponse, GetCompetitivePricingErrorBody]</code></summary>
 
 <dl>
 <dd>
@@ -9799,7 +10227,9 @@ Returns competitive pricing information for a seller's offer listings based on s
 **Sync**
 
 ```python
-result = client.product_pricing.with_raw_response.get_competitive_pricing(marketplace_id, item_type)
+result = client.product_pricing.with_raw_response.get_competitive_pricing(
+    "some example string", item_type=ItemType.WALMART_ITEM_ID
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type GetPricingResponse
@@ -9810,7 +10240,9 @@ match result:
 **Async**
 
 ```python
-result = await async_client.product_pricing.with_raw_response.get_competitive_pricing(marketplace_id, item_type)
+result = await async_client.product_pricing.with_raw_response.get_competitive_pricing(
+    "some example string", item_type=ItemType.WALMART_ITEM_ID
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type GetPricingResponse
@@ -9829,11 +10261,11 @@ match result:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>marketplace_id</code> | <code>str</code> | A marketplace identifier. Specifies the marketplace for which prices are returned. |
-| <code>item_type</code> | <code>[ItemTypeOrStr](walmart_apis/models/enums/item_type.py)</code> | Indicates whether Walmart Item ID values or seller SKU values are used to identify items. |
+| <code>item_type</code> | <code>[ItemTypeOrStr](walmart_apis/models/enums/item_type.py)</code> | Indicates whether Walmart Item ID values or seller SKU values are used to identify items.<br>**Default**: <code>ItemType.SKU</code> |
 | <code>skus</code> | <code>list&#91;str&#93; \| None</code> | A list of up to twenty seller SKU values used to identify items in the given marketplace.<br>**Default**: <code>None</code> |
 | <code>walmart_item_ids</code> | <code>list&#91;str&#93; \| None</code> | A list of up to twenty Walmart Item ID values used to identify items in the given marketplace.<br>**Default**: <code>None</code> |
 | <code>customer_type</code> | <code>[CustomerTypeOrStr](walmart_apis/models/enums/customer_type.py) \| None</code> | Indicates whether to request pricing information from the point of view of Consumer or Business buyers. Default is Consumer.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -9893,7 +10325,7 @@ Track: .
 **Sync**
 
 ```python
-result = client.product_pricing.with_raw_response.get_competitive_summary(body)
+result = client.product_pricing.with_raw_response.get_competitive_summary(CompetitiveSummaryBatchRequest())
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type CompetitiveSummaryBatchResponse
@@ -9904,7 +10336,7 @@ match result:
 **Async**
 
 ```python
-result = await async_client.product_pricing.with_raw_response.get_competitive_summary(body)
+result = await async_client.product_pricing.with_raw_response.get_competitive_summary(CompetitiveSummaryBatchRequest())
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type CompetitiveSummaryBatchResponse
@@ -9923,7 +10355,7 @@ match result:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>body</code> | <code>[CompetitiveSummaryBatchRequest](walmart_apis/models/competitive_summary_batch_request.py) \| [CompetitiveSummaryBatchRequestDict](walmart_apis/models/competitive_summary_batch_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -9982,7 +10414,9 @@ Track: .
 **Sync**
 
 ```python
-result = client.product_pricing.with_raw_response.get_featured_offer_expected_price_batch(body)
+result = client.product_pricing.with_raw_response.get_featured_offer_expected_price_batch(
+    GetFeaturedOfferExpectedPriceBatchRequest()
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type GetFeaturedOfferExpectedPriceBatchResponse
@@ -9993,7 +10427,9 @@ match result:
 **Async**
 
 ```python
-result = await async_client.product_pricing.with_raw_response.get_featured_offer_expected_price_batch(body)
+result = await async_client.product_pricing.with_raw_response.get_featured_offer_expected_price_batch(
+    GetFeaturedOfferExpectedPriceBatchRequest()
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type GetFeaturedOfferExpectedPriceBatchResponse
@@ -10012,7 +10448,7 @@ match result:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>body</code> | <code>[GetFeaturedOfferExpectedPriceBatchRequest](walmart_apis/models/get_featured_offer_expected_price_batch_request.py) \| [GetFeaturedOfferExpectedPriceBatchRequestDict](walmart_apis/models/get_featured_offer_expected_price_batch_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -10073,7 +10509,9 @@ Returns 404 when no offers are found for the given itemId.
 **Sync**
 
 ```python
-result = client.product_pricing.with_raw_response.get_item_offers(item_id, marketplace_id, item_condition)
+result = client.product_pricing.with_raw_response.get_item_offers(
+    "some example string", "some example string", ConditionType2.NEW
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type GetOffersResponse
@@ -10084,7 +10522,9 @@ match result:
 **Async**
 
 ```python
-result = await async_client.product_pricing.with_raw_response.get_item_offers(item_id, marketplace_id, item_condition)
+result = await async_client.product_pricing.with_raw_response.get_item_offers(
+    "some example string", "some example string", ConditionType2.NEW
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type GetOffersResponse
@@ -10106,7 +10546,7 @@ match result:
 | <code>marketplace_id</code> | <code>str</code> | A marketplace identifier. Specifies the marketplace for which prices are returned. |
 | <code>item_condition</code> | <code>[ConditionType2OrStr](walmart_apis/models/enums/condition_type2.py)</code> | Filters the offer listings based on item condition. Possible values: New, Used, Collectible, Refurbished, Club. |
 | <code>customer_type</code> | <code>[CustomerTypeOrStr](walmart_apis/models/enums/customer_type.py) \| None</code> | Indicates whether to request Consumer or Business offers. Default is Consumer.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -10167,7 +10607,7 @@ Implemented: .
 **Sync**
 
 ```python
-result = client.product_pricing.with_raw_response.get_item_offers_batch(body)
+result = client.product_pricing.with_raw_response.get_item_offers_batch(GetItemOffersBatchRequest())
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type GetItemOffersBatchResponse
@@ -10178,7 +10618,7 @@ match result:
 **Async**
 
 ```python
-result = await async_client.product_pricing.with_raw_response.get_item_offers_batch(body)
+result = await async_client.product_pricing.with_raw_response.get_item_offers_batch(GetItemOffersBatchRequest())
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type GetItemOffersBatchResponse
@@ -10197,7 +10637,7 @@ match result:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>body</code> | <code>[GetItemOffersBatchRequest](walmart_apis/models/get_item_offers_batch_request.py) \| [GetItemOffersBatchRequestDict](walmart_apis/models/get_item_offers_batch_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -10252,7 +10692,9 @@ Returns the lowest priced offers for a single SKU listing, based on SKU and item
 **Sync**
 
 ```python
-result = client.product_pricing.with_raw_response.get_listing_offers(seller_sku, marketplace_id, item_condition)
+result = client.product_pricing.with_raw_response.get_listing_offers(
+    "some example string", "some example string", ConditionType2.NEW
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type GetOffersResponse
@@ -10264,7 +10706,7 @@ match result:
 
 ```python
 result = await async_client.product_pricing.with_raw_response.get_listing_offers(
-    seller_sku, marketplace_id, item_condition
+    "some example string", "some example string", ConditionType2.NEW
 )
 match result:
     case Success(payload=payload):
@@ -10287,7 +10729,7 @@ match result:
 | <code>marketplace_id</code> | <code>str</code> | A marketplace identifier. Specifies the marketplace for which prices are returned. |
 | <code>item_condition</code> | <code>[ConditionType2OrStr](walmart_apis/models/enums/condition_type2.py)</code> | Filters the offer listings based on item condition. Possible values: New, Used, Collectible, Refurbished, Club. |
 | <code>customer_type</code> | <code>[CustomerTypeOrStr](walmart_apis/models/enums/customer_type.py) \| None</code> | Indicates whether to request Consumer or Business offers. Default is Consumer.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -10347,7 +10789,7 @@ Implemented: .
 **Sync**
 
 ```python
-result = client.product_pricing.with_raw_response.get_listing_offers_batch(body)
+result = client.product_pricing.with_raw_response.get_listing_offers_batch(GetListingOffersBatchRequest())
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type GetListingOffersBatchResponse
@@ -10358,7 +10800,7 @@ match result:
 **Async**
 
 ```python
-result = await async_client.product_pricing.with_raw_response.get_listing_offers_batch(body)
+result = await async_client.product_pricing.with_raw_response.get_listing_offers_batch(GetListingOffersBatchRequest())
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type GetListingOffersBatchResponse
@@ -10377,7 +10819,7 @@ match result:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>body</code> | <code>[GetListingOffersBatchRequest](walmart_apis/models/get_listing_offers_batch_request.py) \| [GetListingOffersBatchRequestDict](walmart_apis/models/get_listing_offers_batch_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -10409,7 +10851,7 @@ Mapped in first-match order -- an earlier row wins over a later range that also 
 </details>
 
 <details>
-<summary><code>def get_pricing(marketplace_id: str, item_type: ItemTypeOrStr, *, skus: list[str] | None = None, walmart_item_ids: list[str] | None = None, item_condition: ConditionType2OrStr | None = None, offer_type: OfferTypeOrStr | None = None, customer_type: CustomerTypeOrStr | None = None, request_options: RequestOptionsOrDict | None = None) -> ApiResult[GetPricingResponse, GetPricingErrorBody]</code></summary>
+<summary><code>def get_pricing(marketplace_id: str, *, item_type: ItemTypeOrStr = ItemType.SKU, skus: list[str] | None = None, walmart_item_ids: list[str] | None = None, item_condition: ConditionType2OrStr | None = None, offer_type: OfferTypeOrStr | None = None, customer_type: CustomerTypeOrStr | None = None, request_options: RequestOptionsOrDict | None = None) -> ApiResult[GetPricingResponse, GetPricingErrorBody]</code></summary>
 
 <dl>
 <dd>
@@ -10432,7 +10874,7 @@ Returns pricing information for a seller's active offer listings based on seller
 **Sync**
 
 ```python
-result = client.product_pricing.with_raw_response.get_pricing(marketplace_id, item_type)
+result = client.product_pricing.with_raw_response.get_pricing("some example string", item_type=ItemType.WALMART_ITEM_ID)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type GetPricingResponse
@@ -10443,7 +10885,9 @@ match result:
 **Async**
 
 ```python
-result = await async_client.product_pricing.with_raw_response.get_pricing(marketplace_id, item_type)
+result = await async_client.product_pricing.with_raw_response.get_pricing(
+    "some example string", item_type=ItemType.WALMART_ITEM_ID
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type GetPricingResponse
@@ -10462,13 +10906,13 @@ match result:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>marketplace_id</code> | <code>str</code> | A marketplace identifier. Specifies the marketplace for which prices are returned. |
-| <code>item_type</code> | <code>[ItemTypeOrStr](walmart_apis/models/enums/item_type.py)</code> | Indicates whether Walmart Item ID values or seller SKU values are used to identify items. |
+| <code>item_type</code> | <code>[ItemTypeOrStr](walmart_apis/models/enums/item_type.py)</code> | Indicates whether Walmart Item ID values or seller SKU values are used to identify items.<br>**Default**: <code>ItemType.SKU</code> |
 | <code>skus</code> | <code>list&#91;str&#93; \| None</code> | A list of up to twenty seller SKU values used to identify items in the given marketplace.<br>**Default**: <code>None</code> |
 | <code>walmart_item_ids</code> | <code>list&#91;str&#93; \| None</code> | A list of up to twenty Walmart Item ID values used to identify items in the given marketplace.<br>**Default**: <code>None</code> |
 | <code>item_condition</code> | <code>[ConditionType2OrStr](walmart_apis/models/enums/condition_type2.py) \| None</code> | Filters the offer listings based on item condition. Possible values: New, Used, Collectible, Refurbished, Club.<br>**Default**: <code>None</code> |
 | <code>offer_type</code> | <code>[OfferTypeOrStr](walmart_apis/models/enums/offer_type.py) \| None</code> | Indicates whether to request pricing information for the seller's B2C or B2B offers. Default is B2C.<br>**Default**: <code>None</code> |
 | <code>customer_type</code> | <code>[CustomerTypeOrStr](walmart_apis/models/enums/customer_type.py) \| None</code> | Indicates whether to request Consumer or Business offers. Default is Consumer.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -10527,7 +10971,9 @@ Send a `GET` request.
 **Sync**
 
 ```python
-result = client.sales.with_raw_response.get_order_metrics(marketplace_ids, interval, granularity)
+result = client.sales.with_raw_response.get_order_metrics(
+    ["some example string"], "some example string", Granularity.HOUR
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type Any
@@ -10538,7 +10984,9 @@ match result:
 **Async**
 
 ```python
-result = await async_client.sales.with_raw_response.get_order_metrics(marketplace_ids, interval, granularity)
+result = await async_client.sales.with_raw_response.get_order_metrics(
+    ["some example string"], "some example string", Granularity.HOUR
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type Any
@@ -10566,7 +11014,7 @@ match result:
 | <code>asin</code> | <code>str \| None</code> | Filters the results by the ASIN that you specify. Specifying both ASIN and SKU returns an error. Do not include this filter if you want the response to include order metrics for all ASINs. Example: B0792R1RSN, if you want the response to include order metrics for only ASIN B0792R1RSN.<br>**Default**: <code>None</code> |
 | <code>sku</code> | <code>str \| None</code> | Filters the results by the SKU that you specify. Specifying both ASIN and SKU returns an error. Do not include this filter if you want the response to include order metrics for all SKUs. Example: TestSKU, if you want the response to include order metrics for only SKU TestSKU.<br>**Default**: <code>None</code> |
 | <code>sp_api_program</code> | <code>str \| None</code> | Filters the results by the program that you specify. Do not include this filter if you want the response to inclu<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -10627,7 +11075,7 @@ cancellation status to confirm.
 **Sync**
 
 ```python
-result = client.shipping.with_raw_response.cancel_shipment2(shipment_id)
+result = client.shipping.with_raw_response.cancel_shipment2("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type CancelShipmentResponse1
@@ -10638,7 +11086,7 @@ match result:
 **Async**
 
 ```python
-result = await async_client.shipping.with_raw_response.cancel_shipment2(shipment_id)
+result = await async_client.shipping.with_raw_response.cancel_shipment2("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type CancelShipmentResponse1
@@ -10657,7 +11105,7 @@ match result:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>shipment_id</code> | <code>str</code> | Identifier of the shipment to cancel. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -10714,7 +11162,9 @@ point type.
 **Sync**
 
 ```python
-result = client.shipping.with_raw_response.get_access_points(access_point_types, country_code, postal_code)
+result = client.shipping.with_raw_response.get_access_points(
+    "some example string", "some example string", "some example string"
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type GetAccessPointsResponse
@@ -10725,7 +11175,9 @@ match result:
 **Async**
 
 ```python
-result = await async_client.shipping.with_raw_response.get_access_points(access_point_types, country_code, postal_code)
+result = await async_client.shipping.with_raw_response.get_access_points(
+    "some example string", "some example string", "some example string"
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type GetAccessPointsResponse
@@ -10746,7 +11198,7 @@ match result:
 | <code>access_point_types</code> | <code>str</code> | Comma-separated list of access point types to include. |
 | <code>country_code</code> | <code>str</code> | ISO 3166-1 alpha-2 country code (e.g. US, CA, MX). |
 | <code>postal_code</code> | <code>str</code> | Postal code to search around. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -10805,7 +11257,7 @@ seller's input against it before issuing purchaseShipment.
 **Sync**
 
 ```python
-result = client.shipping.with_raw_response.get_additional_inputs(rate_id, request_token)
+result = client.shipping.with_raw_response.get_additional_inputs("some example string", "some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type GetAdditionalInputsResponse
@@ -10816,7 +11268,9 @@ match result:
 **Async**
 
 ```python
-result = await async_client.shipping.with_raw_response.get_additional_inputs(rate_id, request_token)
+result = await async_client.shipping.with_raw_response.get_additional_inputs(
+    "some example string", "some example string"
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type GetAdditionalInputsResponse
@@ -10836,7 +11290,7 @@ match result:
 | --- | --- | --- |
 | <code>rate_id</code> | <code>str</code> | rateId returned by a prior getRates response. |
 | <code>request_token</code> | <code>str</code> | requestToken returned by a prior getRates response. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -10893,7 +11347,34 @@ selected rateId to commit to a label purchase.
 **Sync**
 
 ```python
-result = client.shipping.with_raw_response.get_rates(body)
+result = client.shipping.with_raw_response.get_rates(
+    GetRatesRequest(
+        ship_to=Address1(
+            name="some example string",
+            address_line1="some example string",
+            city="some example string",
+            state_or_region="some example string",
+            postal_code="some example string",
+            country_code="some example string",
+        ),
+        ship_from=Address1(
+            name="some example string",
+            address_line1="some example string",
+            city="some example string",
+            state_or_region="some example string",
+            postal_code="some example string",
+            country_code="some example string",
+        ),
+        packages=[
+            Package(
+                dimensions=PackageDimensions(length=1.5, width=1.5, height=1.5, unit=Unit.INCHES),
+                weight=Weight(value=1.5, unit=Unit1.OZ),
+                package_client_reference_id="some example string",
+            ),
+        ],
+        channel_details=ChannelDetails(channel_type=ChannelType.WALMART_MARKETPLACE),
+    ),
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type GetFulfillmentOrderResponse
@@ -10904,7 +11385,34 @@ match result:
 **Async**
 
 ```python
-result = await async_client.shipping.with_raw_response.get_rates(body)
+result = await async_client.shipping.with_raw_response.get_rates(
+    GetRatesRequest(
+        ship_to=Address1(
+            name="some example string",
+            address_line1="some example string",
+            city="some example string",
+            state_or_region="some example string",
+            postal_code="some example string",
+            country_code="some example string",
+        ),
+        ship_from=Address1(
+            name="some example string",
+            address_line1="some example string",
+            city="some example string",
+            state_or_region="some example string",
+            postal_code="some example string",
+            country_code="some example string",
+        ),
+        packages=[
+            Package(
+                dimensions=PackageDimensions(length=1.5, width=1.5, height=1.5, unit=Unit.INCHES),
+                weight=Weight(value=1.5, unit=Unit1.OZ),
+                package_client_reference_id="some example string",
+            ),
+        ],
+        channel_details=ChannelDetails(channel_type=ChannelType.WALMART_MARKETPLACE),
+    ),
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type GetFulfillmentOrderResponse
@@ -10923,7 +11431,7 @@ match result:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>body</code> | <code>[GetRatesRequest](walmart_apis/models/get_rates_request.py) \| [GetRatesRequestDict](walmart_apis/models/get_rates_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -10955,7 +11463,7 @@ Mapped in first-match order -- an earlier row wins over a later range that also 
 </details>
 
 <details>
-<summary><code>def get_shipment_documents(shipment_id: str, *, package_client_reference_id: str | None = None, format: Format1OrStr | None = None, request_options: RequestOptionsOrDict | None = None) -> ApiResult[GetShipmentDocumentsResponse, GetShipmentDocumentsErrorBody]</code></summary>
+<summary><code>def get_shipment_documents(shipment_id: str, *, package_client_reference_id: str | None = None, format_: Format1OrStr | None = None, request_options: RequestOptionsOrDict | None = None) -> ApiResult[GetShipmentDocumentsResponse, GetShipmentDocumentsErrorBody]</code></summary>
 
 <dl>
 <dd>
@@ -10979,7 +11487,7 @@ associated with a previously-purchased shipment.
 **Sync**
 
 ```python
-result = client.shipping.with_raw_response.get_shipment_documents(shipment_id)
+result = client.shipping.with_raw_response.get_shipment_documents("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type GetShipmentDocumentsResponse
@@ -10990,7 +11498,7 @@ match result:
 **Async**
 
 ```python
-result = await async_client.shipping.with_raw_response.get_shipment_documents(shipment_id)
+result = await async_client.shipping.with_raw_response.get_shipment_documents("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type GetShipmentDocumentsResponse
@@ -11010,8 +11518,8 @@ match result:
 | --- | --- | --- |
 | <code>shipment_id</code> | <code>str</code> | Identifier of the shipment whose documents to retrieve. |
 | <code>package_client_reference_id</code> | <code>str \| None</code> | Optional package-level reference id to retrieve documents<br>for a specific package within a multi-package shipment.<br>**Default**: <code>None</code> |
-| <code>format</code> | <code>[Format1OrStr](walmart_apis/models/enums/format1.py) \| None</code> | Requested document format (defaults to PDF).<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>format_</code> | <code>[Format1OrStr](walmart_apis/models/enums/format1.py) \| None</code> | Requested document format (defaults to PDF).<br>**Default**: <code>None</code> |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -11072,7 +11580,7 @@ against the resolved carrier; a mismatch surfaces as 404.
 **Sync**
 
 ```python
-result = client.shipping.with_raw_response.get_tracking(tracking_id)
+result = client.shipping.with_raw_response.get_tracking("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type GetTrackingResponse
@@ -11083,7 +11591,7 @@ match result:
 **Async**
 
 ```python
-result = await async_client.shipping.with_raw_response.get_tracking(tracking_id)
+result = await async_client.shipping.with_raw_response.get_tracking("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type GetTrackingResponse
@@ -11103,7 +11611,7 @@ match result:
 | --- | --- | --- |
 | <code>tracking_id</code> | <code>str</code> | Tracking identifier returned by purchaseShipment. |
 | <code>carrier_id</code> | <code>str \| None</code> | Optional carrier identifier for defense-in-depth validation<br>against TNT's resolved carrier. Not required by TNT itself<br>-- omit unless you specifically want mismatch protection.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -11160,7 +11668,38 @@ service level. Returns the purchased shipment record directly.
 **Sync**
 
 ```python
-result = client.shipping.with_raw_response.one_click_shipment(body)
+result = client.shipping.with_raw_response.one_click_shipment(
+    OneClickShipmentRequest(
+        ship_to=Address1(
+            name="some example string",
+            address_line1="some example string",
+            city="some example string",
+            state_or_region="some example string",
+            postal_code="some example string",
+            country_code="some example string",
+        ),
+        ship_from=Address1(
+            name="some example string",
+            address_line1="some example string",
+            city="some example string",
+            state_or_region="some example string",
+            postal_code="some example string",
+            country_code="some example string",
+        ),
+        packages=[
+            Package(
+                dimensions=PackageDimensions(length=1.5, width=1.5, height=1.5, unit=Unit.INCHES),
+                weight=Weight(value=1.5, unit=Unit1.OZ),
+                package_client_reference_id="some example string",
+            ),
+        ],
+        service_selection=ServiceSelection(),
+        requested_document_specification=RequestedDocumentSpecification(
+            format=Format1.PDF, size=LabelDimensions(), dpi=Dpi.VALUE_203
+        ),
+        channel_details=ChannelDetails(channel_type=ChannelType.WALMART_MARKETPLACE),
+    ),
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type GetFulfillmentOrderShipmentsResponse
@@ -11171,7 +11710,38 @@ match result:
 **Async**
 
 ```python
-result = await async_client.shipping.with_raw_response.one_click_shipment(body)
+result = await async_client.shipping.with_raw_response.one_click_shipment(
+    OneClickShipmentRequest(
+        ship_to=Address1(
+            name="some example string",
+            address_line1="some example string",
+            city="some example string",
+            state_or_region="some example string",
+            postal_code="some example string",
+            country_code="some example string",
+        ),
+        ship_from=Address1(
+            name="some example string",
+            address_line1="some example string",
+            city="some example string",
+            state_or_region="some example string",
+            postal_code="some example string",
+            country_code="some example string",
+        ),
+        packages=[
+            Package(
+                dimensions=PackageDimensions(length=1.5, width=1.5, height=1.5, unit=Unit.INCHES),
+                weight=Weight(value=1.5, unit=Unit1.OZ),
+                package_client_reference_id="some example string",
+            ),
+        ],
+        service_selection=ServiceSelection(),
+        requested_document_specification=RequestedDocumentSpecification(
+            format=Format1.PDF, size=LabelDimensions(), dpi=Dpi.VALUE_203
+        ),
+        channel_details=ChannelDetails(channel_type=ChannelType.WALMART_MARKETPLACE),
+    ),
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type GetFulfillmentOrderShipmentsResponse
@@ -11190,7 +11760,7 @@ match result:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>body</code> | <code>[OneClickShipmentRequest](walmart_apis/models/one_click_shipment_request.py) \| [OneClickShipmentRequestDict](walmart_apis/models/one_click_shipment_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -11247,7 +11817,15 @@ document references.
 **Sync**
 
 ```python
-result = client.shipping.with_raw_response.purchase_shipment(body)
+result = client.shipping.with_raw_response.purchase_shipment(
+    PurchaseShipmentRequest(
+        request_token="some example string",
+        rate_id="some example string",
+        requested_document_specification=RequestedDocumentSpecification(
+            format=Format1.PDF, size=LabelDimensions(), dpi=Dpi.VALUE_203
+        ),
+    ),
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type GetFulfillmentOrderShipmentsResponse
@@ -11258,7 +11836,15 @@ match result:
 **Async**
 
 ```python
-result = await async_client.shipping.with_raw_response.purchase_shipment(body)
+result = await async_client.shipping.with_raw_response.purchase_shipment(
+    PurchaseShipmentRequest(
+        request_token="some example string",
+        rate_id="some example string",
+        requested_document_specification=RequestedDocumentSpecification(
+            format=Format1.PDF, size=LabelDimensions(), dpi=Dpi.VALUE_203
+        ),
+    ),
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type GetFulfillmentOrderShipmentsResponse
@@ -11277,7 +11863,7 @@ match result:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>body</code> | <code>[PurchaseShipmentRequest](walmart_apis/models/purchase_shipment_request.py) \| [PurchaseShipmentRequestDict](walmart_apis/models/purchase_shipment_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -11334,7 +11920,9 @@ redirect, etc).
 **Sync**
 
 ```python
-result = client.shipping.with_raw_response.submit_ndr_feedback(body)
+result = client.shipping.with_raw_response.submit_ndr_feedback(
+    SubmitNdrFeedbackRequest(seller_tracking_id="some example string", ndr_action=NdrAction.RETURN_TO_ORIGIN)
+)
 match result:
     case Success():
         ...  # 2xx, no content
@@ -11345,7 +11933,9 @@ match result:
 **Async**
 
 ```python
-result = await async_client.shipping.with_raw_response.submit_ndr_feedback(body)
+result = await async_client.shipping.with_raw_response.submit_ndr_feedback(
+    SubmitNdrFeedbackRequest(seller_tracking_id="some example string", ndr_action=NdrAction.RETURN_TO_ORIGIN)
+)
 match result:
     case Success():
         ...  # 2xx, no content
@@ -11364,7 +11954,7 @@ match result:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>body</code> | <code>[SubmitNdrFeedbackRequest](walmart_apis/models/submit_ndr_feedback_request.py) \| [SubmitNdrFeedbackRequestDict](walmart_apis/models/submit_ndr_feedback_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -11424,7 +12014,7 @@ Send a `POST` request.
 
 ```python
 result = client.solicitations.with_raw_response.create_product_review_and_seller_feedback_solicitation(
-    sp_api_order_id, marketplace_ids
+    "some example string", ["some example string"]
 )
 match result:
     case Success(payload=payload):
@@ -11437,7 +12027,7 @@ match result:
 
 ```python
 result = await async_client.solicitations.with_raw_response.create_product_review_and_seller_feedback_solicitation(
-    sp_api_order_id, marketplace_ids
+    "some example string", ["some example string"]
 )
 match result:
     case Success(payload=payload):
@@ -11458,7 +12048,7 @@ match result:
 | --- | --- | --- |
 | <code>sp_api_order_id</code> | <code>str</code> | An SP-API order identifier. This specifies the order for which a solicitation is sent. |
 | <code>marketplace_ids</code> | <code>list&#91;str&#93;</code> | A marketplace identifier. This specifies the marketplace in which the order was placed. Only one marketplace can be spec |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -11513,7 +12103,9 @@ Send a `GET` request.
 **Sync**
 
 ```python
-result = client.solicitations.with_raw_response.get_solicitation_actions_for_order(sp_api_order_id, marketplace_ids)
+result = client.solicitations.with_raw_response.get_solicitation_actions_for_order(
+    "some example string", ["some example string"]
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type Any
@@ -11525,7 +12117,7 @@ match result:
 
 ```python
 result = await async_client.solicitations.with_raw_response.get_solicitation_actions_for_order(
-    sp_api_order_id, marketplace_ids
+    "some example string", ["some example string"]
 )
 match result:
     case Success(payload=payload):
@@ -11546,7 +12138,7 @@ match result:
 | --- | --- | --- |
 | <code>sp_api_order_id</code> | <code>str</code> | An SP-API order identifier. This specifies the order for which you want a list of available solicitation types. |
 | <code>marketplace_ids</code> | <code>list&#91;str&#93;</code> | A marketplace identifier. This specifies the marketplace in which the order was placed. Only one marketplace can be spec |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -11605,7 +12197,7 @@ Send a `PUT` request.
 **Sync**
 
 ```python
-result = client.wfs_inbound.with_raw_response.cancel_inbound_plan(inbound_plan_id)
+result = client.wfs_inbound.with_raw_response.cancel_inbound_plan("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type CancelInboundPlanResponse
@@ -11616,7 +12208,7 @@ match result:
 **Async**
 
 ```python
-result = await async_client.wfs_inbound.with_raw_response.cancel_inbound_plan(inbound_plan_id)
+result = await async_client.wfs_inbound.with_raw_response.cancel_inbound_plan("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type CancelInboundPlanResponse
@@ -11635,7 +12227,7 @@ match result:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>inbound_plan_id</code> | <code>str</code> | Identifier of an inbound plan. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -11690,7 +12282,9 @@ Send a `PUT` request.
 **Sync**
 
 ```python
-result = client.wfs_inbound.with_raw_response.cancel_self_ship_appointment(inbound_plan_id, shipment_id, body)
+result = client.wfs_inbound.with_raw_response.cancel_self_ship_appointment(
+    "some example string", "some example string", CancelSelfShipAppointmentRequest()
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type CancelInboundPlanResponse
@@ -11702,7 +12296,7 @@ match result:
 
 ```python
 result = await async_client.wfs_inbound.with_raw_response.cancel_self_ship_appointment(
-    inbound_plan_id, shipment_id, body
+    "some example string", "some example string", CancelSelfShipAppointmentRequest()
 )
 match result:
     case Success(payload=payload):
@@ -11724,7 +12318,7 @@ match result:
 | <code>inbound_plan_id</code> | <code>str</code> | Identifier of an inbound plan. |
 | <code>shipment_id</code> | <code>str</code> | Identifier of a shipment. |
 | <code>body</code> | <code>[CancelSelfShipAppointmentRequest](walmart_apis/models/cancel_self_ship_appointment_request.py) \| [CancelSelfShipAppointmentRequestDict](walmart_apis/models/cancel_self_ship_appointment_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -11780,7 +12374,7 @@ Send a `POST` request.
 
 ```python
 result = client.wfs_inbound.with_raw_response.confirm_delivery_window_options(
-    inbound_plan_id, shipment_id, delivery_window_option_id
+    "some example string", "some example string", "some example string"
 )
 match result:
     case Success(payload=payload):
@@ -11793,7 +12387,7 @@ match result:
 
 ```python
 result = await async_client.wfs_inbound.with_raw_response.confirm_delivery_window_options(
-    inbound_plan_id, shipment_id, delivery_window_option_id
+    "some example string", "some example string", "some example string"
 )
 match result:
     case Success(payload=payload):
@@ -11815,7 +12409,7 @@ match result:
 | <code>inbound_plan_id</code> | <code>str</code> | Identifier of an inbound plan. |
 | <code>shipment_id</code> | <code>str</code> | The shipment to confirm the delivery window option for. |
 | <code>delivery_window_option_id</code> | <code>str</code> | The ID of the delivery window option to be confirmed. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -11870,7 +12464,7 @@ Send a `POST` request.
 **Sync**
 
 ```python
-result = client.wfs_inbound.with_raw_response.confirm_packing_option(inbound_plan_id, packing_option_id)
+result = client.wfs_inbound.with_raw_response.confirm_packing_option("some example string", "some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type CancelInboundPlanResponse
@@ -11881,7 +12475,9 @@ match result:
 **Async**
 
 ```python
-result = await async_client.wfs_inbound.with_raw_response.confirm_packing_option(inbound_plan_id, packing_option_id)
+result = await async_client.wfs_inbound.with_raw_response.confirm_packing_option(
+    "some example string", "some example string"
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type CancelInboundPlanResponse
@@ -11901,7 +12497,7 @@ match result:
 | --- | --- | --- |
 | <code>inbound_plan_id</code> | <code>str</code> | Identifier of an inbound plan. |
 | <code>packing_option_id</code> | <code>str</code> | Identifier of a packing option. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -11956,7 +12552,7 @@ Send a `POST` request.
 **Sync**
 
 ```python
-result = client.wfs_inbound.with_raw_response.confirm_placement_option(inbound_plan_id, placement_option_id)
+result = client.wfs_inbound.with_raw_response.confirm_placement_option("some example string", "some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type CancelInboundPlanResponse
@@ -11967,7 +12563,9 @@ match result:
 **Async**
 
 ```python
-result = await async_client.wfs_inbound.with_raw_response.confirm_placement_option(inbound_plan_id, placement_option_id)
+result = await async_client.wfs_inbound.with_raw_response.confirm_placement_option(
+    "some example string", "some example string"
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type CancelInboundPlanResponse
@@ -11987,7 +12585,7 @@ match result:
 | --- | --- | --- |
 | <code>inbound_plan_id</code> | <code>str</code> | Identifier of an inbound plan. |
 | <code>placement_option_id</code> | <code>str</code> | The identifier of a placement option. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -12043,7 +12641,7 @@ Send a `POST` request.
 
 ```python
 result = client.wfs_inbound.with_raw_response.confirm_shipment_content_update_preview(
-    inbound_plan_id, shipment_id, content_update_preview_id
+    "some example string", "some example string", "some example string"
 )
 match result:
     case Success(payload=payload):
@@ -12056,7 +12654,7 @@ match result:
 
 ```python
 result = await async_client.wfs_inbound.with_raw_response.confirm_shipment_content_update_preview(
-    inbound_plan_id, shipment_id, content_update_preview_id
+    "some example string", "some example string", "some example string"
 )
 match result:
     case Success(payload=payload):
@@ -12078,7 +12676,7 @@ match result:
 | <code>inbound_plan_id</code> | <code>str</code> | Identifier of an inbound plan. |
 | <code>shipment_id</code> | <code>str</code> | Identifier of a shipment. |
 | <code>content_update_preview_id</code> | <code>str</code> | Identifier of a content update preview. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -12133,7 +12731,16 @@ Send a `POST` request.
 **Sync**
 
 ```python
-result = client.wfs_inbound.with_raw_response.confirm_transportation_options(inbound_plan_id, body)
+result = client.wfs_inbound.with_raw_response.confirm_transportation_options(
+    "some example string",
+    ConfirmTransportationOptionsRequest(
+        transportation_selections=[
+            CommonTransportationSelection(
+                shipment_id="some example string", transportation_option_id="some example string"
+            ),
+        ],
+    ),
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type CancelInboundPlanResponse
@@ -12144,7 +12751,16 @@ match result:
 **Async**
 
 ```python
-result = await async_client.wfs_inbound.with_raw_response.confirm_transportation_options(inbound_plan_id, body)
+result = await async_client.wfs_inbound.with_raw_response.confirm_transportation_options(
+    "some example string",
+    ConfirmTransportationOptionsRequest(
+        transportation_selections=[
+            CommonTransportationSelection(
+                shipment_id="some example string", transportation_option_id="some example string"
+            ),
+        ],
+    ),
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type CancelInboundPlanResponse
@@ -12164,7 +12780,7 @@ match result:
 | --- | --- | --- |
 | <code>inbound_plan_id</code> | <code>str</code> | Identifier of an inbound plan. |
 | <code>body</code> | <code>[ConfirmTransportationOptionsRequest](walmart_apis/models/confirm_transportation_options_request.py) \| [ConfirmTransportationOptionsRequestDict](walmart_apis/models/confirm_transportation_options_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -12219,7 +12835,27 @@ Send a `POST` request.
 **Sync**
 
 ```python
-result = client.wfs_inbound.with_raw_response.create_inbound_plan(body)
+result = client.wfs_inbound.with_raw_response.create_inbound_plan(
+    CreateInboundPlanRequest(
+        destination_marketplaces=["some example string"],
+        items=[
+            CommonItemInput(
+                label_owner=CommonLabelOwner.SELLER,
+                msku="some example string",
+                prep_owner=CommonPrepOwner.SELLER,
+                quantity=1,
+            ),
+        ],
+        source_address=CommonAddressInput(
+            address_line1="some example string",
+            city="some example string",
+            country_code="some example string",
+            name="some example string",
+            phone_number="some example string",
+            postal_code="some example string",
+        ),
+    ),
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type CreateInboundPlanResponse
@@ -12230,7 +12866,27 @@ match result:
 **Async**
 
 ```python
-result = await async_client.wfs_inbound.with_raw_response.create_inbound_plan(body)
+result = await async_client.wfs_inbound.with_raw_response.create_inbound_plan(
+    CreateInboundPlanRequest(
+        destination_marketplaces=["some example string"],
+        items=[
+            CommonItemInput(
+                label_owner=CommonLabelOwner.SELLER,
+                msku="some example string",
+                prep_owner=CommonPrepOwner.SELLER,
+                quantity=1,
+            ),
+        ],
+        source_address=CommonAddressInput(
+            address_line1="some example string",
+            city="some example string",
+            country_code="some example string",
+            name="some example string",
+            phone_number="some example string",
+            postal_code="some example string",
+        ),
+    ),
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type CreateInboundPlanResponse
@@ -12249,7 +12905,7 @@ match result:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>body</code> | <code>[CreateInboundPlanRequest](walmart_apis/models/create_inbound_plan_request.py) \| [CreateInboundPlanRequestDict](walmart_apis/models/create_inbound_plan_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -12304,7 +12960,13 @@ Send a `POST` request.
 **Sync**
 
 ```python
-result = client.wfs_inbound.with_raw_response.create_marketplace_item_labels(body)
+result = client.wfs_inbound.with_raw_response.create_marketplace_item_labels(
+    CreateMarketplaceItemLabelsRequest(
+        label_type=CommonLabelPrintType.STANDARD_FORMAT,
+        marketplace_id="some example string",
+        msku_quantities=[CommonMskuQuantity(msku="some example string", quantity=1)],
+    ),
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type CreateMarketplaceItemLabelsResponse
@@ -12315,7 +12977,13 @@ match result:
 **Async**
 
 ```python
-result = await async_client.wfs_inbound.with_raw_response.create_marketplace_item_labels(body)
+result = await async_client.wfs_inbound.with_raw_response.create_marketplace_item_labels(
+    CreateMarketplaceItemLabelsRequest(
+        label_type=CommonLabelPrintType.STANDARD_FORMAT,
+        marketplace_id="some example string",
+        msku_quantities=[CommonMskuQuantity(msku="some example string", quantity=1)],
+    ),
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type CreateMarketplaceItemLabelsResponse
@@ -12334,7 +13002,7 @@ match result:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>body</code> | <code>[CreateMarketplaceItemLabelsRequest](walmart_apis/models/create_marketplace_item_labels_request.py) \| [CreateMarketplaceItemLabelsRequestDict](walmart_apis/models/create_marketplace_item_labels_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -12389,7 +13057,9 @@ Send a `POST` request.
 **Sync**
 
 ```python
-result = client.wfs_inbound.with_raw_response.generate_delivery_window_options(inbound_plan_id, shipment_id)
+result = client.wfs_inbound.with_raw_response.generate_delivery_window_options(
+    "some example string", "some example string"
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type CancelInboundPlanResponse
@@ -12400,7 +13070,9 @@ match result:
 **Async**
 
 ```python
-result = await async_client.wfs_inbound.with_raw_response.generate_delivery_window_options(inbound_plan_id, shipment_id)
+result = await async_client.wfs_inbound.with_raw_response.generate_delivery_window_options(
+    "some example string", "some example string"
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type CancelInboundPlanResponse
@@ -12420,7 +13092,7 @@ match result:
 | --- | --- | --- |
 | <code>inbound_plan_id</code> | <code>str</code> | Identifier of an inbound plan. |
 | <code>shipment_id</code> | <code>str</code> | The shipment to generate delivery window options for. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -12475,7 +13147,7 @@ Send a `POST` request.
 **Sync**
 
 ```python
-result = client.wfs_inbound.with_raw_response.generate_packing_options(inbound_plan_id)
+result = client.wfs_inbound.with_raw_response.generate_packing_options("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type CancelInboundPlanResponse
@@ -12486,7 +13158,7 @@ match result:
 **Async**
 
 ```python
-result = await async_client.wfs_inbound.with_raw_response.generate_packing_options(inbound_plan_id)
+result = await async_client.wfs_inbound.with_raw_response.generate_packing_options("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type CancelInboundPlanResponse
@@ -12505,7 +13177,7 @@ match result:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>inbound_plan_id</code> | <code>str</code> | Identifier of an inbound plan. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -12560,7 +13232,9 @@ Send a `POST` request.
 **Sync**
 
 ```python
-result = client.wfs_inbound.with_raw_response.generate_placement_options(inbound_plan_id, body)
+result = client.wfs_inbound.with_raw_response.generate_placement_options(
+    "some example string", GeneratePlacementOptionsRequest()
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type CancelInboundPlanResponse
@@ -12571,7 +13245,9 @@ match result:
 **Async**
 
 ```python
-result = await async_client.wfs_inbound.with_raw_response.generate_placement_options(inbound_plan_id, body)
+result = await async_client.wfs_inbound.with_raw_response.generate_placement_options(
+    "some example string", GeneratePlacementOptionsRequest()
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type CancelInboundPlanResponse
@@ -12591,7 +13267,7 @@ match result:
 | --- | --- | --- |
 | <code>inbound_plan_id</code> | <code>str</code> | Identifier of an inbound plan. |
 | <code>body</code> | <code>[GeneratePlacementOptionsRequest](walmart_apis/models/generate_placement_options_request.py) \| [GeneratePlacementOptionsRequestDict](walmart_apis/models/generate_placement_options_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -12646,7 +13322,9 @@ Send a `POST` request.
 **Sync**
 
 ```python
-result = client.wfs_inbound.with_raw_response.generate_self_ship_appointment_slots(inbound_plan_id, shipment_id, body)
+result = client.wfs_inbound.with_raw_response.generate_self_ship_appointment_slots(
+    "some example string", "some example string", GenerateSelfShipAppointmentSlotsRequest()
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type CancelInboundPlanResponse
@@ -12658,7 +13336,7 @@ match result:
 
 ```python
 result = await async_client.wfs_inbound.with_raw_response.generate_self_ship_appointment_slots(
-    inbound_plan_id, shipment_id, body
+    "some example string", "some example string", GenerateSelfShipAppointmentSlotsRequest()
 )
 match result:
     case Success(payload=payload):
@@ -12680,7 +13358,7 @@ match result:
 | <code>inbound_plan_id</code> | <code>str</code> | Identifier of an inbound plan. |
 | <code>shipment_id</code> | <code>str</code> | Identifier of a shipment. |
 | <code>body</code> | <code>[GenerateSelfShipAppointmentSlotsRequest](walmart_apis/models/generate_self_ship_appointment_slots_request.py) \| [GenerateSelfShipAppointmentSlotsRequestDict](walmart_apis/models/generate_self_ship_appointment_slots_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -12736,7 +13414,28 @@ Send a `POST` request.
 
 ```python
 result = client.wfs_inbound.with_raw_response.generate_shipment_content_update_previews(
-    inbound_plan_id, shipment_id, body
+    "some example string",
+    "some example string",
+    GenerateShipmentContentUpdatePreviewsRequest(
+        boxes=[
+            CommonBoxUpdateInput(
+                content_information_source=CommonBoxContentInformationSource.BOX_CONTENT_PROVIDED,
+                dimensions=CommonDimensions(
+                    height=1.5, length=1.5, width=1.5, unit_of_measurement=CommonUnitOfMeasurement.IN
+                ),
+                quantity=1,
+                weight=CommonWeight(unit=CommonUnitOfWeight.LB, value=1.5),
+            ),
+        ],
+        items=[
+            CommonItemInput(
+                label_owner=CommonLabelOwner.SELLER,
+                msku="some example string",
+                prep_owner=CommonPrepOwner.SELLER,
+                quantity=1,
+            ),
+        ],
+    ),
 )
 match result:
     case Success(payload=payload):
@@ -12749,7 +13448,28 @@ match result:
 
 ```python
 result = await async_client.wfs_inbound.with_raw_response.generate_shipment_content_update_previews(
-    inbound_plan_id, shipment_id, body
+    "some example string",
+    "some example string",
+    GenerateShipmentContentUpdatePreviewsRequest(
+        boxes=[
+            CommonBoxUpdateInput(
+                content_information_source=CommonBoxContentInformationSource.BOX_CONTENT_PROVIDED,
+                dimensions=CommonDimensions(
+                    height=1.5, length=1.5, width=1.5, unit_of_measurement=CommonUnitOfMeasurement.IN
+                ),
+                quantity=1,
+                weight=CommonWeight(unit=CommonUnitOfWeight.LB, value=1.5),
+            ),
+        ],
+        items=[
+            CommonItemInput(
+                label_owner=CommonLabelOwner.SELLER,
+                msku="some example string",
+                prep_owner=CommonPrepOwner.SELLER,
+                quantity=1,
+            ),
+        ],
+    ),
 )
 match result:
     case Success(payload=payload):
@@ -12771,7 +13491,7 @@ match result:
 | <code>inbound_plan_id</code> | <code>str</code> | Identifier of an inbound plan. |
 | <code>shipment_id</code> | <code>str</code> | Identifier of a shipment. |
 | <code>body</code> | <code>[GenerateShipmentContentUpdatePreviewsRequest](walmart_apis/models/generate_shipment_content_update_previews_request.py) \| [GenerateShipmentContentUpdatePreviewsRequestDict](walmart_apis/models/generate_shipment_content_update_previews_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -12826,7 +13546,18 @@ Send a `POST` request.
 **Sync**
 
 ```python
-result = client.wfs_inbound.with_raw_response.generate_transportation_options(inbound_plan_id, body)
+result = client.wfs_inbound.with_raw_response.generate_transportation_options(
+    "some example string",
+    GenerateTransportationOptionsRequest(
+        placement_option_id="some example string",
+        shipment_transportation_configurations=[
+            CommonShipmentTransportationConfiguration(
+                ready_to_ship_window=CommonWindowInput(start=datetime(2024, 1, 15, 9, 30, 0, tzinfo=timezone.utc)),
+                shipment_id="some example string",
+            ),
+        ],
+    ),
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type CancelInboundPlanResponse
@@ -12837,7 +13568,18 @@ match result:
 **Async**
 
 ```python
-result = await async_client.wfs_inbound.with_raw_response.generate_transportation_options(inbound_plan_id, body)
+result = await async_client.wfs_inbound.with_raw_response.generate_transportation_options(
+    "some example string",
+    GenerateTransportationOptionsRequest(
+        placement_option_id="some example string",
+        shipment_transportation_configurations=[
+            CommonShipmentTransportationConfiguration(
+                ready_to_ship_window=CommonWindowInput(start=datetime(2024, 1, 15, 9, 30, 0, tzinfo=timezone.utc)),
+                shipment_id="some example string",
+            ),
+        ],
+    ),
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type CancelInboundPlanResponse
@@ -12857,7 +13599,7 @@ match result:
 | --- | --- | --- |
 | <code>inbound_plan_id</code> | <code>str</code> | Identifier of an inbound plan. |
 | <code>body</code> | <code>[GenerateTransportationOptionsRequest](walmart_apis/models/generate_transportation_options_request.py) \| [GenerateTransportationOptionsRequestDict](walmart_apis/models/generate_transportation_options_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -12912,7 +13654,9 @@ Send a `GET` request.
 **Sync**
 
 ```python
-result = client.wfs_inbound.with_raw_response.get_delivery_challan_document(inbound_plan_id, shipment_id)
+result = client.wfs_inbound.with_raw_response.get_delivery_challan_document(
+    "some example string", "some example string"
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type GetDeliveryChallanDocumentResponse
@@ -12923,7 +13667,9 @@ match result:
 **Async**
 
 ```python
-result = await async_client.wfs_inbound.with_raw_response.get_delivery_challan_document(inbound_plan_id, shipment_id)
+result = await async_client.wfs_inbound.with_raw_response.get_delivery_challan_document(
+    "some example string", "some example string"
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type GetDeliveryChallanDocumentResponse
@@ -12943,7 +13689,7 @@ match result:
 | --- | --- | --- |
 | <code>inbound_plan_id</code> | <code>str</code> | Identifier of an inbound plan. |
 | <code>shipment_id</code> | <code>str</code> | Identifier of a shipment. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -12998,7 +13744,7 @@ Send a `GET` request.
 **Sync**
 
 ```python
-result = client.wfs_inbound.with_raw_response.get_inbound_operation_status(operation_id)
+result = client.wfs_inbound.with_raw_response.get_inbound_operation_status("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type CommonInboundOperationStatus
@@ -13009,7 +13755,7 @@ match result:
 **Async**
 
 ```python
-result = await async_client.wfs_inbound.with_raw_response.get_inbound_operation_status(operation_id)
+result = await async_client.wfs_inbound.with_raw_response.get_inbound_operation_status("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type CommonInboundOperationStatus
@@ -13028,7 +13774,7 @@ match result:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>operation_id</code> | <code>str</code> | Identifier of an asynchronous operation. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -13083,7 +13829,7 @@ Send a `GET` request.
 **Sync**
 
 ```python
-result = client.wfs_inbound.with_raw_response.get_inbound_plan(inbound_plan_id)
+result = client.wfs_inbound.with_raw_response.get_inbound_plan("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type InboundPlan
@@ -13094,7 +13840,7 @@ match result:
 **Async**
 
 ```python
-result = await async_client.wfs_inbound.with_raw_response.get_inbound_plan(inbound_plan_id)
+result = await async_client.wfs_inbound.with_raw_response.get_inbound_plan("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type InboundPlan
@@ -13113,7 +13859,7 @@ match result:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>inbound_plan_id</code> | <code>str</code> | Identifier of an inbound plan. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -13168,7 +13914,9 @@ Send a `GET` request.
 **Sync**
 
 ```python
-result = client.wfs_inbound.with_raw_response.get_self_ship_appointment_slots(inbound_plan_id, shipment_id)
+result = client.wfs_inbound.with_raw_response.get_self_ship_appointment_slots(
+    "some example string", "some example string"
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type GetSelfShipAppointmentSlotsResponse
@@ -13179,7 +13927,9 @@ match result:
 **Async**
 
 ```python
-result = await async_client.wfs_inbound.with_raw_response.get_self_ship_appointment_slots(inbound_plan_id, shipment_id)
+result = await async_client.wfs_inbound.with_raw_response.get_self_ship_appointment_slots(
+    "some example string", "some example string"
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type GetSelfShipAppointmentSlotsResponse
@@ -13201,7 +13951,7 @@ match result:
 | <code>shipment_id</code> | <code>str</code> | Identifier of a shipment. |
 | <code>page_size</code> | <code>int \| None</code> | The number of self ship appointment slots to return in the response matching the given query.<br>**Default**: <code>None</code> |
 | <code>pagination_token</code> | <code>str \| None</code> | A token to fetch a certain page when there are multiple pages worth of results.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -13256,7 +14006,7 @@ Send a `GET` request.
 **Sync**
 
 ```python
-result = client.wfs_inbound.with_raw_response.get_shipment(inbound_plan_id, shipment_id)
+result = client.wfs_inbound.with_raw_response.get_shipment("some example string", "some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type CommonShipment
@@ -13267,7 +14017,7 @@ match result:
 **Async**
 
 ```python
-result = await async_client.wfs_inbound.with_raw_response.get_shipment(inbound_plan_id, shipment_id)
+result = await async_client.wfs_inbound.with_raw_response.get_shipment("some example string", "some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type CommonShipment
@@ -13287,7 +14037,7 @@ match result:
 | --- | --- | --- |
 | <code>inbound_plan_id</code> | <code>str</code> | Identifier of an inbound plan. |
 | <code>shipment_id</code> | <code>str</code> | Identifier of a shipment. A shipment contains the boxes and units being inbounded. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -13343,7 +14093,7 @@ Send a `GET` request.
 
 ```python
 result = client.wfs_inbound.with_raw_response.get_shipment_content_update_preview(
-    inbound_plan_id, shipment_id, content_update_preview_id
+    "some example string", "some example string", "some example string"
 )
 match result:
     case Success(payload=payload):
@@ -13356,7 +14106,7 @@ match result:
 
 ```python
 result = await async_client.wfs_inbound.with_raw_response.get_shipment_content_update_preview(
-    inbound_plan_id, shipment_id, content_update_preview_id
+    "some example string", "some example string", "some example string"
 )
 match result:
     case Success(payload=payload):
@@ -13378,7 +14128,7 @@ match result:
 | <code>inbound_plan_id</code> | <code>str</code> | Identifier of an inbound plan. |
 | <code>shipment_id</code> | <code>str</code> | Identifier of a shipment. |
 | <code>content_update_preview_id</code> | <code>str</code> | Identifier of a content update preview. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -13433,7 +14183,7 @@ Send a `GET` request.
 **Sync**
 
 ```python
-result = client.wfs_inbound.with_raw_response.list_delivery_window_options(inbound_plan_id, shipment_id)
+result = client.wfs_inbound.with_raw_response.list_delivery_window_options("some example string", "some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type ListDeliveryWindowOptionsResponse
@@ -13444,7 +14194,9 @@ match result:
 **Async**
 
 ```python
-result = await async_client.wfs_inbound.with_raw_response.list_delivery_window_options(inbound_plan_id, shipment_id)
+result = await async_client.wfs_inbound.with_raw_response.list_delivery_window_options(
+    "some example string", "some example string"
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type ListDeliveryWindowOptionsResponse
@@ -13466,7 +14218,7 @@ match result:
 | <code>shipment_id</code> | <code>str</code> | The shipment to get delivery window options for. |
 | <code>page_size</code> | <code>int \| None</code> | The number of delivery window options to return in the response matching the given query.<br>**Default**: <code>None</code> |
 | <code>pagination_token</code> | <code>str \| None</code> | A token to fetch a certain page when there are multiple pages worth of results.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -13521,7 +14273,7 @@ Send a `GET` request.
 **Sync**
 
 ```python
-result = client.wfs_inbound.with_raw_response.list_inbound_plan_boxes(inbound_plan_id)
+result = client.wfs_inbound.with_raw_response.list_inbound_plan_boxes("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type ListInboundPlanBoxesResponse
@@ -13532,7 +14284,7 @@ match result:
 **Async**
 
 ```python
-result = await async_client.wfs_inbound.with_raw_response.list_inbound_plan_boxes(inbound_plan_id)
+result = await async_client.wfs_inbound.with_raw_response.list_inbound_plan_boxes("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type ListInboundPlanBoxesResponse
@@ -13553,7 +14305,7 @@ match result:
 | <code>inbound_plan_id</code> | <code>str</code> | Identifier of an inbound plan. |
 | <code>page_size</code> | <code>int \| None</code> | The number of boxes to return in the response matching the given query.<br>**Default**: <code>None</code> |
 | <code>pagination_token</code> | <code>str \| None</code> | A token to fetch a certain page when there are multiple pages worth of results.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -13608,7 +14360,7 @@ Send a `GET` request.
 **Sync**
 
 ```python
-result = client.wfs_inbound.with_raw_response.list_inbound_plan_items(inbound_plan_id)
+result = client.wfs_inbound.with_raw_response.list_inbound_plan_items("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type ListInboundPlanItemsResponse
@@ -13619,7 +14371,7 @@ match result:
 **Async**
 
 ```python
-result = await async_client.wfs_inbound.with_raw_response.list_inbound_plan_items(inbound_plan_id)
+result = await async_client.wfs_inbound.with_raw_response.list_inbound_plan_items("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type ListInboundPlanItemsResponse
@@ -13640,7 +14392,7 @@ match result:
 | <code>inbound_plan_id</code> | <code>str</code> | Identifier of an inbound plan. |
 | <code>page_size</code> | <code>int \| None</code> | The number of items to return in the response matching the given query.<br>**Default**: <code>None</code> |
 | <code>pagination_token</code> | <code>str \| None</code> | A token to fetch a certain page when there are multiple pages worth of results.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -13695,7 +14447,7 @@ Send a `GET` request.
 **Sync**
 
 ```python
-result = client.wfs_inbound.with_raw_response.list_inbound_plan_pallets(inbound_plan_id)
+result = client.wfs_inbound.with_raw_response.list_inbound_plan_pallets("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type ListInboundPlanPalletsResponse
@@ -13706,7 +14458,7 @@ match result:
 **Async**
 
 ```python
-result = await async_client.wfs_inbound.with_raw_response.list_inbound_plan_pallets(inbound_plan_id)
+result = await async_client.wfs_inbound.with_raw_response.list_inbound_plan_pallets("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type ListInboundPlanPalletsResponse
@@ -13727,7 +14479,7 @@ match result:
 | <code>inbound_plan_id</code> | <code>str</code> | Identifier of an inbound plan. |
 | <code>page_size</code> | <code>int \| None</code> | The number of pallets to return in the response matching the given query.<br>**Default**: <code>None</code> |
 | <code>pagination_token</code> | <code>str \| None</code> | A token to fetch a certain page when there are multiple pages worth of results.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -13816,7 +14568,7 @@ match result:
 | <code>status</code> | <code>str \| None</code> | The status of an inbound plan. Possible values: `ACTIVE`, `VOIDED`, `SHIPPED`, `ERRORED`.<br>**Default**: <code>None</code> |
 | <code>sort_by</code> | <code>str \| None</code> | Sort by field.<br>**Default**: <code>None</code> |
 | <code>sort_order</code> | <code>str \| None</code> | The sort order. Possible values: `ASC`, `DESC`.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -13871,7 +14623,9 @@ Send a `GET` request.
 **Sync**
 
 ```python
-result = client.wfs_inbound.with_raw_response.list_item_compliance_details(mskus, marketplace_id)
+result = client.wfs_inbound.with_raw_response.list_item_compliance_details(
+    ["some example string"], "some example string"
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type ListItemComplianceDetailsResponse
@@ -13882,7 +14636,9 @@ match result:
 **Async**
 
 ```python
-result = await async_client.wfs_inbound.with_raw_response.list_item_compliance_details(mskus, marketplace_id)
+result = await async_client.wfs_inbound.with_raw_response.list_item_compliance_details(
+    ["some example string"], "some example string"
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type ListItemComplianceDetailsResponse
@@ -13902,7 +14658,7 @@ match result:
 | --- | --- | --- |
 | <code>mskus</code> | <code>list&#91;str&#93;</code> | A list of merchant SKUs, a merchant-supplied identifier of a specific SKU. |
 | <code>marketplace_id</code> | <code>str</code> | The Walmart Marketplace ID. For a list of possible values, refer to [Marketplace IDs](https://developer-docs.walmart.com/seller-api/docs/marketplace-ids). |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -13957,7 +14713,7 @@ Send a `GET` request.
 **Sync**
 
 ```python
-result = client.wfs_inbound.with_raw_response.list_packing_group_boxes(inbound_plan_id, packing_group_id)
+result = client.wfs_inbound.with_raw_response.list_packing_group_boxes("some example string", "some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type ListInboundPlanBoxesResponse
@@ -13968,7 +14724,9 @@ match result:
 **Async**
 
 ```python
-result = await async_client.wfs_inbound.with_raw_response.list_packing_group_boxes(inbound_plan_id, packing_group_id)
+result = await async_client.wfs_inbound.with_raw_response.list_packing_group_boxes(
+    "some example string", "some example string"
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type ListInboundPlanBoxesResponse
@@ -13990,7 +14748,7 @@ match result:
 | <code>packing_group_id</code> | <code>str</code> | Identifier of a packing group. |
 | <code>page_size</code> | <code>int \| None</code> | The number of packing group boxes to return in the response matching the given query.<br>**Default**: <code>None</code> |
 | <code>pagination_token</code> | <code>str \| None</code> | A token to fetch a certain page when there are multiple pages worth of results.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -14045,7 +14803,7 @@ Send a `GET` request.
 **Sync**
 
 ```python
-result = client.wfs_inbound.with_raw_response.list_packing_group_items(inbound_plan_id, packing_group_id)
+result = client.wfs_inbound.with_raw_response.list_packing_group_items("some example string", "some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type ListInboundPlanItemsResponse
@@ -14056,7 +14814,9 @@ match result:
 **Async**
 
 ```python
-result = await async_client.wfs_inbound.with_raw_response.list_packing_group_items(inbound_plan_id, packing_group_id)
+result = await async_client.wfs_inbound.with_raw_response.list_packing_group_items(
+    "some example string", "some example string"
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type ListInboundPlanItemsResponse
@@ -14078,7 +14838,7 @@ match result:
 | <code>packing_group_id</code> | <code>str</code> | Identifier of a packing group. |
 | <code>page_size</code> | <code>int \| None</code> | The number of packing group items to return in the response matching the given query.<br>**Default**: <code>None</code> |
 | <code>pagination_token</code> | <code>str \| None</code> | A token to fetch a certain page when there are multiple pages worth of results.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -14133,7 +14893,7 @@ Send a `GET` request.
 **Sync**
 
 ```python
-result = client.wfs_inbound.with_raw_response.list_packing_options(inbound_plan_id)
+result = client.wfs_inbound.with_raw_response.list_packing_options("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type ListPackingOptionsResponse
@@ -14144,7 +14904,7 @@ match result:
 **Async**
 
 ```python
-result = await async_client.wfs_inbound.with_raw_response.list_packing_options(inbound_plan_id)
+result = await async_client.wfs_inbound.with_raw_response.list_packing_options("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type ListPackingOptionsResponse
@@ -14165,7 +14925,7 @@ match result:
 | <code>inbound_plan_id</code> | <code>str</code> | Identifier of an inbound plan. |
 | <code>page_size</code> | <code>int \| None</code> | The number of packing options to return in the response matching the given query.<br>**Default**: <code>None</code> |
 | <code>pagination_token</code> | <code>str \| None</code> | A token to fetch a certain page when there are multiple pages worth of results.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -14220,7 +14980,7 @@ Send a `GET` request.
 **Sync**
 
 ```python
-result = client.wfs_inbound.with_raw_response.list_placement_options(inbound_plan_id)
+result = client.wfs_inbound.with_raw_response.list_placement_options("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type ListPlacementOptionsResponse
@@ -14231,7 +14991,7 @@ match result:
 **Async**
 
 ```python
-result = await async_client.wfs_inbound.with_raw_response.list_placement_options(inbound_plan_id)
+result = await async_client.wfs_inbound.with_raw_response.list_placement_options("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type ListPlacementOptionsResponse
@@ -14252,7 +15012,7 @@ match result:
 | <code>inbound_plan_id</code> | <code>str</code> | Identifier of an inbound plan. |
 | <code>page_size</code> | <code>int \| None</code> | The number of placement options to return in the response matching the given query.<br>**Default**: <code>None</code> |
 | <code>pagination_token</code> | <code>str \| None</code> | A token to fetch a certain page when there are multiple pages worth of results.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -14307,7 +15067,7 @@ Send a `GET` request.
 **Sync**
 
 ```python
-result = client.wfs_inbound.with_raw_response.list_prep_details(marketplace_id, mskus)
+result = client.wfs_inbound.with_raw_response.list_prep_details("some example string", ["some example string"])
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type ListPrepDetailsResponse
@@ -14318,7 +15078,9 @@ match result:
 **Async**
 
 ```python
-result = await async_client.wfs_inbound.with_raw_response.list_prep_details(marketplace_id, mskus)
+result = await async_client.wfs_inbound.with_raw_response.list_prep_details(
+    "some example string", ["some example string"]
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type ListPrepDetailsResponse
@@ -14338,7 +15100,7 @@ match result:
 | --- | --- | --- |
 | <code>marketplace_id</code> | <code>str</code> | The Walmart Marketplace ID. For a list of possible values, refer to [Marketplace IDs](https://developer-docs.walmart.com/seller-api/docs/marketplace-ids). |
 | <code>mskus</code> | <code>list&#91;str&#93;</code> | A list of merchant SKUs, a merchant-supplied identifier of a specific SKU. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -14393,7 +15155,7 @@ Send a `GET` request.
 **Sync**
 
 ```python
-result = client.wfs_inbound.with_raw_response.list_shipment_boxes(inbound_plan_id, shipment_id)
+result = client.wfs_inbound.with_raw_response.list_shipment_boxes("some example string", "some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type ListInboundPlanBoxesResponse
@@ -14404,7 +15166,9 @@ match result:
 **Async**
 
 ```python
-result = await async_client.wfs_inbound.with_raw_response.list_shipment_boxes(inbound_plan_id, shipment_id)
+result = await async_client.wfs_inbound.with_raw_response.list_shipment_boxes(
+    "some example string", "some example string"
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type ListInboundPlanBoxesResponse
@@ -14426,7 +15190,7 @@ match result:
 | <code>shipment_id</code> | <code>str</code> | Identifier of a shipment. A shipment contains the boxes and units being inbounded. |
 | <code>page_size</code> | <code>int \| None</code> | The number of boxes to return in the response matching the given query.<br>**Default**: <code>None</code> |
 | <code>pagination_token</code> | <code>str \| None</code> | A token to fetch a certain page when there are multiple pages worth of results.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -14481,7 +15245,9 @@ Send a `GET` request.
 **Sync**
 
 ```python
-result = client.wfs_inbound.with_raw_response.list_shipment_content_update_previews(inbound_plan_id, shipment_id)
+result = client.wfs_inbound.with_raw_response.list_shipment_content_update_previews(
+    "some example string", "some example string"
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type ListShipmentContentUpdatePreviewsResponse
@@ -14493,7 +15259,7 @@ match result:
 
 ```python
 result = await async_client.wfs_inbound.with_raw_response.list_shipment_content_update_previews(
-    inbound_plan_id, shipment_id
+    "some example string", "some example string"
 )
 match result:
     case Success(payload=payload):
@@ -14516,7 +15282,7 @@ match result:
 | <code>shipment_id</code> | <code>str</code> | Identifier of a shipment. |
 | <code>page_size</code> | <code>int \| None</code> | The number of content update previews to return.<br>**Default**: <code>None</code> |
 | <code>pagination_token</code> | <code>str \| None</code> | A token to fetch a certain page when there are multiple pages worth of results.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -14571,7 +15337,7 @@ Send a `GET` request.
 **Sync**
 
 ```python
-result = client.wfs_inbound.with_raw_response.list_shipment_items(inbound_plan_id, shipment_id)
+result = client.wfs_inbound.with_raw_response.list_shipment_items("some example string", "some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type ListInboundPlanItemsResponse
@@ -14582,7 +15348,9 @@ match result:
 **Async**
 
 ```python
-result = await async_client.wfs_inbound.with_raw_response.list_shipment_items(inbound_plan_id, shipment_id)
+result = await async_client.wfs_inbound.with_raw_response.list_shipment_items(
+    "some example string", "some example string"
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type ListInboundPlanItemsResponse
@@ -14604,7 +15372,7 @@ match result:
 | <code>shipment_id</code> | <code>str</code> | Identifier of a shipment. A shipment contains the boxes and units being inbounded. |
 | <code>page_size</code> | <code>int \| None</code> | The number of items to return in the response matching the given query.<br>**Default**: <code>None</code> |
 | <code>pagination_token</code> | <code>str \| None</code> | A token to fetch a certain page when there are multiple pages worth of results.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -14659,7 +15427,7 @@ Send a `GET` request.
 **Sync**
 
 ```python
-result = client.wfs_inbound.with_raw_response.list_shipment_pallets(inbound_plan_id, shipment_id)
+result = client.wfs_inbound.with_raw_response.list_shipment_pallets("some example string", "some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type ListInboundPlanPalletsResponse
@@ -14670,7 +15438,9 @@ match result:
 **Async**
 
 ```python
-result = await async_client.wfs_inbound.with_raw_response.list_shipment_pallets(inbound_plan_id, shipment_id)
+result = await async_client.wfs_inbound.with_raw_response.list_shipment_pallets(
+    "some example string", "some example string"
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type ListInboundPlanPalletsResponse
@@ -14692,7 +15462,7 @@ match result:
 | <code>shipment_id</code> | <code>str</code> | Identifier of a shipment. |
 | <code>page_size</code> | <code>int \| None</code> | The number of pallets to return in the response matching the given query.<br>**Default**: <code>None</code> |
 | <code>pagination_token</code> | <code>str \| None</code> | A token to fetch a certain page when there are multiple pages worth of results.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -14747,7 +15517,7 @@ Send a `GET` request.
 **Sync**
 
 ```python
-result = client.wfs_inbound.with_raw_response.list_transportation_options(inbound_plan_id)
+result = client.wfs_inbound.with_raw_response.list_transportation_options("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type ListTransportationOptionsResponse
@@ -14758,7 +15528,7 @@ match result:
 **Async**
 
 ```python
-result = await async_client.wfs_inbound.with_raw_response.list_transportation_options(inbound_plan_id)
+result = await async_client.wfs_inbound.with_raw_response.list_transportation_options("some example string")
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type ListTransportationOptionsResponse
@@ -14781,7 +15551,7 @@ match result:
 | <code>pagination_token</code> | <code>str \| None</code> | A token to fetch a certain page when there are multiple pages worth of results.<br>**Default**: <code>None</code> |
 | <code>placement_option_id</code> | <code>str \| None</code> | The placement option to get transportation options for. Either `placementOptionId` or `shipmentId` must be specified.<br>**Default**: <code>None</code> |
 | <code>shipment_id</code> | <code>str \| None</code> | The shipment to get transportation options for. Either `placementOptionId` or `shipmentId` must be specified.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -14837,7 +15607,7 @@ Send a `POST` request.
 
 ```python
 result = client.wfs_inbound.with_raw_response.schedule_self_ship_appointment(
-    inbound_plan_id, shipment_id, slot_id, body
+    "some example string", "some example string", "some example string", ScheduleSelfShipAppointmentRequest()
 )
 match result:
     case Success(payload=payload):
@@ -14850,7 +15620,7 @@ match result:
 
 ```python
 result = await async_client.wfs_inbound.with_raw_response.schedule_self_ship_appointment(
-    inbound_plan_id, shipment_id, slot_id, body
+    "some example string", "some example string", "some example string", ScheduleSelfShipAppointmentRequest()
 )
 match result:
     case Success(payload=payload):
@@ -14873,7 +15643,7 @@ match result:
 | <code>shipment_id</code> | <code>str</code> | Identifier of a shipment. |
 | <code>slot_id</code> | <code>str</code> | An identifier to a self-ship appointment slot. |
 | <code>body</code> | <code>[ScheduleSelfShipAppointmentRequest](walmart_apis/models/schedule_self_ship_appointment_request.py) \| [ScheduleSelfShipAppointmentRequestDict](walmart_apis/models/schedule_self_ship_appointment_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -14928,7 +15698,23 @@ Send a `POST` request.
 **Sync**
 
 ```python
-result = client.wfs_inbound.with_raw_response.set_packing_information(inbound_plan_id, body)
+result = client.wfs_inbound.with_raw_response.set_packing_information(
+    "some example string",
+    SetPackingInformationRequest(
+        package_groupings=[
+            CommonPackageGroupingInput(
+                boxes=[
+                    CommonBoxInput(
+                        content_information_source=CommonBoxContentInformationSource.BOX_CONTENT_PROVIDED,
+                        dimensions=CommonDimensions(),
+                        quantity=1,
+                        weight=CommonWeight(),
+                    ),
+                ],
+            ),
+        ],
+    ),
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type CancelInboundPlanResponse
@@ -14939,7 +15725,23 @@ match result:
 **Async**
 
 ```python
-result = await async_client.wfs_inbound.with_raw_response.set_packing_information(inbound_plan_id, body)
+result = await async_client.wfs_inbound.with_raw_response.set_packing_information(
+    "some example string",
+    SetPackingInformationRequest(
+        package_groupings=[
+            CommonPackageGroupingInput(
+                boxes=[
+                    CommonBoxInput(
+                        content_information_source=CommonBoxContentInformationSource.BOX_CONTENT_PROVIDED,
+                        dimensions=CommonDimensions(),
+                        quantity=1,
+                        weight=CommonWeight(),
+                    ),
+                ],
+            ),
+        ],
+    ),
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type CancelInboundPlanResponse
@@ -14959,7 +15761,7 @@ match result:
 | --- | --- | --- |
 | <code>inbound_plan_id</code> | <code>str</code> | Identifier of an inbound plan. |
 | <code>body</code> | <code>[SetPackingInformationRequest](walmart_apis/models/set_packing_information_request.py) \| [SetPackingInformationRequestDict](walmart_apis/models/set_packing_information_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -15014,7 +15816,18 @@ Send a `POST` request.
 **Sync**
 
 ```python
-result = client.wfs_inbound.with_raw_response.set_prep_details(body)
+result = client.wfs_inbound.with_raw_response.set_prep_details(
+    SetPrepDetailsRequest(
+        marketplace_id="some example string",
+        msku_prep_details=[
+            CommonMskuPrepDetailInput(
+                msku="some example string",
+                prep_category=CommonPrepCategory.ADULT,
+                prep_types=[CommonPrepType.ITEM_BLACK_SHRINKWRAP],
+            ),
+        ],
+    ),
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type CancelInboundPlanResponse
@@ -15025,7 +15838,18 @@ match result:
 **Async**
 
 ```python
-result = await async_client.wfs_inbound.with_raw_response.set_prep_details(body)
+result = await async_client.wfs_inbound.with_raw_response.set_prep_details(
+    SetPrepDetailsRequest(
+        marketplace_id="some example string",
+        msku_prep_details=[
+            CommonMskuPrepDetailInput(
+                msku="some example string",
+                prep_category=CommonPrepCategory.ADULT,
+                prep_types=[CommonPrepType.ITEM_BLACK_SHRINKWRAP],
+            ),
+        ],
+    ),
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type CancelInboundPlanResponse
@@ -15044,7 +15868,7 @@ match result:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>body</code> | <code>[SetPrepDetailsRequest](walmart_apis/models/set_prep_details_request.py) \| [SetPrepDetailsRequestDict](walmart_apis/models/set_prep_details_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -15099,7 +15923,9 @@ Send a `PUT` request.
 **Sync**
 
 ```python
-result = client.wfs_inbound.with_raw_response.update_inbound_plan_name(inbound_plan_id, body)
+result = client.wfs_inbound.with_raw_response.update_inbound_plan_name(
+    "some example string", UpdateInboundPlanNameRequest(name="some example string")
+)
 match result:
     case Success():
         ...  # 2xx, no content
@@ -15110,7 +15936,9 @@ match result:
 **Async**
 
 ```python
-result = await async_client.wfs_inbound.with_raw_response.update_inbound_plan_name(inbound_plan_id, body)
+result = await async_client.wfs_inbound.with_raw_response.update_inbound_plan_name(
+    "some example string", UpdateInboundPlanNameRequest(name="some example string")
+)
 match result:
     case Success():
         ...  # 2xx, no content
@@ -15130,7 +15958,7 @@ match result:
 | --- | --- | --- |
 | <code>inbound_plan_id</code> | <code>str</code> | Identifier of an inbound plan. |
 | <code>body</code> | <code>[UpdateInboundPlanNameRequest](walmart_apis/models/update_inbound_plan_name_request.py) \| [UpdateInboundPlanNameRequestDict](walmart_apis/models/update_inbound_plan_name_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -15185,7 +16013,10 @@ Send a `PUT` request.
 **Sync**
 
 ```python
-result = client.wfs_inbound.with_raw_response.update_item_compliance_details(marketplace_id, body)
+result = client.wfs_inbound.with_raw_response.update_item_compliance_details(
+    "some example string",
+    UpdateItemComplianceDetailsRequest(msku="some example string", tax_details=CommonTaxDetails()),
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type CancelInboundPlanResponse
@@ -15196,7 +16027,10 @@ match result:
 **Async**
 
 ```python
-result = await async_client.wfs_inbound.with_raw_response.update_item_compliance_details(marketplace_id, body)
+result = await async_client.wfs_inbound.with_raw_response.update_item_compliance_details(
+    "some example string",
+    UpdateItemComplianceDetailsRequest(msku="some example string", tax_details=CommonTaxDetails()),
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type CancelInboundPlanResponse
@@ -15216,7 +16050,7 @@ match result:
 | --- | --- | --- |
 | <code>marketplace_id</code> | <code>str</code> | The Walmart Marketplace ID. For a list of possible values, refer to [Marketplace IDs](https://developer-docs.walmart.com/seller-api/docs/marketplace-ids). |
 | <code>body</code> | <code>[UpdateItemComplianceDetailsRequest](walmart_apis/models/update_item_compliance_details_request.py) \| [UpdateItemComplianceDetailsRequestDict](walmart_apis/models/update_item_compliance_details_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -15271,7 +16105,9 @@ Send a `PUT` request.
 **Sync**
 
 ```python
-result = client.wfs_inbound.with_raw_response.update_shipment_name(inbound_plan_id, shipment_id, body)
+result = client.wfs_inbound.with_raw_response.update_shipment_name(
+    "some example string", "some example string", UpdateShipmentNameRequest(name="some example string")
+)
 match result:
     case Success():
         ...  # 2xx, no content
@@ -15282,7 +16118,9 @@ match result:
 **Async**
 
 ```python
-result = await async_client.wfs_inbound.with_raw_response.update_shipment_name(inbound_plan_id, shipment_id, body)
+result = await async_client.wfs_inbound.with_raw_response.update_shipment_name(
+    "some example string", "some example string", UpdateShipmentNameRequest(name="some example string")
+)
 match result:
     case Success():
         ...  # 2xx, no content
@@ -15303,7 +16141,7 @@ match result:
 | <code>inbound_plan_id</code> | <code>str</code> | Identifier of an inbound plan. |
 | <code>shipment_id</code> | <code>str</code> | Identifier of a shipment. |
 | <code>body</code> | <code>[UpdateShipmentNameRequest](walmart_apis/models/update_shipment_name_request.py) \| [UpdateShipmentNameRequestDict](walmart_apis/models/update_shipment_name_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -15358,7 +16196,20 @@ Send a `PUT` request.
 **Sync**
 
 ```python
-result = client.wfs_inbound.with_raw_response.update_shipment_source_address(inbound_plan_id, shipment_id, body)
+result = client.wfs_inbound.with_raw_response.update_shipment_source_address(
+    "some example string",
+    "some example string",
+    UpdateShipmentSourceAddressRequest(
+        address=CommonAddressInput(
+            address_line1="some example string",
+            city="some example string",
+            country_code="some example string",
+            name="some example string",
+            phone_number="some example string",
+            postal_code="some example string",
+        ),
+    ),
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type CancelInboundPlanResponse
@@ -15370,7 +16221,18 @@ match result:
 
 ```python
 result = await async_client.wfs_inbound.with_raw_response.update_shipment_source_address(
-    inbound_plan_id, shipment_id, body
+    "some example string",
+    "some example string",
+    UpdateShipmentSourceAddressRequest(
+        address=CommonAddressInput(
+            address_line1="some example string",
+            city="some example string",
+            country_code="some example string",
+            name="some example string",
+            phone_number="some example string",
+            postal_code="some example string",
+        ),
+    ),
 )
 match result:
     case Success(payload=payload):
@@ -15392,7 +16254,7 @@ match result:
 | <code>inbound_plan_id</code> | <code>str</code> | Identifier of an inbound plan. |
 | <code>shipment_id</code> | <code>str</code> | Identifier of a shipment. |
 | <code>body</code> | <code>[UpdateShipmentSourceAddressRequest](walmart_apis/models/update_shipment_source_address_request.py) \| [UpdateShipmentSourceAddressRequestDict](walmart_apis/models/update_shipment_source_address_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -15447,7 +16309,11 @@ Send a `PUT` request.
 **Sync**
 
 ```python
-result = client.wfs_inbound.with_raw_response.update_shipment_tracking_details(inbound_plan_id, shipment_id, body)
+result = client.wfs_inbound.with_raw_response.update_shipment_tracking_details(
+    "some example string",
+    "some example string",
+    UpdateShipmentTrackingDetailsRequest(tracking_details=CommonTrackingDetailsInput()),
+)
 match result:
     case Success(payload=payload):
         ...  # TODO: Handle 'payload' of type CancelInboundPlanResponse
@@ -15459,7 +16325,9 @@ match result:
 
 ```python
 result = await async_client.wfs_inbound.with_raw_response.update_shipment_tracking_details(
-    inbound_plan_id, shipment_id, body
+    "some example string",
+    "some example string",
+    UpdateShipmentTrackingDetailsRequest(tracking_details=CommonTrackingDetailsInput()),
 )
 match result:
     case Success(payload=payload):
@@ -15481,7 +16349,7 @@ match result:
 | <code>inbound_plan_id</code> | <code>str</code> | Identifier of an inbound plan. |
 | <code>shipment_id</code> | <code>str</code> | Identifier of a shipment. |
 | <code>body</code> | <code>[UpdateShipmentTrackingDetailsRequest](walmart_apis/models/update_shipment_tracking_details_request.py) \| [UpdateShipmentTrackingDetailsRequestDict](walmart_apis/models/update_shipment_tracking_details_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>

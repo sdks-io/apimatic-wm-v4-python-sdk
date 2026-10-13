@@ -23,4 +23,4 @@ class UpdateShipmentStatusRequest(SdkBaseModel):
 class UpdateShipmentStatusRequestDict(TypedDict):
     shipment_status: ShipmentStatus1OrStr
     status_date: NotRequired[RFC3339DateTime]
-    order_lines: list[UpdateShipmentStatusLine | UpdateShipmentStatusLineDict]
+    order_lines: list[UpdateShipmentStatusLineDict]

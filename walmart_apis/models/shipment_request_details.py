@@ -28,10 +28,10 @@ class ShipmentRequestDetails(SdkBaseModel):
 class ShipmentRequestDetailsDict(TypedDict):
     purchase_order_id: str
     seller_order_id: NotRequired[str]
-    item_list: NotRequired[list[Item2 | Item2Dict]]
-    ship_from_address: Address1 | Address1Dict
-    ship_to_address: Address1 | Address1Dict
-    package_dimensions: PackageDimensions | PackageDimensionsDict
-    weight: Weight | WeightDict
+    item_list: NotRequired[list[Item2Dict]]
+    ship_from_address: Address1Dict
+    ship_to_address: Address1Dict
+    package_dimensions: PackageDimensionsDict
+    weight: WeightDict
     ship_date: RFC3339DateTime
-    shipping_service_options: ShippingServiceOptions | ShippingServiceOptionsDict
+    shipping_service_options: ShippingServiceOptionsDict

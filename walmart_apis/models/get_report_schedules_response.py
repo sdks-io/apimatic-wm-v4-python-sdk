@@ -12,4 +12,4 @@ class GetReportSchedulesResponse(SdkBaseModel):
 
 
 class GetReportSchedulesResponseDict(TypedDict):
-    report_schedules: NotRequired[list[ReportSchedule | ReportScheduleDict]]
+    report_schedules: NotRequired[list[ReportScheduleDict]]

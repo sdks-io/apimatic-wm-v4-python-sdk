@@ -30,8 +30,8 @@ class CommonShipmentTransportationConfiguration(SdkBaseModel):
 
 
 class CommonShipmentTransportationConfigurationDict(TypedDict):
-    contact_information: NotRequired[CommonContactInformation | CommonContactInformationDict]
-    freight_information: NotRequired[CommonFreightInformation | CommonFreightInformationDict]
-    pallets: NotRequired[list[CommonPalletInput | CommonPalletInputDict]]
-    ready_to_ship_window: CommonWindowInput | CommonWindowInputDict
+    contact_information: NotRequired[CommonContactInformationDict]
+    freight_information: NotRequired[CommonFreightInformationDict]
+    pallets: NotRequired[list[CommonPalletInputDict]]
+    ready_to_ship_window: CommonWindowInputDict
     shipment_id: str

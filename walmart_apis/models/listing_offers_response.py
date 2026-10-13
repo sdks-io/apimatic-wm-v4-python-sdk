@@ -26,7 +26,7 @@ class ListingOffersResponse(SdkBaseModel):
 
 
 class ListingOffersResponseDict(TypedDict):
-    headers: NotRequired[HttpResponseHeaders | HttpResponseHeadersDict]
-    status: NotRequired[GetOffersHttpStatusLine | GetOffersHttpStatusLineDict]
-    body: GetOffersResponse | GetOffersResponseDict
-    request: NotRequired[ListingOffersRequest | ListingOffersRequestDict]
+    headers: NotRequired[HttpResponseHeadersDict]
+    status: NotRequired[GetOffersHttpStatusLineDict]
+    body: GetOffersResponseDict
+    request: NotRequired[ListingOffersRequestDict]

@@ -49,12 +49,12 @@ class Summary(SdkBaseModel):
 
 class SummaryDict(TypedDict):
     total_offer_count: int
-    number_of_offers: NotRequired[list[OfferCountType | OfferCountTypeDict]]
-    lowest_prices: NotRequired[list[LowestPriceType | LowestPriceTypeDict]]
-    buy_box_prices: NotRequired[list[BuyBoxPriceType | BuyBoxPriceTypeDict]]
-    list_price: NotRequired[MoneyType | MoneyTypeDict]
-    competitive_price_threshold: NotRequired[MoneyType | MoneyTypeDict]
-    suggested_lower_price_plus_shipping: NotRequired[MoneyType | MoneyTypeDict]
-    sales_rankings: NotRequired[list[SalesRankType | SalesRankTypeDict]]
-    buy_box_eligible_offers: NotRequired[list[OfferCountType | OfferCountTypeDict]]
+    number_of_offers: NotRequired[list[OfferCountTypeDict]]
+    lowest_prices: NotRequired[list[LowestPriceTypeDict]]
+    buy_box_prices: NotRequired[list[BuyBoxPriceTypeDict]]
+    list_price: NotRequired[MoneyTypeDict]
+    competitive_price_threshold: NotRequired[MoneyTypeDict]
+    suggested_lower_price_plus_shipping: NotRequired[MoneyTypeDict]
+    sales_rankings: NotRequired[list[SalesRankTypeDict]]
+    buy_box_eligible_offers: NotRequired[list[OfferCountTypeDict]]
     offers_available_time: NotRequired[RFC3339DateTime]

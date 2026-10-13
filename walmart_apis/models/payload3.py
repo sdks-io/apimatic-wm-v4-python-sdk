@@ -17,6 +17,6 @@ class Payload3(SdkBaseModel):
 
 
 class Payload3Dict(TypedDict):
-    rates: NotRequired[list[Rate | RateDict]]
-    ineligible_rates: NotRequired[list[IneligibleRate | IneligibleRateDict]]
+    rates: NotRequired[list[RateDict]]
+    ineligible_rates: NotRequired[list[IneligibleRateDict]]
     request_token: NotRequired[str]

@@ -20,5 +20,5 @@ class CommonFreightInformation(SdkBaseModel):
 
 
 class CommonFreightInformationDict(TypedDict):
-    declared_value: NotRequired[CommonCurrency | CommonCurrencyDict]
+    declared_value: NotRequired[CommonCurrencyDict]
     freight_class: NotRequired[str]

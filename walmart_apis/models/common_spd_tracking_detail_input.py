@@ -15,4 +15,4 @@ class CommonSpdTrackingDetailInput(SdkBaseModel):
 
 
 class CommonSpdTrackingDetailInputDict(TypedDict):
-    spd_tracking_items: list[CommonSpdTrackingItemInput | CommonSpdTrackingItemInputDict]
+    spd_tracking_items: list[CommonSpdTrackingItemInputDict]

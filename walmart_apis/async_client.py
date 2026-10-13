@@ -45,7 +45,7 @@ from .core import (
     AsyncAuthorizationCodeTokenSource,
     AsyncClientCredentialsTokenSource,
     AsyncHttpClient,
-    AsyncHttpxClient,
+    AsyncHttpx2Client,
     AsyncOAuth2RefreshableScheme,
     AsyncOAuth2Scheme,
     AsyncRawClient,
@@ -56,6 +56,7 @@ from .core import (
     BasicAuthScheme,
     ClientCredentials,
     ClientCredentialsOrDict,
+    RetryOptionsOrDict,
     client_secret_basic,
     no_auth,
     param,
@@ -71,6 +72,7 @@ class AsyncWalmartApisClient(BaseWalmartApisClient[AsyncRawClient]):
         environment: Environment = "production",
         timeout: float = DEFAULT_TIMEOUT,
         server_config: ServerConfigOrDict | None = None,
+        retry_options: int | RetryOptionsOrDict | None = None,
         custom_async_http_client: AsyncHttpClient | None = None,
         seller_auth_authorization_code: (
             AsyncAuthorizationCodeCredentialsOrDict[SellerAuthAuthorizationCodeScope] | None
@@ -86,11 +88,14 @@ class AsyncWalmartApisClient(BaseWalmartApisClient[AsyncRawClient]):
         wallet_auth: ClientCredentialsOrDict[WalletAuthScope] | None = None,
         wallet_auth_token_source: AsyncTokenSource[ClientCredentials[WalletAuthScope]] | None = None,
     ) -> None:
-        super().__init__(environment=environment, timeout=timeout, server_config=server_config)
+        super().__init__(
+            environment=environment, timeout=timeout, server_config=server_config, retry_options=retry_options
+        )
         self._raw_client = AsyncRawClient(
             http_client=(
-                custom_async_http_client if custom_async_http_client is not None else AsyncHttpxClient(timeout=timeout)
+                custom_async_http_client if custom_async_http_client is not None else AsyncHttpx2Client(timeout=timeout)
             ),
+            retry_options=self._retry_options,
             global_headers=[
                 param[str]("User-Agent", "WalmartApisClient/v4 Python"),
                 param[str]("X-APIMatic-Lang", "Python"),

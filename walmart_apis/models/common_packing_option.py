@@ -41,11 +41,11 @@ class CommonPackingOption(SdkBaseModel):
 
 
 class CommonPackingOptionDict(TypedDict):
-    discounts: list[CommonIncentive | CommonIncentiveDict]
+    discounts: list[CommonIncentiveDict]
     expiration: NotRequired[RFC3339DateTime]
-    fees: list[CommonIncentive | CommonIncentiveDict]
+    fees: list[CommonIncentiveDict]
     packing_groups: list[str]
     packing_option_id: str
     status: str
-    supported_configurations: list[CommonPackingConfiguration | CommonPackingConfigurationDict]
-    supported_shipping_configurations: list[CommonShippingConfiguration | CommonShippingConfigurationDict]
+    supported_configurations: list[CommonPackingConfigurationDict]
+    supported_shipping_configurations: list[CommonShippingConfigurationDict]

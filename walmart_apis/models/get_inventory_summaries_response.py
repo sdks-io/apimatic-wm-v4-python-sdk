@@ -14,5 +14,5 @@ class GetInventorySummariesResponse(SdkBaseModel):
 
 
 class GetInventorySummariesResponseDict(TypedDict):
-    pagination: NotRequired[Pagination4 | Pagination4Dict]
-    inventory_summaries: NotRequired[list[InventorySummary | InventorySummaryDict]]
+    pagination: NotRequired[Pagination4Dict]
+    inventory_summaries: NotRequired[list[InventorySummaryDict]]

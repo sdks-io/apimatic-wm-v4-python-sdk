@@ -3,7 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Final, TypeAlias
 
-from ..core import ErrorMapper, HttpResponse, RawError, decode_json
+from ..core import ErrorMapper, RawError, decode_json
 from ..models.error_list import ErrorList
 
 CancelFulfillmentOrderErrorBody: TypeAlias = ErrorList | RawError
@@ -11,12 +11,12 @@ CancelFulfillmentOrderErrorBody: TypeAlias = ErrorList | RawError
 
 @dataclass(frozen=True, slots=True)
 class _CancelFulfillmentOrderError:
-    def map(self, response: HttpResponse) -> CancelFulfillmentOrderErrorBody:
-        match response.status_code:
+    def map(self, status_code: int, content: bytes) -> CancelFulfillmentOrderErrorBody:
+        match status_code:
             case 400 | 403 | 404 | 429 | 500:
-                return decode_json[ErrorList](response)
+                return decode_json[ErrorList](content)
             case _:
-                return RawError(response)
+                return RawError(status_code, content)
 
 
 cancel_fulfillment_order_error_mapper: Final[

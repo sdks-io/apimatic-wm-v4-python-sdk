@@ -1,7 +1,16 @@
 from __future__ import annotations
 
 from ..auth import AsyncAuthSchemes, AuthSchemes
-from ..core import ApiResult, AsyncRawClient, RawClient, RequestOptionsOrDict, SecuredRawResponse, json_decoder
+from ..core import (
+    ApiResult,
+    AsyncRawClient,
+    RawClient,
+    RequestOptionsOrDict,
+    SecuredRawResponse,
+    async_json_decoder,
+    json_decoder,
+    unwrap,
+)
 from ..errors.check_dispute_eligibility_error import (
     CheckDisputeEligibilityErrorBody,
     check_dispute_eligibility_error_mapper,
@@ -21,7 +30,8 @@ class Disputes:
         ineligibility. Delegates to GMPPaymentsPlatform (Phase 5).
 
         Args:
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -29,7 +39,7 @@ class Disputes:
         Raises:
             ApiError: Bad Request Unauthorized — missing, expired, or invalid OAuth2 token Internal Server Error
                 ``error`` is ``ErrorList | RawError``."""
-        return self._with_raw_response.check_dispute_eligibility(request_options=request_options).unwrap()
+        return unwrap(self._with_raw_response.check_dispute_eligibility(request_options=request_options))
 
     @property
     def with_raw_response(self) -> DisputesWithRawResponse:
@@ -47,7 +57,8 @@ class AsyncDisputes:
         ineligibility. Delegates to GMPPaymentsPlatform (Phase 5).
 
         Args:
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -55,7 +66,7 @@ class AsyncDisputes:
         Raises:
             ApiError: Bad Request Unauthorized — missing, expired, or invalid OAuth2 token Internal Server Error
                 ``error`` is ``ErrorList | RawError``."""
-        return (await self._with_raw_response.check_dispute_eligibility(request_options=request_options)).unwrap()
+        return unwrap(await self._with_raw_response.check_dispute_eligibility(request_options=request_options))
 
     @property
     def with_raw_response(self) -> AsyncDisputesWithRawResponse:
@@ -70,7 +81,8 @@ class DisputesWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]
         ineligibility. Delegates to GMPPaymentsPlatform (Phase 5).
 
         Args:
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -92,7 +104,8 @@ class AsyncDisputesWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, As
         ineligibility. Delegates to GMPPaymentsPlatform (Phase 5).
 
         Args:
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -100,7 +113,7 @@ class AsyncDisputesWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, As
             http_method="GET",
             url_template=self._server.default1("/disbursements/v4/payment/disputeEligibilityCheck"),
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[DisputeEligibilityResponse],
+            decoder=async_json_decoder[DisputeEligibilityResponse],
             error_mapper=check_dispute_eligibility_error_mapper,
             request_options=request_options,
         )

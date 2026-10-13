@@ -20,5 +20,5 @@ class FeesEstimate(SdkBaseModel):
 
 class FeesEstimateDict(TypedDict):
     time_of_fees_estimation: RFC3339DateTime
-    total_fees_estimate: MoneyType1 | MoneyType1Dict
-    fee_detail_list: NotRequired[list[FeeDetail | FeeDetailDict]]
+    total_fees_estimate: MoneyType1Dict
+    fee_detail_list: NotRequired[list[FeeDetailDict]]

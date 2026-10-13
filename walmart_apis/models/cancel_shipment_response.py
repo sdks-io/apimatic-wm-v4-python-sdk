@@ -11,4 +11,4 @@ class CancelShipmentResponse(SdkBaseModel):
 
 
 class CancelShipmentResponseDict(TypedDict):
-    shipment: NotRequired[Shipment | ShipmentDict]
+    shipment: NotRequired[ShipmentDict]

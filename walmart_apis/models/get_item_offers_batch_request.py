@@ -14,4 +14,4 @@ class GetItemOffersBatchRequest(SdkBaseModel):
 
 
 class GetItemOffersBatchRequestDict(TypedDict):
-    requests: NotRequired[list[ItemOffersRequest | ItemOffersRequestDict]]
+    requests: NotRequired[list[ItemOffersRequestDict]]

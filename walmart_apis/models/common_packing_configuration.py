@@ -28,5 +28,5 @@ class CommonPackingConfiguration(SdkBaseModel):
 
 class CommonPackingConfigurationDict(TypedDict):
     box_packing_methods: NotRequired[list[CommonBoxContentInformationSourceOrStr]]
-    box_requirements: NotRequired[CommonBoxRequirements | CommonBoxRequirementsDict]
-    shipping_requirements: NotRequired[list[CommonShippingRequirements | CommonShippingRequirementsDict]]
+    box_requirements: NotRequired[CommonBoxRequirementsDict]
+    shipping_requirements: NotRequired[list[CommonShippingRequirementsDict]]

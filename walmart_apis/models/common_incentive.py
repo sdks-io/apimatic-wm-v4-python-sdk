@@ -27,4 +27,4 @@ class CommonIncentiveDict(TypedDict):
     description: str
     target: str
     type_: str
-    value: CommonCurrency | CommonCurrencyDict
+    value: CommonCurrencyDict

@@ -14,4 +14,4 @@ class GetListingOffersBatchRequest(SdkBaseModel):
 
 
 class GetListingOffersBatchRequestDict(TypedDict):
-    requests: NotRequired[list[ListingOffersRequest | ListingOffersRequestDict]]
+    requests: NotRequired[list[ListingOffersRequestDict]]

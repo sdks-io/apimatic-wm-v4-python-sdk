@@ -18,5 +18,5 @@ class CompetitiveSummaryResponse(SdkBaseModel):
 
 
 class CompetitiveSummaryResponseDict(TypedDict):
-    status: NotRequired[GetOffersHttpStatusLine | GetOffersHttpStatusLineDict]
-    body: NotRequired[CompetitiveSummaryResponseBody | CompetitiveSummaryResponseBodyDict]
+    status: NotRequired[GetOffersHttpStatusLineDict]
+    body: NotRequired[CompetitiveSummaryResponseBodyDict]

@@ -20,4 +20,4 @@ class SetPrepDetailsRequest(SdkBaseModel):
 
 class SetPrepDetailsRequestDict(TypedDict):
     marketplace_id: str
-    msku_prep_details: list[CommonMskuPrepDetailInput | CommonMskuPrepDetailInputDict]
+    msku_prep_details: list[CommonMskuPrepDetailInputDict]

@@ -42,7 +42,7 @@ class BuyBoxPriceTypeDict(TypedDict):
     offer_type: NotRequired[OfferTypeOrStr]
     quantity_tier: NotRequired[int]
     quantity_discount_type: NotRequired[QuantityDiscountTypeOrStr]
-    landed_price: MoneyType | MoneyTypeDict
-    listing_price: MoneyType | MoneyTypeDict
-    shipping: MoneyType | MoneyTypeDict
+    landed_price: MoneyTypeDict
+    listing_price: MoneyTypeDict
+    shipping: MoneyTypeDict
     seller_id: NotRequired[str]

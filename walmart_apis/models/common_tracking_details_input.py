@@ -19,5 +19,5 @@ class CommonTrackingDetailsInput(SdkBaseModel):
 
 
 class CommonTrackingDetailsInputDict(TypedDict):
-    ltl_tracking_detail: NotRequired[CommonLtlTrackingDetailInput | CommonLtlTrackingDetailInputDict]
-    spd_tracking_detail: NotRequired[CommonSpdTrackingDetailInput | CommonSpdTrackingDetailInputDict]
+    ltl_tracking_detail: NotRequired[CommonLtlTrackingDetailInputDict]
+    spd_tracking_detail: NotRequired[CommonSpdTrackingDetailInputDict]

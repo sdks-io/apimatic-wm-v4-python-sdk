@@ -18,5 +18,5 @@ class CommonCustomPlacementInput(SdkBaseModel):
 
 
 class CommonCustomPlacementInputDict(TypedDict):
-    items: list[CommonItemInput | CommonItemInputDict]
+    items: list[CommonItemInputDict]
     warehouse_id: str

@@ -22,6 +22,6 @@ class CommonShipmentDestination(SdkBaseModel):
 
 
 class CommonShipmentDestinationDict(TypedDict):
-    address: NotRequired[CommonAddress | CommonAddressDict]
+    address: NotRequired[CommonAddressDict]
     destination_type: str
     warehouse_id: NotRequired[str]

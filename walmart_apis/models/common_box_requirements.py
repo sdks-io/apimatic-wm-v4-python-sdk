@@ -14,4 +14,4 @@ class CommonBoxRequirements(SdkBaseModel):
 
 
 class CommonBoxRequirementsDict(TypedDict):
-    weight: CommonWeightRange | CommonWeightRangeDict
+    weight: CommonWeightRangeDict

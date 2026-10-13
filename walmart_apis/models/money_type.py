@@ -9,7 +9,7 @@ from ..core import UNSET, Optional, SdkBaseModel
 class MoneyType(SdkBaseModel):
     """Currency type and monetary value."""
 
-    currency_code: Optional[str] = Field(default=UNSET, alias="CurrencyCode")
+    currency_code: str = Field(default="USD", alias="CurrencyCode")
     """The currency code in ISO 4217 format."""
 
     amount: Optional[float] = Field(default=UNSET, alias="Amount")

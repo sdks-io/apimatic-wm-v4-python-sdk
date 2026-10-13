@@ -10,9 +10,11 @@ from ..core import (
     RawClient,
     RequestOptionsOrDict,
     SecuredRawResponse,
+    async_json_decoder,
     json_body,
     json_decoder,
     param,
+    unwrap,
 )
 from ..errors.confirm_customization_details_error import (
     ConfirmCustomizationDetailsErrorBody,
@@ -68,7 +70,8 @@ class Messaging:
             marketplace_ids: A marketplace identifier. This identifies the marketplace in which the order was placed.
                 You can only specify one market
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -76,9 +79,11 @@ class Messaging:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return self._with_raw_response.create_warranty(
-            sp_api_order_id, marketplace_ids, body, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.create_warranty(
+                sp_api_order_id, marketplace_ids, body, request_options=request_options
+            ),
+        )
 
     def get_attributes(
         self, sp_api_order_id: str, marketplace_ids: list[str], *, request_options: RequestOptionsOrDict | None = None
@@ -89,7 +94,8 @@ class Messaging:
             sp_api_order_id: A marketplace order identifier. This identifies the order for which a message is sent.
             marketplace_ids: A marketplace identifier. This identifies the marketplace in which the order was placed.
                 You can only specify one market
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -97,9 +103,9 @@ class Messaging:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return self._with_raw_response.get_attributes(
-            sp_api_order_id, marketplace_ids, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.get_attributes(sp_api_order_id, marketplace_ids, request_options=request_options)
+        )
 
     def confirm_customization_details(
         self,
@@ -116,7 +122,8 @@ class Messaging:
             marketplace_ids: A marketplace identifier. This identifies the marketplace in which the order was placed.
                 You can only specify one market
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -124,9 +131,11 @@ class Messaging:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return self._with_raw_response.confirm_customization_details(
-            sp_api_order_id, marketplace_ids, body, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.confirm_customization_details(
+                sp_api_order_id, marketplace_ids, body, request_options=request_options
+            ),
+        )
 
     def create_confirm_delivery_details(
         self,
@@ -143,7 +152,8 @@ class Messaging:
             marketplace_ids: A marketplace identifier. This identifies the marketplace in which the order was placed.
                 You can only specify one market
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -151,9 +161,11 @@ class Messaging:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return self._with_raw_response.create_confirm_delivery_details(
-            sp_api_order_id, marketplace_ids, body, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.create_confirm_delivery_details(
+                sp_api_order_id, marketplace_ids, body, request_options=request_options
+            ),
+        )
 
     def create_confirm_order_details(
         self,
@@ -170,7 +182,8 @@ class Messaging:
             marketplace_ids: A marketplace identifier. This identifies the marketplace in which the order was placed.
                 You can only specify one market
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -178,9 +191,11 @@ class Messaging:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return self._with_raw_response.create_confirm_order_details(
-            sp_api_order_id, marketplace_ids, body, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.create_confirm_order_details(
+                sp_api_order_id, marketplace_ids, body, request_options=request_options
+            ),
+        )
 
     def create_confirm_service_details(
         self,
@@ -197,7 +212,8 @@ class Messaging:
             marketplace_ids: A marketplace identifier. This identifies the marketplace in which the order was placed.
                 You can only specify one market
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -205,9 +221,11 @@ class Messaging:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return self._with_raw_response.create_confirm_service_details(
-            sp_api_order_id, marketplace_ids, body, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.create_confirm_service_details(
+                sp_api_order_id, marketplace_ids, body, request_options=request_options
+            ),
+        )
 
     def create_digital_access_key(
         self,
@@ -224,7 +242,8 @@ class Messaging:
             marketplace_ids: A marketplace identifier. This identifies the marketplace in which the order was placed.
                 You can only specify one market
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -232,9 +251,11 @@ class Messaging:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return self._with_raw_response.create_digital_access_key(
-            sp_api_order_id, marketplace_ids, body, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.create_digital_access_key(
+                sp_api_order_id, marketplace_ids, body, request_options=request_options
+            ),
+        )
 
     def create_legal_disclosure(
         self,
@@ -251,7 +272,8 @@ class Messaging:
             marketplace_ids: A marketplace identifier. This identifies the marketplace in which the order was placed.
                 You can only specify one market
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -259,9 +281,11 @@ class Messaging:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return self._with_raw_response.create_legal_disclosure(
-            sp_api_order_id, marketplace_ids, body, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.create_legal_disclosure(
+                sp_api_order_id, marketplace_ids, body, request_options=request_options
+            ),
+        )
 
     def create_unexpected_problem(
         self,
@@ -278,7 +302,8 @@ class Messaging:
             marketplace_ids: A marketplace identifier. This identifies the marketplace in which the order was placed.
                 You can only specify one market
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -286,9 +311,11 @@ class Messaging:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return self._with_raw_response.create_unexpected_problem(
-            sp_api_order_id, marketplace_ids, body, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.create_unexpected_problem(
+                sp_api_order_id, marketplace_ids, body, request_options=request_options
+            ),
+        )
 
     def get_messaging_actions_for_order(
         self, sp_api_order_id: str, marketplace_ids: list[str], *, request_options: RequestOptionsOrDict | None = None
@@ -300,7 +327,8 @@ class Messaging:
                 available message types.
             marketplace_ids: A marketplace identifier. This identifies the marketplace in which the order was placed.
                 You can only specify one market
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -308,9 +336,11 @@ class Messaging:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return self._with_raw_response.get_messaging_actions_for_order(
-            sp_api_order_id, marketplace_ids, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.get_messaging_actions_for_order(
+                sp_api_order_id, marketplace_ids, request_options=request_options
+            ),
+        )
 
     def send_invoice(
         self,
@@ -327,7 +357,8 @@ class Messaging:
             marketplace_ids: A marketplace identifier. This identifies the marketplace in which the order was placed.
                 You can only specify one market
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -335,9 +366,11 @@ class Messaging:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return self._with_raw_response.send_invoice(
-            sp_api_order_id, marketplace_ids, body, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.send_invoice(
+                sp_api_order_id, marketplace_ids, body, request_options=request_options
+            ),
+        )
 
     @property
     def with_raw_response(self) -> MessagingWithRawResponse:
@@ -363,7 +396,8 @@ class AsyncMessaging:
             marketplace_ids: A marketplace identifier. This identifies the marketplace in which the order was placed.
                 You can only specify one market
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -371,11 +405,11 @@ class AsyncMessaging:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.create_warranty(
                 sp_api_order_id, marketplace_ids, body, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     async def get_attributes(
         self, sp_api_order_id: str, marketplace_ids: list[str], *, request_options: RequestOptionsOrDict | None = None
@@ -386,7 +420,8 @@ class AsyncMessaging:
             sp_api_order_id: A marketplace order identifier. This identifies the order for which a message is sent.
             marketplace_ids: A marketplace identifier. This identifies the marketplace in which the order was placed.
                 You can only specify one market
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -394,11 +429,11 @@ class AsyncMessaging:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.get_attributes(
                 sp_api_order_id, marketplace_ids, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     async def confirm_customization_details(
         self,
@@ -415,7 +450,8 @@ class AsyncMessaging:
             marketplace_ids: A marketplace identifier. This identifies the marketplace in which the order was placed.
                 You can only specify one market
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -423,11 +459,11 @@ class AsyncMessaging:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.confirm_customization_details(
                 sp_api_order_id, marketplace_ids, body, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     async def create_confirm_delivery_details(
         self,
@@ -444,7 +480,8 @@ class AsyncMessaging:
             marketplace_ids: A marketplace identifier. This identifies the marketplace in which the order was placed.
                 You can only specify one market
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -452,11 +489,11 @@ class AsyncMessaging:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.create_confirm_delivery_details(
                 sp_api_order_id, marketplace_ids, body, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     async def create_confirm_order_details(
         self,
@@ -473,7 +510,8 @@ class AsyncMessaging:
             marketplace_ids: A marketplace identifier. This identifies the marketplace in which the order was placed.
                 You can only specify one market
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -481,11 +519,11 @@ class AsyncMessaging:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.create_confirm_order_details(
                 sp_api_order_id, marketplace_ids, body, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     async def create_confirm_service_details(
         self,
@@ -502,7 +540,8 @@ class AsyncMessaging:
             marketplace_ids: A marketplace identifier. This identifies the marketplace in which the order was placed.
                 You can only specify one market
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -510,11 +549,11 @@ class AsyncMessaging:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.create_confirm_service_details(
                 sp_api_order_id, marketplace_ids, body, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     async def create_digital_access_key(
         self,
@@ -531,7 +570,8 @@ class AsyncMessaging:
             marketplace_ids: A marketplace identifier. This identifies the marketplace in which the order was placed.
                 You can only specify one market
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -539,11 +579,11 @@ class AsyncMessaging:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.create_digital_access_key(
                 sp_api_order_id, marketplace_ids, body, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     async def create_legal_disclosure(
         self,
@@ -560,7 +600,8 @@ class AsyncMessaging:
             marketplace_ids: A marketplace identifier. This identifies the marketplace in which the order was placed.
                 You can only specify one market
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -568,11 +609,11 @@ class AsyncMessaging:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.create_legal_disclosure(
                 sp_api_order_id, marketplace_ids, body, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     async def create_unexpected_problem(
         self,
@@ -589,7 +630,8 @@ class AsyncMessaging:
             marketplace_ids: A marketplace identifier. This identifies the marketplace in which the order was placed.
                 You can only specify one market
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -597,11 +639,11 @@ class AsyncMessaging:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.create_unexpected_problem(
                 sp_api_order_id, marketplace_ids, body, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     async def get_messaging_actions_for_order(
         self, sp_api_order_id: str, marketplace_ids: list[str], *, request_options: RequestOptionsOrDict | None = None
@@ -613,7 +655,8 @@ class AsyncMessaging:
                 available message types.
             marketplace_ids: A marketplace identifier. This identifies the marketplace in which the order was placed.
                 You can only specify one market
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -621,11 +664,11 @@ class AsyncMessaging:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.get_messaging_actions_for_order(
                 sp_api_order_id, marketplace_ids, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     async def send_invoice(
         self,
@@ -642,7 +685,8 @@ class AsyncMessaging:
             marketplace_ids: A marketplace identifier. This identifies the marketplace in which the order was placed.
                 You can only specify one market
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -650,11 +694,11 @@ class AsyncMessaging:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.send_invoice(
                 sp_api_order_id, marketplace_ids, body, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     @property
     def with_raw_response(self) -> AsyncMessagingWithRawResponse:
@@ -677,7 +721,8 @@ class MessagingWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes
             marketplace_ids: A marketplace identifier. This identifies the marketplace in which the order was placed.
                 You can only specify one market
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -703,7 +748,8 @@ class MessagingWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes
             sp_api_order_id: A marketplace order identifier. This identifies the order for which a message is sent.
             marketplace_ids: A marketplace identifier. This identifies the marketplace in which the order was placed.
                 You can only specify one market
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -733,7 +779,8 @@ class MessagingWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes
             marketplace_ids: A marketplace identifier. This identifies the marketplace in which the order was placed.
                 You can only specify one market
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -767,7 +814,8 @@ class MessagingWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes
             marketplace_ids: A marketplace identifier. This identifies the marketplace in which the order was placed.
                 You can only specify one market
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -799,7 +847,8 @@ class MessagingWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes
             marketplace_ids: A marketplace identifier. This identifies the marketplace in which the order was placed.
                 You can only specify one market
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -831,7 +880,8 @@ class MessagingWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes
             marketplace_ids: A marketplace identifier. This identifies the marketplace in which the order was placed.
                 You can only specify one market
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -863,7 +913,8 @@ class MessagingWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes
             marketplace_ids: A marketplace identifier. This identifies the marketplace in which the order was placed.
                 You can only specify one market
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -895,7 +946,8 @@ class MessagingWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes
             marketplace_ids: A marketplace identifier. This identifies the marketplace in which the order was placed.
                 You can only specify one market
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -927,7 +979,8 @@ class MessagingWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes
             marketplace_ids: A marketplace identifier. This identifies the marketplace in which the order was placed.
                 You can only specify one market
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -954,7 +1007,8 @@ class MessagingWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes
                 available message types.
             marketplace_ids: A marketplace identifier. This identifies the marketplace in which the order was placed.
                 You can only specify one market
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -984,7 +1038,8 @@ class MessagingWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes
             marketplace_ids: A marketplace identifier. This identifies the marketplace in which the order was placed.
                 You can only specify one market
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -1018,7 +1073,8 @@ class AsyncMessagingWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, A
             marketplace_ids: A marketplace identifier. This identifies the marketplace in which the order was placed.
                 You can only specify one market
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -1030,7 +1086,7 @@ class AsyncMessagingWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, A
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             body=json_body[Any](body),
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[Any],
+            decoder=async_json_decoder[Any],
             error_mapper=create_warranty_error_mapper,
             request_options=request_options,
         )
@@ -1044,7 +1100,8 @@ class AsyncMessagingWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, A
             sp_api_order_id: A marketplace order identifier. This identifies the order for which a message is sent.
             marketplace_ids: A marketplace identifier. This identifies the marketplace in which the order was placed.
                 You can only specify one market
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -1054,7 +1111,7 @@ class AsyncMessagingWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, A
             path_params=[param[str]("sp-apiOrderId", sp_api_order_id)],
             query_params=[param[list[str]]("marketplaceIds", marketplace_ids)],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[Any],
+            decoder=async_json_decoder[Any],
             error_mapper=get_attributes_error_mapper,
             request_options=request_options,
         )
@@ -1074,7 +1131,8 @@ class AsyncMessagingWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, A
             marketplace_ids: A marketplace identifier. This identifies the marketplace in which the order was placed.
                 You can only specify one market
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -1088,7 +1146,7 @@ class AsyncMessagingWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, A
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             body=json_body[Any](body),
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[Any],
+            decoder=async_json_decoder[Any],
             error_mapper=confirm_customization_details_error_mapper,
             request_options=request_options,
         )
@@ -1108,7 +1166,8 @@ class AsyncMessagingWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, A
             marketplace_ids: A marketplace identifier. This identifies the marketplace in which the order was placed.
                 You can only specify one market
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -1120,7 +1179,7 @@ class AsyncMessagingWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, A
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             body=json_body[Any](body),
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[Any],
+            decoder=async_json_decoder[Any],
             error_mapper=create_confirm_delivery_details_error_mapper,
             request_options=request_options,
         )
@@ -1140,7 +1199,8 @@ class AsyncMessagingWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, A
             marketplace_ids: A marketplace identifier. This identifies the marketplace in which the order was placed.
                 You can only specify one market
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -1152,7 +1212,7 @@ class AsyncMessagingWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, A
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             body=json_body[Any](body),
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[Any],
+            decoder=async_json_decoder[Any],
             error_mapper=create_confirm_order_details_error_mapper,
             request_options=request_options,
         )
@@ -1172,7 +1232,8 @@ class AsyncMessagingWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, A
             marketplace_ids: A marketplace identifier. This identifies the marketplace in which the order was placed.
                 You can only specify one market
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -1184,7 +1245,7 @@ class AsyncMessagingWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, A
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             body=json_body[Any](body),
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[Any],
+            decoder=async_json_decoder[Any],
             error_mapper=create_confirm_service_details_error_mapper,
             request_options=request_options,
         )
@@ -1204,7 +1265,8 @@ class AsyncMessagingWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, A
             marketplace_ids: A marketplace identifier. This identifies the marketplace in which the order was placed.
                 You can only specify one market
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -1216,7 +1278,7 @@ class AsyncMessagingWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, A
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             body=json_body[Any](body),
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[Any],
+            decoder=async_json_decoder[Any],
             error_mapper=create_digital_access_key_error_mapper,
             request_options=request_options,
         )
@@ -1236,7 +1298,8 @@ class AsyncMessagingWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, A
             marketplace_ids: A marketplace identifier. This identifies the marketplace in which the order was placed.
                 You can only specify one market
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -1248,7 +1311,7 @@ class AsyncMessagingWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, A
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             body=json_body[Any](body),
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[Any],
+            decoder=async_json_decoder[Any],
             error_mapper=create_legal_disclosure_error_mapper,
             request_options=request_options,
         )
@@ -1268,7 +1331,8 @@ class AsyncMessagingWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, A
             marketplace_ids: A marketplace identifier. This identifies the marketplace in which the order was placed.
                 You can only specify one market
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -1280,7 +1344,7 @@ class AsyncMessagingWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, A
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             body=json_body[Any](body),
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[Any],
+            decoder=async_json_decoder[Any],
             error_mapper=create_unexpected_problem_error_mapper,
             request_options=request_options,
         )
@@ -1295,7 +1359,8 @@ class AsyncMessagingWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, A
                 available message types.
             marketplace_ids: A marketplace identifier. This identifies the marketplace in which the order was placed.
                 You can only specify one market
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -1305,7 +1370,7 @@ class AsyncMessagingWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, A
             path_params=[param[str]("sp-apiOrderId", sp_api_order_id)],
             query_params=[param[list[str]]("marketplaceIds", marketplace_ids)],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[Any],
+            decoder=async_json_decoder[Any],
             error_mapper=get_messaging_actions_for_order_error_mapper,
             request_options=request_options,
         )
@@ -1325,7 +1390,8 @@ class AsyncMessagingWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, A
             marketplace_ids: A marketplace identifier. This identifies the marketplace in which the order was placed.
                 You can only specify one market
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -1337,7 +1403,7 @@ class AsyncMessagingWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, A
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             body=json_body[Any](body),
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[Any],
+            decoder=async_json_decoder[Any],
             error_mapper=send_invoice_error_mapper,
             request_options=request_options,
         )

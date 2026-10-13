@@ -18,5 +18,5 @@ class ItemSearchResults1(SdkBaseModel):
 
 class ItemSearchResults1Dict(TypedDict):
     number_of_results: int
-    pagination: NotRequired[Pagination | PaginationDict]
-    items: list[Item1 | Item1Dict]
+    pagination: NotRequired[PaginationDict]
+    items: list[Item1Dict]

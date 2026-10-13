@@ -11,4 +11,4 @@ class GetOrderAddressResponse(SdkBaseModel):
 
 
 class GetOrderAddressResponseDict(TypedDict):
-    payload: NotRequired[Payload21 | Payload21Dict]
+    payload: NotRequired[Payload21Dict]

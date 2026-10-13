@@ -36,8 +36,8 @@ class CommonBoxUpdateInput(SdkBaseModel):
 
 class CommonBoxUpdateInputDict(TypedDict):
     content_information_source: CommonBoxContentInformationSourceOrStr
-    dimensions: CommonDimensions | CommonDimensionsDict
-    items: NotRequired[list[CommonItemInput | CommonItemInputDict]]
+    dimensions: CommonDimensionsDict
+    items: NotRequired[list[CommonItemInputDict]]
     package_id: NotRequired[str]
     quantity: int
-    weight: CommonWeight | CommonWeightDict
+    weight: CommonWeightDict

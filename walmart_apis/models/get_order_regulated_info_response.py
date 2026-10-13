@@ -14,4 +14,4 @@ class GetOrderRegulatedInfoResponse(SdkBaseModel):
 
 
 class GetOrderRegulatedInfoResponseDict(TypedDict):
-    payload: NotRequired[RegulatedInfo | RegulatedInfoDict]
+    payload: NotRequired[RegulatedInfoDict]

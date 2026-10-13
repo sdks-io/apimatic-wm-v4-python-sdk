@@ -44,7 +44,7 @@ class CompetitivePriceType(SdkBaseModel):
 
 class CompetitivePriceTypeDict(TypedDict):
     competitive_price_id: str
-    price: PriceType | PriceTypeDict
+    price: PriceTypeDict
     condition: NotRequired[str]
     subcondition: NotRequired[str]
     offer_type: NotRequired[OfferTypeOrStr]

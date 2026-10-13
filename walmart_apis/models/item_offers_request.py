@@ -8,7 +8,7 @@ from typing_extensions import NotRequired, TypedDict
 from ..core import UNSET, Optional, SdkBaseModel
 from .enums.condition_type2 import ConditionType2OrStr
 from .enums.customer_type import CustomerTypeOrStr
-from .enums.http_method import HttpMethodOrStr
+from .enums.http_method_model import HttpMethodModelOrStr
 
 
 class ItemOffersRequest(SdkBaseModel):
@@ -17,7 +17,7 @@ class ItemOffersRequest(SdkBaseModel):
     uri: str
     """The resource path of the operation being called in batch, without query parameters."""
 
-    method: HttpMethodOrStr
+    method: HttpMethodModelOrStr
     """The HTTP method associated with the individual APIs being called as part of the batch request."""
 
     headers: Optional[Any] = UNSET
@@ -38,7 +38,7 @@ class ItemOffersRequest(SdkBaseModel):
 
 class ItemOffersRequestDict(TypedDict):
     uri: str
-    method: HttpMethodOrStr
+    method: HttpMethodModelOrStr
     headers: NotRequired[Any]
     marketplace_id: str
     item_condition: ConditionType2OrStr

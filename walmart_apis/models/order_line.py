@@ -29,8 +29,8 @@ class OrderLineDict(TypedDict):
     seller_sku: str
     walmart_item_id: NotRequired[str]
     product_name: NotRequired[str]
-    quantity: QuantityWithUnit | QuantityWithUnitDict
-    item_price: Money | MoneyDict
+    quantity: QuantityWithUnitDict
+    item_price: MoneyDict
     line_status: NotRequired[LineStatusOrStr]
     ship_node: NotRequired[str]
     fulfillment_option: NotRequired[FulfillmentOptionOrStr]

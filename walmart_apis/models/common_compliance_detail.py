@@ -19,4 +19,4 @@ class CommonComplianceDetail(SdkBaseModel):
 
 class CommonComplianceDetailDict(TypedDict):
     msku: NotRequired[str]
-    tax_details: NotRequired[CommonTaxDetails | CommonTaxDetailsDict]
+    tax_details: NotRequired[CommonTaxDetailsDict]

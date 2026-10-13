@@ -21,7 +21,8 @@ from pathlib import Path
 from typing_extensions import Self
 
 from ._internal.content_disposition import content_disposition_filename, safe_filename
-from .transport import AsyncStreamedResponse, StreamedResponse
+from ._internal.urls import strip_query
+from .transport import AsyncHttpResponse, HttpResponse
 
 _CHUNK_SIZE = 65_536
 """The library's own multipart chunk size, matched so a download iterates as an upload reads."""
@@ -53,15 +54,20 @@ class FileResponse:
     suggestion from ``Content-Disposition`` and is sanitised before it can name a path -- see
     :meth:`save_to`."""
 
-    __slots__ = ("_closed", "_stream", "_url", "content_length", "filename", "headers", "media_type")
+    __slots__ = ("_closed", "_response", "_url", "content_length", "filename", "headers", "media_type")
 
-    def __init__(self, stream: StreamedResponse, url: str) -> None:
+    def __init__(self, response: HttpResponse) -> None:
         # Total by design: this runs between the head arriving and the raw client returning, so a
         # raise here would leak the connection. Malformed headers degrade to None, never raise.
-        self._stream = stream
+        self._response = response
         self._closed = False
-        self._url = url
-        self.headers: Mapping[str, str] = stream.headers
+        # Captured here rather than read off the response in __del__, which can run at interpreter
+        # shutdown where a property call into the transport may find its objects already torn down --
+        # and a finalizer that raises reports nothing. Stripped of its query string because this
+        # string's only reader is the abandonment warning, and a query-placed api key would
+        # otherwise reach stderr and the logs with it.
+        self._url = strip_query(response.url)
+        self.headers: Mapping[str, str] = response.headers
         self.media_type = self.headers.get("content-type")
         length = self.headers.get("content-length")
         self.content_length = int(length) if length is not None and length.isascii() and length.isdigit() else None
@@ -91,7 +97,7 @@ class FileResponse:
 
     def _consume(self, chunk_size: int) -> Iterator[bytes]:
         try:
-            yield from self._stream.iter_bytes(chunk_size)
+            yield from self._response.iter_bytes(chunk_size)
         except GeneratorExit:
             # Abandoned mid-iteration: deliberately left open. Closing here would run at GC time,
             # and a finalizer may report, never act (ADR-0007) -- __del__ warns, client.close()
@@ -109,7 +115,7 @@ class FileResponse:
             The complete body."""
         self._ensure_open()
         try:
-            return self._stream.read()
+            return self._response.read()
         finally:
             self.close()
 
@@ -162,7 +168,7 @@ class FileResponse:
         if self._closed:
             return
         self._closed = True
-        self._stream.close()
+        self._response.close()
 
     def __enter__(self) -> Self:
         return self
@@ -200,14 +206,19 @@ class AsyncFileResponse:
     ``loop.shutdown_asyncgens()``, where the ``ResourceWarning`` still fires but later and less
     usefully, and ``aclose`` must run on the loop that created the response."""
 
-    __slots__ = ("_closed", "_stream", "_url", "content_length", "filename", "headers", "media_type")
+    __slots__ = ("_closed", "_response", "_url", "content_length", "filename", "headers", "media_type")
 
-    def __init__(self, stream: AsyncStreamedResponse, url: str) -> None:
+    def __init__(self, response: AsyncHttpResponse) -> None:
         # Total by design, exactly as the sync twin's: a raise here would leak the connection.
-        self._stream = stream
+        self._response = response
         self._closed = False
-        self._url = url
-        self.headers: Mapping[str, str] = stream.headers
+        # Captured here rather than read off the response in __del__, which can run at interpreter
+        # shutdown where a property call into the transport may find its objects already torn down --
+        # and a finalizer that raises reports nothing. Stripped of its query string because this
+        # string's only reader is the abandonment warning, and a query-placed api key would
+        # otherwise reach stderr and the logs with it.
+        self._url = strip_query(response.url)
+        self.headers: Mapping[str, str] = response.headers
         self.media_type = self.headers.get("content-type")
         length = self.headers.get("content-length")
         self.content_length = int(length) if length is not None and length.isascii() and length.isdigit() else None
@@ -231,7 +242,7 @@ class AsyncFileResponse:
 
     async def _consume(self, chunk_size: int) -> AsyncIterator[bytes]:
         try:
-            async for chunk in self._stream.aiter_bytes(chunk_size):
+            async for chunk in self._response.aiter_bytes(chunk_size):
                 yield chunk
         except GeneratorExit:
             # Abandoned mid-iteration: deliberately left open, as in the sync twin.
@@ -248,7 +259,7 @@ class AsyncFileResponse:
             The complete body."""
         self._ensure_open()
         try:
-            return await self._stream.aread()
+            return await self._response.aread()
         finally:
             await self.aclose()
 
@@ -294,7 +305,7 @@ class AsyncFileResponse:
         if self._closed:
             return
         self._closed = True
-        await self._stream.aclose()
+        await self._response.aclose()
 
     async def __aenter__(self) -> Self:
         return self

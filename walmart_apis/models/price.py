@@ -27,4 +27,4 @@ class PriceDict(TypedDict):
     status: str
     seller_sku: NotRequired[str]
     walmart_item_id: NotRequired[str]
-    product: NotRequired[Product | ProductDict]
+    product: NotRequired[ProductDict]

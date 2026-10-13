@@ -17,6 +17,6 @@ class PayoutStatusResponse(SdkBaseModel):
 
 class PayoutStatusResponseDict(TypedDict):
     status: NotRequired[Status11OrStr]
-    amount: NotRequired[Money | MoneyDict]
+    amount: NotRequired[MoneyDict]
     scheduled_date: NotRequired[RFC3339DateTime]
     completed_date: NotRequired[RFC3339DateTime]

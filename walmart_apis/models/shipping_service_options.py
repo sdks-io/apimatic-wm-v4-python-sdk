@@ -22,4 +22,4 @@ class ShippingServiceOptionsDict(TypedDict):
     delivery_experience: NotRequired[DeliveryExperienceOrStr]
     carrier_will_pick_up: NotRequired[bool]
     carrier_will_pick_up_option: NotRequired[CarrierWillPickUpOptionOrStr]
-    declared_value: NotRequired[Money | MoneyDict]
+    declared_value: NotRequired[MoneyDict]

@@ -17,7 +17,7 @@ class Address1(SdkBaseModel):
     state_or_region: str = Field(alias="stateOrRegion")
     municipality: Optional[str] = UNSET
     postal_code: str = Field(alias="postalCode")
-    country_code: str = Field(alias="countryCode")
+    country_code: str = Field(default="US", alias="countryCode")
     phone: Optional[str] = UNSET
     is_commercial_address: Optional[bool] = Field(default=UNSET, alias="isCommercialAddress")
 

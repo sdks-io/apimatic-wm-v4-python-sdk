@@ -31,7 +31,7 @@ class FeesEstimateIdentifierDict(TypedDict):
     id_type: NotRequired[IdType1OrStr]
     id_value: NotRequired[str]
     is_walmart_fulfilled: NotRequired[bool]
-    price_to_estimate_fees: NotRequired[PriceToEstimateFees | PriceToEstimateFeesDict]
+    price_to_estimate_fees: NotRequired[PriceToEstimateFeesDict]
     seller_id: NotRequired[str]
     seller_input_identifier: NotRequired[str]
     optional_fulfillment_program: NotRequired[str]

@@ -14,4 +14,4 @@ class UpdateShipmentSourceAddressRequest(SdkBaseModel):
 
 
 class UpdateShipmentSourceAddressRequestDict(TypedDict):
-    address: CommonAddressInput | CommonAddressInputDict
+    address: CommonAddressInputDict

@@ -22,6 +22,6 @@ class BatchOffersResponse(SdkBaseModel):
 
 
 class BatchOffersResponseDict(TypedDict):
-    headers: NotRequired[HttpResponseHeaders | HttpResponseHeadersDict]
-    status: NotRequired[GetOffersHttpStatusLine | GetOffersHttpStatusLineDict]
-    body: GetOffersResponse | GetOffersResponseDict
+    headers: NotRequired[HttpResponseHeadersDict]
+    status: NotRequired[GetOffersHttpStatusLineDict]
+    body: GetOffersResponseDict

@@ -26,7 +26,7 @@ class ItemOffersResponse(SdkBaseModel):
 
 
 class ItemOffersResponseDict(TypedDict):
-    headers: NotRequired[HttpResponseHeaders | HttpResponseHeadersDict]
-    status: NotRequired[GetOffersHttpStatusLine | GetOffersHttpStatusLineDict]
-    body: GetOffersResponse | GetOffersResponseDict
-    request: ItemOffersRequest | ItemOffersRequestDict
+    headers: NotRequired[HttpResponseHeadersDict]
+    status: NotRequired[GetOffersHttpStatusLineDict]
+    body: GetOffersResponseDict
+    request: ItemOffersRequestDict

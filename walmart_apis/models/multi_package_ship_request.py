@@ -11,4 +11,4 @@ class MultiPackageShipRequest(SdkBaseModel):
 
 
 class MultiPackageShipRequestDict(TypedDict):
-    packages: list[ShipPackage | ShipPackageDict]
+    packages: list[ShipPackageDict]

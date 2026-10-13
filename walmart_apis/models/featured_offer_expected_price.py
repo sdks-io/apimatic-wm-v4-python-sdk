@@ -15,4 +15,4 @@ class FeaturedOfferExpectedPrice(SdkBaseModel):
 
 
 class FeaturedOfferExpectedPriceDict(TypedDict):
-    listing_price: NotRequired[MoneyType | MoneyTypeDict]
+    listing_price: NotRequired[MoneyTypeDict]

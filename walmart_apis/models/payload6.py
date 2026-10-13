@@ -12,4 +12,4 @@ class Payload6(SdkBaseModel):
 
 
 class Payload6Dict(TypedDict):
-    access_points: NotRequired[list[AccessPoint | AccessPointDict]]
+    access_points: NotRequired[list[AccessPointDict]]

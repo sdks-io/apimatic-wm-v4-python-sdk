@@ -9,9 +9,11 @@ from ..core import (
     RawClient,
     RequestOptionsOrDict,
     SecuredRawResponse,
+    async_json_decoder,
     json_body,
     json_decoder,
     param,
+    unwrap,
 )
 from ..errors.get_final_payout_case_status_error import (
     GetFinalPayoutCaseStatusErrorBody,
@@ -40,7 +42,8 @@ class FinalPayout:
         when a seller account is being offboarded). Delegates to GMPPaymentsPlatform (Phase 5).
 
         Args:
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -48,7 +51,7 @@ class FinalPayout:
         Raises:
             ApiError: Bad Request Unauthorized — missing, expired, or invalid OAuth2 token Not Found Internal Server
                 Error ``error`` is ``ErrorList | RawError``."""
-        return self._with_raw_response.get_final_payout_case_status(request_options=request_options).unwrap()
+        return unwrap(self._with_raw_response.get_final_payout_case_status(request_options=request_options))
 
     def update_final_payout_case_status(
         self,
@@ -61,14 +64,15 @@ class FinalPayout:
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
 
         Raises:
             ApiError: Bad Request Not Found Internal Server Error ``error`` is ``ErrorList | RawError``."""
-        return self._with_raw_response.update_final_payout_case_status(body, request_options=request_options).unwrap()
+        return unwrap(self._with_raw_response.update_final_payout_case_status(body, request_options=request_options))
 
     @property
     def with_raw_response(self) -> FinalPayoutWithRawResponse:
@@ -86,7 +90,8 @@ class AsyncFinalPayout:
         when a seller account is being offboarded). Delegates to GMPPaymentsPlatform (Phase 5).
 
         Args:
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -94,7 +99,7 @@ class AsyncFinalPayout:
         Raises:
             ApiError: Bad Request Unauthorized — missing, expired, or invalid OAuth2 token Not Found Internal Server
                 Error ``error`` is ``ErrorList | RawError``."""
-        return (await self._with_raw_response.get_final_payout_case_status(request_options=request_options)).unwrap()
+        return unwrap(await self._with_raw_response.get_final_payout_case_status(request_options=request_options))
 
     async def update_final_payout_case_status(
         self,
@@ -107,16 +112,17 @@ class AsyncFinalPayout:
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
 
         Raises:
             ApiError: Bad Request Not Found Internal Server Error ``error`` is ``ErrorList | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.update_final_payout_case_status(body, request_options=request_options)
-        ).unwrap()
+        )
 
     @property
     def with_raw_response(self) -> AsyncFinalPayoutWithRawResponse:
@@ -131,7 +137,8 @@ class FinalPayoutWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchem
         when a seller account is being offboarded). Delegates to GMPPaymentsPlatform (Phase 5).
 
         Args:
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -155,7 +162,8 @@ class FinalPayoutWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchem
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -184,7 +192,8 @@ class AsyncFinalPayoutWithRawResponse(SecuredRawResponse[AsyncRawClient, Server,
         when a seller account is being offboarded). Delegates to GMPPaymentsPlatform (Phase 5).
 
         Args:
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -192,7 +201,7 @@ class AsyncFinalPayoutWithRawResponse(SecuredRawResponse[AsyncRawClient, Server,
             http_method="GET",
             url_template=self._server.default1("/disbursements/v4/finalPayout/case/status"),
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[FinalPayoutCaseStatusResponse],
+            decoder=async_json_decoder[FinalPayoutCaseStatusResponse],
             error_mapper=get_final_payout_case_status_error_mapper,
             request_options=request_options,
         )
@@ -208,7 +217,8 @@ class AsyncFinalPayoutWithRawResponse(SecuredRawResponse[AsyncRawClient, Server,
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -223,7 +233,7 @@ class AsyncFinalPayoutWithRawResponse(SecuredRawResponse[AsyncRawClient, Server,
                 )
             ](body),
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[FinalPayoutCaseStatusResponse],
+            decoder=async_json_decoder[FinalPayoutCaseStatusResponse],
             error_mapper=update_final_payout_case_status_error_mapper,
             request_options=request_options,
         )

@@ -16,4 +16,4 @@ class InitiatePayoutResponse(SdkBaseModel):
 class InitiatePayoutResponseDict(TypedDict):
     payout_id: NotRequired[str]
     status: NotRequired[str]
-    amount: NotRequired[Money | MoneyDict]
+    amount: NotRequired[MoneyDict]

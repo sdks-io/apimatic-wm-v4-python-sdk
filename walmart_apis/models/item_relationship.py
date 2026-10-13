@@ -18,6 +18,6 @@ class ItemRelationship(SdkBaseModel):
 
 class ItemRelationshipDict(TypedDict):
     type_: NotRequired[TypeOrStr]
-    child_items: NotRequired[list[RelatedItem | RelatedItemDict]]
-    parent_items: NotRequired[list[RelatedItem | RelatedItemDict]]
-    variation_theme: NotRequired[VariationTheme | VariationThemeDict]
+    child_items: NotRequired[list[RelatedItemDict]]
+    parent_items: NotRequired[list[RelatedItemDict]]
+    variation_theme: NotRequired[VariationThemeDict]

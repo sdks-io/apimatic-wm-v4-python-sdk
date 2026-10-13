@@ -11,4 +11,4 @@ class ErrorListError(SdkBaseModel):
 
 
 class ErrorListErrorDict(TypedDict):
-    errors: list[Error3 | Error3Dict]
+    errors: list[Error3Dict]

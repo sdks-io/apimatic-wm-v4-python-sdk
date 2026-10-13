@@ -14,4 +14,4 @@ class CommonErrorListError(SdkBaseModel):
 
 
 class CommonErrorListErrorDict(TypedDict):
-    errors: list[CommonError | CommonErrorDict]
+    errors: list[CommonErrorDict]

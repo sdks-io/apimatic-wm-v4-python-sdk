@@ -19,4 +19,4 @@ class Reason(SdkBaseModel):
 class ReasonDict(TypedDict):
     message: str
     reason_code: ReasonCodeOrStr
-    links: NotRequired[list[Link | LinkDict]]
+    links: NotRequired[list[LinkDict]]

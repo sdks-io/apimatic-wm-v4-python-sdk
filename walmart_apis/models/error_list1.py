@@ -12,4 +12,4 @@ class ErrorList1(SdkBaseModel):
 
 
 class ErrorList1Dict(TypedDict):
-    errors: list[Error3 | Error3Dict]
+    errors: list[Error3Dict]

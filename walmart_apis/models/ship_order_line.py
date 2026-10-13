@@ -16,5 +16,5 @@ class ShipOrderLine(SdkBaseModel):
 
 class ShipOrderLineDict(TypedDict):
     line_number: str
-    ship_quantity: NotRequired[QuantityWithUnit | QuantityWithUnitDict]
-    tracking_info: TrackingInfo | TrackingInfoDict
+    ship_quantity: NotRequired[QuantityWithUnitDict]
+    tracking_info: TrackingInfoDict

@@ -12,4 +12,4 @@ class GetFulfillmentPreviewResult(SdkBaseModel):
 
 
 class GetFulfillmentPreviewResultDict(TypedDict):
-    fulfillment_previews: NotRequired[list[FulfillmentPreview | FulfillmentPreviewDict]]
+    fulfillment_previews: NotRequired[list[FulfillmentPreviewDict]]

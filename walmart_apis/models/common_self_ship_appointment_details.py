@@ -22,5 +22,5 @@ class CommonSelfShipAppointmentDetails(SdkBaseModel):
 
 class CommonSelfShipAppointmentDetailsDict(TypedDict):
     appointment_id: NotRequired[float]
-    appointment_slot_time: NotRequired[CommonAppointmentSlotTime | CommonAppointmentSlotTimeDict]
+    appointment_slot_time: NotRequired[CommonAppointmentSlotTimeDict]
     appointment_status: NotRequired[str]

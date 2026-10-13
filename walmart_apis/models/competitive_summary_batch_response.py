@@ -14,4 +14,4 @@ class CompetitiveSummaryBatchResponse(SdkBaseModel):
 
 
 class CompetitiveSummaryBatchResponseDict(TypedDict):
-    responses: NotRequired[list[CompetitiveSummaryResponse | CompetitiveSummaryResponseDict]]
+    responses: NotRequired[list[CompetitiveSummaryResponseDict]]

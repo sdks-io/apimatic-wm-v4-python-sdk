@@ -14,5 +14,5 @@ class Promise(SdkBaseModel):
 
 
 class PromiseDict(TypedDict):
-    delivery_window: NotRequired[DeliveryWindow | DeliveryWindowDict]
-    pickup_window: NotRequired[PickupWindow | PickupWindowDict]
+    delivery_window: NotRequired[DeliveryWindowDict]
+    pickup_window: NotRequired[PickupWindowDict]

@@ -19,4 +19,4 @@ class ListingsItemSubmissionResponseDict(TypedDict):
     sku: str
     status: Status1OrStr
     submission_id: NotRequired[str]
-    issues: NotRequired[list[Issue | IssueDict]]
+    issues: NotRequired[list[IssueDict]]

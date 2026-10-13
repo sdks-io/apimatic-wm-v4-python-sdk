@@ -11,4 +11,4 @@ class GetFulfillmentPreviewResponse(SdkBaseModel):
 
 
 class GetFulfillmentPreviewResponseDict(TypedDict):
-    payload: NotRequired[GetFulfillmentPreviewResult | GetFulfillmentPreviewResultDict]
+    payload: NotRequired[GetFulfillmentPreviewResultDict]

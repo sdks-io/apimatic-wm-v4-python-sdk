@@ -19,5 +19,5 @@ class ListShipmentContentUpdatePreviewsResponse(SdkBaseModel):
 
 
 class ListShipmentContentUpdatePreviewsResponseDict(TypedDict):
-    content_update_previews: list[CommonContentUpdatePreview | CommonContentUpdatePreviewDict]
-    pagination: NotRequired[CommonPagination | CommonPaginationDict]
+    content_update_previews: list[CommonContentUpdatePreviewDict]
+    pagination: NotRequired[CommonPaginationDict]

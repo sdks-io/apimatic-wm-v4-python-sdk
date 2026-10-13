@@ -11,4 +11,4 @@ class CreateShipmentResponse(SdkBaseModel):
 
 
 class CreateShipmentResponseDict(TypedDict):
-    shipment: NotRequired[Shipment | ShipmentDict]
+    shipment: NotRequired[ShipmentDict]

@@ -17,5 +17,5 @@ class GetMyFeesEstimateResponse(SdkBaseModel):
 
 
 class GetMyFeesEstimateResponseDict(TypedDict):
-    payload: NotRequired[GetMyFeesEstimateResult | GetMyFeesEstimateResultDict]
-    errors: NotRequired[ErrorList | ErrorListDict]
+    payload: NotRequired[GetMyFeesEstimateResultDict]
+    errors: NotRequired[ErrorListDict]

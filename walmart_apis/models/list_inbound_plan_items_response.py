@@ -19,5 +19,5 @@ class ListInboundPlanItemsResponse(SdkBaseModel):
 
 
 class ListInboundPlanItemsResponseDict(TypedDict):
-    items: list[CommonItem | CommonItemDict]
-    pagination: NotRequired[CommonPagination | CommonPaginationDict]
+    items: list[CommonItemDict]
+    pagination: NotRequired[CommonPaginationDict]

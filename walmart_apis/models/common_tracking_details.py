@@ -19,5 +19,5 @@ class CommonTrackingDetails(SdkBaseModel):
 
 
 class CommonTrackingDetailsDict(TypedDict):
-    ltl_tracking_detail: NotRequired[CommonLtlTrackingDetail | CommonLtlTrackingDetailDict]
-    spd_tracking_detail: NotRequired[CommonSpdTrackingDetail | CommonSpdTrackingDetailDict]
+    ltl_tracking_detail: NotRequired[CommonLtlTrackingDetailDict]
+    spd_tracking_detail: NotRequired[CommonSpdTrackingDetailDict]

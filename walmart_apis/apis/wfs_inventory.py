@@ -1,7 +1,17 @@
 from __future__ import annotations
 
 from ..auth import AsyncAuthSchemes, AuthSchemes
-from ..core import ApiResult, AsyncRawClient, RawClient, RequestOptionsOrDict, SecuredRawResponse, json_decoder, param
+from ..core import (
+    ApiResult,
+    AsyncRawClient,
+    RawClient,
+    RequestOptionsOrDict,
+    SecuredRawResponse,
+    async_json_decoder,
+    json_decoder,
+    param,
+    unwrap,
+)
 from ..errors.get_wfs_inventory_items_error import GetWfsInventoryItemsErrorBody, get_wfs_inventory_items_error_mapper
 from ..models.get_wfs_inventory_response import GetWfsInventoryResponse
 from ..server.server import Server
@@ -29,7 +39,8 @@ class WfsInventory:
             skus: Comma-separated seller SKUs to filter (max 50). Omit to return all WFS items.
             page_size: Value sent with the request.
             next_token: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -37,9 +48,11 @@ class WfsInventory:
         Raises:
             ApiError: Bad Request Forbidden Rate limit exceeded Internal Server Error ``error`` is ``ErrorList |
                 RawError``."""
-        return self._with_raw_response.get_wfs_inventory_items(
-            skus=skus, page_size=page_size, next_token=next_token, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.get_wfs_inventory_items(
+                skus=skus, page_size=page_size, next_token=next_token, request_options=request_options
+            ),
+        )
 
     @property
     def with_raw_response(self) -> WfsInventoryWithRawResponse:
@@ -68,7 +81,8 @@ class AsyncWfsInventory:
             skus: Comma-separated seller SKUs to filter (max 50). Omit to return all WFS items.
             page_size: Value sent with the request.
             next_token: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -76,11 +90,11 @@ class AsyncWfsInventory:
         Raises:
             ApiError: Bad Request Forbidden Rate limit exceeded Internal Server Error ``error`` is ``ErrorList |
                 RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.get_wfs_inventory_items(
                 skus=skus, page_size=page_size, next_token=next_token, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     @property
     def with_raw_response(self) -> AsyncWfsInventoryWithRawResponse:
@@ -106,7 +120,8 @@ class WfsInventoryWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSche
             skus: Comma-separated seller SKUs to filter (max 50). Omit to return all WFS items.
             page_size: Value sent with the request.
             next_token: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -144,7 +159,8 @@ class AsyncWfsInventoryWithRawResponse(SecuredRawResponse[AsyncRawClient, Server
             skus: Comma-separated seller SKUs to filter (max 50). Omit to return all WFS items.
             page_size: Value sent with the request.
             next_token: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -157,7 +173,7 @@ class AsyncWfsInventoryWithRawResponse(SecuredRawResponse[AsyncRawClient, Server
                 param[str | None]("nextToken", next_token),
             ],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[GetWfsInventoryResponse],
+            decoder=async_json_decoder[GetWfsInventoryResponse],
             error_mapper=get_wfs_inventory_items_error_mapper,
             request_options=request_options,
         )

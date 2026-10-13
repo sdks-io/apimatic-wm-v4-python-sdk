@@ -21,4 +21,4 @@ class ResearchingQuantity(SdkBaseModel):
 
 class ResearchingQuantityDict(TypedDict):
     total_researching_quantity: NotRequired[int | None]
-    researching_quantity_breakdown: NotRequired[list[ResearchingQuantityEntry | ResearchingQuantityEntryDict]]
+    researching_quantity_breakdown: NotRequired[list[ResearchingQuantityEntryDict]]

@@ -15,4 +15,4 @@ class UpdateShipmentTrackingDetailsRequest(SdkBaseModel):
 
 
 class UpdateShipmentTrackingDetailsRequestDict(TypedDict):
-    tracking_details: CommonTrackingDetailsInput | CommonTrackingDetailsInputDict
+    tracking_details: CommonTrackingDetailsInputDict

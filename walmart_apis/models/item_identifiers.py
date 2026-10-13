@@ -13,5 +13,5 @@ class ItemIdentifiers(SdkBaseModel):
 
 
 class ItemIdentifiersDict(TypedDict):
-    marketplace_walmart_item_id: NotRequired[list[ItemIdentifier | ItemIdentifierDict]]
-    sku_identifiers: NotRequired[list[ItemIdentifier | ItemIdentifierDict]]
+    marketplace_walmart_item_id: NotRequired[list[ItemIdentifierDict]]
+    sku_identifiers: NotRequired[list[ItemIdentifierDict]]

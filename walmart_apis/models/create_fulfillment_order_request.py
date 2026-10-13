@@ -28,6 +28,6 @@ class CreateFulfillmentOrderRequestDict(TypedDict):
     displayable_order_date: RFC3339DateTime
     displayable_order_comment: NotRequired[str]
     shipping_speed_category: ShippingSpeedCategoryOrStr
-    destination_address: Address | AddressDict
-    items: list[CreateFulfillmentOrderItem | CreateFulfillmentOrderItemDict]
+    destination_address: AddressDict
+    items: list[CreateFulfillmentOrderItemDict]
     notification_emails: NotRequired[list[EmailStr]]

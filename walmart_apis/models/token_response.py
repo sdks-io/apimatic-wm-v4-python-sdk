@@ -27,7 +27,7 @@ class TokenResponse(SdkBaseModel):
 
 class TokenResponseDict(TypedDict):
     access_token: str
-    token_type: NotRequired[Literal["Bearer"]]
+    token_type: Literal["Bearer"]
     expires_in: int
     refresh_token: NotRequired[str]
     scope: NotRequired[str]

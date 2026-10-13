@@ -13,5 +13,5 @@ class GetQueriesResponse(SdkBaseModel):
 
 
 class GetQueriesResponseDict(TypedDict):
-    queries: NotRequired[list[Query | QueryDict]]
-    pagination: NotRequired[Pagination1 | Pagination1Dict]
+    queries: NotRequired[list[QueryDict]]
+    pagination: NotRequired[Pagination1Dict]

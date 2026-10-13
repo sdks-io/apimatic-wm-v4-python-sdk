@@ -3,7 +3,17 @@ from __future__ import annotations
 from typing import Any
 
 from ..auth import AsyncAuthSchemes, AuthSchemes
-from ..core import ApiResult, AsyncRawClient, RawClient, RequestOptionsOrDict, SecuredRawResponse, json_decoder, param
+from ..core import (
+    ApiResult,
+    AsyncRawClient,
+    RawClient,
+    RequestOptionsOrDict,
+    SecuredRawResponse,
+    async_json_decoder,
+    json_decoder,
+    param,
+    unwrap,
+)
 from ..errors.get_order_metrics_error import GetOrderMetricsErrorBody, get_order_metrics_error_mapper
 from ..models.enums.buyer_type import BuyerTypeOrStr
 from ..models.enums.first_day_of_week import FirstDayOfWeekOrStr
@@ -71,7 +81,8 @@ class Sales:
                 you want the response to include order metrics for only SKU TestSKU.
             sp_api_program: Filters the results by the program that you specify. Do not include this filter if you want
                 the response to inclu
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -79,19 +90,21 @@ class Sales:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return self._with_raw_response.get_order_metrics(
-            marketplace_ids,
-            interval,
-            granularity,
-            granularity_time_zone=granularity_time_zone,
-            buyer_type=buyer_type,
-            fulfillment_network=fulfillment_network,
-            first_day_of_week=first_day_of_week,
-            asin=asin,
-            sku=sku,
-            sp_api_program=sp_api_program,
-            request_options=request_options,
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.get_order_metrics(
+                marketplace_ids,
+                interval,
+                granularity,
+                granularity_time_zone=granularity_time_zone,
+                buyer_type=buyer_type,
+                fulfillment_network=fulfillment_network,
+                first_day_of_week=first_day_of_week,
+                asin=asin,
+                sku=sku,
+                sp_api_program=sp_api_program,
+                request_options=request_options,
+            ),
+        )
 
     @property
     def with_raw_response(self) -> SalesWithRawResponse:
@@ -158,7 +171,8 @@ class AsyncSales:
                 you want the response to include order metrics for only SKU TestSKU.
             sp_api_program: Filters the results by the program that you specify. Do not include this filter if you want
                 the response to inclu
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -166,7 +180,7 @@ class AsyncSales:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.get_order_metrics(
                 marketplace_ids,
                 interval,
@@ -179,8 +193,8 @@ class AsyncSales:
                 sku=sku,
                 sp_api_program=sp_api_program,
                 request_options=request_options,
-            )
-        ).unwrap()
+            ),
+        )
 
     @property
     def with_raw_response(self) -> AsyncSalesWithRawResponse:
@@ -244,7 +258,8 @@ class SalesWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]):
                 you want the response to include order metrics for only SKU TestSKU.
             sp_api_program: Filters the results by the program that you specify. Do not include this filter if you want
                 the response to inclu
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -327,7 +342,8 @@ class AsyncSalesWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Async
                 you want the response to include order metrics for only SKU TestSKU.
             sp_api_program: Filters the results by the program that you specify. Do not include this filter if you want
                 the response to inclu
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -347,7 +363,7 @@ class AsyncSalesWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Async
                 param[str | None]("sp-apiProgram", sp_api_program),
             ],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[Any],
+            decoder=async_json_decoder[Any],
             error_mapper=get_order_metrics_error_mapper,
             request_options=request_options,
         )

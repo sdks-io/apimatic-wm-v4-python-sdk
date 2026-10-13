@@ -26,4 +26,4 @@ class FeesEstimateByIdRequest(SdkBaseModel):
 class FeesEstimateByIdRequestDict(TypedDict):
     id_type: IdTypeOrStr
     id_value: str
-    fees_estimate_request: FeesEstimateRequest | FeesEstimateRequestDict
+    fees_estimate_request: FeesEstimateRequestDict

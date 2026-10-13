@@ -15,4 +15,4 @@ class CreateQuerySpecification(SdkBaseModel):
 
 class CreateQuerySpecificationDict(TypedDict):
     query: str
-    pagination: NotRequired[Pagination2 | Pagination2Dict]
+    pagination: NotRequired[Pagination2Dict]

@@ -27,5 +27,5 @@ class QueryDict(TypedDict):
     processing_status: ProcessingStatusOrStr
     created_at: NotRequired[RFC3339DateTime]
     updated_at: NotRequired[RFC3339DateTime]
-    data_documents: NotRequired[list[DocumentSummary | DocumentSummaryDict]]
-    pagination: NotRequired[Pagination3 | Pagination3Dict]
+    data_documents: NotRequired[list[DocumentSummaryDict]]
+    pagination: NotRequired[Pagination3Dict]

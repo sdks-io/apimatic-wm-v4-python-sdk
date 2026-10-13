@@ -15,4 +15,4 @@ class ConfirmTransportationOptionsRequest(SdkBaseModel):
 
 
 class ConfirmTransportationOptionsRequestDict(TypedDict):
-    transportation_selections: list[CommonTransportationSelection | CommonTransportationSelectionDict]
+    transportation_selections: list[CommonTransportationSelectionDict]

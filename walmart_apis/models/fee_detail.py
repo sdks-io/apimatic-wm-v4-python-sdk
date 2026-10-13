@@ -28,7 +28,7 @@ class FeeDetail(SdkBaseModel):
 
 class FeeDetailDict(TypedDict):
     fee_type: str
-    fee_amount: MoneyType1 | MoneyType1Dict
-    fee_promotion: NotRequired[MoneyType1 | MoneyType1Dict]
-    tax_amount: NotRequired[MoneyType1 | MoneyType1Dict]
-    final_fee: MoneyType1 | MoneyType1Dict
+    fee_amount: MoneyType1Dict
+    fee_promotion: NotRequired[MoneyType1Dict]
+    tax_amount: NotRequired[MoneyType1Dict]
+    final_fee: MoneyType1Dict

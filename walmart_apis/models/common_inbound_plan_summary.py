@@ -40,5 +40,5 @@ class CommonInboundPlanSummaryDict(TypedDict):
     last_updated_at: RFC3339DateTime
     marketplace_ids: list[str]
     name: str
-    source_address: CommonAddress | CommonAddressDict
+    source_address: CommonAddressDict
     status: str

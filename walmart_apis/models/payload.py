@@ -16,6 +16,6 @@ class Payload(SdkBaseModel):
 
 
 class PayloadDict(TypedDict):
-    fulfillment_order: NotRequired[FulfillmentOrder | FulfillmentOrderDict]
-    fulfillment_order_items: NotRequired[list[FulfillmentOrderItem | FulfillmentOrderItemDict]]
-    fulfillment_shipments: NotRequired[list[FulfillmentShipment | FulfillmentShipmentDict]]
+    fulfillment_order: NotRequired[FulfillmentOrderDict]
+    fulfillment_order_items: NotRequired[list[FulfillmentOrderItemDict]]
+    fulfillment_shipments: NotRequired[list[FulfillmentShipmentDict]]

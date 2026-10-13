@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import Literal
 
 from pydantic import Field
-from typing_extensions import NotRequired, TypedDict
+from typing_extensions import TypedDict
 
 from ..core import SdkBaseModel
 from .money_type import MoneyType, MoneyTypeDict
@@ -26,5 +26,5 @@ class QuantityDiscountPriceType(SdkBaseModel):
 
 class QuantityDiscountPriceTypeDict(TypedDict):
     quantity_tier: int
-    quantity_discount_type: NotRequired[Literal["QUANTITY_DISCOUNT"]]
-    listing_price: MoneyType | MoneyTypeDict
+    quantity_discount_type: Literal["QUANTITY_DISCOUNT"]
+    listing_price: MoneyTypeDict

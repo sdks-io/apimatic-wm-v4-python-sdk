@@ -24,7 +24,7 @@ class DeliverOrderLine(SdkBaseModel):
 
 class DeliverOrderLineDict(TypedDict):
     line_number: str
-    delivered_quantity: NotRequired[QuantityWithUnit | QuantityWithUnitDict]
+    delivered_quantity: NotRequired[QuantityWithUnitDict]
     tracking_number: NotRequired[str]
     package_number: NotRequired[str]
     delivered_date: NotRequired[RFC3339DateTime]

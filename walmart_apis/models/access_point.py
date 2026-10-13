@@ -26,6 +26,6 @@ class AccessPointDict(TypedDict):
     access_point_id: str
     name: str
     type_: NotRequired[Type11OrStr]
-    address: Address1 | Address1Dict
+    address: Address1Dict
     operating_hours: NotRequired[Any]
     timezone: NotRequired[str]

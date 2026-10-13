@@ -14,4 +14,4 @@ class SettlementPeriodsResponse(SdkBaseModel):
 
 class SettlementPeriodsResponseDict(TypedDict):
     next_token: NotRequired[str]
-    periods: NotRequired[list[SettlementPeriod | SettlementPeriodDict]]
+    periods: NotRequired[list[SettlementPeriodDict]]

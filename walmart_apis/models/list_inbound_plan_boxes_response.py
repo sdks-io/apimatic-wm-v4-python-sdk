@@ -19,5 +19,5 @@ class ListInboundPlanBoxesResponse(SdkBaseModel):
 
 
 class ListInboundPlanBoxesResponseDict(TypedDict):
-    boxes: list[CommonBox | CommonBoxDict]
-    pagination: NotRequired[CommonPagination | CommonPaginationDict]
+    boxes: list[CommonBoxDict]
+    pagination: NotRequired[CommonPaginationDict]

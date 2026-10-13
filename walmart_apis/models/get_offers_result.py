@@ -45,6 +45,6 @@ class GetOffersResultDict(TypedDict):
     sku: NotRequired[str]
     item_condition: ConditionType2OrStr
     status: str
-    identifier: ItemIdentifier1 | ItemIdentifier1Dict
-    summary: Summary | SummaryDict
-    offers: list[OfferDetail | OfferDetailDict]
+    identifier: ItemIdentifier1Dict
+    summary: SummaryDict
+    offers: list[OfferDetailDict]

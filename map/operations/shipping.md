@@ -89,9 +89,9 @@ Each `###` block is one operation and assumes `sdk-map.md` is loaded: blocks omi
 - **Route**: `GET /shipping/v4/shipments/{shipmentId}/documents`
 - **Auth**: `wallet_auth`
 - **Server**: `default1`
-- **Signature**: `def get_shipment_documents(shipment_id: str, *, package_client_reference_id: str | None = None, format: Format1OrStr | None = None, request_options: RequestOptionsOrDict | None = None)`
+- **Signature**: `def get_shipment_documents(shipment_id: str, *, package_client_reference_id: str | None = None, format_: Format1OrStr | None = None, request_options: RequestOptionsOrDict | None = None)`
   - required, positional: `shipment_id`
-- **Params**: `shipment_id` — path `shipmentId` · `package_client_reference_id` — query `packageClientReferenceId` · `format` — query
+- **Params**: `shipment_id` — path `shipmentId` · `package_client_reference_id` — query `packageClientReferenceId` · `format_` — query `format`
 - **Returns (parsed)**: `GetShipmentDocumentsResponse`
 - **Returns (raw)**: `ApiResult[GetShipmentDocumentsResponse, GetShipmentDocumentsErrorBody]`
 - **Error**: `GetShipmentDocumentsErrorBody` — **Case A (typed)**

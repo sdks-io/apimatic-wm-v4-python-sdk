@@ -11,4 +11,4 @@ class ChannelList(SdkBaseModel):
 
 
 class ChannelListDict(TypedDict):
-    channels: NotRequired[list[Channel | ChannelDict]]
+    channels: NotRequired[list[ChannelDict]]

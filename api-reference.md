@@ -61,7 +61,13 @@ unverified URI would be an open redirect.
 ```python
 try:
     client.authorization.authorize(
-        response_type, client_id, redirect_uri, scope, state, code_challenge, code_challenge_method
+        ResponseType1.CODE,
+        "some example string",
+        "https://example.com",
+        "some example string",
+        "some example string",
+        "some example string",
+        CodeChallengeMethod.S256,
     )
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type AuthorizeErrorBody
@@ -72,7 +78,13 @@ except ApiError as e:
 ```python
 try:
     await async_client.authorization.authorize(
-        response_type, client_id, redirect_uri, scope, state, code_challenge, code_challenge_method
+        ResponseType1.CODE,
+        "some example string",
+        "https://example.com",
+        "some example string",
+        "some example string",
+        "some example string",
+        CodeChallengeMethod.S256,
     )
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type AuthorizeErrorBody
@@ -95,7 +107,7 @@ except ApiError as e:
 | <code>state</code> | <code>str</code> | Opaque CSRF token; echoed back unchanged. |
 | <code>code_challenge</code> | <code>str</code> | PKCE challenge — base64url(SHA-256(code_verifier)). |
 | <code>code_challenge_method</code> | <code>[CodeChallengeMethodOrStr](walmart_apis/models/enums/code_challenge_method.py)</code> | Must be `S256`. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -179,7 +191,7 @@ TTL). A requested `scope` MUST NOT exceed the originally granted scope.
 
 ```python
 try:
-    response = client.authorization.create_token(grant_type)
+    response = client.authorization.create_token(GrantType.CLIENT_CREDENTIALS)
     # TODO: Handle 'response' of type TokenResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type CreateTokenErrorBody
@@ -189,7 +201,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.authorization.create_token(grant_type)
+    response = await async_client.authorization.create_token(GrantType.CLIENT_CREDENTIALS)
     # TODO: Handle 'response' of type TokenResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type CreateTokenErrorBody
@@ -213,7 +225,7 @@ except ApiError as e:
 | <code>refresh_token</code> | <code>str \| None</code> | A previously issued refresh token (refresh_token grant). Rotated on use.<br>**Default**: <code>None</code> |
 | <code>redirect_uri</code> | <code>str \| None</code> | Accepted for OAuth 2.0 back-compat on authorization_code; not required in 2.1 (PKCE covers injection).<br>**Default**: <code>None</code> |
 | <code>scope</code> | <code>str \| None</code> | **client_credentials:** accepted for compatibility but **not honored**<br> — no down-scoping; not echoed. **refresh_token:** optional;<br>MUST NOT exceed the originally granted scope.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -276,7 +288,7 @@ registration management (read/update/delete via a
 
 ```python
 try:
-    response = client.authorization.register_client(body)
+    response = client.authorization.register_client(ClientRegistrationRequest(redirect_uris=["https://example.com"]))
     # TODO: Handle 'response' of type ClientRegistrationResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type RegisterClientErrorBody
@@ -286,7 +298,9 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.authorization.register_client(body)
+    response = await async_client.authorization.register_client(
+        ClientRegistrationRequest(redirect_uris=["https://example.com"])
+    )
     # TODO: Handle 'response' of type ClientRegistrationResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type RegisterClientErrorBody
@@ -303,7 +317,7 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>body</code> | <code>[ClientRegistrationRequest](walmart_apis/models/client_registration_request.py) \| [ClientRegistrationRequestDict](walmart_apis/models/client_registration_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -362,7 +376,7 @@ Send a `GET` request.
 
 ```python
 try:
-    response = client.catalog.get_catalog_item(walmart_item_id, marketplace_ids)
+    response = client.catalog.get_catalog_item("00000000000000", ["some example string"])
     # TODO: Handle 'response' of type Item
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetCatalogItemErrorBody
@@ -372,7 +386,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.catalog.get_catalog_item(walmart_item_id, marketplace_ids)
+    response = await async_client.catalog.get_catalog_item("00000000000000", ["some example string"])
     # TODO: Handle 'response' of type Item
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetCatalogItemErrorBody
@@ -391,7 +405,7 @@ except ApiError as e:
 | <code>walmart_item_id</code> | <code>str</code> | Walmart Item ID (14-digit numeric identifier) |
 | <code>marketplace_ids</code> | <code>list&#91;str&#93;</code> | Walmart marketplace identifiers. Use WALMART_US for the US marketplace. |
 | <code>included_data</code> | <code>list&#91;[IncludedDatumOrStr](walmart_apis/models/enums/included_datum.py)&#93; \| None</code> | Data sections to include in the response<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -446,7 +460,7 @@ GTIN, UPC, or seller SKU. Returns matching catalog items.
 
 ```python
 try:
-    response = client.catalog.search_catalog_items(marketplace_ids)
+    response = client.catalog.search_catalog_items(["some example string"])
     # TODO: Handle 'response' of type ItemSearchResults
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type SearchCatalogItemsErrorBody
@@ -456,7 +470,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.catalog.search_catalog_items(marketplace_ids)
+    response = await async_client.catalog.search_catalog_items(["some example string"])
     # TODO: Handle 'response' of type ItemSearchResults
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type SearchCatalogItemsErrorBody
@@ -481,7 +495,7 @@ except ApiError as e:
 | <code>included_data</code> | <code>list&#91;[IncludedDatumOrStr](walmart_apis/models/enums/included_datum.py)&#93; \| None</code> | Data sections to include in the response<br>**Default**: <code>None</code> |
 | <code>page_size</code> | <code>int \| None</code> | Number of results per page (1–20).<br>**Known limitation:** The PIQS keyword search backend hard-caps results at 40 items per call regardless of this value.<br>**Default**: <code>10</code> |
 | <code>page_token</code> | <code>str \| None</code> | Token for the next page of results, obtained from `pagination.nextToken` in a previous response.<br>**Known limitation:** Cursor-based pagination is not currently supported for keyword search. The PIQS search backend (`/v3/items/walmart/search`) does not return a `nextCursor` and does not honour this parameter. Results are capped at 40 items per call. Reserved for future use once PIQS exposes pagination support.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -539,7 +553,7 @@ Send a `DELETE` request.
 
 ```python
 try:
-    response = client.data_kiosk.cancel_query(query_id)
+    response = client.data_kiosk.cancel_query("some example string")
     # TODO: Handle 'response' of type CancelQueryResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type CancelQueryErrorBody
@@ -549,7 +563,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.data_kiosk.cancel_query(query_id)
+    response = await async_client.data_kiosk.cancel_query("some example string")
     # TODO: Handle 'response' of type CancelQueryResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type CancelQueryErrorBody
@@ -566,7 +580,7 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>query_id</code> | <code>str</code> | Value sent with the request. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -621,7 +635,7 @@ Query language TBD pending ADR (GraphQL vs REST hybrid — Pod 4).
 
 ```python
 try:
-    response = client.data_kiosk.create_query(body)
+    response = client.data_kiosk.create_query(CreateQuerySpecification(query="some example string"))
     # TODO: Handle 'response' of type CreateQueryResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type CreateQueryErrorBody
@@ -631,7 +645,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.data_kiosk.create_query(body)
+    response = await async_client.data_kiosk.create_query(CreateQuerySpecification(query="some example string"))
     # TODO: Handle 'response' of type CreateQueryResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type CreateQueryErrorBody
@@ -648,7 +662,7 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>body</code> | <code>[CreateQuerySpecification](walmart_apis/models/create_query_specification.py) \| [CreateQuerySpecificationDict](walmart_apis/models/create_query_specification.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -703,7 +717,7 @@ Do not log the pre-signed URL.
 
 ```python
 try:
-    response = client.data_kiosk.get_document(document_id)
+    response = client.data_kiosk.get_document("some example string")
     # TODO: Handle 'response' of type Document
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetDocumentErrorBody
@@ -713,7 +727,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.data_kiosk.get_document(document_id)
+    response = await async_client.data_kiosk.get_document("some example string")
     # TODO: Handle 'response' of type Document
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetDocumentErrorBody
@@ -730,7 +744,7 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>document_id</code> | <code>str</code> | Value sent with the request. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -816,7 +830,7 @@ except ApiError as e:
 | <code>created_since</code> | <code>RFC3339DateTime \| None</code> | Value sent with the request.<br>**Default**: <code>None</code> |
 | <code>created_until</code> | <code>RFC3339DateTime \| None</code> | Value sent with the request.<br>**Default**: <code>None</code> |
 | <code>pagination_token</code> | <code>str \| None</code> | Value sent with the request.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -870,7 +884,7 @@ Send a `GET` request.
 
 ```python
 try:
-    response = client.data_kiosk.get_query(query_id)
+    response = client.data_kiosk.get_query("some example string")
     # TODO: Handle 'response' of type Query
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetQueryErrorBody
@@ -880,7 +894,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.data_kiosk.get_query(query_id)
+    response = await async_client.data_kiosk.get_query("some example string")
     # TODO: Handle 'response' of type Query
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetQueryErrorBody
@@ -897,7 +911,7 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>query_id</code> | <code>str</code> | Value sent with the request. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -983,7 +997,7 @@ except ApiError as e:
 
 | Name | Type | Description |
 | --- | --- | --- |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -1045,7 +1059,7 @@ already reached DONE or ERROR cannot be cancelled.
 
 ```python
 try:
-    response = client.feeds.cancel_feed(feed_id)
+    response = client.feeds.cancel_feed("some example string")
     # TODO: Handle 'response' of type CancelFeedResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type CancelFeedErrorBody
@@ -1055,7 +1069,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.feeds.cancel_feed(feed_id)
+    response = await async_client.feeds.cancel_feed("some example string")
     # TODO: Handle 'response' of type CancelFeedResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type CancelFeedErrorBody
@@ -1072,7 +1086,7 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>feed_id</code> | <code>str</code> | Value sent with the request. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -1128,7 +1142,7 @@ processing status via GET /feeds/v4/feeds/{feedId}.
 
 ```python
 try:
-    response = client.feeds.create_feed(feed_type, file)
+    response = client.feeds.create_feed(FeedType.LISTINGS_FEED, Path("path/to/file.bin"))
     # TODO: Handle 'response' of type CreateFeedResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type CreateFeedErrorBody
@@ -1138,7 +1152,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.feeds.create_feed(feed_type, file)
+    response = await async_client.feeds.create_feed(FeedType.LISTINGS_FEED, Path("path/to/file.bin"))
     # TODO: Handle 'response' of type CreateFeedResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type CreateFeedErrorBody
@@ -1158,7 +1172,7 @@ except ApiError as e:
 | <code>file</code> | <code>FileInput</code> | The feed content file to upload and process |
 | <code>marketplace_id</code> | <code>str \| None</code> | Marketplace identifier (opaque token). If omitted, the service applies WALMART_US.<br>**Default**: <code>None</code> |
 | <code>content_type</code> | <code>[ContentTypeOrStr](walmart_apis/models/enums/content_type.py) \| None</code> | MIME type of the uploaded feed content.<br>If omitted, the server infers from the file's Content-Type in the multipart header.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -1212,7 +1226,7 @@ Send a `GET` request.
 
 ```python
 try:
-    response = client.feeds.get_feed(feed_id)
+    response = client.feeds.get_feed("some example string")
     # TODO: Handle 'response' of type Feed
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetFeedErrorBody
@@ -1222,7 +1236,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.feeds.get_feed(feed_id)
+    response = await async_client.feeds.get_feed("some example string")
     # TODO: Handle 'response' of type Feed
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetFeedErrorBody
@@ -1239,7 +1253,7 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>feed_id</code> | <code>str</code> | Value sent with the request. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -1299,7 +1313,7 @@ seller must own the feed referenced by feedId.
 
 ```python
 try:
-    response = client.feeds.get_feed_document(feed_id)
+    response = client.feeds.get_feed_document("some example string")
     # TODO: Handle 'response' of type FileResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetFeedDocumentErrorBody
@@ -1309,8 +1323,8 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.feeds.get_feed_document(feed_id)
-    # TODO: Handle 'response' of type FileResponse
+    response = await async_client.feeds.get_feed_document("some example string")
+    # TODO: Handle 'response' of type AsyncFileResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetFeedDocumentErrorBody
 ```
@@ -1326,7 +1340,7 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>feed_id</code> | <code>str</code> | Value sent with the request. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -1412,7 +1426,7 @@ except ApiError as e:
 | <code>created_until</code> | <code>RFC3339DateTime \| None</code> | Value sent with the request.<br>**Default**: <code>None</code> |
 | <code>page_size</code> | <code>int \| None</code> | Value sent with the request.<br>**Default**: <code>10</code> |
 | <code>next_token</code> | <code>str \| None</code> | Value sent with the request.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -1498,7 +1512,7 @@ except ApiError as e:
 
 | Name | Type | Description |
 | --- | --- | --- |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -1554,7 +1568,9 @@ scope. Delegates to GMPPaymentsPlatform (Phase 5).
 
 ```python
 try:
-    response = client.final_payout.update_final_payout_case_status(body)
+    response = client.final_payout.update_final_payout_case_status(
+        DisbursementsV4FinalPayoutCaseUpdateStatusRequest(status=Status3.RESOLVED)
+    )
     # TODO: Handle 'response' of type FinalPayoutCaseStatusResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type UpdateFinalPayoutCaseStatusErrorBody
@@ -1564,7 +1580,9 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.final_payout.update_final_payout_case_status(body)
+    response = await async_client.final_payout.update_final_payout_case_status(
+        DisbursementsV4FinalPayoutCaseUpdateStatusRequest(status=Status3.RESOLVED)
+    )
     # TODO: Handle 'response' of type FinalPayoutCaseStatusResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type UpdateFinalPayoutCaseStatusErrorBody
@@ -1581,7 +1599,7 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>body</code> | <code>[DisbursementsV4FinalPayoutCaseUpdateStatusRequest](walmart_apis/models/disbursements_v4_final_payout_case_update_status_request.py) \| [DisbursementsV4FinalPayoutCaseUpdateStatusRequestDict](walmart_apis/models/disbursements_v4_final_payout_case_update_status_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -1673,7 +1691,7 @@ except ApiError as e:
 | <code>financial_event_group_started_before</code> | <code>RFC3339DateTime \| None</code> | Financial event groups that opened before this date/time (ISO 8601).<br>**Default**: <code>None</code> |
 | <code>financial_event_group_started_after</code> | <code>RFC3339DateTime \| None</code> | Financial event groups that opened after this date/time (ISO 8601).<br>**Default**: <code>None</code> |
 | <code>next_token</code> | <code>str \| None</code> | Cursor token for the next page of results.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -1763,7 +1781,7 @@ except ApiError as e:
 | <code>posted_after</code> | <code>RFC3339DateTime \| None</code> | Not supported — returns 400 Bad Request if supplied.<br>**Default**: <code>None</code> |
 | <code>posted_before</code> | <code>RFC3339DateTime \| None</code> | Not supported — returns 400 Bad Request if supplied.<br>**Default**: <code>None</code> |
 | <code>next_token</code> | <code>str \| None</code> | Not supported — returns 400 Bad Request if supplied.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -1820,7 +1838,7 @@ set. Returns empty response pending Phase 5.
 
 ```python
 try:
-    response = client.finances.list_financial_events_by_group_id(event_group_id)
+    response = client.finances.list_financial_events_by_group_id("some example string")
     # TODO: Handle 'response' of type Any
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type ListFinancialEventsByGroupIdErrorBody
@@ -1830,7 +1848,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.finances.list_financial_events_by_group_id(event_group_id)
+    response = await async_client.finances.list_financial_events_by_group_id("some example string")
     # TODO: Handle 'response' of type Any
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type ListFinancialEventsByGroupIdErrorBody
@@ -1851,7 +1869,7 @@ except ApiError as e:
 | <code>posted_after</code> | <code>RFC3339DateTime \| None</code> | Financial events posted after (or on) this date (ISO 8601).<br>**Default**: <code>None</code> |
 | <code>posted_before</code> | <code>RFC3339DateTime \| None</code> | Financial events posted before (but not on) this date (ISO 8601).<br>**Default**: <code>None</code> |
 | <code>next_token</code> | <code>str \| None</code> | Cursor token for the next page of results.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -1908,7 +1926,7 @@ refunds, fees, and adjustments are absent. IDOR ownership gate enforced.
 
 ```python
 try:
-    response = client.finances.list_financial_events_by_order_id(order_id)
+    response = client.finances.list_financial_events_by_order_id("some example string")
     # TODO: Handle 'response' of type Any
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type ListFinancialEventsByOrderIdErrorBody
@@ -1918,7 +1936,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.finances.list_financial_events_by_order_id(order_id)
+    response = await async_client.finances.list_financial_events_by_order_id("some example string")
     # TODO: Handle 'response' of type Any
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type ListFinancialEventsByOrderIdErrorBody
@@ -1937,7 +1955,7 @@ except ApiError as e:
 | <code>order_id</code> | <code>str</code> | Walmart order number — must be numeric (1–50 digits). |
 | <code>max_results_per_page</code> | <code>int \| None</code> | Ignored — GMP returns all commission entries in one page.<br>**Default**: <code>None</code> |
 | <code>next_token</code> | <code>str \| None</code> | Not supported — returns 400 Bad Request if supplied.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -1995,7 +2013,7 @@ Send a `PUT` request.
 
 ```python
 try:
-    response = client.fulfillment_outbound.cancel_fulfillment_order(seller_fulfillment_order_id)
+    response = client.fulfillment_outbound.cancel_fulfillment_order("some example string")
     # TODO: Handle 'response' of type CancelFulfillmentOrderResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type CancelFulfillmentOrderErrorBody
@@ -2005,7 +2023,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.fulfillment_outbound.cancel_fulfillment_order(seller_fulfillment_order_id)
+    response = await async_client.fulfillment_outbound.cancel_fulfillment_order("some example string")
     # TODO: Handle 'response' of type CancelFulfillmentOrderResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type CancelFulfillmentOrderErrorBody
@@ -2022,7 +2040,7 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>seller_fulfillment_order_id</code> | <code>str</code> | Value sent with the request. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -2076,7 +2094,27 @@ Send a `POST` request.
 
 ```python
 try:
-    response = client.fulfillment_outbound.create_fulfillment_order(body)
+    response = client.fulfillment_outbound.create_fulfillment_order(
+        CreateFulfillmentOrderRequest(
+            seller_fulfillment_order_id="some example string",
+            displayable_order_id="some example string",
+            displayable_order_date=datetime(2024, 1, 15, 9, 30, 0, tzinfo=timezone.utc),
+            shipping_speed_category=ShippingSpeedCategory.STANDARD,
+            destination_address=Address(
+                name="some example string",
+                address_line1="some example string",
+                city="some example string",
+                state_or_region="some example string",
+                postal_code="some example string",
+                country_code="some example string",
+            ),
+            items=[
+                CreateFulfillmentOrderItem(
+                    seller_sku="some example string", seller_fulfillment_order_item_id="some example string", quantity=1
+                ),
+            ],
+        ),
+    )
     # TODO: Handle 'response' of type CreateFulfillmentOrderResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type CreateFulfillmentOrderErrorBody
@@ -2086,7 +2124,27 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.fulfillment_outbound.create_fulfillment_order(body)
+    response = await async_client.fulfillment_outbound.create_fulfillment_order(
+        CreateFulfillmentOrderRequest(
+            seller_fulfillment_order_id="some example string",
+            displayable_order_id="some example string",
+            displayable_order_date=datetime(2024, 1, 15, 9, 30, 0, tzinfo=timezone.utc),
+            shipping_speed_category=ShippingSpeedCategory.STANDARD,
+            destination_address=Address(
+                name="some example string",
+                address_line1="some example string",
+                city="some example string",
+                state_or_region="some example string",
+                postal_code="some example string",
+                country_code="some example string",
+            ),
+            items=[
+                CreateFulfillmentOrderItem(
+                    seller_sku="some example string", seller_fulfillment_order_item_id="some example string", quantity=1
+                ),
+            ],
+        ),
+    )
     # TODO: Handle 'response' of type CreateFulfillmentOrderResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type CreateFulfillmentOrderErrorBody
@@ -2103,7 +2161,7 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>body</code> | <code>[CreateFulfillmentOrderRequest](walmart_apis/models/create_fulfillment_order_request.py) \| [CreateFulfillmentOrderRequestDict](walmart_apis/models/create_fulfillment_order_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -2157,7 +2215,7 @@ Send a `GET` request.
 
 ```python
 try:
-    response = client.fulfillment_outbound.get_fulfillment_order(seller_fulfillment_order_id)
+    response = client.fulfillment_outbound.get_fulfillment_order("some example string")
     # TODO: Handle 'response' of type GetFulfillmentOrderResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetFulfillmentOrderErrorBody
@@ -2167,7 +2225,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.fulfillment_outbound.get_fulfillment_order(seller_fulfillment_order_id)
+    response = await async_client.fulfillment_outbound.get_fulfillment_order("some example string")
     # TODO: Handle 'response' of type GetFulfillmentOrderResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetFulfillmentOrderErrorBody
@@ -2184,7 +2242,7 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>seller_fulfillment_order_id</code> | <code>str</code> | Value sent with the request. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -2238,7 +2296,7 @@ Send a `GET` request.
 
 ```python
 try:
-    response = client.fulfillment_outbound.get_fulfillment_order_shipments(seller_fulfillment_order_id)
+    response = client.fulfillment_outbound.get_fulfillment_order_shipments("some example string")
     # TODO: Handle 'response' of type GetFulfillmentOrderShipmentsResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetFulfillmentOrderShipmentsErrorBody
@@ -2248,7 +2306,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.fulfillment_outbound.get_fulfillment_order_shipments(seller_fulfillment_order_id)
+    response = await async_client.fulfillment_outbound.get_fulfillment_order_shipments("some example string")
     # TODO: Handle 'response' of type GetFulfillmentOrderShipmentsResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetFulfillmentOrderShipmentsErrorBody
@@ -2265,7 +2323,7 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>seller_fulfillment_order_id</code> | <code>str</code> | Value sent with the request. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -2320,7 +2378,23 @@ for a prospective fulfillment order. Use before creating the order.
 
 ```python
 try:
-    response = client.fulfillment_outbound.get_fulfillment_preview(body)
+    response = client.fulfillment_outbound.get_fulfillment_preview(
+        GetFulfillmentPreviewRequest(
+            address=Address(
+                name="some example string",
+                address_line1="some example string",
+                city="some example string",
+                state_or_region="some example string",
+                postal_code="some example string",
+                country_code="some example string",
+            ),
+            items=[
+                GetFulfillmentPreviewItem(
+                    seller_sku="some example string", quantity=1, seller_fulfillment_order_item_id="some example string"
+                ),
+            ],
+        ),
+    )
     # TODO: Handle 'response' of type GetFulfillmentPreviewResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetFulfillmentPreviewErrorBody
@@ -2330,7 +2404,23 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.fulfillment_outbound.get_fulfillment_preview(body)
+    response = await async_client.fulfillment_outbound.get_fulfillment_preview(
+        GetFulfillmentPreviewRequest(
+            address=Address(
+                name="some example string",
+                address_line1="some example string",
+                city="some example string",
+                state_or_region="some example string",
+                postal_code="some example string",
+                country_code="some example string",
+            ),
+            items=[
+                GetFulfillmentPreviewItem(
+                    seller_sku="some example string", quantity=1, seller_fulfillment_order_item_id="some example string"
+                ),
+            ],
+        ),
+    )
     # TODO: Handle 'response' of type GetFulfillmentPreviewResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetFulfillmentPreviewErrorBody
@@ -2347,7 +2437,7 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>body</code> | <code>[GetFulfillmentPreviewRequest](walmart_apis/models/get_fulfillment_preview_request.py) \| [GetFulfillmentPreviewRequestDict](walmart_apis/models/get_fulfillment_preview_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -2429,7 +2519,7 @@ except ApiError as e:
 | --- | --- | --- |
 | <code>query_start_date</code> | <code>RFC3339DateTime \| None</code> | Value sent with the request.<br>**Default**: <code>None</code> |
 | <code>next_token</code> | <code>str \| None</code> | Value sent with the request.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -2483,7 +2573,9 @@ Send a `PUT` request.
 
 ```python
 try:
-    response = client.fulfillment_outbound.update_fulfillment_order(seller_fulfillment_order_id, body)
+    response = client.fulfillment_outbound.update_fulfillment_order(
+        "some example string", UpdateFulfillmentOrderRequest()
+    )
     # TODO: Handle 'response' of type UpdateFulfillmentOrderResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type UpdateFulfillmentOrderErrorBody
@@ -2493,7 +2585,9 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.fulfillment_outbound.update_fulfillment_order(seller_fulfillment_order_id, body)
+    response = await async_client.fulfillment_outbound.update_fulfillment_order(
+        "some example string", UpdateFulfillmentOrderRequest()
+    )
     # TODO: Handle 'response' of type UpdateFulfillmentOrderResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type UpdateFulfillmentOrderErrorBody
@@ -2511,7 +2605,7 @@ except ApiError as e:
 | --- | --- | --- |
 | <code>seller_fulfillment_order_id</code> | <code>str</code> | Value sent with the request. |
 | <code>body</code> | <code>[UpdateFulfillmentOrderRequest](walmart_apis/models/update_fulfillment_order_request.py) \| [UpdateFulfillmentOrderRequestDict](walmart_apis/models/update_fulfillment_order_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -2569,7 +2663,9 @@ Bulk inventory update. Max 500 items per request.
 
 ```python
 try:
-    response = client.inventory.bulk_update_inventory(body)
+    response = client.inventory.bulk_update_inventory(
+        BulkUpdateInventoryRequest(items=[BulkInventoryItem(seller_sku="some example string", quantity=1)])
+    )
     # TODO: Handle 'response' of type BulkUpdateInventoryResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type BulkUpdateInventoryErrorBody
@@ -2579,7 +2675,9 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.inventory.bulk_update_inventory(body)
+    response = await async_client.inventory.bulk_update_inventory(
+        BulkUpdateInventoryRequest(items=[BulkInventoryItem(seller_sku="some example string", quantity=1)])
+    )
     # TODO: Handle 'response' of type BulkUpdateInventoryResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type BulkUpdateInventoryErrorBody
@@ -2596,7 +2694,7 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>body</code> | <code>[BulkUpdateInventoryRequest](walmart_apis/models/bulk_update_inventory_request.py) \| [BulkUpdateInventoryRequestDict](walmart_apis/models/bulk_update_inventory_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -2650,7 +2748,7 @@ Send a `GET` request.
 
 ```python
 try:
-    response = client.inventory.get_inventory_for_sku(sku)
+    response = client.inventory.get_inventory_for_sku("some example string")
     # TODO: Handle 'response' of type InventorySummary
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetInventoryForSkuErrorBody
@@ -2660,7 +2758,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.inventory.get_inventory_for_sku(sku)
+    response = await async_client.inventory.get_inventory_for_sku("some example string")
     # TODO: Handle 'response' of type InventorySummary
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetInventoryForSkuErrorBody
@@ -2678,7 +2776,7 @@ except ApiError as e:
 | --- | --- | --- |
 | <code>sku</code> | <code>str</code> | Value sent with the request. |
 | <code>ship_node</code> | <code>str \| None</code> | Walmart Ship Node ID (for multi-node sellers)<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -2762,7 +2860,7 @@ except ApiError as e:
 | <code>ship_node</code> | <code>str \| None</code> | Walmart Ship Node ID (for multi-node sellers)<br>**Default**: <code>None</code> |
 | <code>page_size</code> | <code>int \| None</code> | Value sent with the request.<br>**Default**: <code>100</code> |
 | <code>next_token</code> | <code>str \| None</code> | Value sent with the request.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -2816,7 +2914,7 @@ Send a `PUT` request.
 
 ```python
 try:
-    response = client.inventory.update_inventory_for_sku(sku, body)
+    response = client.inventory.update_inventory_for_sku("some example string", UpdateInventoryRequest(quantity=1))
     # TODO: Handle 'response' of type UpdateInventoryResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type UpdateInventoryForSkuErrorBody
@@ -2826,7 +2924,9 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.inventory.update_inventory_for_sku(sku, body)
+    response = await async_client.inventory.update_inventory_for_sku(
+        "some example string", UpdateInventoryRequest(quantity=1)
+    )
     # TODO: Handle 'response' of type UpdateInventoryResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type UpdateInventoryForSkuErrorBody
@@ -2844,7 +2944,7 @@ except ApiError as e:
 | --- | --- | --- |
 | <code>sku</code> | <code>str</code> | Value sent with the request. |
 | <code>body</code> | <code>[UpdateInventoryRequest](walmart_apis/models/update_inventory_request.py) \| [UpdateInventoryRequestDict](walmart_apis/models/update_inventory_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -2902,7 +3002,9 @@ Send a `DELETE` request.
 
 ```python
 try:
-    response = client.listings_items.delete_listings_item(seller_id, sku, marketplace_ids)
+    response = client.listings_items.delete_listings_item(
+        "some example string", "some example string", ["some example string"]
+    )
     # TODO: Handle 'response' of type ListingsItemSubmissionResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type DeleteListingsItemErrorBody
@@ -2912,7 +3014,9 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.listings_items.delete_listings_item(seller_id, sku, marketplace_ids)
+    response = await async_client.listings_items.delete_listings_item(
+        "some example string", "some example string", ["some example string"]
+    )
     # TODO: Handle 'response' of type ListingsItemSubmissionResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type DeleteListingsItemErrorBody
@@ -2932,7 +3036,7 @@ except ApiError as e:
 | <code>sku</code> | <code>str</code> | Seller SKU identifying the listing |
 | <code>marketplace_ids</code> | <code>list&#91;str&#93;</code> | Value sent with the request. |
 | <code>issue_locale</code> | <code>str \| None</code> | Value sent with the request.<br>**Default**: <code>"en_US"</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -2986,7 +3090,9 @@ Send a `GET` request.
 
 ```python
 try:
-    response = client.listings_items.get_listings_item(seller_id, sku, marketplace_ids)
+    response = client.listings_items.get_listings_item(
+        "some example string", "some example string", ["some example string"]
+    )
     # TODO: Handle 'response' of type Item1
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetListingsItemErrorBody
@@ -2996,7 +3102,9 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.listings_items.get_listings_item(seller_id, sku, marketplace_ids)
+    response = await async_client.listings_items.get_listings_item(
+        "some example string", "some example string", ["some example string"]
+    )
     # TODO: Handle 'response' of type Item1
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetListingsItemErrorBody
@@ -3017,7 +3125,7 @@ except ApiError as e:
 | <code>marketplace_ids</code> | <code>list&#91;str&#93;</code> | Value sent with the request. |
 | <code>issue_locale</code> | <code>str \| None</code> | Locale for issue messages (e.g. en_US)<br>**Default**: <code>"en_US"</code> |
 | <code>included_data</code> | <code>list&#91;[IncludedDatum1OrStr](walmart_apis/models/enums/included_datum1.py)&#93; \| None</code> | Value sent with the request.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -3071,7 +3179,14 @@ Send a `PATCH` request.
 
 ```python
 try:
-    response = client.listings_items.patch_listings_item(seller_id, sku, marketplace_ids, body)
+    response = client.listings_items.patch_listings_item(
+        "some example string",
+        "some example string",
+        ["some example string"],
+        ListingsItemPatchRequest(
+            product_type="some example string", patches=[PatchOperation(op=Op.ADD, path="some example string")]
+        ),
+    )
     # TODO: Handle 'response' of type ListingsItemSubmissionResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type PatchListingsItemErrorBody
@@ -3081,7 +3196,14 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.listings_items.patch_listings_item(seller_id, sku, marketplace_ids, body)
+    response = await async_client.listings_items.patch_listings_item(
+        "some example string",
+        "some example string",
+        ["some example string"],
+        ListingsItemPatchRequest(
+            product_type="some example string", patches=[PatchOperation(op=Op.ADD, path="some example string")]
+        ),
+    )
     # TODO: Handle 'response' of type ListingsItemSubmissionResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type PatchListingsItemErrorBody
@@ -3102,7 +3224,7 @@ except ApiError as e:
 | <code>marketplace_ids</code> | <code>list&#91;str&#93;</code> | Value sent with the request. |
 | <code>body</code> | <code>[ListingsItemPatchRequest](walmart_apis/models/listings_item_patch_request.py) \| [ListingsItemPatchRequestDict](walmart_apis/models/listings_item_patch_request.py)</code> | The request body. |
 | <code>issue_locale</code> | <code>str \| None</code> | Value sent with the request.<br>**Default**: <code>"en_US"</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -3156,7 +3278,12 @@ Send a `PUT` request.
 
 ```python
 try:
-    response = client.listings_items.put_listings_item(seller_id, sku, marketplace_ids, body)
+    response = client.listings_items.put_listings_item(
+        "some example string",
+        "some example string",
+        ["some example string"],
+        ListingsItemPutRequest(product_type="some example string", attributes={}),
+    )
     # TODO: Handle 'response' of type ListingsItemSubmissionResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type PutListingsItemErrorBody
@@ -3166,7 +3293,12 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.listings_items.put_listings_item(seller_id, sku, marketplace_ids, body)
+    response = await async_client.listings_items.put_listings_item(
+        "some example string",
+        "some example string",
+        ["some example string"],
+        ListingsItemPutRequest(product_type="some example string", attributes={}),
+    )
     # TODO: Handle 'response' of type ListingsItemSubmissionResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type PutListingsItemErrorBody
@@ -3187,7 +3319,7 @@ except ApiError as e:
 | <code>marketplace_ids</code> | <code>list&#91;str&#93;</code> | Value sent with the request. |
 | <code>body</code> | <code>[ListingsItemPutRequest](walmart_apis/models/listings_item_put_request.py) \| [ListingsItemPutRequestDict](walmart_apis/models/listings_item_put_request.py)</code> | The request body. |
 | <code>issue_locale</code> | <code>str \| None</code> | Value sent with the request.<br>**Default**: <code>"en_US"</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -3243,7 +3375,7 @@ seller-level collection endpoint (no SKU in the path) against v4.
 
 ```python
 try:
-    response = client.listings_items.search_listings_items(seller_id, marketplace_ids)
+    response = client.listings_items.search_listings_items("some example string", ["some example string"])
     # TODO: Handle 'response' of type ItemSearchResults1
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type SearchListingsItemsErrorBody
@@ -3253,7 +3385,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.listings_items.search_listings_items(seller_id, marketplace_ids)
+    response = await async_client.listings_items.search_listings_items("some example string", ["some example string"])
     # TODO: Handle 'response' of type ItemSearchResults1
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type SearchListingsItemsErrorBody
@@ -3274,7 +3406,7 @@ except ApiError as e:
 | <code>included_data</code> | <code>list&#91;[IncludedDatum1OrStr](walmart_apis/models/enums/included_datum1.py)&#93; \| None</code> | Value sent with the request.<br>**Default**: <code>None</code> |
 | <code>page_size</code> | <code>int \| None</code> | Maximum number of results per page<br>**Default**: <code>10</code> |
 | <code>page_token</code> | <code>str \| None</code> | Opaque cursor returned by a previous call for the next page<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -3334,7 +3466,9 @@ the restrictions array.
 
 ```python
 try:
-    response = client.listings_restrictions.get_listings_restrictions(asin, condition_type, seller_id, marketplace_ids)
+    response = client.listings_restrictions.get_listings_restrictions(
+        "some example string", ConditionType1.NEW_NEW, "some example string", ["some example string"]
+    )
     # TODO: Handle 'response' of type RestrictionList
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetListingsRestrictionsErrorBody
@@ -3345,7 +3479,7 @@ except ApiError as e:
 ```python
 try:
     response = await async_client.listings_restrictions.get_listings_restrictions(
-        asin, condition_type, seller_id, marketplace_ids
+        "some example string", ConditionType1.NEW_NEW, "some example string", ["some example string"]
     )
     # TODO: Handle 'response' of type RestrictionList
 except ApiError as e:
@@ -3367,7 +3501,7 @@ except ApiError as e:
 | <code>seller_id</code> | <code>str</code> | Value sent with the request. |
 | <code>marketplace_ids</code> | <code>list&#91;str&#93;</code> | Value sent with the request. |
 | <code>reason_locale</code> | <code>str \| None</code> | Locale for localized restriction reason messages<br>**Default**: <code>"en_US"</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -3425,7 +3559,7 @@ Send a `DELETE` request.
 
 ```python
 try:
-    response = client.merchant_fulfillment.cancel_shipment(shipment_id)
+    response = client.merchant_fulfillment.cancel_shipment("some example string")
     # TODO: Handle 'response' of type CancelShipmentResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type CancelShipmentErrorBody
@@ -3435,7 +3569,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.merchant_fulfillment.cancel_shipment(shipment_id)
+    response = await async_client.merchant_fulfillment.cancel_shipment("some example string")
     # TODO: Handle 'response' of type CancelShipmentResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type CancelShipmentErrorBody
@@ -3452,7 +3586,7 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>shipment_id</code> | <code>str</code> | Value sent with the request. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -3507,7 +3641,34 @@ selected carrier, and returns the label for printing.
 
 ```python
 try:
-    response = client.merchant_fulfillment.create_shipment(body)
+    response = client.merchant_fulfillment.create_shipment(
+        CreateShipmentRequest(
+            shipment_request_details=ShipmentRequestDetails(
+                purchase_order_id="some example string",
+                ship_from_address=Address1(
+                    name="some example string",
+                    address_line1="some example string",
+                    city="some example string",
+                    state_or_region="some example string",
+                    postal_code="some example string",
+                    country_code="some example string",
+                ),
+                ship_to_address=Address1(
+                    name="some example string",
+                    address_line1="some example string",
+                    city="some example string",
+                    state_or_region="some example string",
+                    postal_code="some example string",
+                    country_code="some example string",
+                ),
+                package_dimensions=PackageDimensions(length=1.5, width=1.5, height=1.5, unit=Unit.INCHES),
+                weight=Weight(value=1.5, unit=Unit1.OZ),
+                ship_date=datetime(2024, 1, 15, 9, 30, 0, tzinfo=timezone.utc),
+                shipping_service_options=ShippingServiceOptions(),
+            ),
+            shipping_service_id="some example string",
+        ),
+    )
     # TODO: Handle 'response' of type CreateShipmentResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type CreateShipmentErrorBody
@@ -3517,7 +3678,34 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.merchant_fulfillment.create_shipment(body)
+    response = await async_client.merchant_fulfillment.create_shipment(
+        CreateShipmentRequest(
+            shipment_request_details=ShipmentRequestDetails(
+                purchase_order_id="some example string",
+                ship_from_address=Address1(
+                    name="some example string",
+                    address_line1="some example string",
+                    city="some example string",
+                    state_or_region="some example string",
+                    postal_code="some example string",
+                    country_code="some example string",
+                ),
+                ship_to_address=Address1(
+                    name="some example string",
+                    address_line1="some example string",
+                    city="some example string",
+                    state_or_region="some example string",
+                    postal_code="some example string",
+                    country_code="some example string",
+                ),
+                package_dimensions=PackageDimensions(length=1.5, width=1.5, height=1.5, unit=Unit.INCHES),
+                weight=Weight(value=1.5, unit=Unit1.OZ),
+                ship_date=datetime(2024, 1, 15, 9, 30, 0, tzinfo=timezone.utc),
+                shipping_service_options=ShippingServiceOptions(),
+            ),
+            shipping_service_id="some example string",
+        ),
+    )
     # TODO: Handle 'response' of type CreateShipmentResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type CreateShipmentErrorBody
@@ -3534,7 +3722,7 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>body</code> | <code>[CreateShipmentRequest](walmart_apis/models/create_shipment_request.py) \| [CreateShipmentRequestDict](walmart_apis/models/create_shipment_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -3589,7 +3777,33 @@ dimensions, weight, and destination address.
 
 ```python
 try:
-    response = client.merchant_fulfillment.get_eligible_shipping_services(body)
+    response = client.merchant_fulfillment.get_eligible_shipping_services(
+        GetEligibleShippingServicesRequest(
+            shipment_request_details=ShipmentRequestDetails(
+                purchase_order_id="some example string",
+                ship_from_address=Address1(
+                    name="some example string",
+                    address_line1="some example string",
+                    city="some example string",
+                    state_or_region="some example string",
+                    postal_code="some example string",
+                    country_code="some example string",
+                ),
+                ship_to_address=Address1(
+                    name="some example string",
+                    address_line1="some example string",
+                    city="some example string",
+                    state_or_region="some example string",
+                    postal_code="some example string",
+                    country_code="some example string",
+                ),
+                package_dimensions=PackageDimensions(length=1.5, width=1.5, height=1.5, unit=Unit.INCHES),
+                weight=Weight(value=1.5, unit=Unit1.OZ),
+                ship_date=datetime(2024, 1, 15, 9, 30, 0, tzinfo=timezone.utc),
+                shipping_service_options=ShippingServiceOptions(),
+            ),
+        ),
+    )
     # TODO: Handle 'response' of type GetEligibleShippingServicesResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetEligibleShippingServicesErrorBody
@@ -3599,7 +3813,33 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.merchant_fulfillment.get_eligible_shipping_services(body)
+    response = await async_client.merchant_fulfillment.get_eligible_shipping_services(
+        GetEligibleShippingServicesRequest(
+            shipment_request_details=ShipmentRequestDetails(
+                purchase_order_id="some example string",
+                ship_from_address=Address1(
+                    name="some example string",
+                    address_line1="some example string",
+                    city="some example string",
+                    state_or_region="some example string",
+                    postal_code="some example string",
+                    country_code="some example string",
+                ),
+                ship_to_address=Address1(
+                    name="some example string",
+                    address_line1="some example string",
+                    city="some example string",
+                    state_or_region="some example string",
+                    postal_code="some example string",
+                    country_code="some example string",
+                ),
+                package_dimensions=PackageDimensions(length=1.5, width=1.5, height=1.5, unit=Unit.INCHES),
+                weight=Weight(value=1.5, unit=Unit1.OZ),
+                ship_date=datetime(2024, 1, 15, 9, 30, 0, tzinfo=timezone.utc),
+                shipping_service_options=ShippingServiceOptions(),
+            ),
+        ),
+    )
     # TODO: Handle 'response' of type GetEligibleShippingServicesResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetEligibleShippingServicesErrorBody
@@ -3616,7 +3856,7 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>body</code> | <code>[GetEligibleShippingServicesRequest](walmart_apis/models/get_eligible_shipping_services_request.py) \| [GetEligibleShippingServicesRequestDict](walmart_apis/models/get_eligible_shipping_services_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -3646,7 +3886,7 @@ Mapped in first-match order -- an earlier row wins over a later range that also 
 </details>
 
 <details>
-<summary><code>def get_label(shipment_id: str, *, format: FormatOrStr | None = None, request_options: RequestOptionsOrDict | None = None) -> Label</code></summary>
+<summary><code>def get_label(shipment_id: str, *, format_: FormatOrStr | None = Format.PDF, request_options: RequestOptionsOrDict | None = None) -> Label</code></summary>
 
 <dl>
 <dd>
@@ -3671,7 +3911,7 @@ file format for printing.
 
 ```python
 try:
-    response = client.merchant_fulfillment.get_label(shipment_id)
+    response = client.merchant_fulfillment.get_label("some example string")
     # TODO: Handle 'response' of type Label
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetLabelErrorBody
@@ -3681,7 +3921,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.merchant_fulfillment.get_label(shipment_id)
+    response = await async_client.merchant_fulfillment.get_label("some example string")
     # TODO: Handle 'response' of type Label
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetLabelErrorBody
@@ -3698,8 +3938,8 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>shipment_id</code> | <code>str</code> | Value sent with the request. |
-| <code>format</code> | <code>[FormatOrStr](walmart_apis/models/enums/format.py) \| None</code> | Value sent with the request.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>format_</code> | <code>[FormatOrStr](walmart_apis/models/enums/format.py) \| None</code> | Value sent with the request.<br>**Default**: <code>Format.PDF</code> |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -3753,7 +3993,7 @@ Send a `GET` request.
 
 ```python
 try:
-    response = client.merchant_fulfillment.get_shipment2(shipment_id)
+    response = client.merchant_fulfillment.get_shipment2("some example string")
     # TODO: Handle 'response' of type GetShipmentResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetShipment2ErrorBody
@@ -3763,7 +4003,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.merchant_fulfillment.get_shipment2(shipment_id)
+    response = await async_client.merchant_fulfillment.get_shipment2("some example string")
     # TODO: Handle 'response' of type GetShipmentResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetShipment2ErrorBody
@@ -3780,7 +4020,7 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>shipment_id</code> | <code>str</code> | Value sent with the request. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -3838,7 +4078,10 @@ Send a `POST` request.
 
 ```python
 try:
-    response = client.orders.acknowledge_order(purchase_order_id, body)
+    response = client.orders.acknowledge_order(
+        "some example string",
+        AcknowledgeOrderRequest(order_lines=[AcknowledgeOrderLine(line_number="some example string")]),
+    )
     # TODO: Handle 'response' of type AcknowledgeOrderResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type AcknowledgeOrderErrorBody
@@ -3848,7 +4091,10 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.orders.acknowledge_order(purchase_order_id, body)
+    response = await async_client.orders.acknowledge_order(
+        "some example string",
+        AcknowledgeOrderRequest(order_lines=[AcknowledgeOrderLine(line_number="some example string")]),
+    )
     # TODO: Handle 'response' of type AcknowledgeOrderResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type AcknowledgeOrderErrorBody
@@ -3866,7 +4112,7 @@ except ApiError as e:
 | --- | --- | --- |
 | <code>purchase_order_id</code> | <code>str</code> | Value sent with the request. |
 | <code>body</code> | <code>[AcknowledgeOrderRequest](walmart_apis/models/acknowledge_order_request.py) \| [AcknowledgeOrderRequestDict](walmart_apis/models/acknowledge_order_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -3920,7 +4166,16 @@ Send a `POST` request.
 
 ```python
 try:
-    response = client.orders.cancel_order_lines(purchase_order_id, body)
+    response = client.orders.cancel_order_lines(
+        "some example string",
+        CancelOrderLinesRequest(
+            order_lines=[
+                CancelOrderLine(
+                    line_number="some example string", cancellation_reason=CancellationReason.CUSTOMER_REQUESTED
+                ),
+            ],
+        ),
+    )
     # TODO: Handle 'response' of type CancelOrderLinesResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type CancelOrderLinesErrorBody
@@ -3930,7 +4185,16 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.orders.cancel_order_lines(purchase_order_id, body)
+    response = await async_client.orders.cancel_order_lines(
+        "some example string",
+        CancelOrderLinesRequest(
+            order_lines=[
+                CancelOrderLine(
+                    line_number="some example string", cancellation_reason=CancellationReason.CUSTOMER_REQUESTED
+                ),
+            ],
+        ),
+    )
     # TODO: Handle 'response' of type CancelOrderLinesResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type CancelOrderLinesErrorBody
@@ -3948,7 +4212,7 @@ except ApiError as e:
 | --- | --- | --- |
 | <code>purchase_order_id</code> | <code>str</code> | Value sent with the request. |
 | <code>body</code> | <code>[CancelOrderLinesRequest](walmart_apis/models/cancel_order_lines_request.py) \| [CancelOrderLinesRequestDict](walmart_apis/models/cancel_order_lines_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -4009,7 +4273,10 @@ Walmart parity from gmp-orders-mono `deliverOrder`.
 
 ```python
 try:
-    response = client.orders.deliver_order_lines(purchase_order_id, body)
+    response = client.orders.deliver_order_lines(
+        "some example string",
+        DeliverOrderLinesRequest(order_lines=[DeliverOrderLine(line_number="some example string")]),
+    )
     # TODO: Handle 'response' of type DeliverOrderLinesResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type DeliverOrderLinesErrorBody
@@ -4019,7 +4286,10 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.orders.deliver_order_lines(purchase_order_id, body)
+    response = await async_client.orders.deliver_order_lines(
+        "some example string",
+        DeliverOrderLinesRequest(order_lines=[DeliverOrderLine(line_number="some example string")]),
+    )
     # TODO: Handle 'response' of type DeliverOrderLinesResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type DeliverOrderLinesErrorBody
@@ -4037,7 +4307,7 @@ except ApiError as e:
 | --- | --- | --- |
 | <code>purchase_order_id</code> | <code>str</code> | Value sent with the request. |
 | <code>body</code> | <code>[DeliverOrderLinesRequest](walmart_apis/models/deliver_order_lines_request.py) \| [DeliverOrderLinesRequestDict](walmart_apis/models/deliver_order_lines_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -4091,7 +4361,7 @@ Send a `GET` request.
 
 ```python
 try:
-    response = client.orders.get_order(purchase_order_id)
+    response = client.orders.get_order("some example string")
     # TODO: Handle 'response' of type GetOrderResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetOrderErrorBody
@@ -4101,7 +4371,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.orders.get_order(purchase_order_id)
+    response = await async_client.orders.get_order("some example string")
     # TODO: Handle 'response' of type GetOrderResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetOrderErrorBody
@@ -4118,7 +4388,7 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>purchase_order_id</code> | <code>str</code> | Walmart Purchase Order ID |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -4175,7 +4445,7 @@ response body must NOT be logged.
 
 ```python
 try:
-    response = client.orders.get_order_address(purchase_order_id)
+    response = client.orders.get_order_address("some example string")
     # TODO: Handle 'response' of type GetOrderAddressResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetOrderAddressErrorBody
@@ -4185,7 +4455,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.orders.get_order_address(purchase_order_id)
+    response = await async_client.orders.get_order_address("some example string")
     # TODO: Handle 'response' of type GetOrderAddressResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetOrderAddressErrorBody
@@ -4202,7 +4472,7 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>purchase_order_id</code> | <code>str</code> | Value sent with the request. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -4260,7 +4530,7 @@ bodies must NOT be logged.
 
 ```python
 try:
-    response = client.orders.get_order_buyer_info(purchase_order_id)
+    response = client.orders.get_order_buyer_info("some example string")
     # TODO: Handle 'response' of type GetOrderBuyerInfoResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetOrderBuyerInfoErrorBody
@@ -4270,7 +4540,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.orders.get_order_buyer_info(purchase_order_id)
+    response = await async_client.orders.get_order_buyer_info("some example string")
     # TODO: Handle 'response' of type GetOrderBuyerInfoResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetOrderBuyerInfoErrorBody
@@ -4287,7 +4557,7 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>purchase_order_id</code> | <code>str</code> | Value sent with the request. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -4343,7 +4613,7 @@ PII-restricted: only product, quantity, and price are returned.
 
 ```python
 try:
-    response = client.orders.get_order_items(purchase_order_id)
+    response = client.orders.get_order_items("some example string")
     # TODO: Handle 'response' of type GetFulfillmentOrderShipmentsResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetOrderItemsErrorBody
@@ -4353,7 +4623,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.orders.get_order_items(purchase_order_id)
+    response = await async_client.orders.get_order_items("some example string")
     # TODO: Handle 'response' of type GetFulfillmentOrderShipmentsResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetOrderItemsErrorBody
@@ -4370,7 +4640,7 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>purchase_order_id</code> | <code>str</code> | Value sent with the request. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -4437,7 +4707,7 @@ values will become richer once OMS exposes the fields.
 
 ```python
 try:
-    response = client.orders.get_order_regulated_info(purchase_order_id)
+    response = client.orders.get_order_regulated_info("some example string")
     # TODO: Handle 'response' of type GetOrderRegulatedInfoResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetOrderRegulatedInfoErrorBody
@@ -4447,7 +4717,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.orders.get_order_regulated_info(purchase_order_id)
+    response = await async_client.orders.get_order_regulated_info("some example string")
     # TODO: Handle 'response' of type GetOrderRegulatedInfoResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetOrderRegulatedInfoErrorBody
@@ -4464,7 +4734,7 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>purchase_order_id</code> | <code>str</code> | Walmart Purchase Order ID |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -4575,7 +4845,7 @@ except ApiError as e:
 | <code>fulfillment_types</code> | <code>list&#91;[FulfillmentTypeOrStr](walmart_apis/models/enums/fulfillment_type.py)&#93; \| None</code> | Filter by fulfillment type.<br><br>**the roadmap — not yet supported.** Sending this parameter today<br>returns `400 FILTER_NOT_SUPPORTED`; the underlying service accepts one<br>shipNodeType per call and multi-type fan-out is Phase 2. Tracked<br>by .<br>**Default**: <code>None</code> |
 | <code>page_size</code> | <code>int \| None</code> | Value sent with the request.<br>**Default**: <code>100</code> |
 | <code>next_token</code> | <code>str \| None</code> | Value sent with the request.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -4634,7 +4904,14 @@ nesting (`orderLines → refunds → refundCharges`).
 
 ```python
 try:
-    response = client.orders.refund_order_lines(purchase_order_id, body)
+    response = client.orders.refund_order_lines(
+        "some example string",
+        RefundOrderLinesRequest(
+            order_lines=[
+                RefundOrderLine(line_number="some example string", refund_amount=Money(), refund_type=RefundType.RETURN)
+            ],
+        ),
+    )
     # TODO: Handle 'response' of type RefundOrderLinesResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type RefundOrderLinesErrorBody
@@ -4644,7 +4921,14 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.orders.refund_order_lines(purchase_order_id, body)
+    response = await async_client.orders.refund_order_lines(
+        "some example string",
+        RefundOrderLinesRequest(
+            order_lines=[
+                RefundOrderLine(line_number="some example string", refund_amount=Money(), refund_type=RefundType.RETURN)
+            ],
+        ),
+    )
     # TODO: Handle 'response' of type RefundOrderLinesResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type RefundOrderLinesErrorBody
@@ -4662,7 +4946,7 @@ except ApiError as e:
 | --- | --- | --- |
 | <code>purchase_order_id</code> | <code>str</code> | Value sent with the request. |
 | <code>body</code> | <code>[RefundOrderLinesRequest](walmart_apis/models/refund_order_lines_request.py) \| [RefundOrderLinesRequestDict](walmart_apis/models/refund_order_lines_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -4716,7 +5000,21 @@ Send a `POST` request.
 
 ```python
 try:
-    response = client.orders.ship_order_lines(purchase_order_id, body)
+    response = client.orders.ship_order_lines(
+        "some example string",
+        ShipOrderLinesRequest(
+            order_lines=[
+                ShipOrderLine(
+                    line_number="some example string",
+                    tracking_info=TrackingInfo(
+                        carrier=CarrierName.UPS,
+                        tracking_number="some example string",
+                        shipped_date=datetime(2024, 1, 15, 9, 30, 0, tzinfo=timezone.utc),
+                    ),
+                ),
+            ],
+        ),
+    )
     # TODO: Handle 'response' of type ShipOrderLinesResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type ShipOrderLinesErrorBody
@@ -4726,7 +5024,21 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.orders.ship_order_lines(purchase_order_id, body)
+    response = await async_client.orders.ship_order_lines(
+        "some example string",
+        ShipOrderLinesRequest(
+            order_lines=[
+                ShipOrderLine(
+                    line_number="some example string",
+                    tracking_info=TrackingInfo(
+                        carrier=CarrierName.UPS,
+                        tracking_number="some example string",
+                        shipped_date=datetime(2024, 1, 15, 9, 30, 0, tzinfo=timezone.utc),
+                    ),
+                ),
+            ],
+        ),
+    )
     # TODO: Handle 'response' of type ShipOrderLinesResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type ShipOrderLinesErrorBody
@@ -4744,7 +5056,7 @@ except ApiError as e:
 | --- | --- | --- |
 | <code>purchase_order_id</code> | <code>str</code> | Value sent with the request. |
 | <code>body</code> | <code>[ShipOrderLinesRequest](walmart_apis/models/ship_order_lines_request.py) \| [ShipOrderLinesRequestDict](walmart_apis/models/ship_order_lines_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -4804,7 +5116,21 @@ line so the request stays self-evidently package-oriented.
 
 ```python
 try:
-    response = client.orders.ship_order_multi_package(purchase_order_id, body)
+    response = client.orders.ship_order_multi_package(
+        "some example string",
+        MultiPackageShipRequest(
+            packages=[
+                ShipPackage(
+                    tracking_info=TrackingInfo(
+                        carrier=CarrierName.UPS,
+                        tracking_number="some example string",
+                        shipped_date=datetime(2024, 1, 15, 9, 30, 0, tzinfo=timezone.utc),
+                    ),
+                    lines=[ShipPackageLine(line_number="some example string")],
+                ),
+            ],
+        ),
+    )
     # TODO: Handle 'response' of type MultiPackageShipResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type ShipOrderMultiPackageErrorBody
@@ -4814,7 +5140,21 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.orders.ship_order_multi_package(purchase_order_id, body)
+    response = await async_client.orders.ship_order_multi_package(
+        "some example string",
+        MultiPackageShipRequest(
+            packages=[
+                ShipPackage(
+                    tracking_info=TrackingInfo(
+                        carrier=CarrierName.UPS,
+                        tracking_number="some example string",
+                        shipped_date=datetime(2024, 1, 15, 9, 30, 0, tzinfo=timezone.utc),
+                    ),
+                    lines=[ShipPackageLine(line_number="some example string")],
+                ),
+            ],
+        ),
+    )
     # TODO: Handle 'response' of type MultiPackageShipResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type ShipOrderMultiPackageErrorBody
@@ -4832,7 +5172,7 @@ except ApiError as e:
 | --- | --- | --- |
 | <code>purchase_order_id</code> | <code>str</code> | Value sent with the request. |
 | <code>body</code> | <code>[MultiPackageShipRequest](walmart_apis/models/multi_package_ship_request.py) \| [MultiPackageShipRequestDict](walmart_apis/models/multi_package_ship_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -4891,7 +5231,13 @@ Amazon SP-API Orders v0 `updateShipmentStatus` parity.
 
 ```python
 try:
-    response = client.orders.update_shipment_status(purchase_order_id, body)
+    response = client.orders.update_shipment_status(
+        "some example string",
+        UpdateShipmentStatusRequest(
+            shipment_status=ShipmentStatus1.READY_FOR_PICKUP,
+            order_lines=[UpdateShipmentStatusLine(line_number="some example string")],
+        ),
+    )
     # TODO: Handle 'response' of type UpdateShipmentStatusResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type UpdateShipmentStatusErrorBody
@@ -4901,7 +5247,13 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.orders.update_shipment_status(purchase_order_id, body)
+    response = await async_client.orders.update_shipment_status(
+        "some example string",
+        UpdateShipmentStatusRequest(
+            shipment_status=ShipmentStatus1.READY_FOR_PICKUP,
+            order_lines=[UpdateShipmentStatusLine(line_number="some example string")],
+        ),
+    )
     # TODO: Handle 'response' of type UpdateShipmentStatusResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type UpdateShipmentStatusErrorBody
@@ -4919,7 +5271,7 @@ except ApiError as e:
 | --- | --- | --- |
 | <code>purchase_order_id</code> | <code>str</code> | Value sent with the request. |
 | <code>body</code> | <code>[UpdateShipmentStatusRequest](walmart_apis/models/update_shipment_status_request.py) \| [UpdateShipmentStatusRequestDict](walmart_apis/models/update_shipment_status_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -4981,7 +5333,9 @@ kill-switch (live-refreshable, parity with the cancel kill-switch).
 
 ```python
 try:
-    response = client.orders.update_verification_status(purchase_order_id, body)
+    response = client.orders.update_verification_status(
+        "some example string", UpdateVerificationStatusRequest(verification_status=VerificationStatus.APPROVED)
+    )
     # TODO: Handle 'response' of type UpdateVerificationStatusResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type UpdateVerificationStatusErrorBody
@@ -4991,7 +5345,9 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.orders.update_verification_status(purchase_order_id, body)
+    response = await async_client.orders.update_verification_status(
+        "some example string", UpdateVerificationStatusRequest(verification_status=VerificationStatus.APPROVED)
+    )
     # TODO: Handle 'response' of type UpdateVerificationStatusResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type UpdateVerificationStatusErrorBody
@@ -5009,7 +5365,7 @@ except ApiError as e:
 | --- | --- | --- |
 | <code>purchase_order_id</code> | <code>str</code> | Walmart Purchase Order ID |
 | <code>body</code> | <code>[UpdateVerificationStatusRequest](walmart_apis/models/update_verification_status_request.py) \| [UpdateVerificationStatusRequestDict](walmart_apis/models/update_verification_status_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -5070,7 +5426,7 @@ Delegates to GMPPaymentsPlatform (Phase 5).
 
 ```python
 try:
-    response = client.payouts.configure_auto_payout(body)
+    response = client.payouts.configure_auto_payout(DisbursementsV4PaymentAutoPayoutRequest(enabled=True))
     # TODO: Handle 'response' of type PayoutStatusResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type ConfigureAutoPayoutErrorBody
@@ -5080,7 +5436,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.payouts.configure_auto_payout(body)
+    response = await async_client.payouts.configure_auto_payout(DisbursementsV4PaymentAutoPayoutRequest(enabled=True))
     # TODO: Handle 'response' of type PayoutStatusResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type ConfigureAutoPayoutErrorBody
@@ -5097,7 +5453,7 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>body</code> | <code>[DisbursementsV4PaymentAutoPayoutRequest](walmart_apis/models/disbursements_v4_payment_auto_payout_request.py) \| [DisbursementsV4PaymentAutoPayoutRequestDict](walmart_apis/models/disbursements_v4_payment_auto_payout_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -5179,7 +5535,7 @@ except ApiError as e:
 
 | Name | Type | Description |
 | --- | --- | --- |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -5261,7 +5617,7 @@ except ApiError as e:
 
 | Name | Type | Description |
 | --- | --- | --- |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -5343,7 +5699,7 @@ except ApiError as e:
 
 | Name | Type | Description |
 | --- | --- | --- |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -5426,7 +5782,7 @@ except ApiError as e:
 
 | Name | Type | Description |
 | --- | --- | --- |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -5484,7 +5840,7 @@ Mapped in first-match order -- an earlier row wins over a later range that also 
 
 ```python
 try:
-    response = client.product_type_definitions.get_definitions_product_type(product_type)
+    response = client.product_type_definitions.get_definitions_product_type("some example string")
     # TODO: Handle 'response' of type ProductTypeDefinition
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetDefinitionsProductTypeErrorBody
@@ -5494,7 +5850,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.product_type_definitions.get_definitions_product_type(product_type)
+    response = await async_client.product_type_definitions.get_definitions_product_type("some example string")
     # TODO: Handle 'response' of type ProductTypeDefinition
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetDefinitionsProductTypeErrorBody
@@ -5513,7 +5869,7 @@ except ApiError as e:
 | <code>product_type</code> | <code>str</code> | Value sent with the request. |
 | <code>seller_id</code> | <code>str \| None</code> | Value sent with the request.<br>**Default**: <code>None</code> |
 | <code>locale</code> | <code>str \| None</code> | Value sent with the request.<br>**Default**: <code>"en_US"</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -5596,7 +5952,7 @@ except ApiError as e:
 | <code>keywords</code> | <code>str \| None</code> | Value sent with the request.<br>**Default**: <code>None</code> |
 | <code>item_name</code> | <code>str \| None</code> | Value sent with the request.<br>**Default**: <code>None</code> |
 | <code>locale</code> | <code>str \| None</code> | Value sent with the request.<br>**Default**: <code>"en_US"</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -5657,7 +6013,7 @@ Note: the upstream date param is named `date` (not `reportDate`).
 
 ```python
 try:
-    response = client.reconciliation.check_download_report_by_period(partner_id, date)
+    response = client.reconciliation.check_download_report_by_period("some example string", date(2024, 1, 15))
     # TODO: Handle 'response' of type ReportAvailabilityResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type CheckDownloadReportByPeriodErrorBody
@@ -5667,7 +6023,9 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.reconciliation.check_download_report_by_period(partner_id, date)
+    response = await async_client.reconciliation.check_download_report_by_period(
+        "some example string", date(2024, 1, 15)
+    )
     # TODO: Handle 'response' of type ReportAvailabilityResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type CheckDownloadReportByPeriodErrorBody
@@ -5685,7 +6043,7 @@ except ApiError as e:
 | --- | --- | --- |
 | <code>partner_id</code> | <code>str</code> | Numeric partner/seller ID |
 | <code>date</code> | <code>Date</code> | Report date in yyyy-MM-dd format |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -5740,7 +6098,7 @@ Delegates to mp-payment-reporting GET /v1/mt/report/reconreport/reconFile (Azure
 
 ```python
 try:
-    response = client.reconciliation.download_reconciliation_report(partner_id, report_date)
+    response = client.reconciliation.download_reconciliation_report("some example string", "some example string")
     # TODO: Handle 'response' of type FileResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type DownloadReconciliationReportErrorBody
@@ -5750,8 +6108,10 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.reconciliation.download_reconciliation_report(partner_id, report_date)
-    # TODO: Handle 'response' of type FileResponse
+    response = await async_client.reconciliation.download_reconciliation_report(
+        "some example string", "some example string"
+    )
+    # TODO: Handle 'response' of type AsyncFileResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type DownloadReconciliationReportErrorBody
 ```
@@ -5768,7 +6128,7 @@ except ApiError as e:
 | --- | --- | --- |
 | <code>partner_id</code> | <code>str</code> | Numeric partner/seller ID |
 | <code>report_date</code> | <code>str</code> | Report date in MMddyyyy format (e.g. 06172026) |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -5823,7 +6183,7 @@ Delegates to mp-payment-reporting GET /v3/report/reconreport/availableReconFiles
 
 ```python
 try:
-    response = client.reconciliation.list_reconciliation_dates(partner_id)
+    response = client.reconciliation.list_reconciliation_dates("some example string")
     # TODO: Handle 'response' of type ReportAvailabilityResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type ListReconciliationDatesErrorBody
@@ -5833,7 +6193,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.reconciliation.list_reconciliation_dates(partner_id)
+    response = await async_client.reconciliation.list_reconciliation_dates("some example string")
     # TODO: Handle 'response' of type ReportAvailabilityResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type ListReconciliationDatesErrorBody
@@ -5850,7 +6210,7 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>partner_id</code> | <code>str</code> | Numeric partner/seller ID |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -5908,7 +6268,7 @@ Send a `DELETE` request.
 
 ```python
 try:
-    response = client.report_schedules.cancel_report_schedule(report_schedule_id)
+    response = client.report_schedules.cancel_report_schedule("some example string")
     # TODO: Handle 'response' of type CancelReportScheduleResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type CancelReportScheduleErrorBody
@@ -5918,7 +6278,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.report_schedules.cancel_report_schedule(report_schedule_id)
+    response = await async_client.report_schedules.cancel_report_schedule("some example string")
     # TODO: Handle 'response' of type CancelReportScheduleResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type CancelReportScheduleErrorBody
@@ -5935,7 +6295,7 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>report_schedule_id</code> | <code>str</code> | Value sent with the request. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -5989,7 +6349,9 @@ Send a `POST` request.
 
 ```python
 try:
-    response = client.report_schedules.create_report_schedule(body)
+    response = client.report_schedules.create_report_schedule(
+        CreateReportScheduleSpecification(report_type="some example string", period=Period1.PT5_M)
+    )
     # TODO: Handle 'response' of type CreateReportScheduleResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type CreateReportScheduleErrorBody
@@ -5999,7 +6361,9 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.report_schedules.create_report_schedule(body)
+    response = await async_client.report_schedules.create_report_schedule(
+        CreateReportScheduleSpecification(report_type="some example string", period=Period1.PT5_M)
+    )
     # TODO: Handle 'response' of type CreateReportScheduleResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type CreateReportScheduleErrorBody
@@ -6016,7 +6380,7 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>body</code> | <code>[CreateReportScheduleSpecification](walmart_apis/models/create_report_schedule_specification.py) \| [CreateReportScheduleSpecificationDict](walmart_apis/models/create_report_schedule_specification.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -6070,7 +6434,7 @@ Send a `GET` request.
 
 ```python
 try:
-    response = client.report_schedules.get_report_schedule(report_schedule_id)
+    response = client.report_schedules.get_report_schedule("some example string")
     # TODO: Handle 'response' of type ReportSchedule
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetReportScheduleErrorBody
@@ -6080,7 +6444,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.report_schedules.get_report_schedule(report_schedule_id)
+    response = await async_client.report_schedules.get_report_schedule("some example string")
     # TODO: Handle 'response' of type ReportSchedule
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetReportScheduleErrorBody
@@ -6097,7 +6461,7 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>report_schedule_id</code> | <code>str</code> | Value sent with the request. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -6178,7 +6542,7 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>report_types</code> | <code>list&#91;[ReportType1OrStr](walmart_apis/models/enums/report_type1.py)&#93; \| None</code> | Filter by report type. Values are Walmart Partner Reporting Platform enum names. Runtime availability is CCM-controlled; consult PRP docs for current PROD-enabled types.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -6236,7 +6600,7 @@ Send a `DELETE` request.
 
 ```python
 try:
-    response = client.reports.cancel_report(report_id)
+    response = client.reports.cancel_report("some example string")
     # TODO: Handle 'response' of type CancelReportResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type CancelReportErrorBody
@@ -6246,7 +6610,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.reports.cancel_report(report_id)
+    response = await async_client.reports.cancel_report("some example string")
     # TODO: Handle 'response' of type CancelReportResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type CancelReportErrorBody
@@ -6263,7 +6627,7 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>report_id</code> | <code>str</code> | Value sent with the request. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -6318,7 +6682,7 @@ Report type taxonomy TBD — coordinate with Pod 5 for financial reports.
 
 ```python
 try:
-    response = client.reports.create_report(body)
+    response = client.reports.create_report(CreateReportSpecification(report_type=ReportType.ITEM))
     # TODO: Handle 'response' of type CreateReportResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type CreateReportErrorBody
@@ -6328,7 +6692,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.reports.create_report(body)
+    response = await async_client.reports.create_report(CreateReportSpecification(report_type=ReportType.ITEM))
     # TODO: Handle 'response' of type CreateReportResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type CreateReportErrorBody
@@ -6345,7 +6709,7 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>body</code> | <code>[CreateReportSpecification](walmart_apis/models/create_report_specification.py) \| [CreateReportSpecificationDict](walmart_apis/models/create_report_specification.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -6400,7 +6764,7 @@ Delegates to mp-payment-reporting GET /v3/report/reconreport/v1/reconFile (Swift
 
 ```python
 try:
-    response = client.reports.download_new_report(partner_id, report_date)
+    response = client.reports.download_new_report("some example string", "some example string")
     # TODO: Handle 'response' of type FileResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type DownloadNewReportErrorBody
@@ -6410,8 +6774,8 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.reports.download_new_report(partner_id, report_date)
-    # TODO: Handle 'response' of type FileResponse
+    response = await async_client.reports.download_new_report("some example string", "some example string")
+    # TODO: Handle 'response' of type AsyncFileResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type DownloadNewReportErrorBody
 ```
@@ -6428,7 +6792,7 @@ except ApiError as e:
 | --- | --- | --- |
 | <code>partner_id</code> | <code>str</code> | Numeric partner/seller ID |
 | <code>report_date</code> | <code>str</code> | Report date in MMddyyyy format (e.g. 06172026) |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -6483,7 +6847,7 @@ Delegates to mp-payment-reporting GET /v3/report/reconreport/reconFile (legacy S
 
 ```python
 try:
-    response = client.reports.download_old_report(partner_id, report_date)
+    response = client.reports.download_old_report("some example string", "some example string")
     # TODO: Handle 'response' of type FileResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type DownloadOldReportErrorBody
@@ -6493,8 +6857,8 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.reports.download_old_report(partner_id, report_date)
-    # TODO: Handle 'response' of type FileResponse
+    response = await async_client.reports.download_old_report("some example string", "some example string")
+    # TODO: Handle 'response' of type AsyncFileResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type DownloadOldReportErrorBody
 ```
@@ -6511,7 +6875,7 @@ except ApiError as e:
 | --- | --- | --- |
 | <code>partner_id</code> | <code>str</code> | Numeric partner/seller ID |
 | <code>report_date</code> | <code>str</code> | Report date in MMddyyyy format (e.g. 06172026) |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -6565,7 +6929,7 @@ Send a `GET` request.
 
 ```python
 try:
-    response = client.reports.get_report(report_id)
+    response = client.reports.get_report("some example string")
     # TODO: Handle 'response' of type Report
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetReportErrorBody
@@ -6575,7 +6939,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.reports.get_report(report_id)
+    response = await async_client.reports.get_report("some example string")
     # TODO: Handle 'response' of type Report
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetReportErrorBody
@@ -6592,7 +6956,7 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>report_id</code> | <code>str</code> | Value sent with the request. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -6647,7 +7011,7 @@ Do not log the pre-signed URL.
 
 ```python
 try:
-    response = client.reports.get_report_document(report_document_id)
+    response = client.reports.get_report_document("some example string")
     # TODO: Handle 'response' of type ReportDocument
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetReportDocumentErrorBody
@@ -6657,7 +7021,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.reports.get_report_document(report_document_id)
+    response = await async_client.reports.get_report_document("some example string")
     # TODO: Handle 'response' of type ReportDocument
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetReportDocumentErrorBody
@@ -6674,7 +7038,7 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>report_document_id</code> | <code>str</code> | Value sent with the request. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -6760,7 +7124,7 @@ except ApiError as e:
 | <code>created_until</code> | <code>RFC3339DateTime \| None</code> | Value sent with the request.<br>**Default**: <code>None</code> |
 | <code>page_size</code> | <code>int \| None</code> | Value sent with the request.<br>**Default**: <code>10</code> |
 | <code>next_token</code> | <code>str \| None</code> | Value sent with the request.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -6845,7 +7209,7 @@ except ApiError as e:
 
 | Name | Type | Description |
 | --- | --- | --- |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -6926,7 +7290,7 @@ except ApiError as e:
 
 | Name | Type | Description |
 | --- | --- | --- |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -6987,7 +7351,7 @@ nextToken is a Base64-encoded offset into the report file.
 
 ```python
 try:
-    response = client.settlement.list_settlement_details(partner_id, report_date)
+    response = client.settlement.list_settlement_details("some example string", "some example string")
     # TODO: Handle 'response' of type SettlementDetailsResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type ListSettlementDetailsErrorBody
@@ -6997,7 +7361,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.settlement.list_settlement_details(partner_id, report_date)
+    response = await async_client.settlement.list_settlement_details("some example string", "some example string")
     # TODO: Handle 'response' of type SettlementDetailsResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type ListSettlementDetailsErrorBody
@@ -7017,7 +7381,7 @@ except ApiError as e:
 | <code>report_date</code> | <code>str</code> | Report date in MMddyyyy format (e.g. 06172026) |
 | <code>page_size</code> | <code>int \| None</code> | Value sent with the request.<br>**Default**: <code>10</code> |
 | <code>next_token</code> | <code>str \| None</code> | Opaque cursor from a prior response; omit for first page<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -7100,7 +7464,7 @@ except ApiError as e:
 | --- | --- | --- |
 | <code>page_size</code> | <code>int \| None</code> | Value sent with the request.<br>**Default**: <code>10</code> |
 | <code>next_token</code> | <code>str \| None</code> | Opaque cursor from a prior response; omit for first page<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -7186,7 +7550,7 @@ except ApiError as e:
 | <code>next_token</code> | <code>str \| None</code> | Opaque cursor from a prior response; omit for first page<br>**Default**: <code>None</code> |
 | <code>posted_after</code> | <code>RFC3339DateTime \| None</code> | Value sent with the request.<br>**Default**: <code>None</code> |
 | <code>posted_before</code> | <code>RFC3339DateTime \| None</code> | Value sent with the request.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -7247,7 +7611,7 @@ a document for the given resource (e.g. feeds, reports).
 ```python
 try:
     response = client.uploads.create_upload_destination_for_resource(
-        resource, content_type, marketplace_ids, content_md5
+        Resource.FEEDS, ContentType1.TEXT_XML_CHARSET_UTF_8, ["some example string"], "some example string"
     )
     # TODO: Handle 'response' of type CreateUploadDestinationResponse
 except ApiError as e:
@@ -7259,7 +7623,7 @@ except ApiError as e:
 ```python
 try:
     response = await async_client.uploads.create_upload_destination_for_resource(
-        resource, content_type, marketplace_ids, content_md5
+        Resource.FEEDS, ContentType1.TEXT_XML_CHARSET_UTF_8, ["some example string"], "some example string"
     )
     # TODO: Handle 'response' of type CreateUploadDestinationResponse
 except ApiError as e:
@@ -7280,7 +7644,7 @@ except ApiError as e:
 | <code>content_type</code> | <code>[ContentType1OrStr](walmart_apis/models/enums/content_type1.py)</code> | MIME type of the content to be uploaded |
 | <code>marketplace_ids</code> | <code>list&#91;str&#93;</code> | Value sent with the request. |
 | <code>content_md5</code> | <code>str</code> | MD5 hash of the content to be uploaded, encoded as base64 |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -7373,7 +7737,7 @@ except ApiError as e:
 | <code>skus</code> | <code>str \| None</code> | Comma-separated seller SKUs to filter (max 50). Omit to return all WFS items.<br>**Default**: <code>None</code> |
 | <code>page_size</code> | <code>int \| None</code> | Value sent with the request.<br>**Default**: <code>100</code> |
 | <code>next_token</code> | <code>str \| None</code> | Value sent with the request.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -7431,7 +7795,7 @@ Send a `POST` request.
 
 ```python
 try:
-    response = client.messaging.create_warranty(sp_api_order_id, marketplace_ids, body)
+    response = client.messaging.create_warranty("some example string", ["some example string"], {})
     # TODO: Handle 'response' of type Any
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type CreateWarrantyErrorBody
@@ -7441,7 +7805,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.messaging.create_warranty(sp_api_order_id, marketplace_ids, body)
+    response = await async_client.messaging.create_warranty("some example string", ["some example string"], {})
     # TODO: Handle 'response' of type Any
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type CreateWarrantyErrorBody
@@ -7460,7 +7824,7 @@ except ApiError as e:
 | <code>sp_api_order_id</code> | <code>str</code> | A marketplace order identifier. This identifies the order for which a message is sent. |
 | <code>marketplace_ids</code> | <code>list&#91;str&#93;</code> | A marketplace identifier. This identifies the marketplace in which the order was placed. You can only specify one market |
 | <code>body</code> | <code>Any</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -7514,7 +7878,7 @@ Send a `GET` request.
 
 ```python
 try:
-    response = client.messaging.get_attributes(sp_api_order_id, marketplace_ids)
+    response = client.messaging.get_attributes("some example string", ["some example string"])
     # TODO: Handle 'response' of type Any
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetAttributesErrorBody
@@ -7524,7 +7888,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.messaging.get_attributes(sp_api_order_id, marketplace_ids)
+    response = await async_client.messaging.get_attributes("some example string", ["some example string"])
     # TODO: Handle 'response' of type Any
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetAttributesErrorBody
@@ -7542,7 +7906,7 @@ except ApiError as e:
 | --- | --- | --- |
 | <code>sp_api_order_id</code> | <code>str</code> | A marketplace order identifier. This identifies the order for which a message is sent. |
 | <code>marketplace_ids</code> | <code>list&#91;str&#93;</code> | A marketplace identifier. This identifies the marketplace in which the order was placed. You can only specify one market |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -7596,7 +7960,7 @@ Send a `POST` request.
 
 ```python
 try:
-    response = client.messaging.confirm_customization_details(sp_api_order_id, marketplace_ids, body)
+    response = client.messaging.confirm_customization_details("some example string", ["some example string"], {})
     # TODO: Handle 'response' of type Any
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type ConfirmCustomizationDetailsErrorBody
@@ -7606,7 +7970,9 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.messaging.confirm_customization_details(sp_api_order_id, marketplace_ids, body)
+    response = await async_client.messaging.confirm_customization_details(
+        "some example string", ["some example string"], {}
+    )
     # TODO: Handle 'response' of type Any
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type ConfirmCustomizationDetailsErrorBody
@@ -7625,7 +7991,7 @@ except ApiError as e:
 | <code>sp_api_order_id</code> | <code>str</code> | A marketplace order identifier. This identifies the order for which a message is sent. |
 | <code>marketplace_ids</code> | <code>list&#91;str&#93;</code> | A marketplace identifier. This identifies the marketplace in which the order was placed. You can only specify one market |
 | <code>body</code> | <code>Any</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -7679,7 +8045,7 @@ Send a `POST` request.
 
 ```python
 try:
-    response = client.messaging.create_confirm_delivery_details(sp_api_order_id, marketplace_ids, body)
+    response = client.messaging.create_confirm_delivery_details("some example string", ["some example string"], {})
     # TODO: Handle 'response' of type Any
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type CreateConfirmDeliveryDetailsErrorBody
@@ -7689,7 +8055,9 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.messaging.create_confirm_delivery_details(sp_api_order_id, marketplace_ids, body)
+    response = await async_client.messaging.create_confirm_delivery_details(
+        "some example string", ["some example string"], {}
+    )
     # TODO: Handle 'response' of type Any
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type CreateConfirmDeliveryDetailsErrorBody
@@ -7708,7 +8076,7 @@ except ApiError as e:
 | <code>sp_api_order_id</code> | <code>str</code> | A marketplace order identifier. This identifies the order for which a message is sent. |
 | <code>marketplace_ids</code> | <code>list&#91;str&#93;</code> | A marketplace identifier. This identifies the marketplace in which the order was placed. You can only specify one market |
 | <code>body</code> | <code>Any</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -7762,7 +8130,7 @@ Send a `POST` request.
 
 ```python
 try:
-    response = client.messaging.create_confirm_order_details(sp_api_order_id, marketplace_ids, body)
+    response = client.messaging.create_confirm_order_details("some example string", ["some example string"], {})
     # TODO: Handle 'response' of type Any
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type CreateConfirmOrderDetailsErrorBody
@@ -7772,7 +8140,9 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.messaging.create_confirm_order_details(sp_api_order_id, marketplace_ids, body)
+    response = await async_client.messaging.create_confirm_order_details(
+        "some example string", ["some example string"], {}
+    )
     # TODO: Handle 'response' of type Any
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type CreateConfirmOrderDetailsErrorBody
@@ -7791,7 +8161,7 @@ except ApiError as e:
 | <code>sp_api_order_id</code> | <code>str</code> | A marketplace order identifier. This identifies the order for which a message is sent. |
 | <code>marketplace_ids</code> | <code>list&#91;str&#93;</code> | A marketplace identifier. This identifies the marketplace in which the order was placed. You can only specify one market |
 | <code>body</code> | <code>Any</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -7845,7 +8215,7 @@ Send a `POST` request.
 
 ```python
 try:
-    response = client.messaging.create_confirm_service_details(sp_api_order_id, marketplace_ids, body)
+    response = client.messaging.create_confirm_service_details("some example string", ["some example string"], {})
     # TODO: Handle 'response' of type Any
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type CreateConfirmServiceDetailsErrorBody
@@ -7855,7 +8225,9 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.messaging.create_confirm_service_details(sp_api_order_id, marketplace_ids, body)
+    response = await async_client.messaging.create_confirm_service_details(
+        "some example string", ["some example string"], {}
+    )
     # TODO: Handle 'response' of type Any
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type CreateConfirmServiceDetailsErrorBody
@@ -7874,7 +8246,7 @@ except ApiError as e:
 | <code>sp_api_order_id</code> | <code>str</code> | A marketplace order identifier. This identifies the order for which a message is sent. |
 | <code>marketplace_ids</code> | <code>list&#91;str&#93;</code> | A marketplace identifier. This identifies the marketplace in which the order was placed. You can only specify one market |
 | <code>body</code> | <code>Any</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -7928,7 +8300,7 @@ Send a `POST` request.
 
 ```python
 try:
-    response = client.messaging.create_digital_access_key(sp_api_order_id, marketplace_ids, body)
+    response = client.messaging.create_digital_access_key("some example string", ["some example string"], {})
     # TODO: Handle 'response' of type Any
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type CreateDigitalAccessKeyErrorBody
@@ -7938,7 +8310,9 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.messaging.create_digital_access_key(sp_api_order_id, marketplace_ids, body)
+    response = await async_client.messaging.create_digital_access_key(
+        "some example string", ["some example string"], {}
+    )
     # TODO: Handle 'response' of type Any
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type CreateDigitalAccessKeyErrorBody
@@ -7957,7 +8331,7 @@ except ApiError as e:
 | <code>sp_api_order_id</code> | <code>str</code> | A marketplace order identifier. This identifies the order for which a message is sent. |
 | <code>marketplace_ids</code> | <code>list&#91;str&#93;</code> | A marketplace identifier. This identifies the marketplace in which the order was placed. You can only specify one market |
 | <code>body</code> | <code>Any</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -8011,7 +8385,7 @@ Send a `POST` request.
 
 ```python
 try:
-    response = client.messaging.create_legal_disclosure(sp_api_order_id, marketplace_ids, body)
+    response = client.messaging.create_legal_disclosure("some example string", ["some example string"], {})
     # TODO: Handle 'response' of type Any
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type CreateLegalDisclosureErrorBody
@@ -8021,7 +8395,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.messaging.create_legal_disclosure(sp_api_order_id, marketplace_ids, body)
+    response = await async_client.messaging.create_legal_disclosure("some example string", ["some example string"], {})
     # TODO: Handle 'response' of type Any
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type CreateLegalDisclosureErrorBody
@@ -8040,7 +8414,7 @@ except ApiError as e:
 | <code>sp_api_order_id</code> | <code>str</code> | A marketplace order identifier. This identifies the order for which a message is sent. |
 | <code>marketplace_ids</code> | <code>list&#91;str&#93;</code> | A marketplace identifier. This identifies the marketplace in which the order was placed. You can only specify one market |
 | <code>body</code> | <code>Any</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -8094,7 +8468,7 @@ Send a `POST` request.
 
 ```python
 try:
-    response = client.messaging.create_unexpected_problem(sp_api_order_id, marketplace_ids, body)
+    response = client.messaging.create_unexpected_problem("some example string", ["some example string"], {})
     # TODO: Handle 'response' of type Any
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type CreateUnexpectedProblemErrorBody
@@ -8104,7 +8478,9 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.messaging.create_unexpected_problem(sp_api_order_id, marketplace_ids, body)
+    response = await async_client.messaging.create_unexpected_problem(
+        "some example string", ["some example string"], {}
+    )
     # TODO: Handle 'response' of type Any
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type CreateUnexpectedProblemErrorBody
@@ -8123,7 +8499,7 @@ except ApiError as e:
 | <code>sp_api_order_id</code> | <code>str</code> | A marketplace order identifier. This identifies the order for which a message is sent. |
 | <code>marketplace_ids</code> | <code>list&#91;str&#93;</code> | A marketplace identifier. This identifies the marketplace in which the order was placed. You can only specify one market |
 | <code>body</code> | <code>Any</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -8177,7 +8553,7 @@ Send a `GET` request.
 
 ```python
 try:
-    response = client.messaging.get_messaging_actions_for_order(sp_api_order_id, marketplace_ids)
+    response = client.messaging.get_messaging_actions_for_order("some example string", ["some example string"])
     # TODO: Handle 'response' of type Any
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetMessagingActionsForOrderErrorBody
@@ -8187,7 +8563,9 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.messaging.get_messaging_actions_for_order(sp_api_order_id, marketplace_ids)
+    response = await async_client.messaging.get_messaging_actions_for_order(
+        "some example string", ["some example string"]
+    )
     # TODO: Handle 'response' of type Any
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetMessagingActionsForOrderErrorBody
@@ -8205,7 +8583,7 @@ except ApiError as e:
 | --- | --- | --- |
 | <code>sp_api_order_id</code> | <code>str</code> | A marketplace order identifier. This specifies the order for which you want a list of available message types. |
 | <code>marketplace_ids</code> | <code>list&#91;str&#93;</code> | A marketplace identifier. This identifies the marketplace in which the order was placed. You can only specify one market |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -8259,7 +8637,7 @@ Send a `POST` request.
 
 ```python
 try:
-    response = client.messaging.send_invoice(sp_api_order_id, marketplace_ids, body)
+    response = client.messaging.send_invoice("some example string", ["some example string"], {})
     # TODO: Handle 'response' of type Any
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type SendInvoiceErrorBody
@@ -8269,7 +8647,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.messaging.send_invoice(sp_api_order_id, marketplace_ids, body)
+    response = await async_client.messaging.send_invoice("some example string", ["some example string"], {})
     # TODO: Handle 'response' of type Any
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type SendInvoiceErrorBody
@@ -8288,7 +8666,7 @@ except ApiError as e:
 | <code>sp_api_order_id</code> | <code>str</code> | A marketplace order identifier. This identifies the order for which a message is sent. |
 | <code>marketplace_ids</code> | <code>list&#91;str&#93;</code> | A marketplace identifier. This identifies the marketplace in which the order was placed. You can only specify one market |
 | <code>body</code> | <code>Any</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -8346,7 +8724,7 @@ Send a `POST` request.
 
 ```python
 try:
-    response = client.notifications.create_destination(body)
+    response = client.notifications.create_destination({})
     # TODO: Handle 'response' of type Channel
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type CreateDestinationErrorBody
@@ -8356,7 +8734,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.notifications.create_destination(body)
+    response = await async_client.notifications.create_destination({})
     # TODO: Handle 'response' of type Channel
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type CreateDestinationErrorBody
@@ -8373,7 +8751,7 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>body</code> | <code>Any</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -8427,7 +8805,7 @@ Send a `POST` request.
 
 ```python
 try:
-    response = client.notifications.create_subscription(notification_type, body)
+    response = client.notifications.create_subscription("some example string", {})
     # TODO: Handle 'response' of type Any
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type CreateSubscriptionErrorBody
@@ -8437,7 +8815,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.notifications.create_subscription(notification_type, body)
+    response = await async_client.notifications.create_subscription("some example string", {})
     # TODO: Handle 'response' of type Any
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type CreateSubscriptionErrorBody
@@ -8455,7 +8833,7 @@ except ApiError as e:
 | --- | --- | --- |
 | <code>notification_type</code> | <code>str</code> | The type of notification. Must be one of: EMAIL, WEBHOOKS, SMS, PULL, MOBILE_PUSH. |
 | <code>body</code> | <code>Any</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -8509,7 +8887,7 @@ Send a `DELETE` request.
 
 ```python
 try:
-    response = client.notifications.delete_destination(destination_id)
+    response = client.notifications.delete_destination("some example string")
     # TODO: Handle 'response' of type Channel
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type DeleteDestinationErrorBody
@@ -8519,7 +8897,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.notifications.delete_destination(destination_id)
+    response = await async_client.notifications.delete_destination("some example string")
     # TODO: Handle 'response' of type Channel
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type DeleteDestinationErrorBody
@@ -8536,7 +8914,7 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>destination_id</code> | <code>str</code> | The identifier for the destination that you want to delete. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -8590,7 +8968,7 @@ Send a `DELETE` request.
 
 ```python
 try:
-    response = client.notifications.delete_subscription_by_id(subscription_id, notification_type)
+    response = client.notifications.delete_subscription_by_id("some example string", "some example string")
     # TODO: Handle 'response' of type Any
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type DeleteSubscriptionByIdErrorBody
@@ -8600,7 +8978,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.notifications.delete_subscription_by_id(subscription_id, notification_type)
+    response = await async_client.notifications.delete_subscription_by_id("some example string", "some example string")
     # TODO: Handle 'response' of type Any
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type DeleteSubscriptionByIdErrorBody
@@ -8618,7 +8996,7 @@ except ApiError as e:
 | --- | --- | --- |
 | <code>subscription_id</code> | <code>str</code> | The identifier for the subscription that you want to delete. |
 | <code>notification_type</code> | <code>str</code> | The type of notification. Must be one of: EMAIL, WEBHOOKS, SMS, PULL, MOBILE_PUSH. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -8672,7 +9050,7 @@ Send a `GET` request.
 
 ```python
 try:
-    response = client.notifications.get_destination(destination_id)
+    response = client.notifications.get_destination("some example string")
     # TODO: Handle 'response' of type Channel
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetDestinationErrorBody
@@ -8682,7 +9060,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.notifications.get_destination(destination_id)
+    response = await async_client.notifications.get_destination("some example string")
     # TODO: Handle 'response' of type Channel
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetDestinationErrorBody
@@ -8699,7 +9077,7 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>destination_id</code> | <code>str</code> | The identifier generated when you created the destination. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -8779,7 +9157,7 @@ except ApiError as e:
 
 | Name | Type | Description |
 | --- | --- | --- |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -8833,7 +9211,7 @@ Send a `GET` request.
 
 ```python
 try:
-    response = client.notifications.get_subscription(notification_type)
+    response = client.notifications.get_subscription("some example string")
     # TODO: Handle 'response' of type Any
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetSubscriptionErrorBody
@@ -8843,7 +9221,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.notifications.get_subscription(notification_type)
+    response = await async_client.notifications.get_subscription("some example string")
     # TODO: Handle 'response' of type Any
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetSubscriptionErrorBody
@@ -8861,7 +9239,7 @@ except ApiError as e:
 | --- | --- | --- |
 | <code>notification_type</code> | <code>str</code> | The type of notification. Must be one of: EMAIL, WEBHOOKS, SMS, PULL, MOBILE_PUSH. |
 | <code>payload_version</code> | <code>str \| None</code> | The version of the payload object to be used in the notification.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -8915,7 +9293,7 @@ Send a `GET` request.
 
 ```python
 try:
-    response = client.notifications.get_subscription_by_id(subscription_id, notification_type)
+    response = client.notifications.get_subscription_by_id("some example string", "some example string")
     # TODO: Handle 'response' of type Any
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetSubscriptionByIdErrorBody
@@ -8925,7 +9303,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.notifications.get_subscription_by_id(subscription_id, notification_type)
+    response = await async_client.notifications.get_subscription_by_id("some example string", "some example string")
     # TODO: Handle 'response' of type Any
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetSubscriptionByIdErrorBody
@@ -8943,7 +9321,7 @@ except ApiError as e:
 | --- | --- | --- |
 | <code>subscription_id</code> | <code>str</code> | The identifier for the subscription that you want to get. |
 | <code>notification_type</code> | <code>str</code> | The type of notification. Must be one of: EMAIL, WEBHOOKS, SMS, PULL, MOBILE_PUSH. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -8997,7 +9375,7 @@ Send a `POST` request.
 
 ```python
 try:
-    response = client.notifications.send_test_notification(notification_type, body)
+    response = client.notifications.send_test_notification("some example string", {})
     # TODO: Handle 'response' of type Any
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type SendTestNotificationErrorBody
@@ -9007,7 +9385,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.notifications.send_test_notification(notification_type, body)
+    response = await async_client.notifications.send_test_notification("some example string", {})
     # TODO: Handle 'response' of type Any
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type SendTestNotificationErrorBody
@@ -9025,7 +9403,7 @@ except ApiError as e:
 | --- | --- | --- |
 | <code>notification_type</code> | <code>str</code> | The type of notification. Must be one of: EMAIL, WEBHOOKS, SMS, PULL, MOBILE_PUSH. |
 | <code>body</code> | <code>Any</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -9087,7 +9465,7 @@ ASIN to Walmart Item ID; request/response shape is otherwise 1:1).
 
 ```python
 try:
-    response = client.product_fees.get_my_fees_estimate_for_item(walmart_item_id, body)
+    response = client.product_fees.get_my_fees_estimate_for_item("some example string", GetMyFeesEstimateRequest())
     # TODO: Handle 'response' of type GetMyFeesEstimateResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetMyFeesEstimateForItemErrorBody
@@ -9097,7 +9475,9 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.product_fees.get_my_fees_estimate_for_item(walmart_item_id, body)
+    response = await async_client.product_fees.get_my_fees_estimate_for_item(
+        "some example string", GetMyFeesEstimateRequest()
+    )
     # TODO: Handle 'response' of type GetMyFeesEstimateResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetMyFeesEstimateForItemErrorBody
@@ -9115,7 +9495,7 @@ except ApiError as e:
 | --- | --- | --- |
 | <code>walmart_item_id</code> | <code>str</code> | The Walmart Item ID of the item. Replaces SP-API ASIN. |
 | <code>body</code> | <code>[GetMyFeesEstimateRequest](walmart_apis/models/get_my_fees_estimate_request.py) \| [GetMyFeesEstimateRequestDict](walmart_apis/models/get_my_fees_estimate_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -9169,7 +9549,9 @@ Returns an estimated fee for a seller listing identified by Seller SKU.
 
 ```python
 try:
-    response = client.product_fees.get_my_fees_estimate_for_sku(seller_sku, marketplace_id, body)
+    response = client.product_fees.get_my_fees_estimate_for_sku(
+        "some example string", "some example string", GetMyFeesEstimateRequest()
+    )
     # TODO: Handle 'response' of type GetMyFeesEstimateResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetMyFeesEstimateForSkuErrorBody
@@ -9179,7 +9561,9 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.product_fees.get_my_fees_estimate_for_sku(seller_sku, marketplace_id, body)
+    response = await async_client.product_fees.get_my_fees_estimate_for_sku(
+        "some example string", "some example string", GetMyFeesEstimateRequest()
+    )
     # TODO: Handle 'response' of type GetMyFeesEstimateResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetMyFeesEstimateForSkuErrorBody
@@ -9198,7 +9582,7 @@ except ApiError as e:
 | <code>seller_sku</code> | <code>str</code> | The seller's SKU for the listing. Scoped to the authenticated seller. |
 | <code>marketplace_id</code> | <code>str</code> | Marketplace identifier. |
 | <code>body</code> | <code>[GetMyFeesEstimateRequest](walmart_apis/models/get_my_fees_estimate_request.py) \| [GetMyFeesEstimateRequestDict](walmart_apis/models/get_my_fees_estimate_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -9253,7 +9637,19 @@ Walmart Item ID or Seller SKU.
 
 ```python
 try:
-    response = client.product_fees.get_my_fees_estimates(body)
+    response = client.product_fees.get_my_fees_estimates(
+        [
+            FeesEstimateByIdRequest(
+                id_type=IdType.WALMART_ITEM_ID,
+                id_value="some example string",
+                fees_estimate_request=FeesEstimateRequest(
+                    marketplace_id="some example string",
+                    is_walmart_fulfilled=True,
+                    price_to_estimate_fees=PriceToEstimateFees(listing_price=MoneyType1()),
+                ),
+            ),
+        ],
+    )
     # TODO: Handle 'response' of type list[FeesEstimateResult]
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetMyFeesEstimatesErrorBody
@@ -9263,7 +9659,19 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.product_fees.get_my_fees_estimates(body)
+    response = await async_client.product_fees.get_my_fees_estimates(
+        [
+            FeesEstimateByIdRequest(
+                id_type=IdType.WALMART_ITEM_ID,
+                id_value="some example string",
+                fees_estimate_request=FeesEstimateRequest(
+                    marketplace_id="some example string",
+                    is_walmart_fulfilled=True,
+                    price_to_estimate_fees=PriceToEstimateFees(listing_price=MoneyType1()),
+                ),
+            ),
+        ],
+    )
     # TODO: Handle 'response' of type list[FeesEstimateResult]
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetMyFeesEstimatesErrorBody
@@ -9280,7 +9688,7 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>body</code> | <code>list&#91;[FeesEstimateByIdRequest](walmart_apis/models/fees_estimate_by_id_request.py) \| [FeesEstimateByIdRequestDict](walmart_apis/models/fees_estimate_by_id_request.py)&#93;</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -9314,7 +9722,7 @@ Mapped in first-match order -- an earlier row wins over a later range that also 
 > Source: [ProductPricing](walmart_apis/apis/product_pricing.py)
 
 <details>
-<summary><code>def get_competitive_pricing(marketplace_id: str, item_type: ItemTypeOrStr, *, skus: list[str] | None = None, walmart_item_ids: list[str] | None = None, customer_type: CustomerTypeOrStr | None = None, request_options: RequestOptionsOrDict | None = None) -> GetPricingResponse</code></summary>
+<summary><code>def get_competitive_pricing(marketplace_id: str, *, item_type: ItemTypeOrStr = ItemType.SKU, skus: list[str] | None = None, walmart_item_ids: list[str] | None = None, customer_type: CustomerTypeOrStr | None = None, request_options: RequestOptionsOrDict | None = None) -> GetPricingResponse</code></summary>
 
 <dl>
 <dd>
@@ -9338,7 +9746,7 @@ Returns competitive pricing information for a seller's offer listings based on s
 
 ```python
 try:
-    response = client.product_pricing.get_competitive_pricing(marketplace_id, item_type)
+    response = client.product_pricing.get_competitive_pricing("some example string", item_type=ItemType.WALMART_ITEM_ID)
     # TODO: Handle 'response' of type GetPricingResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetCompetitivePricingErrorBody
@@ -9348,7 +9756,9 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.product_pricing.get_competitive_pricing(marketplace_id, item_type)
+    response = await async_client.product_pricing.get_competitive_pricing(
+        "some example string", item_type=ItemType.WALMART_ITEM_ID
+    )
     # TODO: Handle 'response' of type GetPricingResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetCompetitivePricingErrorBody
@@ -9365,11 +9775,11 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>marketplace_id</code> | <code>str</code> | A marketplace identifier. Specifies the marketplace for which prices are returned. |
-| <code>item_type</code> | <code>[ItemTypeOrStr](walmart_apis/models/enums/item_type.py)</code> | Indicates whether Walmart Item ID values or seller SKU values are used to identify items. |
+| <code>item_type</code> | <code>[ItemTypeOrStr](walmart_apis/models/enums/item_type.py)</code> | Indicates whether Walmart Item ID values or seller SKU values are used to identify items.<br>**Default**: <code>ItemType.SKU</code> |
 | <code>skus</code> | <code>list&#91;str&#93; \| None</code> | A list of up to twenty seller SKU values used to identify items in the given marketplace.<br>**Default**: <code>None</code> |
 | <code>walmart_item_ids</code> | <code>list&#91;str&#93; \| None</code> | A list of up to twenty Walmart Item ID values used to identify items in the given marketplace.<br>**Default**: <code>None</code> |
 | <code>customer_type</code> | <code>[CustomerTypeOrStr](walmart_apis/models/enums/customer_type.py) \| None</code> | Indicates whether to request pricing information from the point of view of Consumer or Business buyers. Default is Consumer.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -9428,7 +9838,7 @@ Track: .
 
 ```python
 try:
-    response = client.product_pricing.get_competitive_summary(body)
+    response = client.product_pricing.get_competitive_summary(CompetitiveSummaryBatchRequest())
     # TODO: Handle 'response' of type CompetitiveSummaryBatchResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetCompetitiveSummaryErrorBody
@@ -9438,7 +9848,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.product_pricing.get_competitive_summary(body)
+    response = await async_client.product_pricing.get_competitive_summary(CompetitiveSummaryBatchRequest())
     # TODO: Handle 'response' of type CompetitiveSummaryBatchResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetCompetitiveSummaryErrorBody
@@ -9455,7 +9865,7 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>body</code> | <code>[CompetitiveSummaryBatchRequest](walmart_apis/models/competitive_summary_batch_request.py) \| [CompetitiveSummaryBatchRequestDict](walmart_apis/models/competitive_summary_batch_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -9513,7 +9923,9 @@ Track: .
 
 ```python
 try:
-    response = client.product_pricing.get_featured_offer_expected_price_batch(body)
+    response = client.product_pricing.get_featured_offer_expected_price_batch(
+        GetFeaturedOfferExpectedPriceBatchRequest()
+    )
     # TODO: Handle 'response' of type GetFeaturedOfferExpectedPriceBatchResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetFeaturedOfferExpectedPriceBatchErrorBody
@@ -9523,7 +9935,9 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.product_pricing.get_featured_offer_expected_price_batch(body)
+    response = await async_client.product_pricing.get_featured_offer_expected_price_batch(
+        GetFeaturedOfferExpectedPriceBatchRequest()
+    )
     # TODO: Handle 'response' of type GetFeaturedOfferExpectedPriceBatchResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetFeaturedOfferExpectedPriceBatchErrorBody
@@ -9540,7 +9954,7 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>body</code> | <code>[GetFeaturedOfferExpectedPriceBatchRequest](walmart_apis/models/get_featured_offer_expected_price_batch_request.py) \| [GetFeaturedOfferExpectedPriceBatchRequestDict](walmart_apis/models/get_featured_offer_expected_price_batch_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -9600,7 +10014,7 @@ Returns 404 when no offers are found for the given itemId.
 
 ```python
 try:
-    response = client.product_pricing.get_item_offers(item_id, marketplace_id, item_condition)
+    response = client.product_pricing.get_item_offers("some example string", "some example string", ConditionType2.NEW)
     # TODO: Handle 'response' of type GetOffersResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetItemOffersErrorBody
@@ -9610,7 +10024,9 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.product_pricing.get_item_offers(item_id, marketplace_id, item_condition)
+    response = await async_client.product_pricing.get_item_offers(
+        "some example string", "some example string", ConditionType2.NEW
+    )
     # TODO: Handle 'response' of type GetOffersResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetItemOffersErrorBody
@@ -9630,7 +10046,7 @@ except ApiError as e:
 | <code>marketplace_id</code> | <code>str</code> | A marketplace identifier. Specifies the marketplace for which prices are returned. |
 | <code>item_condition</code> | <code>[ConditionType2OrStr](walmart_apis/models/enums/condition_type2.py)</code> | Filters the offer listings based on item condition. Possible values: New, Used, Collectible, Refurbished, Club. |
 | <code>customer_type</code> | <code>[CustomerTypeOrStr](walmart_apis/models/enums/customer_type.py) \| None</code> | Indicates whether to request Consumer or Business offers. Default is Consumer.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -9690,7 +10106,7 @@ Implemented: .
 
 ```python
 try:
-    response = client.product_pricing.get_item_offers_batch(body)
+    response = client.product_pricing.get_item_offers_batch(GetItemOffersBatchRequest())
     # TODO: Handle 'response' of type GetItemOffersBatchResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetItemOffersBatchErrorBody
@@ -9700,7 +10116,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.product_pricing.get_item_offers_batch(body)
+    response = await async_client.product_pricing.get_item_offers_batch(GetItemOffersBatchRequest())
     # TODO: Handle 'response' of type GetItemOffersBatchResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetItemOffersBatchErrorBody
@@ -9717,7 +10133,7 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>body</code> | <code>[GetItemOffersBatchRequest](walmart_apis/models/get_item_offers_batch_request.py) \| [GetItemOffersBatchRequestDict](walmart_apis/models/get_item_offers_batch_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -9771,7 +10187,9 @@ Returns the lowest priced offers for a single SKU listing, based on SKU and item
 
 ```python
 try:
-    response = client.product_pricing.get_listing_offers(seller_sku, marketplace_id, item_condition)
+    response = client.product_pricing.get_listing_offers(
+        "some example string", "some example string", ConditionType2.NEW
+    )
     # TODO: Handle 'response' of type GetOffersResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetListingOffersErrorBody
@@ -9781,7 +10199,9 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.product_pricing.get_listing_offers(seller_sku, marketplace_id, item_condition)
+    response = await async_client.product_pricing.get_listing_offers(
+        "some example string", "some example string", ConditionType2.NEW
+    )
     # TODO: Handle 'response' of type GetOffersResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetListingOffersErrorBody
@@ -9801,7 +10221,7 @@ except ApiError as e:
 | <code>marketplace_id</code> | <code>str</code> | A marketplace identifier. Specifies the marketplace for which prices are returned. |
 | <code>item_condition</code> | <code>[ConditionType2OrStr](walmart_apis/models/enums/condition_type2.py)</code> | Filters the offer listings based on item condition. Possible values: New, Used, Collectible, Refurbished, Club. |
 | <code>customer_type</code> | <code>[CustomerTypeOrStr](walmart_apis/models/enums/customer_type.py) \| None</code> | Indicates whether to request Consumer or Business offers. Default is Consumer.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -9860,7 +10280,7 @@ Implemented: .
 
 ```python
 try:
-    response = client.product_pricing.get_listing_offers_batch(body)
+    response = client.product_pricing.get_listing_offers_batch(GetListingOffersBatchRequest())
     # TODO: Handle 'response' of type GetListingOffersBatchResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetListingOffersBatchErrorBody
@@ -9870,7 +10290,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.product_pricing.get_listing_offers_batch(body)
+    response = await async_client.product_pricing.get_listing_offers_batch(GetListingOffersBatchRequest())
     # TODO: Handle 'response' of type GetListingOffersBatchResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetListingOffersBatchErrorBody
@@ -9887,7 +10307,7 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>body</code> | <code>[GetListingOffersBatchRequest](walmart_apis/models/get_listing_offers_batch_request.py) \| [GetListingOffersBatchRequestDict](walmart_apis/models/get_listing_offers_batch_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -9917,7 +10337,7 @@ Mapped in first-match order -- an earlier row wins over a later range that also 
 </details>
 
 <details>
-<summary><code>def get_pricing(marketplace_id: str, item_type: ItemTypeOrStr, *, skus: list[str] | None = None, walmart_item_ids: list[str] | None = None, item_condition: ConditionType2OrStr | None = None, offer_type: OfferTypeOrStr | None = None, customer_type: CustomerTypeOrStr | None = None, request_options: RequestOptionsOrDict | None = None) -> GetPricingResponse</code></summary>
+<summary><code>def get_pricing(marketplace_id: str, *, item_type: ItemTypeOrStr = ItemType.SKU, skus: list[str] | None = None, walmart_item_ids: list[str] | None = None, item_condition: ConditionType2OrStr | None = None, offer_type: OfferTypeOrStr | None = None, customer_type: CustomerTypeOrStr | None = None, request_options: RequestOptionsOrDict | None = None) -> GetPricingResponse</code></summary>
 
 <dl>
 <dd>
@@ -9941,7 +10361,7 @@ Returns pricing information for a seller's active offer listings based on seller
 
 ```python
 try:
-    response = client.product_pricing.get_pricing(marketplace_id, item_type)
+    response = client.product_pricing.get_pricing("some example string", item_type=ItemType.WALMART_ITEM_ID)
     # TODO: Handle 'response' of type GetPricingResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetPricingErrorBody
@@ -9951,7 +10371,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.product_pricing.get_pricing(marketplace_id, item_type)
+    response = await async_client.product_pricing.get_pricing("some example string", item_type=ItemType.WALMART_ITEM_ID)
     # TODO: Handle 'response' of type GetPricingResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetPricingErrorBody
@@ -9968,13 +10388,13 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>marketplace_id</code> | <code>str</code> | A marketplace identifier. Specifies the marketplace for which prices are returned. |
-| <code>item_type</code> | <code>[ItemTypeOrStr](walmart_apis/models/enums/item_type.py)</code> | Indicates whether Walmart Item ID values or seller SKU values are used to identify items. |
+| <code>item_type</code> | <code>[ItemTypeOrStr](walmart_apis/models/enums/item_type.py)</code> | Indicates whether Walmart Item ID values or seller SKU values are used to identify items.<br>**Default**: <code>ItemType.SKU</code> |
 | <code>skus</code> | <code>list&#91;str&#93; \| None</code> | A list of up to twenty seller SKU values used to identify items in the given marketplace.<br>**Default**: <code>None</code> |
 | <code>walmart_item_ids</code> | <code>list&#91;str&#93; \| None</code> | A list of up to twenty Walmart Item ID values used to identify items in the given marketplace.<br>**Default**: <code>None</code> |
 | <code>item_condition</code> | <code>[ConditionType2OrStr](walmart_apis/models/enums/condition_type2.py) \| None</code> | Filters the offer listings based on item condition. Possible values: New, Used, Collectible, Refurbished, Club.<br>**Default**: <code>None</code> |
 | <code>offer_type</code> | <code>[OfferTypeOrStr](walmart_apis/models/enums/offer_type.py) \| None</code> | Indicates whether to request pricing information for the seller's B2C or B2B offers. Default is B2C.<br>**Default**: <code>None</code> |
 | <code>customer_type</code> | <code>[CustomerTypeOrStr](walmart_apis/models/enums/customer_type.py) \| None</code> | Indicates whether to request Consumer or Business offers. Default is Consumer.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -10032,7 +10452,7 @@ Send a `GET` request.
 
 ```python
 try:
-    response = client.sales.get_order_metrics(marketplace_ids, interval, granularity)
+    response = client.sales.get_order_metrics(["some example string"], "some example string", Granularity.HOUR)
     # TODO: Handle 'response' of type Any
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetOrderMetricsErrorBody
@@ -10042,7 +10462,9 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.sales.get_order_metrics(marketplace_ids, interval, granularity)
+    response = await async_client.sales.get_order_metrics(
+        ["some example string"], "some example string", Granularity.HOUR
+    )
     # TODO: Handle 'response' of type Any
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetOrderMetricsErrorBody
@@ -10068,7 +10490,7 @@ except ApiError as e:
 | <code>asin</code> | <code>str \| None</code> | Filters the results by the ASIN that you specify. Specifying both ASIN and SKU returns an error. Do not include this filter if you want the response to include order metrics for all ASINs. Example: B0792R1RSN, if you want the response to include order metrics for only ASIN B0792R1RSN.<br>**Default**: <code>None</code> |
 | <code>sku</code> | <code>str \| None</code> | Filters the results by the SKU that you specify. Specifying both ASIN and SKU returns an error. Do not include this filter if you want the response to include order metrics for all SKUs. Example: TestSKU, if you want the response to include order metrics for only SKU TestSKU.<br>**Default**: <code>None</code> |
 | <code>sp_api_program</code> | <code>str \| None</code> | Filters the results by the program that you specify. Do not include this filter if you want the response to inclu<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -10128,7 +10550,7 @@ cancellation status to confirm.
 
 ```python
 try:
-    response = client.shipping.cancel_shipment2(shipment_id)
+    response = client.shipping.cancel_shipment2("some example string")
     # TODO: Handle 'response' of type CancelShipmentResponse1
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type CancelShipment2ErrorBody
@@ -10138,7 +10560,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.shipping.cancel_shipment2(shipment_id)
+    response = await async_client.shipping.cancel_shipment2("some example string")
     # TODO: Handle 'response' of type CancelShipmentResponse1
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type CancelShipment2ErrorBody
@@ -10155,7 +10577,7 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>shipment_id</code> | <code>str</code> | Identifier of the shipment to cancel. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -10211,7 +10633,7 @@ point type.
 
 ```python
 try:
-    response = client.shipping.get_access_points(access_point_types, country_code, postal_code)
+    response = client.shipping.get_access_points("some example string", "some example string", "some example string")
     # TODO: Handle 'response' of type GetAccessPointsResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetAccessPointsErrorBody
@@ -10221,7 +10643,9 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.shipping.get_access_points(access_point_types, country_code, postal_code)
+    response = await async_client.shipping.get_access_points(
+        "some example string", "some example string", "some example string"
+    )
     # TODO: Handle 'response' of type GetAccessPointsResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetAccessPointsErrorBody
@@ -10240,7 +10664,7 @@ except ApiError as e:
 | <code>access_point_types</code> | <code>str</code> | Comma-separated list of access point types to include. |
 | <code>country_code</code> | <code>str</code> | ISO 3166-1 alpha-2 country code (e.g. US, CA, MX). |
 | <code>postal_code</code> | <code>str</code> | Postal code to search around. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -10298,7 +10722,7 @@ seller's input against it before issuing purchaseShipment.
 
 ```python
 try:
-    response = client.shipping.get_additional_inputs(rate_id, request_token)
+    response = client.shipping.get_additional_inputs("some example string", "some example string")
     # TODO: Handle 'response' of type GetAdditionalInputsResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetAdditionalInputsErrorBody
@@ -10308,7 +10732,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.shipping.get_additional_inputs(rate_id, request_token)
+    response = await async_client.shipping.get_additional_inputs("some example string", "some example string")
     # TODO: Handle 'response' of type GetAdditionalInputsResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetAdditionalInputsErrorBody
@@ -10326,7 +10750,7 @@ except ApiError as e:
 | --- | --- | --- |
 | <code>rate_id</code> | <code>str</code> | rateId returned by a prior getRates response. |
 | <code>request_token</code> | <code>str</code> | requestToken returned by a prior getRates response. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -10382,7 +10806,34 @@ selected rateId to commit to a label purchase.
 
 ```python
 try:
-    response = client.shipping.get_rates(body)
+    response = client.shipping.get_rates(
+        GetRatesRequest(
+            ship_to=Address1(
+                name="some example string",
+                address_line1="some example string",
+                city="some example string",
+                state_or_region="some example string",
+                postal_code="some example string",
+                country_code="some example string",
+            ),
+            ship_from=Address1(
+                name="some example string",
+                address_line1="some example string",
+                city="some example string",
+                state_or_region="some example string",
+                postal_code="some example string",
+                country_code="some example string",
+            ),
+            packages=[
+                Package(
+                    dimensions=PackageDimensions(length=1.5, width=1.5, height=1.5, unit=Unit.INCHES),
+                    weight=Weight(value=1.5, unit=Unit1.OZ),
+                    package_client_reference_id="some example string",
+                ),
+            ],
+            channel_details=ChannelDetails(channel_type=ChannelType.WALMART_MARKETPLACE),
+        ),
+    )
     # TODO: Handle 'response' of type GetFulfillmentOrderResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetRatesErrorBody
@@ -10392,7 +10843,34 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.shipping.get_rates(body)
+    response = await async_client.shipping.get_rates(
+        GetRatesRequest(
+            ship_to=Address1(
+                name="some example string",
+                address_line1="some example string",
+                city="some example string",
+                state_or_region="some example string",
+                postal_code="some example string",
+                country_code="some example string",
+            ),
+            ship_from=Address1(
+                name="some example string",
+                address_line1="some example string",
+                city="some example string",
+                state_or_region="some example string",
+                postal_code="some example string",
+                country_code="some example string",
+            ),
+            packages=[
+                Package(
+                    dimensions=PackageDimensions(length=1.5, width=1.5, height=1.5, unit=Unit.INCHES),
+                    weight=Weight(value=1.5, unit=Unit1.OZ),
+                    package_client_reference_id="some example string",
+                ),
+            ],
+            channel_details=ChannelDetails(channel_type=ChannelType.WALMART_MARKETPLACE),
+        ),
+    )
     # TODO: Handle 'response' of type GetFulfillmentOrderResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetRatesErrorBody
@@ -10409,7 +10887,7 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>body</code> | <code>[GetRatesRequest](walmart_apis/models/get_rates_request.py) \| [GetRatesRequestDict](walmart_apis/models/get_rates_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -10439,7 +10917,7 @@ Mapped in first-match order -- an earlier row wins over a later range that also 
 </details>
 
 <details>
-<summary><code>def get_shipment_documents(shipment_id: str, *, package_client_reference_id: str | None = None, format: Format1OrStr | None = None, request_options: RequestOptionsOrDict | None = None) -> GetShipmentDocumentsResponse</code></summary>
+<summary><code>def get_shipment_documents(shipment_id: str, *, package_client_reference_id: str | None = None, format_: Format1OrStr | None = None, request_options: RequestOptionsOrDict | None = None) -> GetShipmentDocumentsResponse</code></summary>
 
 <dl>
 <dd>
@@ -10464,7 +10942,7 @@ associated with a previously-purchased shipment.
 
 ```python
 try:
-    response = client.shipping.get_shipment_documents(shipment_id)
+    response = client.shipping.get_shipment_documents("some example string")
     # TODO: Handle 'response' of type GetShipmentDocumentsResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetShipmentDocumentsErrorBody
@@ -10474,7 +10952,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.shipping.get_shipment_documents(shipment_id)
+    response = await async_client.shipping.get_shipment_documents("some example string")
     # TODO: Handle 'response' of type GetShipmentDocumentsResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetShipmentDocumentsErrorBody
@@ -10492,8 +10970,8 @@ except ApiError as e:
 | --- | --- | --- |
 | <code>shipment_id</code> | <code>str</code> | Identifier of the shipment whose documents to retrieve. |
 | <code>package_client_reference_id</code> | <code>str \| None</code> | Optional package-level reference id to retrieve documents<br>for a specific package within a multi-package shipment.<br>**Default**: <code>None</code> |
-| <code>format</code> | <code>[Format1OrStr](walmart_apis/models/enums/format1.py) \| None</code> | Requested document format (defaults to PDF).<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>format_</code> | <code>[Format1OrStr](walmart_apis/models/enums/format1.py) \| None</code> | Requested document format (defaults to PDF).<br>**Default**: <code>None</code> |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -10553,7 +11031,7 @@ against the resolved carrier; a mismatch surfaces as 404.
 
 ```python
 try:
-    response = client.shipping.get_tracking(tracking_id)
+    response = client.shipping.get_tracking("some example string")
     # TODO: Handle 'response' of type GetTrackingResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetTrackingErrorBody
@@ -10563,7 +11041,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.shipping.get_tracking(tracking_id)
+    response = await async_client.shipping.get_tracking("some example string")
     # TODO: Handle 'response' of type GetTrackingResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetTrackingErrorBody
@@ -10581,7 +11059,7 @@ except ApiError as e:
 | --- | --- | --- |
 | <code>tracking_id</code> | <code>str</code> | Tracking identifier returned by purchaseShipment. |
 | <code>carrier_id</code> | <code>str \| None</code> | Optional carrier identifier for defense-in-depth validation<br>against TNT's resolved carrier. Not required by TNT itself<br>-- omit unless you specifically want mismatch protection.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -10637,7 +11115,38 @@ service level. Returns the purchased shipment record directly.
 
 ```python
 try:
-    response = client.shipping.one_click_shipment(body)
+    response = client.shipping.one_click_shipment(
+        OneClickShipmentRequest(
+            ship_to=Address1(
+                name="some example string",
+                address_line1="some example string",
+                city="some example string",
+                state_or_region="some example string",
+                postal_code="some example string",
+                country_code="some example string",
+            ),
+            ship_from=Address1(
+                name="some example string",
+                address_line1="some example string",
+                city="some example string",
+                state_or_region="some example string",
+                postal_code="some example string",
+                country_code="some example string",
+            ),
+            packages=[
+                Package(
+                    dimensions=PackageDimensions(length=1.5, width=1.5, height=1.5, unit=Unit.INCHES),
+                    weight=Weight(value=1.5, unit=Unit1.OZ),
+                    package_client_reference_id="some example string",
+                ),
+            ],
+            service_selection=ServiceSelection(),
+            requested_document_specification=RequestedDocumentSpecification(
+                format=Format1.PDF, size=LabelDimensions(), dpi=Dpi.VALUE_203
+            ),
+            channel_details=ChannelDetails(channel_type=ChannelType.WALMART_MARKETPLACE),
+        ),
+    )
     # TODO: Handle 'response' of type GetFulfillmentOrderShipmentsResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type OneClickShipmentErrorBody
@@ -10647,7 +11156,38 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.shipping.one_click_shipment(body)
+    response = await async_client.shipping.one_click_shipment(
+        OneClickShipmentRequest(
+            ship_to=Address1(
+                name="some example string",
+                address_line1="some example string",
+                city="some example string",
+                state_or_region="some example string",
+                postal_code="some example string",
+                country_code="some example string",
+            ),
+            ship_from=Address1(
+                name="some example string",
+                address_line1="some example string",
+                city="some example string",
+                state_or_region="some example string",
+                postal_code="some example string",
+                country_code="some example string",
+            ),
+            packages=[
+                Package(
+                    dimensions=PackageDimensions(length=1.5, width=1.5, height=1.5, unit=Unit.INCHES),
+                    weight=Weight(value=1.5, unit=Unit1.OZ),
+                    package_client_reference_id="some example string",
+                ),
+            ],
+            service_selection=ServiceSelection(),
+            requested_document_specification=RequestedDocumentSpecification(
+                format=Format1.PDF, size=LabelDimensions(), dpi=Dpi.VALUE_203
+            ),
+            channel_details=ChannelDetails(channel_type=ChannelType.WALMART_MARKETPLACE),
+        ),
+    )
     # TODO: Handle 'response' of type GetFulfillmentOrderShipmentsResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type OneClickShipmentErrorBody
@@ -10664,7 +11204,7 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>body</code> | <code>[OneClickShipmentRequest](walmart_apis/models/one_click_shipment_request.py) \| [OneClickShipmentRequestDict](walmart_apis/models/one_click_shipment_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -10720,7 +11260,15 @@ document references.
 
 ```python
 try:
-    response = client.shipping.purchase_shipment(body)
+    response = client.shipping.purchase_shipment(
+        PurchaseShipmentRequest(
+            request_token="some example string",
+            rate_id="some example string",
+            requested_document_specification=RequestedDocumentSpecification(
+                format=Format1.PDF, size=LabelDimensions(), dpi=Dpi.VALUE_203
+            ),
+        ),
+    )
     # TODO: Handle 'response' of type GetFulfillmentOrderShipmentsResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type PurchaseShipmentErrorBody
@@ -10730,7 +11278,15 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.shipping.purchase_shipment(body)
+    response = await async_client.shipping.purchase_shipment(
+        PurchaseShipmentRequest(
+            request_token="some example string",
+            rate_id="some example string",
+            requested_document_specification=RequestedDocumentSpecification(
+                format=Format1.PDF, size=LabelDimensions(), dpi=Dpi.VALUE_203
+            ),
+        ),
+    )
     # TODO: Handle 'response' of type GetFulfillmentOrderShipmentsResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type PurchaseShipmentErrorBody
@@ -10747,7 +11303,7 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>body</code> | <code>[PurchaseShipmentRequest](walmart_apis/models/purchase_shipment_request.py) \| [PurchaseShipmentRequestDict](walmart_apis/models/purchase_shipment_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -10803,7 +11359,9 @@ redirect, etc).
 
 ```python
 try:
-    client.shipping.submit_ndr_feedback(body)
+    client.shipping.submit_ndr_feedback(
+        SubmitNdrFeedbackRequest(seller_tracking_id="some example string", ndr_action=NdrAction.RETURN_TO_ORIGIN)
+    )
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type SubmitNdrFeedbackErrorBody
 ```
@@ -10812,7 +11370,9 @@ except ApiError as e:
 
 ```python
 try:
-    await async_client.shipping.submit_ndr_feedback(body)
+    await async_client.shipping.submit_ndr_feedback(
+        SubmitNdrFeedbackRequest(seller_tracking_id="some example string", ndr_action=NdrAction.RETURN_TO_ORIGIN)
+    )
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type SubmitNdrFeedbackErrorBody
 ```
@@ -10828,7 +11388,7 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>body</code> | <code>[SubmitNdrFeedbackRequest](walmart_apis/models/submit_ndr_feedback_request.py) \| [SubmitNdrFeedbackRequestDict](walmart_apis/models/submit_ndr_feedback_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -10887,7 +11447,7 @@ Send a `POST` request.
 ```python
 try:
     response = client.solicitations.create_product_review_and_seller_feedback_solicitation(
-        sp_api_order_id, marketplace_ids
+        "some example string", ["some example string"]
     )
     # TODO: Handle 'response' of type Any
 except ApiError as e:
@@ -10899,7 +11459,7 @@ except ApiError as e:
 ```python
 try:
     response = await async_client.solicitations.create_product_review_and_seller_feedback_solicitation(
-        sp_api_order_id, marketplace_ids
+        "some example string", ["some example string"]
     )
     # TODO: Handle 'response' of type Any
 except ApiError as e:
@@ -10918,7 +11478,7 @@ except ApiError as e:
 | --- | --- | --- |
 | <code>sp_api_order_id</code> | <code>str</code> | An SP-API order identifier. This specifies the order for which a solicitation is sent. |
 | <code>marketplace_ids</code> | <code>list&#91;str&#93;</code> | A marketplace identifier. This specifies the marketplace in which the order was placed. Only one marketplace can be spec |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -10972,7 +11532,7 @@ Send a `GET` request.
 
 ```python
 try:
-    response = client.solicitations.get_solicitation_actions_for_order(sp_api_order_id, marketplace_ids)
+    response = client.solicitations.get_solicitation_actions_for_order("some example string", ["some example string"])
     # TODO: Handle 'response' of type Any
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetSolicitationActionsForOrderErrorBody
@@ -10982,7 +11542,9 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.solicitations.get_solicitation_actions_for_order(sp_api_order_id, marketplace_ids)
+    response = await async_client.solicitations.get_solicitation_actions_for_order(
+        "some example string", ["some example string"]
+    )
     # TODO: Handle 'response' of type Any
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetSolicitationActionsForOrderErrorBody
@@ -11000,7 +11562,7 @@ except ApiError as e:
 | --- | --- | --- |
 | <code>sp_api_order_id</code> | <code>str</code> | An SP-API order identifier. This specifies the order for which you want a list of available solicitation types. |
 | <code>marketplace_ids</code> | <code>list&#91;str&#93;</code> | A marketplace identifier. This specifies the marketplace in which the order was placed. Only one marketplace can be spec |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -11058,7 +11620,7 @@ Send a `PUT` request.
 
 ```python
 try:
-    response = client.wfs_inbound.cancel_inbound_plan(inbound_plan_id)
+    response = client.wfs_inbound.cancel_inbound_plan("some example string")
     # TODO: Handle 'response' of type CancelInboundPlanResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type CancelInboundPlanErrorBody
@@ -11068,7 +11630,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.wfs_inbound.cancel_inbound_plan(inbound_plan_id)
+    response = await async_client.wfs_inbound.cancel_inbound_plan("some example string")
     # TODO: Handle 'response' of type CancelInboundPlanResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type CancelInboundPlanErrorBody
@@ -11085,7 +11647,7 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>inbound_plan_id</code> | <code>str</code> | Identifier of an inbound plan. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -11139,7 +11701,9 @@ Send a `PUT` request.
 
 ```python
 try:
-    response = client.wfs_inbound.cancel_self_ship_appointment(inbound_plan_id, shipment_id, body)
+    response = client.wfs_inbound.cancel_self_ship_appointment(
+        "some example string", "some example string", CancelSelfShipAppointmentRequest()
+    )
     # TODO: Handle 'response' of type CancelInboundPlanResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type CancelSelfShipAppointmentErrorBody
@@ -11149,7 +11713,9 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.wfs_inbound.cancel_self_ship_appointment(inbound_plan_id, shipment_id, body)
+    response = await async_client.wfs_inbound.cancel_self_ship_appointment(
+        "some example string", "some example string", CancelSelfShipAppointmentRequest()
+    )
     # TODO: Handle 'response' of type CancelInboundPlanResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type CancelSelfShipAppointmentErrorBody
@@ -11168,7 +11734,7 @@ except ApiError as e:
 | <code>inbound_plan_id</code> | <code>str</code> | Identifier of an inbound plan. |
 | <code>shipment_id</code> | <code>str</code> | Identifier of a shipment. |
 | <code>body</code> | <code>[CancelSelfShipAppointmentRequest](walmart_apis/models/cancel_self_ship_appointment_request.py) \| [CancelSelfShipAppointmentRequestDict](walmart_apis/models/cancel_self_ship_appointment_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -11223,7 +11789,7 @@ Send a `POST` request.
 ```python
 try:
     response = client.wfs_inbound.confirm_delivery_window_options(
-        inbound_plan_id, shipment_id, delivery_window_option_id
+        "some example string", "some example string", "some example string"
     )
     # TODO: Handle 'response' of type CancelInboundPlanResponse
 except ApiError as e:
@@ -11235,7 +11801,7 @@ except ApiError as e:
 ```python
 try:
     response = await async_client.wfs_inbound.confirm_delivery_window_options(
-        inbound_plan_id, shipment_id, delivery_window_option_id
+        "some example string", "some example string", "some example string"
     )
     # TODO: Handle 'response' of type CancelInboundPlanResponse
 except ApiError as e:
@@ -11255,7 +11821,7 @@ except ApiError as e:
 | <code>inbound_plan_id</code> | <code>str</code> | Identifier of an inbound plan. |
 | <code>shipment_id</code> | <code>str</code> | The shipment to confirm the delivery window option for. |
 | <code>delivery_window_option_id</code> | <code>str</code> | The ID of the delivery window option to be confirmed. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -11309,7 +11875,7 @@ Send a `POST` request.
 
 ```python
 try:
-    response = client.wfs_inbound.confirm_packing_option(inbound_plan_id, packing_option_id)
+    response = client.wfs_inbound.confirm_packing_option("some example string", "some example string")
     # TODO: Handle 'response' of type CancelInboundPlanResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type ConfirmPackingOptionErrorBody
@@ -11319,7 +11885,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.wfs_inbound.confirm_packing_option(inbound_plan_id, packing_option_id)
+    response = await async_client.wfs_inbound.confirm_packing_option("some example string", "some example string")
     # TODO: Handle 'response' of type CancelInboundPlanResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type ConfirmPackingOptionErrorBody
@@ -11337,7 +11903,7 @@ except ApiError as e:
 | --- | --- | --- |
 | <code>inbound_plan_id</code> | <code>str</code> | Identifier of an inbound plan. |
 | <code>packing_option_id</code> | <code>str</code> | Identifier of a packing option. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -11391,7 +11957,7 @@ Send a `POST` request.
 
 ```python
 try:
-    response = client.wfs_inbound.confirm_placement_option(inbound_plan_id, placement_option_id)
+    response = client.wfs_inbound.confirm_placement_option("some example string", "some example string")
     # TODO: Handle 'response' of type CancelInboundPlanResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type ConfirmPlacementOptionErrorBody
@@ -11401,7 +11967,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.wfs_inbound.confirm_placement_option(inbound_plan_id, placement_option_id)
+    response = await async_client.wfs_inbound.confirm_placement_option("some example string", "some example string")
     # TODO: Handle 'response' of type CancelInboundPlanResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type ConfirmPlacementOptionErrorBody
@@ -11419,7 +11985,7 @@ except ApiError as e:
 | --- | --- | --- |
 | <code>inbound_plan_id</code> | <code>str</code> | Identifier of an inbound plan. |
 | <code>placement_option_id</code> | <code>str</code> | The identifier of a placement option. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -11474,7 +12040,7 @@ Send a `POST` request.
 ```python
 try:
     response = client.wfs_inbound.confirm_shipment_content_update_preview(
-        inbound_plan_id, shipment_id, content_update_preview_id
+        "some example string", "some example string", "some example string"
     )
     # TODO: Handle 'response' of type CancelInboundPlanResponse
 except ApiError as e:
@@ -11486,7 +12052,7 @@ except ApiError as e:
 ```python
 try:
     response = await async_client.wfs_inbound.confirm_shipment_content_update_preview(
-        inbound_plan_id, shipment_id, content_update_preview_id
+        "some example string", "some example string", "some example string"
     )
     # TODO: Handle 'response' of type CancelInboundPlanResponse
 except ApiError as e:
@@ -11506,7 +12072,7 @@ except ApiError as e:
 | <code>inbound_plan_id</code> | <code>str</code> | Identifier of an inbound plan. |
 | <code>shipment_id</code> | <code>str</code> | Identifier of a shipment. |
 | <code>content_update_preview_id</code> | <code>str</code> | Identifier of a content update preview. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -11560,7 +12126,16 @@ Send a `POST` request.
 
 ```python
 try:
-    response = client.wfs_inbound.confirm_transportation_options(inbound_plan_id, body)
+    response = client.wfs_inbound.confirm_transportation_options(
+        "some example string",
+        ConfirmTransportationOptionsRequest(
+            transportation_selections=[
+                CommonTransportationSelection(
+                    shipment_id="some example string", transportation_option_id="some example string"
+                ),
+            ],
+        ),
+    )
     # TODO: Handle 'response' of type CancelInboundPlanResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type ConfirmTransportationOptionsErrorBody
@@ -11570,7 +12145,16 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.wfs_inbound.confirm_transportation_options(inbound_plan_id, body)
+    response = await async_client.wfs_inbound.confirm_transportation_options(
+        "some example string",
+        ConfirmTransportationOptionsRequest(
+            transportation_selections=[
+                CommonTransportationSelection(
+                    shipment_id="some example string", transportation_option_id="some example string"
+                ),
+            ],
+        ),
+    )
     # TODO: Handle 'response' of type CancelInboundPlanResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type ConfirmTransportationOptionsErrorBody
@@ -11588,7 +12172,7 @@ except ApiError as e:
 | --- | --- | --- |
 | <code>inbound_plan_id</code> | <code>str</code> | Identifier of an inbound plan. |
 | <code>body</code> | <code>[ConfirmTransportationOptionsRequest](walmart_apis/models/confirm_transportation_options_request.py) \| [ConfirmTransportationOptionsRequestDict](walmart_apis/models/confirm_transportation_options_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -11642,7 +12226,27 @@ Send a `POST` request.
 
 ```python
 try:
-    response = client.wfs_inbound.create_inbound_plan(body)
+    response = client.wfs_inbound.create_inbound_plan(
+        CreateInboundPlanRequest(
+            destination_marketplaces=["some example string"],
+            items=[
+                CommonItemInput(
+                    label_owner=CommonLabelOwner.SELLER,
+                    msku="some example string",
+                    prep_owner=CommonPrepOwner.SELLER,
+                    quantity=1,
+                ),
+            ],
+            source_address=CommonAddressInput(
+                address_line1="some example string",
+                city="some example string",
+                country_code="some example string",
+                name="some example string",
+                phone_number="some example string",
+                postal_code="some example string",
+            ),
+        ),
+    )
     # TODO: Handle 'response' of type CreateInboundPlanResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type CreateInboundPlanErrorBody
@@ -11652,7 +12256,27 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.wfs_inbound.create_inbound_plan(body)
+    response = await async_client.wfs_inbound.create_inbound_plan(
+        CreateInboundPlanRequest(
+            destination_marketplaces=["some example string"],
+            items=[
+                CommonItemInput(
+                    label_owner=CommonLabelOwner.SELLER,
+                    msku="some example string",
+                    prep_owner=CommonPrepOwner.SELLER,
+                    quantity=1,
+                ),
+            ],
+            source_address=CommonAddressInput(
+                address_line1="some example string",
+                city="some example string",
+                country_code="some example string",
+                name="some example string",
+                phone_number="some example string",
+                postal_code="some example string",
+            ),
+        ),
+    )
     # TODO: Handle 'response' of type CreateInboundPlanResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type CreateInboundPlanErrorBody
@@ -11669,7 +12293,7 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>body</code> | <code>[CreateInboundPlanRequest](walmart_apis/models/create_inbound_plan_request.py) \| [CreateInboundPlanRequestDict](walmart_apis/models/create_inbound_plan_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -11723,7 +12347,13 @@ Send a `POST` request.
 
 ```python
 try:
-    response = client.wfs_inbound.create_marketplace_item_labels(body)
+    response = client.wfs_inbound.create_marketplace_item_labels(
+        CreateMarketplaceItemLabelsRequest(
+            label_type=CommonLabelPrintType.STANDARD_FORMAT,
+            marketplace_id="some example string",
+            msku_quantities=[CommonMskuQuantity(msku="some example string", quantity=1)],
+        ),
+    )
     # TODO: Handle 'response' of type CreateMarketplaceItemLabelsResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type CreateMarketplaceItemLabelsErrorBody
@@ -11733,7 +12363,13 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.wfs_inbound.create_marketplace_item_labels(body)
+    response = await async_client.wfs_inbound.create_marketplace_item_labels(
+        CreateMarketplaceItemLabelsRequest(
+            label_type=CommonLabelPrintType.STANDARD_FORMAT,
+            marketplace_id="some example string",
+            msku_quantities=[CommonMskuQuantity(msku="some example string", quantity=1)],
+        ),
+    )
     # TODO: Handle 'response' of type CreateMarketplaceItemLabelsResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type CreateMarketplaceItemLabelsErrorBody
@@ -11750,7 +12386,7 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>body</code> | <code>[CreateMarketplaceItemLabelsRequest](walmart_apis/models/create_marketplace_item_labels_request.py) \| [CreateMarketplaceItemLabelsRequestDict](walmart_apis/models/create_marketplace_item_labels_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -11804,7 +12440,7 @@ Send a `POST` request.
 
 ```python
 try:
-    response = client.wfs_inbound.generate_delivery_window_options(inbound_plan_id, shipment_id)
+    response = client.wfs_inbound.generate_delivery_window_options("some example string", "some example string")
     # TODO: Handle 'response' of type CancelInboundPlanResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GenerateDeliveryWindowOptionsErrorBody
@@ -11814,7 +12450,9 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.wfs_inbound.generate_delivery_window_options(inbound_plan_id, shipment_id)
+    response = await async_client.wfs_inbound.generate_delivery_window_options(
+        "some example string", "some example string"
+    )
     # TODO: Handle 'response' of type CancelInboundPlanResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GenerateDeliveryWindowOptionsErrorBody
@@ -11832,7 +12470,7 @@ except ApiError as e:
 | --- | --- | --- |
 | <code>inbound_plan_id</code> | <code>str</code> | Identifier of an inbound plan. |
 | <code>shipment_id</code> | <code>str</code> | The shipment to generate delivery window options for. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -11886,7 +12524,7 @@ Send a `POST` request.
 
 ```python
 try:
-    response = client.wfs_inbound.generate_packing_options(inbound_plan_id)
+    response = client.wfs_inbound.generate_packing_options("some example string")
     # TODO: Handle 'response' of type CancelInboundPlanResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GeneratePackingOptionsErrorBody
@@ -11896,7 +12534,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.wfs_inbound.generate_packing_options(inbound_plan_id)
+    response = await async_client.wfs_inbound.generate_packing_options("some example string")
     # TODO: Handle 'response' of type CancelInboundPlanResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GeneratePackingOptionsErrorBody
@@ -11913,7 +12551,7 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>inbound_plan_id</code> | <code>str</code> | Identifier of an inbound plan. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -11967,7 +12605,7 @@ Send a `POST` request.
 
 ```python
 try:
-    response = client.wfs_inbound.generate_placement_options(inbound_plan_id, body)
+    response = client.wfs_inbound.generate_placement_options("some example string", GeneratePlacementOptionsRequest())
     # TODO: Handle 'response' of type CancelInboundPlanResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GeneratePlacementOptionsErrorBody
@@ -11977,7 +12615,9 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.wfs_inbound.generate_placement_options(inbound_plan_id, body)
+    response = await async_client.wfs_inbound.generate_placement_options(
+        "some example string", GeneratePlacementOptionsRequest()
+    )
     # TODO: Handle 'response' of type CancelInboundPlanResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GeneratePlacementOptionsErrorBody
@@ -11995,7 +12635,7 @@ except ApiError as e:
 | --- | --- | --- |
 | <code>inbound_plan_id</code> | <code>str</code> | Identifier of an inbound plan. |
 | <code>body</code> | <code>[GeneratePlacementOptionsRequest](walmart_apis/models/generate_placement_options_request.py) \| [GeneratePlacementOptionsRequestDict](walmart_apis/models/generate_placement_options_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -12049,7 +12689,9 @@ Send a `POST` request.
 
 ```python
 try:
-    response = client.wfs_inbound.generate_self_ship_appointment_slots(inbound_plan_id, shipment_id, body)
+    response = client.wfs_inbound.generate_self_ship_appointment_slots(
+        "some example string", "some example string", GenerateSelfShipAppointmentSlotsRequest()
+    )
     # TODO: Handle 'response' of type CancelInboundPlanResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GenerateSelfShipAppointmentSlotsErrorBody
@@ -12059,7 +12701,9 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.wfs_inbound.generate_self_ship_appointment_slots(inbound_plan_id, shipment_id, body)
+    response = await async_client.wfs_inbound.generate_self_ship_appointment_slots(
+        "some example string", "some example string", GenerateSelfShipAppointmentSlotsRequest()
+    )
     # TODO: Handle 'response' of type CancelInboundPlanResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GenerateSelfShipAppointmentSlotsErrorBody
@@ -12078,7 +12722,7 @@ except ApiError as e:
 | <code>inbound_plan_id</code> | <code>str</code> | Identifier of an inbound plan. |
 | <code>shipment_id</code> | <code>str</code> | Identifier of a shipment. |
 | <code>body</code> | <code>[GenerateSelfShipAppointmentSlotsRequest](walmart_apis/models/generate_self_ship_appointment_slots_request.py) \| [GenerateSelfShipAppointmentSlotsRequestDict](walmart_apis/models/generate_self_ship_appointment_slots_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -12132,7 +12776,30 @@ Send a `POST` request.
 
 ```python
 try:
-    response = client.wfs_inbound.generate_shipment_content_update_previews(inbound_plan_id, shipment_id, body)
+    response = client.wfs_inbound.generate_shipment_content_update_previews(
+        "some example string",
+        "some example string",
+        GenerateShipmentContentUpdatePreviewsRequest(
+            boxes=[
+                CommonBoxUpdateInput(
+                    content_information_source=CommonBoxContentInformationSource.BOX_CONTENT_PROVIDED,
+                    dimensions=CommonDimensions(
+                        height=1.5, length=1.5, width=1.5, unit_of_measurement=CommonUnitOfMeasurement.IN
+                    ),
+                    quantity=1,
+                    weight=CommonWeight(unit=CommonUnitOfWeight.LB, value=1.5),
+                ),
+            ],
+            items=[
+                CommonItemInput(
+                    label_owner=CommonLabelOwner.SELLER,
+                    msku="some example string",
+                    prep_owner=CommonPrepOwner.SELLER,
+                    quantity=1,
+                ),
+            ],
+        ),
+    )
     # TODO: Handle 'response' of type CancelInboundPlanResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GenerateShipmentContentUpdatePreviewsErrorBody
@@ -12143,7 +12810,28 @@ except ApiError as e:
 ```python
 try:
     response = await async_client.wfs_inbound.generate_shipment_content_update_previews(
-        inbound_plan_id, shipment_id, body
+        "some example string",
+        "some example string",
+        GenerateShipmentContentUpdatePreviewsRequest(
+            boxes=[
+                CommonBoxUpdateInput(
+                    content_information_source=CommonBoxContentInformationSource.BOX_CONTENT_PROVIDED,
+                    dimensions=CommonDimensions(
+                        height=1.5, length=1.5, width=1.5, unit_of_measurement=CommonUnitOfMeasurement.IN
+                    ),
+                    quantity=1,
+                    weight=CommonWeight(unit=CommonUnitOfWeight.LB, value=1.5),
+                ),
+            ],
+            items=[
+                CommonItemInput(
+                    label_owner=CommonLabelOwner.SELLER,
+                    msku="some example string",
+                    prep_owner=CommonPrepOwner.SELLER,
+                    quantity=1,
+                ),
+            ],
+        ),
     )
     # TODO: Handle 'response' of type CancelInboundPlanResponse
 except ApiError as e:
@@ -12163,7 +12851,7 @@ except ApiError as e:
 | <code>inbound_plan_id</code> | <code>str</code> | Identifier of an inbound plan. |
 | <code>shipment_id</code> | <code>str</code> | Identifier of a shipment. |
 | <code>body</code> | <code>[GenerateShipmentContentUpdatePreviewsRequest](walmart_apis/models/generate_shipment_content_update_previews_request.py) \| [GenerateShipmentContentUpdatePreviewsRequestDict](walmart_apis/models/generate_shipment_content_update_previews_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -12217,7 +12905,18 @@ Send a `POST` request.
 
 ```python
 try:
-    response = client.wfs_inbound.generate_transportation_options(inbound_plan_id, body)
+    response = client.wfs_inbound.generate_transportation_options(
+        "some example string",
+        GenerateTransportationOptionsRequest(
+            placement_option_id="some example string",
+            shipment_transportation_configurations=[
+                CommonShipmentTransportationConfiguration(
+                    ready_to_ship_window=CommonWindowInput(start=datetime(2024, 1, 15, 9, 30, 0, tzinfo=timezone.utc)),
+                    shipment_id="some example string",
+                ),
+            ],
+        ),
+    )
     # TODO: Handle 'response' of type CancelInboundPlanResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GenerateTransportationOptionsErrorBody
@@ -12227,7 +12926,18 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.wfs_inbound.generate_transportation_options(inbound_plan_id, body)
+    response = await async_client.wfs_inbound.generate_transportation_options(
+        "some example string",
+        GenerateTransportationOptionsRequest(
+            placement_option_id="some example string",
+            shipment_transportation_configurations=[
+                CommonShipmentTransportationConfiguration(
+                    ready_to_ship_window=CommonWindowInput(start=datetime(2024, 1, 15, 9, 30, 0, tzinfo=timezone.utc)),
+                    shipment_id="some example string",
+                ),
+            ],
+        ),
+    )
     # TODO: Handle 'response' of type CancelInboundPlanResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GenerateTransportationOptionsErrorBody
@@ -12245,7 +12955,7 @@ except ApiError as e:
 | --- | --- | --- |
 | <code>inbound_plan_id</code> | <code>str</code> | Identifier of an inbound plan. |
 | <code>body</code> | <code>[GenerateTransportationOptionsRequest](walmart_apis/models/generate_transportation_options_request.py) \| [GenerateTransportationOptionsRequestDict](walmart_apis/models/generate_transportation_options_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -12299,7 +13009,7 @@ Send a `GET` request.
 
 ```python
 try:
-    response = client.wfs_inbound.get_delivery_challan_document(inbound_plan_id, shipment_id)
+    response = client.wfs_inbound.get_delivery_challan_document("some example string", "some example string")
     # TODO: Handle 'response' of type GetDeliveryChallanDocumentResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetDeliveryChallanDocumentErrorBody
@@ -12309,7 +13019,9 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.wfs_inbound.get_delivery_challan_document(inbound_plan_id, shipment_id)
+    response = await async_client.wfs_inbound.get_delivery_challan_document(
+        "some example string", "some example string"
+    )
     # TODO: Handle 'response' of type GetDeliveryChallanDocumentResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetDeliveryChallanDocumentErrorBody
@@ -12327,7 +13039,7 @@ except ApiError as e:
 | --- | --- | --- |
 | <code>inbound_plan_id</code> | <code>str</code> | Identifier of an inbound plan. |
 | <code>shipment_id</code> | <code>str</code> | Identifier of a shipment. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -12381,7 +13093,7 @@ Send a `GET` request.
 
 ```python
 try:
-    response = client.wfs_inbound.get_inbound_operation_status(operation_id)
+    response = client.wfs_inbound.get_inbound_operation_status("some example string")
     # TODO: Handle 'response' of type CommonInboundOperationStatus
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetInboundOperationStatusErrorBody
@@ -12391,7 +13103,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.wfs_inbound.get_inbound_operation_status(operation_id)
+    response = await async_client.wfs_inbound.get_inbound_operation_status("some example string")
     # TODO: Handle 'response' of type CommonInboundOperationStatus
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetInboundOperationStatusErrorBody
@@ -12408,7 +13120,7 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>operation_id</code> | <code>str</code> | Identifier of an asynchronous operation. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -12462,7 +13174,7 @@ Send a `GET` request.
 
 ```python
 try:
-    response = client.wfs_inbound.get_inbound_plan(inbound_plan_id)
+    response = client.wfs_inbound.get_inbound_plan("some example string")
     # TODO: Handle 'response' of type InboundPlan
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetInboundPlanErrorBody
@@ -12472,7 +13184,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.wfs_inbound.get_inbound_plan(inbound_plan_id)
+    response = await async_client.wfs_inbound.get_inbound_plan("some example string")
     # TODO: Handle 'response' of type InboundPlan
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetInboundPlanErrorBody
@@ -12489,7 +13201,7 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>inbound_plan_id</code> | <code>str</code> | Identifier of an inbound plan. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -12543,7 +13255,7 @@ Send a `GET` request.
 
 ```python
 try:
-    response = client.wfs_inbound.get_self_ship_appointment_slots(inbound_plan_id, shipment_id)
+    response = client.wfs_inbound.get_self_ship_appointment_slots("some example string", "some example string")
     # TODO: Handle 'response' of type GetSelfShipAppointmentSlotsResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetSelfShipAppointmentSlotsErrorBody
@@ -12553,7 +13265,9 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.wfs_inbound.get_self_ship_appointment_slots(inbound_plan_id, shipment_id)
+    response = await async_client.wfs_inbound.get_self_ship_appointment_slots(
+        "some example string", "some example string"
+    )
     # TODO: Handle 'response' of type GetSelfShipAppointmentSlotsResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetSelfShipAppointmentSlotsErrorBody
@@ -12573,7 +13287,7 @@ except ApiError as e:
 | <code>shipment_id</code> | <code>str</code> | Identifier of a shipment. |
 | <code>page_size</code> | <code>int \| None</code> | The number of self ship appointment slots to return in the response matching the given query.<br>**Default**: <code>None</code> |
 | <code>pagination_token</code> | <code>str \| None</code> | A token to fetch a certain page when there are multiple pages worth of results.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -12627,7 +13341,7 @@ Send a `GET` request.
 
 ```python
 try:
-    response = client.wfs_inbound.get_shipment(inbound_plan_id, shipment_id)
+    response = client.wfs_inbound.get_shipment("some example string", "some example string")
     # TODO: Handle 'response' of type CommonShipment
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetShipmentErrorBody
@@ -12637,7 +13351,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.wfs_inbound.get_shipment(inbound_plan_id, shipment_id)
+    response = await async_client.wfs_inbound.get_shipment("some example string", "some example string")
     # TODO: Handle 'response' of type CommonShipment
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type GetShipmentErrorBody
@@ -12655,7 +13369,7 @@ except ApiError as e:
 | --- | --- | --- |
 | <code>inbound_plan_id</code> | <code>str</code> | Identifier of an inbound plan. |
 | <code>shipment_id</code> | <code>str</code> | Identifier of a shipment. A shipment contains the boxes and units being inbounded. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -12710,7 +13424,7 @@ Send a `GET` request.
 ```python
 try:
     response = client.wfs_inbound.get_shipment_content_update_preview(
-        inbound_plan_id, shipment_id, content_update_preview_id
+        "some example string", "some example string", "some example string"
     )
     # TODO: Handle 'response' of type CommonContentUpdatePreview
 except ApiError as e:
@@ -12722,7 +13436,7 @@ except ApiError as e:
 ```python
 try:
     response = await async_client.wfs_inbound.get_shipment_content_update_preview(
-        inbound_plan_id, shipment_id, content_update_preview_id
+        "some example string", "some example string", "some example string"
     )
     # TODO: Handle 'response' of type CommonContentUpdatePreview
 except ApiError as e:
@@ -12742,7 +13456,7 @@ except ApiError as e:
 | <code>inbound_plan_id</code> | <code>str</code> | Identifier of an inbound plan. |
 | <code>shipment_id</code> | <code>str</code> | Identifier of a shipment. |
 | <code>content_update_preview_id</code> | <code>str</code> | Identifier of a content update preview. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -12796,7 +13510,7 @@ Send a `GET` request.
 
 ```python
 try:
-    response = client.wfs_inbound.list_delivery_window_options(inbound_plan_id, shipment_id)
+    response = client.wfs_inbound.list_delivery_window_options("some example string", "some example string")
     # TODO: Handle 'response' of type ListDeliveryWindowOptionsResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type ListDeliveryWindowOptionsErrorBody
@@ -12806,7 +13520,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.wfs_inbound.list_delivery_window_options(inbound_plan_id, shipment_id)
+    response = await async_client.wfs_inbound.list_delivery_window_options("some example string", "some example string")
     # TODO: Handle 'response' of type ListDeliveryWindowOptionsResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type ListDeliveryWindowOptionsErrorBody
@@ -12826,7 +13540,7 @@ except ApiError as e:
 | <code>shipment_id</code> | <code>str</code> | The shipment to get delivery window options for. |
 | <code>page_size</code> | <code>int \| None</code> | The number of delivery window options to return in the response matching the given query.<br>**Default**: <code>None</code> |
 | <code>pagination_token</code> | <code>str \| None</code> | A token to fetch a certain page when there are multiple pages worth of results.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -12880,7 +13594,7 @@ Send a `GET` request.
 
 ```python
 try:
-    response = client.wfs_inbound.list_inbound_plan_boxes(inbound_plan_id)
+    response = client.wfs_inbound.list_inbound_plan_boxes("some example string")
     # TODO: Handle 'response' of type ListInboundPlanBoxesResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type ListInboundPlanBoxesErrorBody
@@ -12890,7 +13604,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.wfs_inbound.list_inbound_plan_boxes(inbound_plan_id)
+    response = await async_client.wfs_inbound.list_inbound_plan_boxes("some example string")
     # TODO: Handle 'response' of type ListInboundPlanBoxesResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type ListInboundPlanBoxesErrorBody
@@ -12909,7 +13623,7 @@ except ApiError as e:
 | <code>inbound_plan_id</code> | <code>str</code> | Identifier of an inbound plan. |
 | <code>page_size</code> | <code>int \| None</code> | The number of boxes to return in the response matching the given query.<br>**Default**: <code>None</code> |
 | <code>pagination_token</code> | <code>str \| None</code> | A token to fetch a certain page when there are multiple pages worth of results.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -12963,7 +13677,7 @@ Send a `GET` request.
 
 ```python
 try:
-    response = client.wfs_inbound.list_inbound_plan_items(inbound_plan_id)
+    response = client.wfs_inbound.list_inbound_plan_items("some example string")
     # TODO: Handle 'response' of type ListInboundPlanItemsResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type ListInboundPlanItemsErrorBody
@@ -12973,7 +13687,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.wfs_inbound.list_inbound_plan_items(inbound_plan_id)
+    response = await async_client.wfs_inbound.list_inbound_plan_items("some example string")
     # TODO: Handle 'response' of type ListInboundPlanItemsResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type ListInboundPlanItemsErrorBody
@@ -12992,7 +13706,7 @@ except ApiError as e:
 | <code>inbound_plan_id</code> | <code>str</code> | Identifier of an inbound plan. |
 | <code>page_size</code> | <code>int \| None</code> | The number of items to return in the response matching the given query.<br>**Default**: <code>None</code> |
 | <code>pagination_token</code> | <code>str \| None</code> | A token to fetch a certain page when there are multiple pages worth of results.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -13046,7 +13760,7 @@ Send a `GET` request.
 
 ```python
 try:
-    response = client.wfs_inbound.list_inbound_plan_pallets(inbound_plan_id)
+    response = client.wfs_inbound.list_inbound_plan_pallets("some example string")
     # TODO: Handle 'response' of type ListInboundPlanPalletsResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type ListInboundPlanPalletsErrorBody
@@ -13056,7 +13770,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.wfs_inbound.list_inbound_plan_pallets(inbound_plan_id)
+    response = await async_client.wfs_inbound.list_inbound_plan_pallets("some example string")
     # TODO: Handle 'response' of type ListInboundPlanPalletsResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type ListInboundPlanPalletsErrorBody
@@ -13075,7 +13789,7 @@ except ApiError as e:
 | <code>inbound_plan_id</code> | <code>str</code> | Identifier of an inbound plan. |
 | <code>page_size</code> | <code>int \| None</code> | The number of pallets to return in the response matching the given query.<br>**Default**: <code>None</code> |
 | <code>pagination_token</code> | <code>str \| None</code> | A token to fetch a certain page when there are multiple pages worth of results.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -13160,7 +13874,7 @@ except ApiError as e:
 | <code>status</code> | <code>str \| None</code> | The status of an inbound plan. Possible values: `ACTIVE`, `VOIDED`, `SHIPPED`, `ERRORED`.<br>**Default**: <code>None</code> |
 | <code>sort_by</code> | <code>str \| None</code> | Sort by field.<br>**Default**: <code>None</code> |
 | <code>sort_order</code> | <code>str \| None</code> | The sort order. Possible values: `ASC`, `DESC`.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -13214,7 +13928,7 @@ Send a `GET` request.
 
 ```python
 try:
-    response = client.wfs_inbound.list_item_compliance_details(mskus, marketplace_id)
+    response = client.wfs_inbound.list_item_compliance_details(["some example string"], "some example string")
     # TODO: Handle 'response' of type ListItemComplianceDetailsResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type ListItemComplianceDetailsErrorBody
@@ -13224,7 +13938,9 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.wfs_inbound.list_item_compliance_details(mskus, marketplace_id)
+    response = await async_client.wfs_inbound.list_item_compliance_details(
+        ["some example string"], "some example string"
+    )
     # TODO: Handle 'response' of type ListItemComplianceDetailsResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type ListItemComplianceDetailsErrorBody
@@ -13242,7 +13958,7 @@ except ApiError as e:
 | --- | --- | --- |
 | <code>mskus</code> | <code>list&#91;str&#93;</code> | A list of merchant SKUs, a merchant-supplied identifier of a specific SKU. |
 | <code>marketplace_id</code> | <code>str</code> | The Walmart Marketplace ID. For a list of possible values, refer to [Marketplace IDs](https://developer-docs.walmart.com/seller-api/docs/marketplace-ids). |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -13296,7 +14012,7 @@ Send a `GET` request.
 
 ```python
 try:
-    response = client.wfs_inbound.list_packing_group_boxes(inbound_plan_id, packing_group_id)
+    response = client.wfs_inbound.list_packing_group_boxes("some example string", "some example string")
     # TODO: Handle 'response' of type ListInboundPlanBoxesResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type ListPackingGroupBoxesErrorBody
@@ -13306,7 +14022,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.wfs_inbound.list_packing_group_boxes(inbound_plan_id, packing_group_id)
+    response = await async_client.wfs_inbound.list_packing_group_boxes("some example string", "some example string")
     # TODO: Handle 'response' of type ListInboundPlanBoxesResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type ListPackingGroupBoxesErrorBody
@@ -13326,7 +14042,7 @@ except ApiError as e:
 | <code>packing_group_id</code> | <code>str</code> | Identifier of a packing group. |
 | <code>page_size</code> | <code>int \| None</code> | The number of packing group boxes to return in the response matching the given query.<br>**Default**: <code>None</code> |
 | <code>pagination_token</code> | <code>str \| None</code> | A token to fetch a certain page when there are multiple pages worth of results.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -13380,7 +14096,7 @@ Send a `GET` request.
 
 ```python
 try:
-    response = client.wfs_inbound.list_packing_group_items(inbound_plan_id, packing_group_id)
+    response = client.wfs_inbound.list_packing_group_items("some example string", "some example string")
     # TODO: Handle 'response' of type ListInboundPlanItemsResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type ListPackingGroupItemsErrorBody
@@ -13390,7 +14106,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.wfs_inbound.list_packing_group_items(inbound_plan_id, packing_group_id)
+    response = await async_client.wfs_inbound.list_packing_group_items("some example string", "some example string")
     # TODO: Handle 'response' of type ListInboundPlanItemsResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type ListPackingGroupItemsErrorBody
@@ -13410,7 +14126,7 @@ except ApiError as e:
 | <code>packing_group_id</code> | <code>str</code> | Identifier of a packing group. |
 | <code>page_size</code> | <code>int \| None</code> | The number of packing group items to return in the response matching the given query.<br>**Default**: <code>None</code> |
 | <code>pagination_token</code> | <code>str \| None</code> | A token to fetch a certain page when there are multiple pages worth of results.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -13464,7 +14180,7 @@ Send a `GET` request.
 
 ```python
 try:
-    response = client.wfs_inbound.list_packing_options(inbound_plan_id)
+    response = client.wfs_inbound.list_packing_options("some example string")
     # TODO: Handle 'response' of type ListPackingOptionsResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type ListPackingOptionsErrorBody
@@ -13474,7 +14190,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.wfs_inbound.list_packing_options(inbound_plan_id)
+    response = await async_client.wfs_inbound.list_packing_options("some example string")
     # TODO: Handle 'response' of type ListPackingOptionsResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type ListPackingOptionsErrorBody
@@ -13493,7 +14209,7 @@ except ApiError as e:
 | <code>inbound_plan_id</code> | <code>str</code> | Identifier of an inbound plan. |
 | <code>page_size</code> | <code>int \| None</code> | The number of packing options to return in the response matching the given query.<br>**Default**: <code>None</code> |
 | <code>pagination_token</code> | <code>str \| None</code> | A token to fetch a certain page when there are multiple pages worth of results.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -13547,7 +14263,7 @@ Send a `GET` request.
 
 ```python
 try:
-    response = client.wfs_inbound.list_placement_options(inbound_plan_id)
+    response = client.wfs_inbound.list_placement_options("some example string")
     # TODO: Handle 'response' of type ListPlacementOptionsResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type ListPlacementOptionsErrorBody
@@ -13557,7 +14273,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.wfs_inbound.list_placement_options(inbound_plan_id)
+    response = await async_client.wfs_inbound.list_placement_options("some example string")
     # TODO: Handle 'response' of type ListPlacementOptionsResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type ListPlacementOptionsErrorBody
@@ -13576,7 +14292,7 @@ except ApiError as e:
 | <code>inbound_plan_id</code> | <code>str</code> | Identifier of an inbound plan. |
 | <code>page_size</code> | <code>int \| None</code> | The number of placement options to return in the response matching the given query.<br>**Default**: <code>None</code> |
 | <code>pagination_token</code> | <code>str \| None</code> | A token to fetch a certain page when there are multiple pages worth of results.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -13630,7 +14346,7 @@ Send a `GET` request.
 
 ```python
 try:
-    response = client.wfs_inbound.list_prep_details(marketplace_id, mskus)
+    response = client.wfs_inbound.list_prep_details("some example string", ["some example string"])
     # TODO: Handle 'response' of type ListPrepDetailsResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type ListPrepDetailsErrorBody
@@ -13640,7 +14356,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.wfs_inbound.list_prep_details(marketplace_id, mskus)
+    response = await async_client.wfs_inbound.list_prep_details("some example string", ["some example string"])
     # TODO: Handle 'response' of type ListPrepDetailsResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type ListPrepDetailsErrorBody
@@ -13658,7 +14374,7 @@ except ApiError as e:
 | --- | --- | --- |
 | <code>marketplace_id</code> | <code>str</code> | The Walmart Marketplace ID. For a list of possible values, refer to [Marketplace IDs](https://developer-docs.walmart.com/seller-api/docs/marketplace-ids). |
 | <code>mskus</code> | <code>list&#91;str&#93;</code> | A list of merchant SKUs, a merchant-supplied identifier of a specific SKU. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -13712,7 +14428,7 @@ Send a `GET` request.
 
 ```python
 try:
-    response = client.wfs_inbound.list_shipment_boxes(inbound_plan_id, shipment_id)
+    response = client.wfs_inbound.list_shipment_boxes("some example string", "some example string")
     # TODO: Handle 'response' of type ListInboundPlanBoxesResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type ListShipmentBoxesErrorBody
@@ -13722,7 +14438,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.wfs_inbound.list_shipment_boxes(inbound_plan_id, shipment_id)
+    response = await async_client.wfs_inbound.list_shipment_boxes("some example string", "some example string")
     # TODO: Handle 'response' of type ListInboundPlanBoxesResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type ListShipmentBoxesErrorBody
@@ -13742,7 +14458,7 @@ except ApiError as e:
 | <code>shipment_id</code> | <code>str</code> | Identifier of a shipment. A shipment contains the boxes and units being inbounded. |
 | <code>page_size</code> | <code>int \| None</code> | The number of boxes to return in the response matching the given query.<br>**Default**: <code>None</code> |
 | <code>pagination_token</code> | <code>str \| None</code> | A token to fetch a certain page when there are multiple pages worth of results.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -13796,7 +14512,7 @@ Send a `GET` request.
 
 ```python
 try:
-    response = client.wfs_inbound.list_shipment_content_update_previews(inbound_plan_id, shipment_id)
+    response = client.wfs_inbound.list_shipment_content_update_previews("some example string", "some example string")
     # TODO: Handle 'response' of type ListShipmentContentUpdatePreviewsResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type ListShipmentContentUpdatePreviewsErrorBody
@@ -13806,7 +14522,9 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.wfs_inbound.list_shipment_content_update_previews(inbound_plan_id, shipment_id)
+    response = await async_client.wfs_inbound.list_shipment_content_update_previews(
+        "some example string", "some example string"
+    )
     # TODO: Handle 'response' of type ListShipmentContentUpdatePreviewsResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type ListShipmentContentUpdatePreviewsErrorBody
@@ -13826,7 +14544,7 @@ except ApiError as e:
 | <code>shipment_id</code> | <code>str</code> | Identifier of a shipment. |
 | <code>page_size</code> | <code>int \| None</code> | The number of content update previews to return.<br>**Default**: <code>None</code> |
 | <code>pagination_token</code> | <code>str \| None</code> | A token to fetch a certain page when there are multiple pages worth of results.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -13880,7 +14598,7 @@ Send a `GET` request.
 
 ```python
 try:
-    response = client.wfs_inbound.list_shipment_items(inbound_plan_id, shipment_id)
+    response = client.wfs_inbound.list_shipment_items("some example string", "some example string")
     # TODO: Handle 'response' of type ListInboundPlanItemsResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type ListShipmentItemsErrorBody
@@ -13890,7 +14608,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.wfs_inbound.list_shipment_items(inbound_plan_id, shipment_id)
+    response = await async_client.wfs_inbound.list_shipment_items("some example string", "some example string")
     # TODO: Handle 'response' of type ListInboundPlanItemsResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type ListShipmentItemsErrorBody
@@ -13910,7 +14628,7 @@ except ApiError as e:
 | <code>shipment_id</code> | <code>str</code> | Identifier of a shipment. A shipment contains the boxes and units being inbounded. |
 | <code>page_size</code> | <code>int \| None</code> | The number of items to return in the response matching the given query.<br>**Default**: <code>None</code> |
 | <code>pagination_token</code> | <code>str \| None</code> | A token to fetch a certain page when there are multiple pages worth of results.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -13964,7 +14682,7 @@ Send a `GET` request.
 
 ```python
 try:
-    response = client.wfs_inbound.list_shipment_pallets(inbound_plan_id, shipment_id)
+    response = client.wfs_inbound.list_shipment_pallets("some example string", "some example string")
     # TODO: Handle 'response' of type ListInboundPlanPalletsResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type ListShipmentPalletsErrorBody
@@ -13974,7 +14692,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.wfs_inbound.list_shipment_pallets(inbound_plan_id, shipment_id)
+    response = await async_client.wfs_inbound.list_shipment_pallets("some example string", "some example string")
     # TODO: Handle 'response' of type ListInboundPlanPalletsResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type ListShipmentPalletsErrorBody
@@ -13994,7 +14712,7 @@ except ApiError as e:
 | <code>shipment_id</code> | <code>str</code> | Identifier of a shipment. |
 | <code>page_size</code> | <code>int \| None</code> | The number of pallets to return in the response matching the given query.<br>**Default**: <code>None</code> |
 | <code>pagination_token</code> | <code>str \| None</code> | A token to fetch a certain page when there are multiple pages worth of results.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -14048,7 +14766,7 @@ Send a `GET` request.
 
 ```python
 try:
-    response = client.wfs_inbound.list_transportation_options(inbound_plan_id)
+    response = client.wfs_inbound.list_transportation_options("some example string")
     # TODO: Handle 'response' of type ListTransportationOptionsResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type ListTransportationOptionsErrorBody
@@ -14058,7 +14776,7 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.wfs_inbound.list_transportation_options(inbound_plan_id)
+    response = await async_client.wfs_inbound.list_transportation_options("some example string")
     # TODO: Handle 'response' of type ListTransportationOptionsResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type ListTransportationOptionsErrorBody
@@ -14079,7 +14797,7 @@ except ApiError as e:
 | <code>pagination_token</code> | <code>str \| None</code> | A token to fetch a certain page when there are multiple pages worth of results.<br>**Default**: <code>None</code> |
 | <code>placement_option_id</code> | <code>str \| None</code> | The placement option to get transportation options for. Either `placementOptionId` or `shipmentId` must be specified.<br>**Default**: <code>None</code> |
 | <code>shipment_id</code> | <code>str \| None</code> | The shipment to get transportation options for. Either `placementOptionId` or `shipmentId` must be specified.<br>**Default**: <code>None</code> |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -14133,7 +14851,9 @@ Send a `POST` request.
 
 ```python
 try:
-    response = client.wfs_inbound.schedule_self_ship_appointment(inbound_plan_id, shipment_id, slot_id, body)
+    response = client.wfs_inbound.schedule_self_ship_appointment(
+        "some example string", "some example string", "some example string", ScheduleSelfShipAppointmentRequest()
+    )
     # TODO: Handle 'response' of type ScheduleSelfShipAppointmentResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type ScheduleSelfShipAppointmentErrorBody
@@ -14144,7 +14864,7 @@ except ApiError as e:
 ```python
 try:
     response = await async_client.wfs_inbound.schedule_self_ship_appointment(
-        inbound_plan_id, shipment_id, slot_id, body
+        "some example string", "some example string", "some example string", ScheduleSelfShipAppointmentRequest()
     )
     # TODO: Handle 'response' of type ScheduleSelfShipAppointmentResponse
 except ApiError as e:
@@ -14165,7 +14885,7 @@ except ApiError as e:
 | <code>shipment_id</code> | <code>str</code> | Identifier of a shipment. |
 | <code>slot_id</code> | <code>str</code> | An identifier to a self-ship appointment slot. |
 | <code>body</code> | <code>[ScheduleSelfShipAppointmentRequest](walmart_apis/models/schedule_self_ship_appointment_request.py) \| [ScheduleSelfShipAppointmentRequestDict](walmart_apis/models/schedule_self_ship_appointment_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -14219,7 +14939,23 @@ Send a `POST` request.
 
 ```python
 try:
-    response = client.wfs_inbound.set_packing_information(inbound_plan_id, body)
+    response = client.wfs_inbound.set_packing_information(
+        "some example string",
+        SetPackingInformationRequest(
+            package_groupings=[
+                CommonPackageGroupingInput(
+                    boxes=[
+                        CommonBoxInput(
+                            content_information_source=CommonBoxContentInformationSource.BOX_CONTENT_PROVIDED,
+                            dimensions=CommonDimensions(),
+                            quantity=1,
+                            weight=CommonWeight(),
+                        ),
+                    ],
+                ),
+            ],
+        ),
+    )
     # TODO: Handle 'response' of type CancelInboundPlanResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type SetPackingInformationErrorBody
@@ -14229,7 +14965,23 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.wfs_inbound.set_packing_information(inbound_plan_id, body)
+    response = await async_client.wfs_inbound.set_packing_information(
+        "some example string",
+        SetPackingInformationRequest(
+            package_groupings=[
+                CommonPackageGroupingInput(
+                    boxes=[
+                        CommonBoxInput(
+                            content_information_source=CommonBoxContentInformationSource.BOX_CONTENT_PROVIDED,
+                            dimensions=CommonDimensions(),
+                            quantity=1,
+                            weight=CommonWeight(),
+                        ),
+                    ],
+                ),
+            ],
+        ),
+    )
     # TODO: Handle 'response' of type CancelInboundPlanResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type SetPackingInformationErrorBody
@@ -14247,7 +14999,7 @@ except ApiError as e:
 | --- | --- | --- |
 | <code>inbound_plan_id</code> | <code>str</code> | Identifier of an inbound plan. |
 | <code>body</code> | <code>[SetPackingInformationRequest](walmart_apis/models/set_packing_information_request.py) \| [SetPackingInformationRequestDict](walmart_apis/models/set_packing_information_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -14301,7 +15053,18 @@ Send a `POST` request.
 
 ```python
 try:
-    response = client.wfs_inbound.set_prep_details(body)
+    response = client.wfs_inbound.set_prep_details(
+        SetPrepDetailsRequest(
+            marketplace_id="some example string",
+            msku_prep_details=[
+                CommonMskuPrepDetailInput(
+                    msku="some example string",
+                    prep_category=CommonPrepCategory.ADULT,
+                    prep_types=[CommonPrepType.ITEM_BLACK_SHRINKWRAP],
+                ),
+            ],
+        ),
+    )
     # TODO: Handle 'response' of type CancelInboundPlanResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type SetPrepDetailsErrorBody
@@ -14311,7 +15074,18 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.wfs_inbound.set_prep_details(body)
+    response = await async_client.wfs_inbound.set_prep_details(
+        SetPrepDetailsRequest(
+            marketplace_id="some example string",
+            msku_prep_details=[
+                CommonMskuPrepDetailInput(
+                    msku="some example string",
+                    prep_category=CommonPrepCategory.ADULT,
+                    prep_types=[CommonPrepType.ITEM_BLACK_SHRINKWRAP],
+                ),
+            ],
+        ),
+    )
     # TODO: Handle 'response' of type CancelInboundPlanResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type SetPrepDetailsErrorBody
@@ -14328,7 +15102,7 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>body</code> | <code>[SetPrepDetailsRequest](walmart_apis/models/set_prep_details_request.py) \| [SetPrepDetailsRequestDict](walmart_apis/models/set_prep_details_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -14382,7 +15156,9 @@ Send a `PUT` request.
 
 ```python
 try:
-    client.wfs_inbound.update_inbound_plan_name(inbound_plan_id, body)
+    client.wfs_inbound.update_inbound_plan_name(
+        "some example string", UpdateInboundPlanNameRequest(name="some example string")
+    )
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type UpdateInboundPlanNameErrorBody
 ```
@@ -14391,7 +15167,9 @@ except ApiError as e:
 
 ```python
 try:
-    await async_client.wfs_inbound.update_inbound_plan_name(inbound_plan_id, body)
+    await async_client.wfs_inbound.update_inbound_plan_name(
+        "some example string", UpdateInboundPlanNameRequest(name="some example string")
+    )
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type UpdateInboundPlanNameErrorBody
 ```
@@ -14408,7 +15186,7 @@ except ApiError as e:
 | --- | --- | --- |
 | <code>inbound_plan_id</code> | <code>str</code> | Identifier of an inbound plan. |
 | <code>body</code> | <code>[UpdateInboundPlanNameRequest](walmart_apis/models/update_inbound_plan_name_request.py) \| [UpdateInboundPlanNameRequestDict](walmart_apis/models/update_inbound_plan_name_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -14462,7 +15240,10 @@ Send a `PUT` request.
 
 ```python
 try:
-    response = client.wfs_inbound.update_item_compliance_details(marketplace_id, body)
+    response = client.wfs_inbound.update_item_compliance_details(
+        "some example string",
+        UpdateItemComplianceDetailsRequest(msku="some example string", tax_details=CommonTaxDetails()),
+    )
     # TODO: Handle 'response' of type CancelInboundPlanResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type UpdateItemComplianceDetailsErrorBody
@@ -14472,7 +15253,10 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.wfs_inbound.update_item_compliance_details(marketplace_id, body)
+    response = await async_client.wfs_inbound.update_item_compliance_details(
+        "some example string",
+        UpdateItemComplianceDetailsRequest(msku="some example string", tax_details=CommonTaxDetails()),
+    )
     # TODO: Handle 'response' of type CancelInboundPlanResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type UpdateItemComplianceDetailsErrorBody
@@ -14490,7 +15274,7 @@ except ApiError as e:
 | --- | --- | --- |
 | <code>marketplace_id</code> | <code>str</code> | The Walmart Marketplace ID. For a list of possible values, refer to [Marketplace IDs](https://developer-docs.walmart.com/seller-api/docs/marketplace-ids). |
 | <code>body</code> | <code>[UpdateItemComplianceDetailsRequest](walmart_apis/models/update_item_compliance_details_request.py) \| [UpdateItemComplianceDetailsRequestDict](walmart_apis/models/update_item_compliance_details_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -14544,7 +15328,9 @@ Send a `PUT` request.
 
 ```python
 try:
-    client.wfs_inbound.update_shipment_name(inbound_plan_id, shipment_id, body)
+    client.wfs_inbound.update_shipment_name(
+        "some example string", "some example string", UpdateShipmentNameRequest(name="some example string")
+    )
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type UpdateShipmentNameErrorBody
 ```
@@ -14553,7 +15339,9 @@ except ApiError as e:
 
 ```python
 try:
-    await async_client.wfs_inbound.update_shipment_name(inbound_plan_id, shipment_id, body)
+    await async_client.wfs_inbound.update_shipment_name(
+        "some example string", "some example string", UpdateShipmentNameRequest(name="some example string")
+    )
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type UpdateShipmentNameErrorBody
 ```
@@ -14571,7 +15359,7 @@ except ApiError as e:
 | <code>inbound_plan_id</code> | <code>str</code> | Identifier of an inbound plan. |
 | <code>shipment_id</code> | <code>str</code> | Identifier of a shipment. |
 | <code>body</code> | <code>[UpdateShipmentNameRequest](walmart_apis/models/update_shipment_name_request.py) \| [UpdateShipmentNameRequestDict](walmart_apis/models/update_shipment_name_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -14625,7 +15413,20 @@ Send a `PUT` request.
 
 ```python
 try:
-    response = client.wfs_inbound.update_shipment_source_address(inbound_plan_id, shipment_id, body)
+    response = client.wfs_inbound.update_shipment_source_address(
+        "some example string",
+        "some example string",
+        UpdateShipmentSourceAddressRequest(
+            address=CommonAddressInput(
+                address_line1="some example string",
+                city="some example string",
+                country_code="some example string",
+                name="some example string",
+                phone_number="some example string",
+                postal_code="some example string",
+            ),
+        ),
+    )
     # TODO: Handle 'response' of type CancelInboundPlanResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type UpdateShipmentSourceAddressErrorBody
@@ -14635,7 +15436,20 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.wfs_inbound.update_shipment_source_address(inbound_plan_id, shipment_id, body)
+    response = await async_client.wfs_inbound.update_shipment_source_address(
+        "some example string",
+        "some example string",
+        UpdateShipmentSourceAddressRequest(
+            address=CommonAddressInput(
+                address_line1="some example string",
+                city="some example string",
+                country_code="some example string",
+                name="some example string",
+                phone_number="some example string",
+                postal_code="some example string",
+            ),
+        ),
+    )
     # TODO: Handle 'response' of type CancelInboundPlanResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type UpdateShipmentSourceAddressErrorBody
@@ -14654,7 +15468,7 @@ except ApiError as e:
 | <code>inbound_plan_id</code> | <code>str</code> | Identifier of an inbound plan. |
 | <code>shipment_id</code> | <code>str</code> | Identifier of a shipment. |
 | <code>body</code> | <code>[UpdateShipmentSourceAddressRequest](walmart_apis/models/update_shipment_source_address_request.py) \| [UpdateShipmentSourceAddressRequestDict](walmart_apis/models/update_shipment_source_address_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>
@@ -14708,7 +15522,11 @@ Send a `PUT` request.
 
 ```python
 try:
-    response = client.wfs_inbound.update_shipment_tracking_details(inbound_plan_id, shipment_id, body)
+    response = client.wfs_inbound.update_shipment_tracking_details(
+        "some example string",
+        "some example string",
+        UpdateShipmentTrackingDetailsRequest(tracking_details=CommonTrackingDetailsInput()),
+    )
     # TODO: Handle 'response' of type CancelInboundPlanResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type UpdateShipmentTrackingDetailsErrorBody
@@ -14718,7 +15536,11 @@ except ApiError as e:
 
 ```python
 try:
-    response = await async_client.wfs_inbound.update_shipment_tracking_details(inbound_plan_id, shipment_id, body)
+    response = await async_client.wfs_inbound.update_shipment_tracking_details(
+        "some example string",
+        "some example string",
+        UpdateShipmentTrackingDetailsRequest(tracking_details=CommonTrackingDetailsInput()),
+    )
     # TODO: Handle 'response' of type CancelInboundPlanResponse
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type UpdateShipmentTrackingDetailsErrorBody
@@ -14737,7 +15559,7 @@ except ApiError as e:
 | <code>inbound_plan_id</code> | <code>str</code> | Identifier of an inbound plan. |
 | <code>shipment_id</code> | <code>str</code> | Identifier of a shipment. |
 | <code>body</code> | <code>[UpdateShipmentTrackingDetailsRequest](walmart_apis/models/update_shipment_tracking_details_request.py) \| [UpdateShipmentTrackingDetailsRequestDict](walmart_apis/models/update_shipment_tracking_details_request.py)</code> | The request body. |
-| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout or extra headers. |
+| <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
 </dl>

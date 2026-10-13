@@ -44,9 +44,9 @@ class InventoryDetails(SdkBaseModel):
 class InventoryDetailsDict(TypedDict):
     fulfillable_quantity: NotRequired[int | None]
     on_hand_quantity: NotRequired[int | None]
-    reserved_quantity: NotRequired[ReservedQuantity | ReservedQuantityDict]
-    researching_quantity: NotRequired[ResearchingQuantity | ResearchingQuantityDict | None]
-    unfulfillable_quantity: NotRequired[UnfulfillableQuantity | UnfulfillableQuantityDict | None]
+    reserved_quantity: NotRequired[ReservedQuantityDict]
+    researching_quantity: NotRequired[ResearchingQuantityDict | None]
+    unfulfillable_quantity: NotRequired[UnfulfillableQuantityDict | None]
     inbound_working_quantity: NotRequired[int | None]
     inbound_shipped_quantity: NotRequired[int | None]
     inbound_receiving_quantity: NotRequired[int | None]

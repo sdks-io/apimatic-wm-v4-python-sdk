@@ -33,5 +33,5 @@ class ShippingServiceDict(TypedDict):
     ship_date: NotRequired[RFC3339DateTime]
     earliest_estimated_delivery_date: NotRequired[RFC3339DateTime]
     latest_estimated_delivery_date: NotRequired[RFC3339DateTime]
-    rate: NotRequired[Money | MoneyDict]
-    shipping_service_options: NotRequired[ShippingServiceOptions | ShippingServiceOptionsDict]
+    rate: NotRequired[MoneyDict]
+    shipping_service_options: NotRequired[ShippingServiceOptionsDict]

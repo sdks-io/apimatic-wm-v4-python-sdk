@@ -15,4 +15,4 @@ class GetDeliveryChallanDocumentResponse(SdkBaseModel):
 
 
 class GetDeliveryChallanDocumentResponseDict(TypedDict):
-    document_download: CommonDocumentDownload | CommonDocumentDownloadDict
+    document_download: CommonDocumentDownloadDict

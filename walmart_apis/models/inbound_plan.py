@@ -52,8 +52,8 @@ class InboundPlanDict(TypedDict):
     last_updated_at: RFC3339DateTime
     marketplace_ids: list[str]
     name: str
-    packing_options: NotRequired[list[CommonPackingOptionSummary | CommonPackingOptionSummaryDict]]
-    placement_options: NotRequired[list[CommonPlacementOptionSummary | CommonPlacementOptionSummaryDict]]
-    shipments: NotRequired[list[CommonShipmentSummary | CommonShipmentSummaryDict]]
-    source_address: CommonAddress | CommonAddressDict
+    packing_options: NotRequired[list[CommonPackingOptionSummaryDict]]
+    placement_options: NotRequired[list[CommonPlacementOptionSummaryDict]]
+    shipments: NotRequired[list[CommonShipmentSummaryDict]]
+    source_address: CommonAddressDict
     status: str

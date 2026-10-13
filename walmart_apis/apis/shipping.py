@@ -9,10 +9,13 @@ from ..core import (
     RawClient,
     RequestOptionsOrDict,
     SecuredRawResponse,
+    async_empty_response,
+    async_json_decoder,
     empty_response,
     json_body,
     json_decoder,
     param,
+    unwrap,
 )
 from ..errors.cancel_shipment2_error import CancelShipment2ErrorBody, cancel_shipment2_error_mapper
 from ..errors.get_access_points_error import GetAccessPointsErrorBody, get_access_points_error_mapper
@@ -50,7 +53,8 @@ class Shipping:
 
         Args:
             shipment_id: Identifier of the shipment to cancel.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Cancellation processed
@@ -58,7 +62,7 @@ class Shipping:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return self._with_raw_response.cancel_shipment2(shipment_id, request_options=request_options).unwrap()
+        return unwrap(self._with_raw_response.cancel_shipment2(shipment_id, request_options=request_options))
 
     def get_access_points(
         self,
@@ -75,7 +79,8 @@ class Shipping:
             access_point_types: Comma-separated list of access point types to include.
             country_code: ISO 3166-1 alpha-2 country code (e.g. US, CA, MX).
             postal_code: Postal code to search around.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Access points returned successfully
@@ -83,9 +88,11 @@ class Shipping:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return self._with_raw_response.get_access_points(
-            access_point_types, country_code, postal_code, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.get_access_points(
+                access_point_types, country_code, postal_code, request_options=request_options
+            ),
+        )
 
     def get_additional_inputs(
         self, rate_id: str, request_token: str, *, request_options: RequestOptionsOrDict | None = None
@@ -97,7 +104,8 @@ class Shipping:
         Args:
             rate_id: rateId returned by a prior getRates response.
             request_token: requestToken returned by a prior getRates response.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             JSON Schema for additional inputs returned successfully
@@ -105,9 +113,9 @@ class Shipping:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return self._with_raw_response.get_additional_inputs(
-            rate_id, request_token, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.get_additional_inputs(rate_id, request_token, request_options=request_options)
+        )
 
     def get_rates(
         self, body: GetRatesRequest | GetRatesRequestDict, *, request_options: RequestOptionsOrDict | None = None
@@ -117,7 +125,8 @@ class Shipping:
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Rate quotes returned successfully
@@ -125,14 +134,14 @@ class Shipping:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return self._with_raw_response.get_rates(body, request_options=request_options).unwrap()
+        return unwrap(self._with_raw_response.get_rates(body, request_options=request_options))
 
     def get_shipment_documents(
         self,
         shipment_id: str,
         *,
         package_client_reference_id: str | None = None,
-        format: Format1OrStr | None = None,
+        format_: Format1OrStr | None = None,
         request_options: RequestOptionsOrDict | None = None,
     ) -> GetShipmentDocumentsResponse:
         """Returns the label, customs, and other printable documents associated with a previously-purchased shipment.
@@ -141,8 +150,9 @@ class Shipping:
             shipment_id: Identifier of the shipment whose documents to retrieve.
             package_client_reference_id: Optional package-level reference id to retrieve documents for a specific
                 package within a multi-package shipment.
-            format: Requested document format (defaults to PDF).
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            format_: Requested document format (defaults to PDF).
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Documents returned successfully
@@ -150,12 +160,14 @@ class Shipping:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return self._with_raw_response.get_shipment_documents(
-            shipment_id,
-            package_client_reference_id=package_client_reference_id,
-            format=format,
-            request_options=request_options,
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.get_shipment_documents(
+                shipment_id,
+                package_client_reference_id=package_client_reference_id,
+                format_=format_,
+                request_options=request_options,
+            ),
+        )
 
     def get_tracking(
         self, tracking_id: str, *, carrier_id: str | None = None, request_options: RequestOptionsOrDict | None = None
@@ -169,7 +181,8 @@ class Shipping:
             tracking_id: Tracking identifier returned by purchaseShipment.
             carrier_id: Optional carrier identifier for defense-in-depth validation against TNT's resolved carrier. Not
                 required by TNT itself -- omit unless you specifically want mismatch protection.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Tracking details returned successfully
@@ -177,9 +190,9 @@ class Shipping:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return self._with_raw_response.get_tracking(
-            tracking_id, carrier_id=carrier_id, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.get_tracking(tracking_id, carrier_id=carrier_id, request_options=request_options)
+        )
 
     def one_click_shipment(
         self,
@@ -192,7 +205,8 @@ class Shipping:
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Shipment purchased successfully
@@ -200,7 +214,7 @@ class Shipping:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return self._with_raw_response.one_click_shipment(body, request_options=request_options).unwrap()
+        return unwrap(self._with_raw_response.one_click_shipment(body, request_options=request_options))
 
     def purchase_shipment(
         self,
@@ -213,7 +227,8 @@ class Shipping:
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Shipment purchased successfully
@@ -221,7 +236,7 @@ class Shipping:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return self._with_raw_response.purchase_shipment(body, request_options=request_options).unwrap()
+        return unwrap(self._with_raw_response.purchase_shipment(body, request_options=request_options))
 
     def submit_ndr_feedback(
         self,
@@ -234,7 +249,8 @@ class Shipping:
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Feedback recorded successfully (no body)
@@ -242,7 +258,7 @@ class Shipping:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return self._with_raw_response.submit_ndr_feedback(body, request_options=request_options).unwrap()
+        return unwrap(self._with_raw_response.submit_ndr_feedback(body, request_options=request_options))
 
     @property
     def with_raw_response(self) -> ShippingWithRawResponse:
@@ -261,7 +277,8 @@ class AsyncShipping:
 
         Args:
             shipment_id: Identifier of the shipment to cancel.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Cancellation processed
@@ -269,7 +286,7 @@ class AsyncShipping:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return (await self._with_raw_response.cancel_shipment2(shipment_id, request_options=request_options)).unwrap()
+        return unwrap(await self._with_raw_response.cancel_shipment2(shipment_id, request_options=request_options))
 
     async def get_access_points(
         self,
@@ -286,7 +303,8 @@ class AsyncShipping:
             access_point_types: Comma-separated list of access point types to include.
             country_code: ISO 3166-1 alpha-2 country code (e.g. US, CA, MX).
             postal_code: Postal code to search around.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Access points returned successfully
@@ -294,11 +312,11 @@ class AsyncShipping:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.get_access_points(
                 access_point_types, country_code, postal_code, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     async def get_additional_inputs(
         self, rate_id: str, request_token: str, *, request_options: RequestOptionsOrDict | None = None
@@ -310,7 +328,8 @@ class AsyncShipping:
         Args:
             rate_id: rateId returned by a prior getRates response.
             request_token: requestToken returned by a prior getRates response.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             JSON Schema for additional inputs returned successfully
@@ -318,9 +337,9 @@ class AsyncShipping:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.get_additional_inputs(rate_id, request_token, request_options=request_options)
-        ).unwrap()
+        )
 
     async def get_rates(
         self, body: GetRatesRequest | GetRatesRequestDict, *, request_options: RequestOptionsOrDict | None = None
@@ -330,7 +349,8 @@ class AsyncShipping:
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Rate quotes returned successfully
@@ -338,14 +358,14 @@ class AsyncShipping:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return (await self._with_raw_response.get_rates(body, request_options=request_options)).unwrap()
+        return unwrap(await self._with_raw_response.get_rates(body, request_options=request_options))
 
     async def get_shipment_documents(
         self,
         shipment_id: str,
         *,
         package_client_reference_id: str | None = None,
-        format: Format1OrStr | None = None,
+        format_: Format1OrStr | None = None,
         request_options: RequestOptionsOrDict | None = None,
     ) -> GetShipmentDocumentsResponse:
         """Returns the label, customs, and other printable documents associated with a previously-purchased shipment.
@@ -354,8 +374,9 @@ class AsyncShipping:
             shipment_id: Identifier of the shipment whose documents to retrieve.
             package_client_reference_id: Optional package-level reference id to retrieve documents for a specific
                 package within a multi-package shipment.
-            format: Requested document format (defaults to PDF).
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            format_: Requested document format (defaults to PDF).
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Documents returned successfully
@@ -363,14 +384,14 @@ class AsyncShipping:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.get_shipment_documents(
                 shipment_id,
                 package_client_reference_id=package_client_reference_id,
-                format=format,
+                format_=format_,
                 request_options=request_options,
-            )
-        ).unwrap()
+            ),
+        )
 
     async def get_tracking(
         self, tracking_id: str, *, carrier_id: str | None = None, request_options: RequestOptionsOrDict | None = None
@@ -384,7 +405,8 @@ class AsyncShipping:
             tracking_id: Tracking identifier returned by purchaseShipment.
             carrier_id: Optional carrier identifier for defense-in-depth validation against TNT's resolved carrier. Not
                 required by TNT itself -- omit unless you specifically want mismatch protection.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Tracking details returned successfully
@@ -392,11 +414,11 @@ class AsyncShipping:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.get_tracking(
                 tracking_id, carrier_id=carrier_id, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     async def one_click_shipment(
         self,
@@ -409,7 +431,8 @@ class AsyncShipping:
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Shipment purchased successfully
@@ -417,7 +440,7 @@ class AsyncShipping:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return (await self._with_raw_response.one_click_shipment(body, request_options=request_options)).unwrap()
+        return unwrap(await self._with_raw_response.one_click_shipment(body, request_options=request_options))
 
     async def purchase_shipment(
         self,
@@ -430,7 +453,8 @@ class AsyncShipping:
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Shipment purchased successfully
@@ -438,7 +462,7 @@ class AsyncShipping:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return (await self._with_raw_response.purchase_shipment(body, request_options=request_options)).unwrap()
+        return unwrap(await self._with_raw_response.purchase_shipment(body, request_options=request_options))
 
     async def submit_ndr_feedback(
         self,
@@ -451,7 +475,8 @@ class AsyncShipping:
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Feedback recorded successfully (no body)
@@ -459,7 +484,7 @@ class AsyncShipping:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return (await self._with_raw_response.submit_ndr_feedback(body, request_options=request_options)).unwrap()
+        return unwrap(await self._with_raw_response.submit_ndr_feedback(body, request_options=request_options))
 
     @property
     def with_raw_response(self) -> AsyncShippingWithRawResponse:
@@ -475,7 +500,8 @@ class ShippingWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]
 
         Args:
             shipment_id: Identifier of the shipment to cancel.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -505,7 +531,8 @@ class ShippingWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]
             access_point_types: Comma-separated list of access point types to include.
             country_code: ISO 3166-1 alpha-2 country code (e.g. US, CA, MX).
             postal_code: Postal code to search around.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -533,7 +560,8 @@ class ShippingWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]
         Args:
             rate_id: rateId returned by a prior getRates response.
             request_token: requestToken returned by a prior getRates response.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -555,7 +583,8 @@ class ShippingWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -575,7 +604,7 @@ class ShippingWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]
         shipment_id: str,
         *,
         package_client_reference_id: str | None = None,
-        format: Format1OrStr | None = None,
+        format_: Format1OrStr | None = None,
         request_options: RequestOptionsOrDict | None = None,
     ) -> ApiResult[GetShipmentDocumentsResponse, GetShipmentDocumentsErrorBody]:
         """Returns the label, customs, and other printable documents associated with a previously-purchased shipment.
@@ -584,8 +613,9 @@ class ShippingWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]
             shipment_id: Identifier of the shipment whose documents to retrieve.
             package_client_reference_id: Optional package-level reference id to retrieve documents for a specific
                 package within a multi-package shipment.
-            format: Requested document format (defaults to PDF).
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            format_: Requested document format (defaults to PDF).
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -595,7 +625,7 @@ class ShippingWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]
             path_params=[param[str]("shipmentId", shipment_id)],
             query_params=[
                 param[str | None]("packageClientReferenceId", package_client_reference_id),
-                param[Format1OrStr | None]("format", format),
+                param[Format1OrStr | None]("format", format_),
             ],
             auth_scheme=self._auth.wallet_auth,
             decoder=json_decoder[GetShipmentDocumentsResponse],
@@ -615,7 +645,8 @@ class ShippingWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]
             tracking_id: Tracking identifier returned by purchaseShipment.
             carrier_id: Optional carrier identifier for defense-in-depth validation against TNT's resolved carrier. Not
                 required by TNT itself -- omit unless you specifically want mismatch protection.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -640,7 +671,8 @@ class ShippingWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -666,7 +698,8 @@ class ShippingWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -692,7 +725,8 @@ class ShippingWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -717,7 +751,8 @@ class AsyncShippingWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, As
 
         Args:
             shipment_id: Identifier of the shipment to cancel.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -727,7 +762,7 @@ class AsyncShippingWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, As
             path_params=[param[str]("shipmentId", shipment_id)],
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[CancelShipmentResponse1],
+            decoder=async_json_decoder[CancelShipmentResponse1],
             error_mapper=cancel_shipment2_error_mapper,
             request_options=request_options,
         )
@@ -747,7 +782,8 @@ class AsyncShippingWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, As
             access_point_types: Comma-separated list of access point types to include.
             country_code: ISO 3166-1 alpha-2 country code (e.g. US, CA, MX).
             postal_code: Postal code to search around.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -760,7 +796,7 @@ class AsyncShippingWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, As
                 param[str]("postalCode", postal_code),
             ],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[GetAccessPointsResponse],
+            decoder=async_json_decoder[GetAccessPointsResponse],
             error_mapper=get_access_points_error_mapper,
             request_options=request_options,
         )
@@ -775,7 +811,8 @@ class AsyncShippingWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, As
         Args:
             rate_id: rateId returned by a prior getRates response.
             request_token: requestToken returned by a prior getRates response.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -784,7 +821,7 @@ class AsyncShippingWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, As
             url_template=self._server.default1("/shipping/v4/shipments/additionalInputs/schema"),
             query_params=[param[str]("rateId", rate_id), param[str]("requestToken", request_token)],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[GetAdditionalInputsResponse],
+            decoder=async_json_decoder[GetAdditionalInputsResponse],
             error_mapper=get_additional_inputs_error_mapper,
             request_options=request_options,
         )
@@ -797,7 +834,8 @@ class AsyncShippingWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, As
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -807,7 +845,7 @@ class AsyncShippingWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, As
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             body=json_body[GetRatesRequest | GetRatesRequestDict](body),
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[GetFulfillmentOrderResponse],
+            decoder=async_json_decoder[GetFulfillmentOrderResponse],
             error_mapper=get_rates_error_mapper,
             request_options=request_options,
         )
@@ -817,7 +855,7 @@ class AsyncShippingWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, As
         shipment_id: str,
         *,
         package_client_reference_id: str | None = None,
-        format: Format1OrStr | None = None,
+        format_: Format1OrStr | None = None,
         request_options: RequestOptionsOrDict | None = None,
     ) -> ApiResult[GetShipmentDocumentsResponse, GetShipmentDocumentsErrorBody]:
         """Returns the label, customs, and other printable documents associated with a previously-purchased shipment.
@@ -826,8 +864,9 @@ class AsyncShippingWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, As
             shipment_id: Identifier of the shipment whose documents to retrieve.
             package_client_reference_id: Optional package-level reference id to retrieve documents for a specific
                 package within a multi-package shipment.
-            format: Requested document format (defaults to PDF).
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            format_: Requested document format (defaults to PDF).
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -837,10 +876,10 @@ class AsyncShippingWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, As
             path_params=[param[str]("shipmentId", shipment_id)],
             query_params=[
                 param[str | None]("packageClientReferenceId", package_client_reference_id),
-                param[Format1OrStr | None]("format", format),
+                param[Format1OrStr | None]("format", format_),
             ],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[GetShipmentDocumentsResponse],
+            decoder=async_json_decoder[GetShipmentDocumentsResponse],
             error_mapper=get_shipment_documents_error_mapper,
             request_options=request_options,
         )
@@ -857,7 +896,8 @@ class AsyncShippingWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, As
             tracking_id: Tracking identifier returned by purchaseShipment.
             carrier_id: Optional carrier identifier for defense-in-depth validation against TNT's resolved carrier. Not
                 required by TNT itself -- omit unless you specifically want mismatch protection.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -866,7 +906,7 @@ class AsyncShippingWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, As
             url_template=self._server.default1("/shipping/v4/tracking"),
             query_params=[param[str]("trackingId", tracking_id), param[str | None]("carrierId", carrier_id)],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[GetTrackingResponse],
+            decoder=async_json_decoder[GetTrackingResponse],
             error_mapper=get_tracking_error_mapper,
             request_options=request_options,
         )
@@ -882,7 +922,8 @@ class AsyncShippingWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, As
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -892,7 +933,7 @@ class AsyncShippingWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, As
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             body=json_body[OneClickShipmentRequest | OneClickShipmentRequestDict](body),
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[GetFulfillmentOrderShipmentsResponse],
+            decoder=async_json_decoder[GetFulfillmentOrderShipmentsResponse],
             error_mapper=one_click_shipment_error_mapper,
             request_options=request_options,
         )
@@ -908,7 +949,8 @@ class AsyncShippingWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, As
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -918,7 +960,7 @@ class AsyncShippingWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, As
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             body=json_body[PurchaseShipmentRequest | PurchaseShipmentRequestDict](body),
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[GetFulfillmentOrderShipmentsResponse],
+            decoder=async_json_decoder[GetFulfillmentOrderShipmentsResponse],
             error_mapper=purchase_shipment_error_mapper,
             request_options=request_options,
         )
@@ -934,7 +976,8 @@ class AsyncShippingWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, As
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -944,7 +987,7 @@ class AsyncShippingWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, As
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             body=json_body[SubmitNdrFeedbackRequest | SubmitNdrFeedbackRequestDict](body),
             auth_scheme=self._auth.wallet_auth,
-            decoder=empty_response,
+            decoder=async_empty_response,
             error_mapper=submit_ndr_feedback_error_mapper,
             request_options=request_options,
         )

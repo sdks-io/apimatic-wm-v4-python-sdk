@@ -18,5 +18,5 @@ class CommonShipmentSource(SdkBaseModel):
 
 
 class CommonShipmentSourceDict(TypedDict):
-    address: NotRequired[CommonAddress | CommonAddressDict]
+    address: NotRequired[CommonAddressDict]
     source_type: str

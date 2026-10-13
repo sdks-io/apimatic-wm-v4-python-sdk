@@ -29,8 +29,8 @@ class CommonPallet(SdkBaseModel):
 
 
 class CommonPalletDict(TypedDict):
-    dimensions: NotRequired[CommonDimensions | CommonDimensionsDict]
+    dimensions: NotRequired[CommonDimensionsDict]
     package_id: str
     quantity: NotRequired[int]
     stackability: NotRequired[CommonStackabilityOrStr]
-    weight: NotRequired[CommonWeight | CommonWeightDict]
+    weight: NotRequired[CommonWeightDict]

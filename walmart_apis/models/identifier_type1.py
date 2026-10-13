@@ -19,5 +19,5 @@ class IdentifierType1(SdkBaseModel):
 
 
 class IdentifierType1Dict(TypedDict):
-    marketplace_item: WalmartItemIdentifier | WalmartItemIdentifierDict
-    sku_identifier: NotRequired[SellerSkuidentifier | SellerSkuidentifierDict]
+    marketplace_item: WalmartItemIdentifierDict
+    sku_identifier: NotRequired[SellerSkuidentifierDict]

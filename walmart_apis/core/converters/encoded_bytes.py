@@ -61,9 +61,11 @@ text. ``utf-16`` would instead pair the characters into unrelated codepoints and
 decode the length at all, so admitting them would only add values that cannot round-trip. Refusing
 them here makes a wrong charset a build failure rather than a wrong wire value.
 
-``ascii`` is the default because it is also the strictest: it raises on a non-ASCII byte where
-``utf-8`` would accept a well-formed multi-byte sequence, so it doubles as an assertion that the
-codec table produced what it promised."""
+``utf-8`` is the default: it is the charset JSON itself is defined in, and for these alphabets it
+is byte-identical to the alternatives. ``ascii`` remains available and is strictly stricter,
+raising on a non-ASCII byte where ``utf-8`` accepts a well-formed multi-byte sequence; that made
+it the original default, as an assertion that the codec table produced what it promised.
+Declaring it is now how a property asks for that check."""
 
 
 @dataclass(frozen=True, slots=True)
@@ -154,7 +156,7 @@ _CODECS: Final[dict[ByteEncodingName, ByteEncodingConverter]] = {
 def ByteField(
     *,
     encoding: ByteEncodingName = "base64",
-    charset: ByteCharset = "ascii",
+    charset: ByteCharset = "utf-8",
     alias: str | None = None,
     description: str | None = None,
     default: Any = ...,
@@ -165,7 +167,7 @@ def ByteField(
     alphabet it crosses the wire in, and which charset renders that alphabet as text. Both are
     keyword-only and both are typed as ``Literal``, so a mistake is a build failure whose message
     names the accepted values rather than a wrong wire format nobody disagrees with -- and each is
-    spelled at a property only where the spec differs from the default (``base64``, ``ascii``), as
+    spelled at a property only where the spec differs from the default (``base64``, ``utf-8``), as
     every other spec-derived default in the emitted layer is (ADR-0048).
 
     Named in PascalCase on purpose. ``Field`` is itself a function spelled that way, and this reads

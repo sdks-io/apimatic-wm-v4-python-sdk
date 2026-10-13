@@ -48,5 +48,5 @@ class WfsItemDict(TypedDict):
     brand: NotRequired[str]
     condition: NotRequired[ConditionOrStr]
     last_updated: NotRequired[RFC3339DateTime | None]
-    inventory_details: NotRequired[WfsInventoryDetails | WfsInventoryDetailsDict]
-    inventory_insights: NotRequired[WfsInventoryInsights | WfsInventoryInsightsDict]
+    inventory_details: NotRequired[WfsInventoryDetailsDict]
+    inventory_insights: NotRequired[WfsInventoryInsightsDict]

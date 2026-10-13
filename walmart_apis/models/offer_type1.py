@@ -47,10 +47,10 @@ class OfferType1(SdkBaseModel):
 
 class OfferType1Dict(TypedDict):
     offer_type: NotRequired[OfferTypeOrStr]
-    buying_price: PriceType | PriceTypeDict
-    regular_price: MoneyType | MoneyTypeDict
-    business_price: NotRequired[MoneyType | MoneyTypeDict]
-    quantity_discount_prices: NotRequired[list[QuantityDiscountPriceType | QuantityDiscountPriceTypeDict]]
+    buying_price: PriceTypeDict
+    regular_price: MoneyTypeDict
+    business_price: NotRequired[MoneyTypeDict]
+    quantity_discount_prices: NotRequired[list[QuantityDiscountPriceTypeDict]]
     fulfillment_channel: FulfillmentChannelOrStr
     item_condition: str
     item_sub_condition: str

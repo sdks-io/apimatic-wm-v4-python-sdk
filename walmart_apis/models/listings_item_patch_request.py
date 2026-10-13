@@ -14,4 +14,4 @@ class ListingsItemPatchRequest(SdkBaseModel):
 
 class ListingsItemPatchRequestDict(TypedDict):
     product_type: str
-    patches: list[PatchOperation | PatchOperationDict]
+    patches: list[PatchOperationDict]

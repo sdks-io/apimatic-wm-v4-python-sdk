@@ -12,4 +12,4 @@ class GetEligibleShippingServicesRequest(SdkBaseModel):
 
 
 class GetEligibleShippingServicesRequestDict(TypedDict):
-    shipment_request_details: ShipmentRequestDetails | ShipmentRequestDetailsDict
+    shipment_request_details: ShipmentRequestDetailsDict

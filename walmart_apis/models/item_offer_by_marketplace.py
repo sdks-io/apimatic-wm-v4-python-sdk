@@ -19,5 +19,5 @@ class ItemOfferByMarketplace(SdkBaseModel):
 class ItemOfferByMarketplaceDict(TypedDict):
     marketplace_id: NotRequired[str]
     offer_type: NotRequired[OfferTypeOrStr]
-    price: NotRequired[Money | MoneyDict]
-    points: NotRequired[Points | PointsDict]
+    price: NotRequired[MoneyDict]
+    points: NotRequired[PointsDict]

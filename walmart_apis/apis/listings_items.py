@@ -9,9 +9,11 @@ from ..core import (
     RawClient,
     RequestOptionsOrDict,
     SecuredRawResponse,
+    async_json_decoder,
     json_body,
     json_decoder,
     param,
+    unwrap,
 )
 from ..errors.delete_listings_item_error import DeleteListingsItemErrorBody, delete_listings_item_error_mapper
 from ..errors.get_listings_item_error import GetListingsItemErrorBody, get_listings_item_error_mapper
@@ -47,7 +49,8 @@ class ListingsItems:
             sku: Seller SKU identifying the listing
             marketplace_ids: Value sent with the request.
             issue_locale: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Successfully submitted
@@ -55,9 +58,11 @@ class ListingsItems:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return self._with_raw_response.delete_listings_item(
-            seller_id, sku, marketplace_ids, issue_locale=issue_locale, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.delete_listings_item(
+                seller_id, sku, marketplace_ids, issue_locale=issue_locale, request_options=request_options
+            ),
+        )
 
     def get_listings_item(
         self,
@@ -77,7 +82,8 @@ class ListingsItems:
             marketplace_ids: Value sent with the request.
             issue_locale: Locale for issue messages (e.g. en_US)
             included_data: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -85,14 +91,16 @@ class ListingsItems:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return self._with_raw_response.get_listings_item(
-            seller_id,
-            sku,
-            marketplace_ids,
-            issue_locale=issue_locale,
-            included_data=included_data,
-            request_options=request_options,
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.get_listings_item(
+                seller_id,
+                sku,
+                marketplace_ids,
+                issue_locale=issue_locale,
+                included_data=included_data,
+                request_options=request_options,
+            ),
+        )
 
     def patch_listings_item(
         self,
@@ -112,7 +120,8 @@ class ListingsItems:
             marketplace_ids: Value sent with the request.
             body: The request body.
             issue_locale: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Successfully submitted
@@ -120,9 +129,11 @@ class ListingsItems:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return self._with_raw_response.patch_listings_item(
-            seller_id, sku, marketplace_ids, body, issue_locale=issue_locale, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.patch_listings_item(
+                seller_id, sku, marketplace_ids, body, issue_locale=issue_locale, request_options=request_options
+            ),
+        )
 
     def put_listings_item(
         self,
@@ -142,7 +153,8 @@ class ListingsItems:
             marketplace_ids: Value sent with the request.
             body: The request body.
             issue_locale: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Successfully submitted
@@ -150,9 +162,11 @@ class ListingsItems:
         Raises:
             ApiError: Bad Request Forbidden Rate limit exceeded Internal Server Error ``error`` is ``ErrorList |
                 RawError``."""
-        return self._with_raw_response.put_listings_item(
-            seller_id, sku, marketplace_ids, body, issue_locale=issue_locale, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.put_listings_item(
+                seller_id, sku, marketplace_ids, body, issue_locale=issue_locale, request_options=request_options
+            ),
+        )
 
     def search_listings_items(
         self,
@@ -173,7 +187,8 @@ class ListingsItems:
             included_data: Value sent with the request.
             page_size: Maximum number of results per page
             page_token: Opaque cursor returned by a previous call for the next page
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -181,14 +196,16 @@ class ListingsItems:
         Raises:
             ApiError: Bad Request Forbidden Rate limit exceeded Internal Server Error ``error`` is ``ErrorList |
                 RawError``."""
-        return self._with_raw_response.search_listings_items(
-            seller_id,
-            marketplace_ids,
-            included_data=included_data,
-            page_size=page_size,
-            page_token=page_token,
-            request_options=request_options,
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.search_listings_items(
+                seller_id,
+                marketplace_ids,
+                included_data=included_data,
+                page_size=page_size,
+                page_token=page_token,
+                request_options=request_options,
+            ),
+        )
 
     @property
     def with_raw_response(self) -> ListingsItemsWithRawResponse:
@@ -215,7 +232,8 @@ class AsyncListingsItems:
             sku: Seller SKU identifying the listing
             marketplace_ids: Value sent with the request.
             issue_locale: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Successfully submitted
@@ -223,11 +241,11 @@ class AsyncListingsItems:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.delete_listings_item(
                 seller_id, sku, marketplace_ids, issue_locale=issue_locale, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     async def get_listings_item(
         self,
@@ -247,7 +265,8 @@ class AsyncListingsItems:
             marketplace_ids: Value sent with the request.
             issue_locale: Locale for issue messages (e.g. en_US)
             included_data: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -255,7 +274,7 @@ class AsyncListingsItems:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.get_listings_item(
                 seller_id,
                 sku,
@@ -263,8 +282,8 @@ class AsyncListingsItems:
                 issue_locale=issue_locale,
                 included_data=included_data,
                 request_options=request_options,
-            )
-        ).unwrap()
+            ),
+        )
 
     async def patch_listings_item(
         self,
@@ -284,7 +303,8 @@ class AsyncListingsItems:
             marketplace_ids: Value sent with the request.
             body: The request body.
             issue_locale: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Successfully submitted
@@ -292,11 +312,11 @@ class AsyncListingsItems:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.patch_listings_item(
                 seller_id, sku, marketplace_ids, body, issue_locale=issue_locale, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     async def put_listings_item(
         self,
@@ -316,7 +336,8 @@ class AsyncListingsItems:
             marketplace_ids: Value sent with the request.
             body: The request body.
             issue_locale: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Successfully submitted
@@ -324,11 +345,11 @@ class AsyncListingsItems:
         Raises:
             ApiError: Bad Request Forbidden Rate limit exceeded Internal Server Error ``error`` is ``ErrorList |
                 RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.put_listings_item(
                 seller_id, sku, marketplace_ids, body, issue_locale=issue_locale, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     async def search_listings_items(
         self,
@@ -349,7 +370,8 @@ class AsyncListingsItems:
             included_data: Value sent with the request.
             page_size: Maximum number of results per page
             page_token: Opaque cursor returned by a previous call for the next page
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -357,7 +379,7 @@ class AsyncListingsItems:
         Raises:
             ApiError: Bad Request Forbidden Rate limit exceeded Internal Server Error ``error`` is ``ErrorList |
                 RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.search_listings_items(
                 seller_id,
                 marketplace_ids,
@@ -365,8 +387,8 @@ class AsyncListingsItems:
                 page_size=page_size,
                 page_token=page_token,
                 request_options=request_options,
-            )
-        ).unwrap()
+            ),
+        )
 
     @property
     def with_raw_response(self) -> AsyncListingsItemsWithRawResponse:
@@ -390,7 +412,8 @@ class ListingsItemsWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSch
             sku: Seller SKU identifying the listing
             marketplace_ids: Value sent with the request.
             issue_locale: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -426,7 +449,8 @@ class ListingsItemsWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSch
             marketplace_ids: Value sent with the request.
             issue_locale: Locale for issue messages (e.g. en_US)
             included_data: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -463,7 +487,8 @@ class ListingsItemsWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSch
             marketplace_ids: Value sent with the request.
             body: The request body.
             issue_locale: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -500,7 +525,8 @@ class ListingsItemsWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSch
             marketplace_ids: Value sent with the request.
             body: The request body.
             issue_locale: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -538,7 +564,8 @@ class ListingsItemsWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSch
             included_data: Value sent with the request.
             page_size: Maximum number of results per page
             page_token: Opaque cursor returned by a previous call for the next page
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -576,7 +603,8 @@ class AsyncListingsItemsWithRawResponse(SecuredRawResponse[AsyncRawClient, Serve
             sku: Seller SKU identifying the listing
             marketplace_ids: Value sent with the request.
             issue_locale: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -589,7 +617,7 @@ class AsyncListingsItemsWithRawResponse(SecuredRawResponse[AsyncRawClient, Serve
             ],
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[ListingsItemSubmissionResponse],
+            decoder=async_json_decoder[ListingsItemSubmissionResponse],
             error_mapper=delete_listings_item_error_mapper,
             request_options=request_options,
         )
@@ -612,7 +640,8 @@ class AsyncListingsItemsWithRawResponse(SecuredRawResponse[AsyncRawClient, Serve
             marketplace_ids: Value sent with the request.
             issue_locale: Locale for issue messages (e.g. en_US)
             included_data: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -626,7 +655,7 @@ class AsyncListingsItemsWithRawResponse(SecuredRawResponse[AsyncRawClient, Serve
                 param[list[IncludedDatum1OrStr] | None]("includedData", included_data),
             ],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[Item1],
+            decoder=async_json_decoder[Item1],
             error_mapper=get_listings_item_error_mapper,
             request_options=request_options,
         )
@@ -649,7 +678,8 @@ class AsyncListingsItemsWithRawResponse(SecuredRawResponse[AsyncRawClient, Serve
             marketplace_ids: Value sent with the request.
             body: The request body.
             issue_locale: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -663,7 +693,7 @@ class AsyncListingsItemsWithRawResponse(SecuredRawResponse[AsyncRawClient, Serve
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             body=json_body[ListingsItemPatchRequest | ListingsItemPatchRequestDict](body),
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[ListingsItemSubmissionResponse],
+            decoder=async_json_decoder[ListingsItemSubmissionResponse],
             error_mapper=patch_listings_item_error_mapper,
             request_options=request_options,
         )
@@ -686,7 +716,8 @@ class AsyncListingsItemsWithRawResponse(SecuredRawResponse[AsyncRawClient, Serve
             marketplace_ids: Value sent with the request.
             body: The request body.
             issue_locale: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -700,7 +731,7 @@ class AsyncListingsItemsWithRawResponse(SecuredRawResponse[AsyncRawClient, Serve
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             body=json_body[ListingsItemPutRequest | ListingsItemPutRequestDict](body),
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[ListingsItemSubmissionResponse],
+            decoder=async_json_decoder[ListingsItemSubmissionResponse],
             error_mapper=put_listings_item_error_mapper,
             request_options=request_options,
         )
@@ -724,7 +755,8 @@ class AsyncListingsItemsWithRawResponse(SecuredRawResponse[AsyncRawClient, Serve
             included_data: Value sent with the request.
             page_size: Maximum number of results per page
             page_token: Opaque cursor returned by a previous call for the next page
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -739,7 +771,7 @@ class AsyncListingsItemsWithRawResponse(SecuredRawResponse[AsyncRawClient, Serve
                 param[str | None]("pageToken", page_token),
             ],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[ItemSearchResults1],
+            decoder=async_json_decoder[ItemSearchResults1],
             error_mapper=search_listings_items_error_mapper,
             request_options=request_options,
         )

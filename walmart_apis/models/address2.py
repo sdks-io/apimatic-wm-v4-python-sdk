@@ -13,7 +13,7 @@ class Address2(SdkBaseModel):
     city: Optional[str] = UNSET
     state: Optional[str] = UNSET
     postal_code: Optional[str] = Field(default=UNSET, alias="postalCode")
-    country: Optional[str] = UNSET
+    country: str = "US"
 
 
 class Address2Dict(TypedDict):

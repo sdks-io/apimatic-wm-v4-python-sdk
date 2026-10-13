@@ -18,5 +18,5 @@ class GenerateShipmentContentUpdatePreviewsRequest(SdkBaseModel):
 
 
 class GenerateShipmentContentUpdatePreviewsRequestDict(TypedDict):
-    boxes: list[CommonBoxUpdateInput | CommonBoxUpdateInputDict]
-    items: list[CommonItemInput | CommonItemInputDict]
+    boxes: list[CommonBoxUpdateInputDict]
+    items: list[CommonItemInputDict]

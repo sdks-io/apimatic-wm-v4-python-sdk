@@ -33,6 +33,6 @@ class FeesEstimateRequest(SdkBaseModel):
 class FeesEstimateRequestDict(TypedDict):
     marketplace_id: str
     is_walmart_fulfilled: bool
-    price_to_estimate_fees: PriceToEstimateFees | PriceToEstimateFeesDict
+    price_to_estimate_fees: PriceToEstimateFeesDict
     identifier: NotRequired[str]
     optional_fulfillment_program: NotRequired[OptionalFulfillmentProgramOrStr]

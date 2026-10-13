@@ -22,6 +22,6 @@ class PriceToEstimateFees(SdkBaseModel):
 
 
 class PriceToEstimateFeesDict(TypedDict):
-    listing_price: MoneyType1 | MoneyType1Dict
-    shipping: NotRequired[MoneyType1 | MoneyType1Dict]
-    points: NotRequired[Points1 | Points1Dict]
+    listing_price: MoneyType1Dict
+    shipping: NotRequired[MoneyType1Dict]
+    points: NotRequired[Points1Dict]

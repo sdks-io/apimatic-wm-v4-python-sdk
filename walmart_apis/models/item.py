@@ -33,8 +33,8 @@ class ItemDict(TypedDict):
     walmart_item_id: str
     marketplace_id: str
     attributes: NotRequired[dict[str, Any]]
-    identifiers: NotRequired[ItemIdentifiers | ItemIdentifiersDict]
-    images: NotRequired[list[ItemImage | ItemImageDict]]
-    product_types: NotRequired[list[ItemProductType | ItemProductTypeDict]]
-    sales_ranks: NotRequired[list[SalesRank | SalesRankDict]]
-    relationships: NotRequired[list[ItemRelationship | ItemRelationshipDict]]
+    identifiers: NotRequired[ItemIdentifiersDict]
+    images: NotRequired[list[ItemImageDict]]
+    product_types: NotRequired[list[ItemProductTypeDict]]
+    sales_ranks: NotRequired[list[SalesRankDict]]
+    relationships: NotRequired[list[ItemRelationshipDict]]

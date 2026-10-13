@@ -11,4 +11,4 @@ class CancelFulfillmentOrderResponse(SdkBaseModel):
 
 
 class CancelFulfillmentOrderResponseDict(TypedDict):
-    errors: NotRequired[ErrorList | ErrorListDict]
+    errors: NotRequired[ErrorListDict]

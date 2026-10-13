@@ -40,10 +40,10 @@ class CommonTransportationOption(SdkBaseModel):
 
 
 class CommonTransportationOptionDict(TypedDict):
-    carrier: CommonCarrier | CommonCarrierDict
-    carrier_appointment: NotRequired[CommonAppointmentSlotTime | CommonAppointmentSlotTimeDict]
+    carrier: CommonCarrierDict
+    carrier_appointment: NotRequired[CommonAppointmentSlotTimeDict]
     preconditions: list[str]
-    quote: NotRequired[CommonQuote | CommonQuoteDict]
+    quote: NotRequired[CommonQuoteDict]
     shipment_id: str
     shipping_mode: str
     shipping_solution: str

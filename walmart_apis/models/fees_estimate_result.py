@@ -30,6 +30,6 @@ class FeesEstimateResult(SdkBaseModel):
 
 class FeesEstimateResultDict(TypedDict):
     status: NotRequired[Status4OrStr]
-    fees_estimate_identifier: NotRequired[FeesEstimateIdentifier | FeesEstimateIdentifierDict]
-    fees_estimate: NotRequired[FeesEstimate | FeesEstimateDict]
-    error: NotRequired[FeesEstimateError | FeesEstimateErrorDict]
+    fees_estimate_identifier: NotRequired[FeesEstimateIdentifierDict]
+    fees_estimate: NotRequired[FeesEstimateDict]
+    error: NotRequired[FeesEstimateErrorDict]

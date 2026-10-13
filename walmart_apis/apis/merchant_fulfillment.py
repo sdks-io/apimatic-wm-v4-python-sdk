@@ -9,9 +9,11 @@ from ..core import (
     RawClient,
     RequestOptionsOrDict,
     SecuredRawResponse,
+    async_json_decoder,
     json_body,
     json_decoder,
     param,
+    unwrap,
 )
 from ..errors.cancel_shipment_error import CancelShipmentErrorBody, cancel_shipment_error_mapper
 from ..errors.create_shipment_error import CreateShipmentErrorBody, create_shipment_error_mapper
@@ -24,7 +26,7 @@ from ..errors.get_shipment2_error import GetShipment2ErrorBody, get_shipment2_er
 from ..models.cancel_shipment_response import CancelShipmentResponse
 from ..models.create_shipment_request import CreateShipmentRequest, CreateShipmentRequestDict
 from ..models.create_shipment_response import CreateShipmentResponse
-from ..models.enums.format import FormatOrStr
+from ..models.enums.format import Format, FormatOrStr
 from ..models.get_eligible_shipping_services_request import (
     GetEligibleShippingServicesRequest,
     GetEligibleShippingServicesRequestDict,
@@ -46,7 +48,8 @@ class MerchantFulfillment:
 
         Args:
             shipment_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Shipment cancelled
@@ -54,7 +57,7 @@ class MerchantFulfillment:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return self._with_raw_response.cancel_shipment(shipment_id, request_options=request_options).unwrap()
+        return unwrap(self._with_raw_response.cancel_shipment(shipment_id, request_options=request_options))
 
     def create_shipment(
         self,
@@ -67,7 +70,8 @@ class MerchantFulfillment:
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -75,7 +79,7 @@ class MerchantFulfillment:
         Raises:
             ApiError: Bad Request Forbidden Rate limit exceeded Internal Server Error ``error`` is ``ErrorList |
                 RawError``."""
-        return self._with_raw_response.create_shipment(body, request_options=request_options).unwrap()
+        return unwrap(self._with_raw_response.create_shipment(body, request_options=request_options))
 
     def get_eligible_shipping_services(
         self,
@@ -88,7 +92,8 @@ class MerchantFulfillment:
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -96,21 +101,22 @@ class MerchantFulfillment:
         Raises:
             ApiError: Bad Request Forbidden Rate limit exceeded Internal Server Error ``error`` is ``ErrorList |
                 RawError``."""
-        return self._with_raw_response.get_eligible_shipping_services(body, request_options=request_options).unwrap()
+        return unwrap(self._with_raw_response.get_eligible_shipping_services(body, request_options=request_options))
 
     def get_label(
         self,
         shipment_id: str,
         *,
-        format: FormatOrStr | None = None,
+        format_: FormatOrStr | None = Format.PDF,
         request_options: RequestOptionsOrDict | None = None,
     ) -> Label:
         """Returns the purchased shipping label for a shipment in the requested file format for printing.
 
         Args:
             shipment_id: Value sent with the request.
-            format: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            format_: Value sent with the request.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Label returned
@@ -118,7 +124,7 @@ class MerchantFulfillment:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return self._with_raw_response.get_label(shipment_id, format=format, request_options=request_options).unwrap()
+        return unwrap(self._with_raw_response.get_label(shipment_id, format_=format_, request_options=request_options))
 
     def get_shipment2(
         self, shipment_id: str, *, request_options: RequestOptionsOrDict | None = None
@@ -127,7 +133,8 @@ class MerchantFulfillment:
 
         Args:
             shipment_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -135,7 +142,7 @@ class MerchantFulfillment:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return self._with_raw_response.get_shipment2(shipment_id, request_options=request_options).unwrap()
+        return unwrap(self._with_raw_response.get_shipment2(shipment_id, request_options=request_options))
 
     @property
     def with_raw_response(self) -> MerchantFulfillmentWithRawResponse:
@@ -153,7 +160,8 @@ class AsyncMerchantFulfillment:
 
         Args:
             shipment_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Shipment cancelled
@@ -161,7 +169,7 @@ class AsyncMerchantFulfillment:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return (await self._with_raw_response.cancel_shipment(shipment_id, request_options=request_options)).unwrap()
+        return unwrap(await self._with_raw_response.cancel_shipment(shipment_id, request_options=request_options))
 
     async def create_shipment(
         self,
@@ -174,7 +182,8 @@ class AsyncMerchantFulfillment:
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -182,7 +191,7 @@ class AsyncMerchantFulfillment:
         Raises:
             ApiError: Bad Request Forbidden Rate limit exceeded Internal Server Error ``error`` is ``ErrorList |
                 RawError``."""
-        return (await self._with_raw_response.create_shipment(body, request_options=request_options)).unwrap()
+        return unwrap(await self._with_raw_response.create_shipment(body, request_options=request_options))
 
     async def get_eligible_shipping_services(
         self,
@@ -195,7 +204,8 @@ class AsyncMerchantFulfillment:
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -203,23 +213,24 @@ class AsyncMerchantFulfillment:
         Raises:
             ApiError: Bad Request Forbidden Rate limit exceeded Internal Server Error ``error`` is ``ErrorList |
                 RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.get_eligible_shipping_services(body, request_options=request_options)
-        ).unwrap()
+        )
 
     async def get_label(
         self,
         shipment_id: str,
         *,
-        format: FormatOrStr | None = None,
+        format_: FormatOrStr | None = Format.PDF,
         request_options: RequestOptionsOrDict | None = None,
     ) -> Label:
         """Returns the purchased shipping label for a shipment in the requested file format for printing.
 
         Args:
             shipment_id: Value sent with the request.
-            format: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            format_: Value sent with the request.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Label returned
@@ -227,9 +238,9 @@ class AsyncMerchantFulfillment:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return (
-            await self._with_raw_response.get_label(shipment_id, format=format, request_options=request_options)
-        ).unwrap()
+        return unwrap(
+            await self._with_raw_response.get_label(shipment_id, format_=format_, request_options=request_options)
+        )
 
     async def get_shipment2(
         self, shipment_id: str, *, request_options: RequestOptionsOrDict | None = None
@@ -238,7 +249,8 @@ class AsyncMerchantFulfillment:
 
         Args:
             shipment_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -246,7 +258,7 @@ class AsyncMerchantFulfillment:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return (await self._with_raw_response.get_shipment2(shipment_id, request_options=request_options)).unwrap()
+        return unwrap(await self._with_raw_response.get_shipment2(shipment_id, request_options=request_options))
 
     @property
     def with_raw_response(self) -> AsyncMerchantFulfillmentWithRawResponse:
@@ -261,7 +273,8 @@ class MerchantFulfillmentWithRawResponse(SecuredRawResponse[RawClient, Server, A
 
         Args:
             shipment_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -287,7 +300,8 @@ class MerchantFulfillmentWithRawResponse(SecuredRawResponse[RawClient, Server, A
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -313,7 +327,8 @@ class MerchantFulfillmentWithRawResponse(SecuredRawResponse[RawClient, Server, A
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -332,15 +347,16 @@ class MerchantFulfillmentWithRawResponse(SecuredRawResponse[RawClient, Server, A
         self,
         shipment_id: str,
         *,
-        format: FormatOrStr | None = None,
+        format_: FormatOrStr | None = Format.PDF,
         request_options: RequestOptionsOrDict | None = None,
     ) -> ApiResult[Label, GetLabelErrorBody]:
         """Returns the purchased shipping label for a shipment in the requested file format for printing.
 
         Args:
             shipment_id: Value sent with the request.
-            format: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            format_: Value sent with the request.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -348,7 +364,7 @@ class MerchantFulfillmentWithRawResponse(SecuredRawResponse[RawClient, Server, A
             http_method="GET",
             url_template=self._server.default1("/mfn/v4/shipments/{shipmentId}/label"),
             path_params=[param[str]("shipmentId", shipment_id)],
-            query_params=[param[FormatOrStr | None]("format", format)],
+            query_params=[param[FormatOrStr | None]("format", format_)],
             auth_scheme=self._auth.wallet_auth,
             decoder=json_decoder[Label],
             error_mapper=get_label_error_mapper,
@@ -362,7 +378,8 @@ class MerchantFulfillmentWithRawResponse(SecuredRawResponse[RawClient, Server, A
 
         Args:
             shipment_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -385,7 +402,8 @@ class AsyncMerchantFulfillmentWithRawResponse(SecuredRawResponse[AsyncRawClient,
 
         Args:
             shipment_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -395,7 +413,7 @@ class AsyncMerchantFulfillmentWithRawResponse(SecuredRawResponse[AsyncRawClient,
             path_params=[param[str]("shipmentId", shipment_id)],
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[CancelShipmentResponse],
+            decoder=async_json_decoder[CancelShipmentResponse],
             error_mapper=cancel_shipment_error_mapper,
             request_options=request_options,
         )
@@ -411,7 +429,8 @@ class AsyncMerchantFulfillmentWithRawResponse(SecuredRawResponse[AsyncRawClient,
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -421,7 +440,7 @@ class AsyncMerchantFulfillmentWithRawResponse(SecuredRawResponse[AsyncRawClient,
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             body=json_body[CreateShipmentRequest | CreateShipmentRequestDict](body),
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[CreateShipmentResponse],
+            decoder=async_json_decoder[CreateShipmentResponse],
             error_mapper=create_shipment_error_mapper,
             request_options=request_options,
         )
@@ -437,7 +456,8 @@ class AsyncMerchantFulfillmentWithRawResponse(SecuredRawResponse[AsyncRawClient,
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -447,7 +467,7 @@ class AsyncMerchantFulfillmentWithRawResponse(SecuredRawResponse[AsyncRawClient,
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             body=json_body[GetEligibleShippingServicesRequest | GetEligibleShippingServicesRequestDict](body),
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[GetEligibleShippingServicesResponse],
+            decoder=async_json_decoder[GetEligibleShippingServicesResponse],
             error_mapper=get_eligible_shipping_services_error_mapper,
             request_options=request_options,
         )
@@ -456,15 +476,16 @@ class AsyncMerchantFulfillmentWithRawResponse(SecuredRawResponse[AsyncRawClient,
         self,
         shipment_id: str,
         *,
-        format: FormatOrStr | None = None,
+        format_: FormatOrStr | None = Format.PDF,
         request_options: RequestOptionsOrDict | None = None,
     ) -> ApiResult[Label, GetLabelErrorBody]:
         """Returns the purchased shipping label for a shipment in the requested file format for printing.
 
         Args:
             shipment_id: Value sent with the request.
-            format: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            format_: Value sent with the request.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -472,9 +493,9 @@ class AsyncMerchantFulfillmentWithRawResponse(SecuredRawResponse[AsyncRawClient,
             http_method="GET",
             url_template=self._server.default1("/mfn/v4/shipments/{shipmentId}/label"),
             path_params=[param[str]("shipmentId", shipment_id)],
-            query_params=[param[FormatOrStr | None]("format", format)],
+            query_params=[param[FormatOrStr | None]("format", format_)],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[Label],
+            decoder=async_json_decoder[Label],
             error_mapper=get_label_error_mapper,
             request_options=request_options,
         )
@@ -486,7 +507,8 @@ class AsyncMerchantFulfillmentWithRawResponse(SecuredRawResponse[AsyncRawClient,
 
         Args:
             shipment_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -495,7 +517,7 @@ class AsyncMerchantFulfillmentWithRawResponse(SecuredRawResponse[AsyncRawClient,
             url_template=self._server.default1("/mfn/v4/shipments/{shipmentId}"),
             path_params=[param[str]("shipmentId", shipment_id)],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[GetShipmentResponse],
+            decoder=async_json_decoder[GetShipmentResponse],
             error_mapper=get_shipment2_error_mapper,
             request_options=request_options,
         )

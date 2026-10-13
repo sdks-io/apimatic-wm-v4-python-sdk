@@ -11,4 +11,4 @@ class GetShipmentDocumentsResponse(SdkBaseModel):
 
 
 class GetShipmentDocumentsResponseDict(TypedDict):
-    payload: NotRequired[Payload4 | Payload4Dict]
+    payload: NotRequired[Payload4Dict]

@@ -24,7 +24,5 @@ class GetSelfShipAppointmentSlotsResponse(SdkBaseModel):
 
 
 class GetSelfShipAppointmentSlotsResponseDict(TypedDict):
-    pagination: NotRequired[CommonPagination | CommonPaginationDict]
-    self_ship_appointment_slots_availability: (
-        CommonSelfShipAppointmentSlotsAvailability | CommonSelfShipAppointmentSlotsAvailabilityDict
-    )
+    pagination: NotRequired[CommonPaginationDict]
+    self_ship_appointment_slots_availability: CommonSelfShipAppointmentSlotsAvailabilityDict

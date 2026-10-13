@@ -14,4 +14,4 @@ class ListAllFulfillmentOrdersResponse(SdkBaseModel):
 
 class ListAllFulfillmentOrdersResponseDict(TypedDict):
     next_token: NotRequired[str]
-    fulfillment_orders: NotRequired[list[FulfillmentOrder | FulfillmentOrderDict]]
+    fulfillment_orders: NotRequired[list[FulfillmentOrderDict]]

@@ -11,4 +11,4 @@ class BulkUpdateInventoryRequest(SdkBaseModel):
 
 
 class BulkUpdateInventoryRequestDict(TypedDict):
-    items: list[BulkInventoryItem | BulkInventoryItemDict]
+    items: list[BulkInventoryItemDict]

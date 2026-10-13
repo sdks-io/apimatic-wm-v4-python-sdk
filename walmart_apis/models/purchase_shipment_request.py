@@ -28,6 +28,6 @@ class PurchaseShipmentRequest(SdkBaseModel):
 class PurchaseShipmentRequestDict(TypedDict):
     request_token: str
     rate_id: str
-    requested_document_specification: RequestedDocumentSpecification | RequestedDocumentSpecificationDict
-    requested_value_added_services: NotRequired[list[RequestedValueAddedService | RequestedValueAddedServiceDict]]
+    requested_document_specification: RequestedDocumentSpecificationDict
+    requested_value_added_services: NotRequired[list[RequestedValueAddedServiceDict]]
     additional_inputs: NotRequired[Any]

@@ -67,19 +67,17 @@ class CommonShipment(SdkBaseModel):
 
 
 class CommonShipmentDict(TypedDict):
-    contact_information: NotRequired[CommonContactInformation | CommonContactInformationDict]
-    dates: NotRequired[CommonDates | CommonDatesDict]
-    destination: CommonShipmentDestination | CommonShipmentDestinationDict
-    freight_information: NotRequired[CommonFreightInformation | CommonFreightInformationDict]
+    contact_information: NotRequired[CommonContactInformationDict]
+    dates: NotRequired[CommonDatesDict]
+    destination: CommonShipmentDestinationDict
+    freight_information: NotRequired[CommonFreightInformationDict]
     name: NotRequired[str]
     placement_option_id: str
-    selected_delivery_window: NotRequired[CommonSelectedDeliveryWindow | CommonSelectedDeliveryWindowDict]
+    selected_delivery_window: NotRequired[CommonSelectedDeliveryWindowDict]
     selected_transportation_option_id: NotRequired[str]
-    self_ship_appointment_details: NotRequired[
-        list[CommonSelfShipAppointmentDetails | CommonSelfShipAppointmentDetailsDict]
-    ]
+    self_ship_appointment_details: NotRequired[list[CommonSelfShipAppointmentDetailsDict]]
     shipment_confirmation_id: NotRequired[str]
     shipment_id: str
-    source: CommonShipmentSource | CommonShipmentSourceDict
+    source: CommonShipmentSourceDict
     status: NotRequired[str]
-    tracking_details: NotRequired[CommonTrackingDetails | CommonTrackingDetailsDict]
+    tracking_details: NotRequired[CommonTrackingDetailsDict]

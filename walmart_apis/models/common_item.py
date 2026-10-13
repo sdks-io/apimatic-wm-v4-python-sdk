@@ -35,5 +35,5 @@ class CommonItemDict(TypedDict):
     expiration: NotRequired[str]
     label_owner: str
     manufacturing_lot_code: NotRequired[str]
-    prep_instructions: list[CommonPrepInstruction | CommonPrepInstructionDict]
+    prep_instructions: list[CommonPrepInstructionDict]
     quantity: int

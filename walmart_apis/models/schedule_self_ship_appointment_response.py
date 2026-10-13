@@ -15,4 +15,4 @@ class ScheduleSelfShipAppointmentResponse(SdkBaseModel):
 
 
 class ScheduleSelfShipAppointmentResponseDict(TypedDict):
-    self_ship_appointment_details: CommonSelfShipAppointmentDetails | CommonSelfShipAppointmentDetailsDict
+    self_ship_appointment_details: CommonSelfShipAppointmentDetailsDict

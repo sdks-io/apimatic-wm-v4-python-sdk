@@ -11,4 +11,4 @@ class GetTrackingResponse(SdkBaseModel):
 
 
 class GetTrackingResponseDict(TypedDict):
-    payload: NotRequired[Payload31 | Payload31Dict]
+    payload: NotRequired[Payload31Dict]

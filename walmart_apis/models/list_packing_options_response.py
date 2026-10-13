@@ -19,5 +19,5 @@ class ListPackingOptionsResponse(SdkBaseModel):
 
 
 class ListPackingOptionsResponseDict(TypedDict):
-    packing_options: list[CommonPackingOption | CommonPackingOptionDict]
-    pagination: NotRequired[CommonPagination | CommonPaginationDict]
+    packing_options: list[CommonPackingOptionDict]
+    pagination: NotRequired[CommonPaginationDict]

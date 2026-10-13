@@ -15,4 +15,4 @@ class CommonSpdTrackingDetail(SdkBaseModel):
 
 
 class CommonSpdTrackingDetailDict(TypedDict):
-    spd_tracking_items: NotRequired[list[CommonSpdTrackingItem | CommonSpdTrackingItemDict]]
+    spd_tracking_items: NotRequired[list[CommonSpdTrackingItemDict]]

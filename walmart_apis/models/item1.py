@@ -27,8 +27,8 @@ class Item1(SdkBaseModel):
 
 class Item1Dict(TypedDict):
     sku: str
-    summaries: NotRequired[list[ItemSummaryByMarketplace | ItemSummaryByMarketplaceDict]]
+    summaries: NotRequired[list[ItemSummaryByMarketplaceDict]]
     attributes: NotRequired[Any]
-    issues: NotRequired[list[Issue | IssueDict]]
-    offers: NotRequired[list[ItemOfferByMarketplace | ItemOfferByMarketplaceDict]]
-    fulfillment_availability: NotRequired[list[FulfillmentAvailability | FulfillmentAvailabilityDict]]
+    issues: NotRequired[list[IssueDict]]
+    offers: NotRequired[list[ItemOfferByMarketplaceDict]]
+    fulfillment_availability: NotRequired[list[FulfillmentAvailabilityDict]]

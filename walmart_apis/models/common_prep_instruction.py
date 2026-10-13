@@ -21,6 +21,6 @@ class CommonPrepInstruction(SdkBaseModel):
 
 
 class CommonPrepInstructionDict(TypedDict):
-    fee: NotRequired[CommonCurrency | CommonCurrencyDict]
+    fee: NotRequired[CommonCurrencyDict]
     prep_owner: NotRequired[str]
     prep_type: NotRequired[str]

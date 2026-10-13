@@ -22,6 +22,6 @@ class RefundOrderLine(SdkBaseModel):
 
 class RefundOrderLineDict(TypedDict):
     line_number: str
-    refund_amount: Money | MoneyDict
+    refund_amount: MoneyDict
     refund_type: RefundTypeOrStr
     reason: NotRequired[str]

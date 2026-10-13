@@ -23,10 +23,10 @@ class Package(SdkBaseModel):
 
 
 class PackageDict(TypedDict):
-    dimensions: PackageDimensions | PackageDimensionsDict
-    weight: Weight | WeightDict
-    insured_value: NotRequired[Money | MoneyDict]
+    dimensions: PackageDimensionsDict
+    weight: WeightDict
+    insured_value: NotRequired[MoneyDict]
     is_hazmat: NotRequired[bool]
-    seller_declared_value: NotRequired[Money | MoneyDict]
+    seller_declared_value: NotRequired[MoneyDict]
     package_client_reference_id: str
-    items: NotRequired[list[Item3 | Item3Dict]]
+    items: NotRequired[list[Item3Dict]]

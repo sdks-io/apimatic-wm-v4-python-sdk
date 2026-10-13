@@ -10,9 +10,11 @@ from ..core import (
     RequestOptionsOrDict,
     RFC3339DateTime,
     SecuredRawResponse,
+    async_json_decoder,
     json_body,
     json_decoder,
     param,
+    unwrap,
 )
 from ..errors.cancel_query_error import CancelQueryErrorBody, cancel_query_error_mapper
 from ..errors.create_query_error import CreateQueryErrorBody, create_query_error_mapper
@@ -40,7 +42,8 @@ class DataKiosk:
 
         Args:
             query_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Query cancellation accepted
@@ -48,7 +51,7 @@ class DataKiosk:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return self._with_raw_response.cancel_query(query_id, request_options=request_options).unwrap()
+        return unwrap(self._with_raw_response.cancel_query(query_id, request_options=request_options))
 
     def create_query(
         self,
@@ -61,7 +64,8 @@ class DataKiosk:
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Query request accepted for processing
@@ -69,14 +73,15 @@ class DataKiosk:
         Raises:
             ApiError: Bad Request Forbidden Rate limit exceeded Internal Server Error ``error`` is ``ErrorList |
                 RawError``."""
-        return self._with_raw_response.create_query(body, request_options=request_options).unwrap()
+        return unwrap(self._with_raw_response.create_query(body, request_options=request_options))
 
     def get_document(self, document_id: str, *, request_options: RequestOptionsOrDict | None = None) -> Document:
         """Returns a pre-signed URL for downloading query result data. Do not log the pre-signed URL.
 
         Args:
             document_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -84,7 +89,7 @@ class DataKiosk:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return self._with_raw_response.get_document(document_id, request_options=request_options).unwrap()
+        return unwrap(self._with_raw_response.get_document(document_id, request_options=request_options))
 
     def get_queries(
         self,
@@ -105,7 +110,8 @@ class DataKiosk:
             created_since: Value sent with the request.
             created_until: Value sent with the request.
             pagination_token: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -113,21 +119,24 @@ class DataKiosk:
         Raises:
             ApiError: Bad Request Forbidden Rate limit exceeded Internal Server Error ``error`` is ``ErrorList |
                 RawError``."""
-        return self._with_raw_response.get_queries(
-            processing_statuses=processing_statuses,
-            page_size=page_size,
-            created_since=created_since,
-            created_until=created_until,
-            pagination_token=pagination_token,
-            request_options=request_options,
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.get_queries(
+                processing_statuses=processing_statuses,
+                page_size=page_size,
+                created_since=created_since,
+                created_until=created_until,
+                pagination_token=pagination_token,
+                request_options=request_options,
+            ),
+        )
 
     def get_query(self, query_id: str, *, request_options: RequestOptionsOrDict | None = None) -> Query:
         """Send a ``GET`` request.
 
         Args:
             query_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -135,7 +144,7 @@ class DataKiosk:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return self._with_raw_response.get_query(query_id, request_options=request_options).unwrap()
+        return unwrap(self._with_raw_response.get_query(query_id, request_options=request_options))
 
     @property
     def with_raw_response(self) -> DataKioskWithRawResponse:
@@ -153,7 +162,8 @@ class AsyncDataKiosk:
 
         Args:
             query_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Query cancellation accepted
@@ -161,7 +171,7 @@ class AsyncDataKiosk:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return (await self._with_raw_response.cancel_query(query_id, request_options=request_options)).unwrap()
+        return unwrap(await self._with_raw_response.cancel_query(query_id, request_options=request_options))
 
     async def create_query(
         self,
@@ -174,7 +184,8 @@ class AsyncDataKiosk:
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Query request accepted for processing
@@ -182,14 +193,15 @@ class AsyncDataKiosk:
         Raises:
             ApiError: Bad Request Forbidden Rate limit exceeded Internal Server Error ``error`` is ``ErrorList |
                 RawError``."""
-        return (await self._with_raw_response.create_query(body, request_options=request_options)).unwrap()
+        return unwrap(await self._with_raw_response.create_query(body, request_options=request_options))
 
     async def get_document(self, document_id: str, *, request_options: RequestOptionsOrDict | None = None) -> Document:
         """Returns a pre-signed URL for downloading query result data. Do not log the pre-signed URL.
 
         Args:
             document_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -197,7 +209,7 @@ class AsyncDataKiosk:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return (await self._with_raw_response.get_document(document_id, request_options=request_options)).unwrap()
+        return unwrap(await self._with_raw_response.get_document(document_id, request_options=request_options))
 
     async def get_queries(
         self,
@@ -218,7 +230,8 @@ class AsyncDataKiosk:
             created_since: Value sent with the request.
             created_until: Value sent with the request.
             pagination_token: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -226,7 +239,7 @@ class AsyncDataKiosk:
         Raises:
             ApiError: Bad Request Forbidden Rate limit exceeded Internal Server Error ``error`` is ``ErrorList |
                 RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.get_queries(
                 processing_statuses=processing_statuses,
                 page_size=page_size,
@@ -234,15 +247,16 @@ class AsyncDataKiosk:
                 created_until=created_until,
                 pagination_token=pagination_token,
                 request_options=request_options,
-            )
-        ).unwrap()
+            ),
+        )
 
     async def get_query(self, query_id: str, *, request_options: RequestOptionsOrDict | None = None) -> Query:
         """Send a ``GET`` request.
 
         Args:
             query_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -250,7 +264,7 @@ class AsyncDataKiosk:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return (await self._with_raw_response.get_query(query_id, request_options=request_options)).unwrap()
+        return unwrap(await self._with_raw_response.get_query(query_id, request_options=request_options))
 
     @property
     def with_raw_response(self) -> AsyncDataKioskWithRawResponse:
@@ -265,7 +279,8 @@ class DataKioskWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes
 
         Args:
             query_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -291,7 +306,8 @@ class DataKioskWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -313,7 +329,8 @@ class DataKioskWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes
 
         Args:
             document_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -346,7 +363,8 @@ class DataKioskWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes
             created_since: Value sent with the request.
             created_until: Value sent with the request.
             pagination_token: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -373,7 +391,8 @@ class DataKioskWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes
 
         Args:
             query_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -396,7 +415,8 @@ class AsyncDataKioskWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, A
 
         Args:
             query_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -406,7 +426,7 @@ class AsyncDataKioskWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, A
             path_params=[param[str]("queryId", query_id)],
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[CancelQueryResponse],
+            decoder=async_json_decoder[CancelQueryResponse],
             error_mapper=cancel_query_error_mapper,
             request_options=request_options,
         )
@@ -422,7 +442,8 @@ class AsyncDataKioskWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, A
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -432,7 +453,7 @@ class AsyncDataKioskWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, A
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             body=json_body[CreateQuerySpecification | CreateQuerySpecificationDict](body),
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[CreateQueryResponse],
+            decoder=async_json_decoder[CreateQueryResponse],
             error_mapper=create_query_error_mapper,
             request_options=request_options,
         )
@@ -444,7 +465,8 @@ class AsyncDataKioskWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, A
 
         Args:
             document_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -453,7 +475,7 @@ class AsyncDataKioskWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, A
             url_template=self._server.default1("/data-kiosk/v4/documents/{documentId}"),
             path_params=[param[str]("documentId", document_id)],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[Document],
+            decoder=async_json_decoder[Document],
             error_mapper=get_document_error_mapper,
             request_options=request_options,
         )
@@ -477,7 +499,8 @@ class AsyncDataKioskWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, A
             created_since: Value sent with the request.
             created_until: Value sent with the request.
             pagination_token: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -492,7 +515,7 @@ class AsyncDataKioskWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, A
                 param[str | None]("paginationToken", pagination_token),
             ],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[GetQueriesResponse],
+            decoder=async_json_decoder[GetQueriesResponse],
             error_mapper=get_queries_error_mapper,
             request_options=request_options,
         )
@@ -504,7 +527,8 @@ class AsyncDataKioskWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, A
 
         Args:
             query_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -513,7 +537,7 @@ class AsyncDataKioskWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, A
             url_template=self._server.default1("/data-kiosk/v4/queries/{queryId}"),
             path_params=[param[str]("queryId", query_id)],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[Query],
+            decoder=async_json_decoder[Query],
             error_mapper=get_query_error_mapper,
             request_options=request_options,
         )

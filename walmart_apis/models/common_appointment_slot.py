@@ -19,4 +19,4 @@ class CommonAppointmentSlot(SdkBaseModel):
 
 class CommonAppointmentSlotDict(TypedDict):
     slot_id: str
-    slot_time: CommonAppointmentSlotTime | CommonAppointmentSlotTimeDict
+    slot_time: CommonAppointmentSlotTimeDict

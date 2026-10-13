@@ -11,8 +11,8 @@ Each `###` block is one operation and assumes `sdk-map.md` is loaded: blocks omi
 - **Route**: `GET /products/pricing/v4/competitivePrice`
 - **Auth**: `wallet_auth`
 - **Server**: `default1`
-- **Signature**: `def get_competitive_pricing(marketplace_id: str, item_type: ItemTypeOrStr, *, skus: list[str] | None = None, walmart_item_ids: list[str] | None = None, customer_type: CustomerTypeOrStr | None = None, request_options: RequestOptionsOrDict | None = None)`
-  - required, positional: `marketplace_id`, `item_type`
+- **Signature**: `def get_competitive_pricing(marketplace_id: str, *, item_type: ItemTypeOrStr = ItemType.SKU, skus: list[str] | None = None, walmart_item_ids: list[str] | None = None, customer_type: CustomerTypeOrStr | None = None, request_options: RequestOptionsOrDict | None = None)`
+  - required, positional: `marketplace_id`
 - **Params**: `marketplace_id` — query `MarketplaceId` · `item_type` — query `ItemType` · `skus` — query `Skus` · `walmart_item_ids` — query `walmartItemIds` · `customer_type` — query `CustomerType`
 - **Returns (parsed)**: `GetPricingResponse`
 - **Returns (raw)**: `ApiResult[GetPricingResponse, GetCompetitivePricingErrorBody]`
@@ -158,8 +158,8 @@ Each `###` block is one operation and assumes `sdk-map.md` is loaded: blocks omi
 - **Route**: `GET /products/pricing/v4/price`
 - **Auth**: `wallet_auth`
 - **Server**: `default1`
-- **Signature**: `def get_pricing(marketplace_id: str, item_type: ItemTypeOrStr, *, skus: list[str] | None = None, walmart_item_ids: list[str] | None = None, item_condition: ConditionType2OrStr | None = None, offer_type: OfferTypeOrStr | None = None, customer_type: CustomerTypeOrStr | None = None, request_options: RequestOptionsOrDict | None = None)`
-  - required, positional: `marketplace_id`, `item_type`
+- **Signature**: `def get_pricing(marketplace_id: str, *, item_type: ItemTypeOrStr = ItemType.SKU, skus: list[str] | None = None, walmart_item_ids: list[str] | None = None, item_condition: ConditionType2OrStr | None = None, offer_type: OfferTypeOrStr | None = None, customer_type: CustomerTypeOrStr | None = None, request_options: RequestOptionsOrDict | None = None)`
+  - required, positional: `marketplace_id`
 - **Params**: `marketplace_id` — query `MarketplaceId` · `item_type` — query `ItemType` · `skus` — query `Skus` · `walmart_item_ids` — query `walmartItemIds` · `item_condition` — query `ItemCondition` · `offer_type` — query `OfferType` · `customer_type` — query `CustomerType`
 - **Returns (parsed)**: `GetPricingResponse`
 - **Returns (raw)**: `ApiResult[GetPricingResponse, GetPricingErrorBody]`

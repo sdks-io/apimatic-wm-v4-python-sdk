@@ -1,7 +1,17 @@
 from __future__ import annotations
 
 from ..auth import AsyncAuthSchemes, AuthSchemes
-from ..core import ApiResult, AsyncRawClient, RawClient, RequestOptionsOrDict, SecuredRawResponse, json_decoder, param
+from ..core import (
+    ApiResult,
+    AsyncRawClient,
+    RawClient,
+    RequestOptionsOrDict,
+    SecuredRawResponse,
+    async_json_decoder,
+    json_decoder,
+    param,
+    unwrap,
+)
 from ..errors.get_catalog_item_error import GetCatalogItemErrorBody, get_catalog_item_error_mapper
 from ..errors.search_catalog_items_error import SearchCatalogItemsErrorBody, search_catalog_items_error_mapper
 from ..models.enums.included_datum import IncludedDatumOrStr
@@ -28,7 +38,8 @@ class Catalog:
             walmart_item_id: Walmart Item ID (14-digit numeric identifier)
             marketplace_ids: Walmart marketplace identifiers. Use WALMART_US for the US marketplace.
             included_data: Data sections to include in the response
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -36,9 +47,11 @@ class Catalog:
         Raises:
             ApiError: Bad Request Forbidden — insufficient permissions Resource not found Rate limit exceeded Internal
                 Server Error ``error`` is ``ErrorList | RawError``."""
-        return self._with_raw_response.get_catalog_item(
-            walmart_item_id, marketplace_ids, included_data=included_data, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.get_catalog_item(
+                walmart_item_id, marketplace_ids, included_data=included_data, request_options=request_options
+            ),
+        )
 
     def search_catalog_items(
         self,
@@ -72,7 +85,8 @@ class Catalog:
                 The PIQS search backend (``/v3/items/walmart/search``) does not return a ``nextCursor`` and does not
                 honour this parameter. Results are capped at 40 items per call. Reserved for future use once PIQS
                 exposes pagination support.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -80,18 +94,20 @@ class Catalog:
         Raises:
             ApiError: Bad Request Forbidden — insufficient permissions Resource not found Rate limit exceeded Internal
                 Server Error ``error`` is ``ErrorList | RawError``."""
-        return self._with_raw_response.search_catalog_items(
-            marketplace_ids,
-            keywords=keywords,
-            walmart_item_ids=walmart_item_ids,
-            seller_sku=seller_sku,
-            gtin=gtin,
-            upc=upc,
-            included_data=included_data,
-            page_size=page_size,
-            page_token=page_token,
-            request_options=request_options,
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.search_catalog_items(
+                marketplace_ids,
+                keywords=keywords,
+                walmart_item_ids=walmart_item_ids,
+                seller_sku=seller_sku,
+                gtin=gtin,
+                upc=upc,
+                included_data=included_data,
+                page_size=page_size,
+                page_token=page_token,
+                request_options=request_options,
+            ),
+        )
 
     @property
     def with_raw_response(self) -> CatalogWithRawResponse:
@@ -116,7 +132,8 @@ class AsyncCatalog:
             walmart_item_id: Walmart Item ID (14-digit numeric identifier)
             marketplace_ids: Walmart marketplace identifiers. Use WALMART_US for the US marketplace.
             included_data: Data sections to include in the response
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -124,11 +141,11 @@ class AsyncCatalog:
         Raises:
             ApiError: Bad Request Forbidden — insufficient permissions Resource not found Rate limit exceeded Internal
                 Server Error ``error`` is ``ErrorList | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.get_catalog_item(
                 walmart_item_id, marketplace_ids, included_data=included_data, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     async def search_catalog_items(
         self,
@@ -162,7 +179,8 @@ class AsyncCatalog:
                 The PIQS search backend (``/v3/items/walmart/search``) does not return a ``nextCursor`` and does not
                 honour this parameter. Results are capped at 40 items per call. Reserved for future use once PIQS
                 exposes pagination support.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -170,7 +188,7 @@ class AsyncCatalog:
         Raises:
             ApiError: Bad Request Forbidden — insufficient permissions Resource not found Rate limit exceeded Internal
                 Server Error ``error`` is ``ErrorList | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.search_catalog_items(
                 marketplace_ids,
                 keywords=keywords,
@@ -182,8 +200,8 @@ class AsyncCatalog:
                 page_size=page_size,
                 page_token=page_token,
                 request_options=request_options,
-            )
-        ).unwrap()
+            ),
+        )
 
     @property
     def with_raw_response(self) -> AsyncCatalogWithRawResponse:
@@ -205,7 +223,8 @@ class CatalogWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes])
             walmart_item_id: Walmart Item ID (14-digit numeric identifier)
             marketplace_ids: Walmart marketplace identifiers. Use WALMART_US for the US marketplace.
             included_data: Data sections to include in the response
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -255,7 +274,8 @@ class CatalogWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes])
                 The PIQS search backend (``/v3/items/walmart/search``) does not return a ``nextCursor`` and does not
                 honour this parameter. Results are capped at 40 items per call. Reserved for future use once PIQS
                 exposes pagination support.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -295,7 +315,8 @@ class AsyncCatalogWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asy
             walmart_item_id: Walmart Item ID (14-digit numeric identifier)
             marketplace_ids: Walmart marketplace identifiers. Use WALMART_US for the US marketplace.
             included_data: Data sections to include in the response
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -308,7 +329,7 @@ class AsyncCatalogWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asy
                 param[list[IncludedDatumOrStr] | None]("includedData", included_data),
             ],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[Item],
+            decoder=async_json_decoder[Item],
             error_mapper=get_catalog_item_error_mapper,
             request_options=request_options,
         )
@@ -345,7 +366,8 @@ class AsyncCatalogWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asy
                 The PIQS search backend (``/v3/items/walmart/search``) does not return a ``nextCursor`` and does not
                 honour this parameter. Results are capped at 40 items per call. Reserved for future use once PIQS
                 exposes pagination support.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -364,7 +386,7 @@ class AsyncCatalogWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asy
                 param[str | None]("pageToken", page_token),
             ],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[ItemSearchResults],
+            decoder=async_json_decoder[ItemSearchResults],
             error_mapper=search_catalog_items_error_mapper,
             request_options=request_options,
         )

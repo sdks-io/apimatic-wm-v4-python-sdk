@@ -27,12 +27,12 @@ class OneClickShipmentRequest(SdkBaseModel):
 
 
 class OneClickShipmentRequestDict(TypedDict):
-    ship_to: Address1 | Address1Dict
-    ship_from: Address1 | Address1Dict
-    return_to: NotRequired[Address1 | Address1Dict]
+    ship_to: Address1Dict
+    ship_from: Address1Dict
+    return_to: NotRequired[Address1Dict]
     ship_date: NotRequired[RFC3339DateTime]
-    packages: list[Package | PackageDict]
-    service_selection: ServiceSelection | ServiceSelectionDict
-    value_added_services: NotRequired[list[RequestedValueAddedService | RequestedValueAddedServiceDict]]
-    requested_document_specification: RequestedDocumentSpecification | RequestedDocumentSpecificationDict
-    channel_details: ChannelDetails | ChannelDetailsDict
+    packages: list[PackageDict]
+    service_selection: ServiceSelectionDict
+    value_added_services: NotRequired[list[RequestedValueAddedServiceDict]]
+    requested_document_specification: RequestedDocumentSpecificationDict
+    channel_details: ChannelDetailsDict

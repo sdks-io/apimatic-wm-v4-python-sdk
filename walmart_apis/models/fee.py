@@ -13,4 +13,4 @@ class Fee(SdkBaseModel):
 
 class FeeDict(TypedDict):
     name: NotRequired[str]
-    amount: NotRequired[Money | MoneyDict]
+    amount: NotRequired[MoneyDict]

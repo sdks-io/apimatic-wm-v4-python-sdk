@@ -9,10 +9,13 @@ from ..core import (
     RawClient,
     RequestOptionsOrDict,
     SecuredRawResponse,
+    async_empty_response,
+    async_json_decoder,
     empty_response,
     json_body,
     json_decoder,
     param,
+    unwrap,
 )
 from ..errors.cancel_inbound_plan_error import CancelInboundPlanErrorBody, cancel_inbound_plan_error_mapper
 from ..errors.cancel_self_ship_appointment_error import (
@@ -227,7 +230,8 @@ class WfsInbound:
 
         Args:
             inbound_plan_id: Identifier of an inbound plan.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Accepted — operation submitted asynchronously.
@@ -235,7 +239,7 @@ class WfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return self._with_raw_response.cancel_inbound_plan(inbound_plan_id, request_options=request_options).unwrap()
+        return unwrap(self._with_raw_response.cancel_inbound_plan(inbound_plan_id, request_options=request_options))
 
     def cancel_self_ship_appointment(
         self,
@@ -251,7 +255,8 @@ class WfsInbound:
             inbound_plan_id: Identifier of an inbound plan.
             shipment_id: Identifier of a shipment.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Accepted — operation submitted asynchronously.
@@ -259,9 +264,11 @@ class WfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return self._with_raw_response.cancel_self_ship_appointment(
-            inbound_plan_id, shipment_id, body, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.cancel_self_ship_appointment(
+                inbound_plan_id, shipment_id, body, request_options=request_options
+            ),
+        )
 
     def confirm_delivery_window_options(
         self,
@@ -277,7 +284,8 @@ class WfsInbound:
             inbound_plan_id: Identifier of an inbound plan.
             shipment_id: The shipment to confirm the delivery window option for.
             delivery_window_option_id: The ID of the delivery window option to be confirmed.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Accepted — operation submitted asynchronously.
@@ -285,9 +293,11 @@ class WfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return self._with_raw_response.confirm_delivery_window_options(
-            inbound_plan_id, shipment_id, delivery_window_option_id, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.confirm_delivery_window_options(
+                inbound_plan_id, shipment_id, delivery_window_option_id, request_options=request_options
+            ),
+        )
 
     def confirm_packing_option(
         self, inbound_plan_id: str, packing_option_id: str, *, request_options: RequestOptionsOrDict | None = None
@@ -297,7 +307,8 @@ class WfsInbound:
         Args:
             inbound_plan_id: Identifier of an inbound plan.
             packing_option_id: Identifier of a packing option.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Accepted — operation submitted asynchronously.
@@ -305,9 +316,11 @@ class WfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return self._with_raw_response.confirm_packing_option(
-            inbound_plan_id, packing_option_id, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.confirm_packing_option(
+                inbound_plan_id, packing_option_id, request_options=request_options
+            ),
+        )
 
     def confirm_placement_option(
         self, inbound_plan_id: str, placement_option_id: str, *, request_options: RequestOptionsOrDict | None = None
@@ -317,7 +330,8 @@ class WfsInbound:
         Args:
             inbound_plan_id: Identifier of an inbound plan.
             placement_option_id: The identifier of a placement option.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Accepted — operation submitted asynchronously.
@@ -325,9 +339,11 @@ class WfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return self._with_raw_response.confirm_placement_option(
-            inbound_plan_id, placement_option_id, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.confirm_placement_option(
+                inbound_plan_id, placement_option_id, request_options=request_options
+            ),
+        )
 
     def confirm_shipment_content_update_preview(
         self,
@@ -343,7 +359,8 @@ class WfsInbound:
             inbound_plan_id: Identifier of an inbound plan.
             shipment_id: Identifier of a shipment.
             content_update_preview_id: Identifier of a content update preview.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Accepted — operation submitted asynchronously.
@@ -351,9 +368,11 @@ class WfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return self._with_raw_response.confirm_shipment_content_update_preview(
-            inbound_plan_id, shipment_id, content_update_preview_id, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.confirm_shipment_content_update_preview(
+                inbound_plan_id, shipment_id, content_update_preview_id, request_options=request_options
+            ),
+        )
 
     def confirm_transportation_options(
         self,
@@ -367,7 +386,8 @@ class WfsInbound:
         Args:
             inbound_plan_id: Identifier of an inbound plan.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Accepted — operation submitted asynchronously.
@@ -375,9 +395,11 @@ class WfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return self._with_raw_response.confirm_transportation_options(
-            inbound_plan_id, body, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.confirm_transportation_options(
+                inbound_plan_id, body, request_options=request_options
+            ),
+        )
 
     def create_inbound_plan(
         self,
@@ -389,7 +411,8 @@ class WfsInbound:
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Accepted — operation submitted asynchronously.
@@ -397,7 +420,7 @@ class WfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return self._with_raw_response.create_inbound_plan(body, request_options=request_options).unwrap()
+        return unwrap(self._with_raw_response.create_inbound_plan(body, request_options=request_options))
 
     def create_marketplace_item_labels(
         self,
@@ -409,7 +432,8 @@ class WfsInbound:
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -417,7 +441,7 @@ class WfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return self._with_raw_response.create_marketplace_item_labels(body, request_options=request_options).unwrap()
+        return unwrap(self._with_raw_response.create_marketplace_item_labels(body, request_options=request_options))
 
     def generate_delivery_window_options(
         self, inbound_plan_id: str, shipment_id: str, *, request_options: RequestOptionsOrDict | None = None
@@ -427,7 +451,8 @@ class WfsInbound:
         Args:
             inbound_plan_id: Identifier of an inbound plan.
             shipment_id: The shipment to generate delivery window options for.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Accepted — operation submitted asynchronously.
@@ -435,9 +460,11 @@ class WfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return self._with_raw_response.generate_delivery_window_options(
-            inbound_plan_id, shipment_id, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.generate_delivery_window_options(
+                inbound_plan_id, shipment_id, request_options=request_options
+            ),
+        )
 
     def generate_packing_options(
         self, inbound_plan_id: str, *, request_options: RequestOptionsOrDict | None = None
@@ -446,7 +473,8 @@ class WfsInbound:
 
         Args:
             inbound_plan_id: Identifier of an inbound plan.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Accepted — operation submitted asynchronously.
@@ -454,9 +482,9 @@ class WfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return self._with_raw_response.generate_packing_options(
-            inbound_plan_id, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.generate_packing_options(inbound_plan_id, request_options=request_options)
+        )
 
     def generate_placement_options(
         self,
@@ -470,7 +498,8 @@ class WfsInbound:
         Args:
             inbound_plan_id: Identifier of an inbound plan.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Accepted — operation submitted asynchronously.
@@ -478,9 +507,9 @@ class WfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return self._with_raw_response.generate_placement_options(
-            inbound_plan_id, body, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.generate_placement_options(inbound_plan_id, body, request_options=request_options)
+        )
 
     def generate_self_ship_appointment_slots(
         self,
@@ -496,7 +525,8 @@ class WfsInbound:
             inbound_plan_id: Identifier of an inbound plan.
             shipment_id: Identifier of a shipment.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Accepted — operation submitted asynchronously.
@@ -504,9 +534,11 @@ class WfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return self._with_raw_response.generate_self_ship_appointment_slots(
-            inbound_plan_id, shipment_id, body, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.generate_self_ship_appointment_slots(
+                inbound_plan_id, shipment_id, body, request_options=request_options
+            ),
+        )
 
     def generate_shipment_content_update_previews(
         self,
@@ -522,7 +554,8 @@ class WfsInbound:
             inbound_plan_id: Identifier of an inbound plan.
             shipment_id: Identifier of a shipment.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Accepted — operation submitted asynchronously.
@@ -530,9 +563,11 @@ class WfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return self._with_raw_response.generate_shipment_content_update_previews(
-            inbound_plan_id, shipment_id, body, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.generate_shipment_content_update_previews(
+                inbound_plan_id, shipment_id, body, request_options=request_options
+            ),
+        )
 
     def generate_transportation_options(
         self,
@@ -546,7 +581,8 @@ class WfsInbound:
         Args:
             inbound_plan_id: Identifier of an inbound plan.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Accepted — operation submitted asynchronously.
@@ -554,9 +590,11 @@ class WfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return self._with_raw_response.generate_transportation_options(
-            inbound_plan_id, body, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.generate_transportation_options(
+                inbound_plan_id, body, request_options=request_options
+            ),
+        )
 
     def get_delivery_challan_document(
         self, inbound_plan_id: str, shipment_id: str, *, request_options: RequestOptionsOrDict | None = None
@@ -566,7 +604,8 @@ class WfsInbound:
         Args:
             inbound_plan_id: Identifier of an inbound plan.
             shipment_id: Identifier of a shipment.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -574,9 +613,11 @@ class WfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return self._with_raw_response.get_delivery_challan_document(
-            inbound_plan_id, shipment_id, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.get_delivery_challan_document(
+                inbound_plan_id, shipment_id, request_options=request_options
+            ),
+        )
 
     def get_inbound_operation_status(
         self, operation_id: str, *, request_options: RequestOptionsOrDict | None = None
@@ -585,7 +626,8 @@ class WfsInbound:
 
         Args:
             operation_id: Identifier of an asynchronous operation.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -593,9 +635,9 @@ class WfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return self._with_raw_response.get_inbound_operation_status(
-            operation_id, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.get_inbound_operation_status(operation_id, request_options=request_options)
+        )
 
     def get_inbound_plan(
         self, inbound_plan_id: str, *, request_options: RequestOptionsOrDict | None = None
@@ -604,7 +646,8 @@ class WfsInbound:
 
         Args:
             inbound_plan_id: Identifier of an inbound plan.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -612,7 +655,7 @@ class WfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return self._with_raw_response.get_inbound_plan(inbound_plan_id, request_options=request_options).unwrap()
+        return unwrap(self._with_raw_response.get_inbound_plan(inbound_plan_id, request_options=request_options))
 
     def get_self_ship_appointment_slots(
         self,
@@ -630,7 +673,8 @@ class WfsInbound:
             shipment_id: Identifier of a shipment.
             page_size: The number of self ship appointment slots to return in the response matching the given query.
             pagination_token: A token to fetch a certain page when there are multiple pages worth of results.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -638,13 +682,15 @@ class WfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return self._with_raw_response.get_self_ship_appointment_slots(
-            inbound_plan_id,
-            shipment_id,
-            page_size=page_size,
-            pagination_token=pagination_token,
-            request_options=request_options,
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.get_self_ship_appointment_slots(
+                inbound_plan_id,
+                shipment_id,
+                page_size=page_size,
+                pagination_token=pagination_token,
+                request_options=request_options,
+            ),
+        )
 
     def get_shipment(
         self, inbound_plan_id: str, shipment_id: str, *, request_options: RequestOptionsOrDict | None = None
@@ -654,7 +700,8 @@ class WfsInbound:
         Args:
             inbound_plan_id: Identifier of an inbound plan.
             shipment_id: Identifier of a shipment. A shipment contains the boxes and units being inbounded.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -662,9 +709,9 @@ class WfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return self._with_raw_response.get_shipment(
-            inbound_plan_id, shipment_id, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.get_shipment(inbound_plan_id, shipment_id, request_options=request_options)
+        )
 
     def get_shipment_content_update_preview(
         self,
@@ -680,7 +727,8 @@ class WfsInbound:
             inbound_plan_id: Identifier of an inbound plan.
             shipment_id: Identifier of a shipment.
             content_update_preview_id: Identifier of a content update preview.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -688,9 +736,11 @@ class WfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return self._with_raw_response.get_shipment_content_update_preview(
-            inbound_plan_id, shipment_id, content_update_preview_id, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.get_shipment_content_update_preview(
+                inbound_plan_id, shipment_id, content_update_preview_id, request_options=request_options
+            ),
+        )
 
     def list_delivery_window_options(
         self,
@@ -708,7 +758,8 @@ class WfsInbound:
             shipment_id: The shipment to get delivery window options for.
             page_size: The number of delivery window options to return in the response matching the given query.
             pagination_token: A token to fetch a certain page when there are multiple pages worth of results.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -716,13 +767,15 @@ class WfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return self._with_raw_response.list_delivery_window_options(
-            inbound_plan_id,
-            shipment_id,
-            page_size=page_size,
-            pagination_token=pagination_token,
-            request_options=request_options,
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.list_delivery_window_options(
+                inbound_plan_id,
+                shipment_id,
+                page_size=page_size,
+                pagination_token=pagination_token,
+                request_options=request_options,
+            ),
+        )
 
     def list_inbound_plan_boxes(
         self,
@@ -738,7 +791,8 @@ class WfsInbound:
             inbound_plan_id: Identifier of an inbound plan.
             page_size: The number of boxes to return in the response matching the given query.
             pagination_token: A token to fetch a certain page when there are multiple pages worth of results.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -746,9 +800,11 @@ class WfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return self._with_raw_response.list_inbound_plan_boxes(
-            inbound_plan_id, page_size=page_size, pagination_token=pagination_token, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.list_inbound_plan_boxes(
+                inbound_plan_id, page_size=page_size, pagination_token=pagination_token, request_options=request_options
+            ),
+        )
 
     def list_inbound_plan_items(
         self,
@@ -764,7 +820,8 @@ class WfsInbound:
             inbound_plan_id: Identifier of an inbound plan.
             page_size: The number of items to return in the response matching the given query.
             pagination_token: A token to fetch a certain page when there are multiple pages worth of results.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -772,9 +829,11 @@ class WfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return self._with_raw_response.list_inbound_plan_items(
-            inbound_plan_id, page_size=page_size, pagination_token=pagination_token, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.list_inbound_plan_items(
+                inbound_plan_id, page_size=page_size, pagination_token=pagination_token, request_options=request_options
+            ),
+        )
 
     def list_inbound_plan_pallets(
         self,
@@ -790,7 +849,8 @@ class WfsInbound:
             inbound_plan_id: Identifier of an inbound plan.
             page_size: The number of pallets to return in the response matching the given query.
             pagination_token: A token to fetch a certain page when there are multiple pages worth of results.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -798,9 +858,11 @@ class WfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return self._with_raw_response.list_inbound_plan_pallets(
-            inbound_plan_id, page_size=page_size, pagination_token=pagination_token, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.list_inbound_plan_pallets(
+                inbound_plan_id, page_size=page_size, pagination_token=pagination_token, request_options=request_options
+            ),
+        )
 
     def list_inbound_plans(
         self,
@@ -820,7 +882,8 @@ class WfsInbound:
             status: The status of an inbound plan. Possible values: ``ACTIVE``, ``VOIDED``, ``SHIPPED``, ``ERRORED``.
             sort_by: Sort by field.
             sort_order: The sort order. Possible values: ``ASC``, ``DESC``.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -828,14 +891,16 @@ class WfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return self._with_raw_response.list_inbound_plans(
-            page_size=page_size,
-            pagination_token=pagination_token,
-            status=status,
-            sort_by=sort_by,
-            sort_order=sort_order,
-            request_options=request_options,
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.list_inbound_plans(
+                page_size=page_size,
+                pagination_token=pagination_token,
+                status=status,
+                sort_by=sort_by,
+                sort_order=sort_order,
+                request_options=request_options,
+            ),
+        )
 
     def list_item_compliance_details(
         self, mskus: list[str], marketplace_id: str, *, request_options: RequestOptionsOrDict | None = None
@@ -846,7 +911,8 @@ class WfsInbound:
             mskus: A list of merchant SKUs, a merchant-supplied identifier of a specific SKU.
             marketplace_id: The Walmart Marketplace ID. For a list of possible values, refer to `Marketplace IDs
                 <https://developer-docs.walmart.com/seller-api/docs/marketplace-ids>`__.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -854,9 +920,9 @@ class WfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return self._with_raw_response.list_item_compliance_details(
-            mskus, marketplace_id, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.list_item_compliance_details(mskus, marketplace_id, request_options=request_options)
+        )
 
     def list_packing_group_boxes(
         self,
@@ -874,7 +940,8 @@ class WfsInbound:
             packing_group_id: Identifier of a packing group.
             page_size: The number of packing group boxes to return in the response matching the given query.
             pagination_token: A token to fetch a certain page when there are multiple pages worth of results.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -882,13 +949,15 @@ class WfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return self._with_raw_response.list_packing_group_boxes(
-            inbound_plan_id,
-            packing_group_id,
-            page_size=page_size,
-            pagination_token=pagination_token,
-            request_options=request_options,
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.list_packing_group_boxes(
+                inbound_plan_id,
+                packing_group_id,
+                page_size=page_size,
+                pagination_token=pagination_token,
+                request_options=request_options,
+            ),
+        )
 
     def list_packing_group_items(
         self,
@@ -906,7 +975,8 @@ class WfsInbound:
             packing_group_id: Identifier of a packing group.
             page_size: The number of packing group items to return in the response matching the given query.
             pagination_token: A token to fetch a certain page when there are multiple pages worth of results.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -914,13 +984,15 @@ class WfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return self._with_raw_response.list_packing_group_items(
-            inbound_plan_id,
-            packing_group_id,
-            page_size=page_size,
-            pagination_token=pagination_token,
-            request_options=request_options,
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.list_packing_group_items(
+                inbound_plan_id,
+                packing_group_id,
+                page_size=page_size,
+                pagination_token=pagination_token,
+                request_options=request_options,
+            ),
+        )
 
     def list_packing_options(
         self,
@@ -936,7 +1008,8 @@ class WfsInbound:
             inbound_plan_id: Identifier of an inbound plan.
             page_size: The number of packing options to return in the response matching the given query.
             pagination_token: A token to fetch a certain page when there are multiple pages worth of results.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -944,9 +1017,11 @@ class WfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return self._with_raw_response.list_packing_options(
-            inbound_plan_id, page_size=page_size, pagination_token=pagination_token, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.list_packing_options(
+                inbound_plan_id, page_size=page_size, pagination_token=pagination_token, request_options=request_options
+            ),
+        )
 
     def list_placement_options(
         self,
@@ -962,7 +1037,8 @@ class WfsInbound:
             inbound_plan_id: Identifier of an inbound plan.
             page_size: The number of placement options to return in the response matching the given query.
             pagination_token: A token to fetch a certain page when there are multiple pages worth of results.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -970,9 +1046,11 @@ class WfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return self._with_raw_response.list_placement_options(
-            inbound_plan_id, page_size=page_size, pagination_token=pagination_token, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.list_placement_options(
+                inbound_plan_id, page_size=page_size, pagination_token=pagination_token, request_options=request_options
+            ),
+        )
 
     def list_prep_details(
         self, marketplace_id: str, mskus: list[str], *, request_options: RequestOptionsOrDict | None = None
@@ -983,7 +1061,8 @@ class WfsInbound:
             marketplace_id: The Walmart Marketplace ID. For a list of possible values, refer to `Marketplace IDs
                 <https://developer-docs.walmart.com/seller-api/docs/marketplace-ids>`__.
             mskus: A list of merchant SKUs, a merchant-supplied identifier of a specific SKU.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -991,9 +1070,7 @@ class WfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return self._with_raw_response.list_prep_details(
-            marketplace_id, mskus, request_options=request_options
-        ).unwrap()
+        return unwrap(self._with_raw_response.list_prep_details(marketplace_id, mskus, request_options=request_options))
 
     def list_shipment_boxes(
         self,
@@ -1011,7 +1088,8 @@ class WfsInbound:
             shipment_id: Identifier of a shipment. A shipment contains the boxes and units being inbounded.
             page_size: The number of boxes to return in the response matching the given query.
             pagination_token: A token to fetch a certain page when there are multiple pages worth of results.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -1019,13 +1097,15 @@ class WfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return self._with_raw_response.list_shipment_boxes(
-            inbound_plan_id,
-            shipment_id,
-            page_size=page_size,
-            pagination_token=pagination_token,
-            request_options=request_options,
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.list_shipment_boxes(
+                inbound_plan_id,
+                shipment_id,
+                page_size=page_size,
+                pagination_token=pagination_token,
+                request_options=request_options,
+            ),
+        )
 
     def list_shipment_content_update_previews(
         self,
@@ -1043,7 +1123,8 @@ class WfsInbound:
             shipment_id: Identifier of a shipment.
             page_size: The number of content update previews to return.
             pagination_token: A token to fetch a certain page when there are multiple pages worth of results.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -1051,13 +1132,15 @@ class WfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return self._with_raw_response.list_shipment_content_update_previews(
-            inbound_plan_id,
-            shipment_id,
-            page_size=page_size,
-            pagination_token=pagination_token,
-            request_options=request_options,
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.list_shipment_content_update_previews(
+                inbound_plan_id,
+                shipment_id,
+                page_size=page_size,
+                pagination_token=pagination_token,
+                request_options=request_options,
+            ),
+        )
 
     def list_shipment_items(
         self,
@@ -1075,7 +1158,8 @@ class WfsInbound:
             shipment_id: Identifier of a shipment. A shipment contains the boxes and units being inbounded.
             page_size: The number of items to return in the response matching the given query.
             pagination_token: A token to fetch a certain page when there are multiple pages worth of results.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -1083,13 +1167,15 @@ class WfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return self._with_raw_response.list_shipment_items(
-            inbound_plan_id,
-            shipment_id,
-            page_size=page_size,
-            pagination_token=pagination_token,
-            request_options=request_options,
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.list_shipment_items(
+                inbound_plan_id,
+                shipment_id,
+                page_size=page_size,
+                pagination_token=pagination_token,
+                request_options=request_options,
+            ),
+        )
 
     def list_shipment_pallets(
         self,
@@ -1107,7 +1193,8 @@ class WfsInbound:
             shipment_id: Identifier of a shipment.
             page_size: The number of pallets to return in the response matching the given query.
             pagination_token: A token to fetch a certain page when there are multiple pages worth of results.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -1115,13 +1202,15 @@ class WfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return self._with_raw_response.list_shipment_pallets(
-            inbound_plan_id,
-            shipment_id,
-            page_size=page_size,
-            pagination_token=pagination_token,
-            request_options=request_options,
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.list_shipment_pallets(
+                inbound_plan_id,
+                shipment_id,
+                page_size=page_size,
+                pagination_token=pagination_token,
+                request_options=request_options,
+            ),
+        )
 
     def list_transportation_options(
         self,
@@ -1143,7 +1232,8 @@ class WfsInbound:
                 ``shipmentId`` must be specified.
             shipment_id: The shipment to get transportation options for. Either ``placementOptionId`` or ``shipmentId``
                 must be specified.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -1151,14 +1241,16 @@ class WfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return self._with_raw_response.list_transportation_options(
-            inbound_plan_id,
-            page_size=page_size,
-            pagination_token=pagination_token,
-            placement_option_id=placement_option_id,
-            shipment_id=shipment_id,
-            request_options=request_options,
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.list_transportation_options(
+                inbound_plan_id,
+                page_size=page_size,
+                pagination_token=pagination_token,
+                placement_option_id=placement_option_id,
+                shipment_id=shipment_id,
+                request_options=request_options,
+            ),
+        )
 
     def schedule_self_ship_appointment(
         self,
@@ -1176,7 +1268,8 @@ class WfsInbound:
             shipment_id: Identifier of a shipment.
             slot_id: An identifier to a self-ship appointment slot.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -1184,9 +1277,11 @@ class WfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return self._with_raw_response.schedule_self_ship_appointment(
-            inbound_plan_id, shipment_id, slot_id, body, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.schedule_self_ship_appointment(
+                inbound_plan_id, shipment_id, slot_id, body, request_options=request_options
+            ),
+        )
 
     def set_packing_information(
         self,
@@ -1200,7 +1295,8 @@ class WfsInbound:
         Args:
             inbound_plan_id: Identifier of an inbound plan.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Accepted — operation submitted asynchronously.
@@ -1208,9 +1304,9 @@ class WfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return self._with_raw_response.set_packing_information(
-            inbound_plan_id, body, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.set_packing_information(inbound_plan_id, body, request_options=request_options)
+        )
 
     def set_prep_details(
         self,
@@ -1222,7 +1318,8 @@ class WfsInbound:
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Accepted — operation submitted asynchronously.
@@ -1230,7 +1327,7 @@ class WfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return self._with_raw_response.set_prep_details(body, request_options=request_options).unwrap()
+        return unwrap(self._with_raw_response.set_prep_details(body, request_options=request_options))
 
     def update_inbound_plan_name(
         self,
@@ -1244,7 +1341,8 @@ class WfsInbound:
         Args:
             inbound_plan_id: Identifier of an inbound plan.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             No content — name updated successfully.
@@ -1252,9 +1350,9 @@ class WfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return self._with_raw_response.update_inbound_plan_name(
-            inbound_plan_id, body, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.update_inbound_plan_name(inbound_plan_id, body, request_options=request_options)
+        )
 
     def update_item_compliance_details(
         self,
@@ -1269,7 +1367,8 @@ class WfsInbound:
             marketplace_id: The Walmart Marketplace ID. For a list of possible values, refer to `Marketplace IDs
                 <https://developer-docs.walmart.com/seller-api/docs/marketplace-ids>`__.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Accepted — operation submitted asynchronously.
@@ -1277,9 +1376,11 @@ class WfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return self._with_raw_response.update_item_compliance_details(
-            marketplace_id, body, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.update_item_compliance_details(
+                marketplace_id, body, request_options=request_options
+            ),
+        )
 
     def update_shipment_name(
         self,
@@ -1295,7 +1396,8 @@ class WfsInbound:
             inbound_plan_id: Identifier of an inbound plan.
             shipment_id: Identifier of a shipment.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             No content — name updated successfully.
@@ -1303,9 +1405,11 @@ class WfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return self._with_raw_response.update_shipment_name(
-            inbound_plan_id, shipment_id, body, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.update_shipment_name(
+                inbound_plan_id, shipment_id, body, request_options=request_options
+            ),
+        )
 
     def update_shipment_source_address(
         self,
@@ -1321,7 +1425,8 @@ class WfsInbound:
             inbound_plan_id: Identifier of an inbound plan.
             shipment_id: Identifier of a shipment.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Accepted — operation submitted asynchronously.
@@ -1329,9 +1434,11 @@ class WfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return self._with_raw_response.update_shipment_source_address(
-            inbound_plan_id, shipment_id, body, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.update_shipment_source_address(
+                inbound_plan_id, shipment_id, body, request_options=request_options
+            ),
+        )
 
     def update_shipment_tracking_details(
         self,
@@ -1347,7 +1454,8 @@ class WfsInbound:
             inbound_plan_id: Identifier of an inbound plan.
             shipment_id: Identifier of a shipment.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Accepted — operation submitted asynchronously.
@@ -1355,9 +1463,11 @@ class WfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return self._with_raw_response.update_shipment_tracking_details(
-            inbound_plan_id, shipment_id, body, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.update_shipment_tracking_details(
+                inbound_plan_id, shipment_id, body, request_options=request_options
+            ),
+        )
 
     @property
     def with_raw_response(self) -> WfsInboundWithRawResponse:
@@ -1375,7 +1485,8 @@ class AsyncWfsInbound:
 
         Args:
             inbound_plan_id: Identifier of an inbound plan.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Accepted — operation submitted asynchronously.
@@ -1383,9 +1494,9 @@ class AsyncWfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.cancel_inbound_plan(inbound_plan_id, request_options=request_options)
-        ).unwrap()
+        )
 
     async def cancel_self_ship_appointment(
         self,
@@ -1401,7 +1512,8 @@ class AsyncWfsInbound:
             inbound_plan_id: Identifier of an inbound plan.
             shipment_id: Identifier of a shipment.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Accepted — operation submitted asynchronously.
@@ -1409,11 +1521,11 @@ class AsyncWfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.cancel_self_ship_appointment(
                 inbound_plan_id, shipment_id, body, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     async def confirm_delivery_window_options(
         self,
@@ -1429,7 +1541,8 @@ class AsyncWfsInbound:
             inbound_plan_id: Identifier of an inbound plan.
             shipment_id: The shipment to confirm the delivery window option for.
             delivery_window_option_id: The ID of the delivery window option to be confirmed.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Accepted — operation submitted asynchronously.
@@ -1437,11 +1550,11 @@ class AsyncWfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.confirm_delivery_window_options(
                 inbound_plan_id, shipment_id, delivery_window_option_id, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     async def confirm_packing_option(
         self, inbound_plan_id: str, packing_option_id: str, *, request_options: RequestOptionsOrDict | None = None
@@ -1451,7 +1564,8 @@ class AsyncWfsInbound:
         Args:
             inbound_plan_id: Identifier of an inbound plan.
             packing_option_id: Identifier of a packing option.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Accepted — operation submitted asynchronously.
@@ -1459,11 +1573,11 @@ class AsyncWfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.confirm_packing_option(
                 inbound_plan_id, packing_option_id, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     async def confirm_placement_option(
         self, inbound_plan_id: str, placement_option_id: str, *, request_options: RequestOptionsOrDict | None = None
@@ -1473,7 +1587,8 @@ class AsyncWfsInbound:
         Args:
             inbound_plan_id: Identifier of an inbound plan.
             placement_option_id: The identifier of a placement option.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Accepted — operation submitted asynchronously.
@@ -1481,11 +1596,11 @@ class AsyncWfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.confirm_placement_option(
                 inbound_plan_id, placement_option_id, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     async def confirm_shipment_content_update_preview(
         self,
@@ -1501,7 +1616,8 @@ class AsyncWfsInbound:
             inbound_plan_id: Identifier of an inbound plan.
             shipment_id: Identifier of a shipment.
             content_update_preview_id: Identifier of a content update preview.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Accepted — operation submitted asynchronously.
@@ -1509,11 +1625,11 @@ class AsyncWfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.confirm_shipment_content_update_preview(
                 inbound_plan_id, shipment_id, content_update_preview_id, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     async def confirm_transportation_options(
         self,
@@ -1527,7 +1643,8 @@ class AsyncWfsInbound:
         Args:
             inbound_plan_id: Identifier of an inbound plan.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Accepted — operation submitted asynchronously.
@@ -1535,11 +1652,11 @@ class AsyncWfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.confirm_transportation_options(
                 inbound_plan_id, body, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     async def create_inbound_plan(
         self,
@@ -1551,7 +1668,8 @@ class AsyncWfsInbound:
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Accepted — operation submitted asynchronously.
@@ -1559,7 +1677,7 @@ class AsyncWfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return (await self._with_raw_response.create_inbound_plan(body, request_options=request_options)).unwrap()
+        return unwrap(await self._with_raw_response.create_inbound_plan(body, request_options=request_options))
 
     async def create_marketplace_item_labels(
         self,
@@ -1571,7 +1689,8 @@ class AsyncWfsInbound:
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -1579,9 +1698,9 @@ class AsyncWfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.create_marketplace_item_labels(body, request_options=request_options)
-        ).unwrap()
+        )
 
     async def generate_delivery_window_options(
         self, inbound_plan_id: str, shipment_id: str, *, request_options: RequestOptionsOrDict | None = None
@@ -1591,7 +1710,8 @@ class AsyncWfsInbound:
         Args:
             inbound_plan_id: Identifier of an inbound plan.
             shipment_id: The shipment to generate delivery window options for.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Accepted — operation submitted asynchronously.
@@ -1599,11 +1719,11 @@ class AsyncWfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.generate_delivery_window_options(
                 inbound_plan_id, shipment_id, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     async def generate_packing_options(
         self, inbound_plan_id: str, *, request_options: RequestOptionsOrDict | None = None
@@ -1612,7 +1732,8 @@ class AsyncWfsInbound:
 
         Args:
             inbound_plan_id: Identifier of an inbound plan.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Accepted — operation submitted asynchronously.
@@ -1620,9 +1741,9 @@ class AsyncWfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.generate_packing_options(inbound_plan_id, request_options=request_options)
-        ).unwrap()
+        )
 
     async def generate_placement_options(
         self,
@@ -1636,7 +1757,8 @@ class AsyncWfsInbound:
         Args:
             inbound_plan_id: Identifier of an inbound plan.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Accepted — operation submitted asynchronously.
@@ -1644,11 +1766,11 @@ class AsyncWfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.generate_placement_options(
                 inbound_plan_id, body, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     async def generate_self_ship_appointment_slots(
         self,
@@ -1664,7 +1786,8 @@ class AsyncWfsInbound:
             inbound_plan_id: Identifier of an inbound plan.
             shipment_id: Identifier of a shipment.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Accepted — operation submitted asynchronously.
@@ -1672,11 +1795,11 @@ class AsyncWfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.generate_self_ship_appointment_slots(
                 inbound_plan_id, shipment_id, body, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     async def generate_shipment_content_update_previews(
         self,
@@ -1692,7 +1815,8 @@ class AsyncWfsInbound:
             inbound_plan_id: Identifier of an inbound plan.
             shipment_id: Identifier of a shipment.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Accepted — operation submitted asynchronously.
@@ -1700,11 +1824,11 @@ class AsyncWfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.generate_shipment_content_update_previews(
                 inbound_plan_id, shipment_id, body, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     async def generate_transportation_options(
         self,
@@ -1718,7 +1842,8 @@ class AsyncWfsInbound:
         Args:
             inbound_plan_id: Identifier of an inbound plan.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Accepted — operation submitted asynchronously.
@@ -1726,11 +1851,11 @@ class AsyncWfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.generate_transportation_options(
                 inbound_plan_id, body, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     async def get_delivery_challan_document(
         self, inbound_plan_id: str, shipment_id: str, *, request_options: RequestOptionsOrDict | None = None
@@ -1740,7 +1865,8 @@ class AsyncWfsInbound:
         Args:
             inbound_plan_id: Identifier of an inbound plan.
             shipment_id: Identifier of a shipment.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -1748,11 +1874,11 @@ class AsyncWfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.get_delivery_challan_document(
                 inbound_plan_id, shipment_id, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     async def get_inbound_operation_status(
         self, operation_id: str, *, request_options: RequestOptionsOrDict | None = None
@@ -1761,7 +1887,8 @@ class AsyncWfsInbound:
 
         Args:
             operation_id: Identifier of an asynchronous operation.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -1769,9 +1896,9 @@ class AsyncWfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.get_inbound_operation_status(operation_id, request_options=request_options)
-        ).unwrap()
+        )
 
     async def get_inbound_plan(
         self, inbound_plan_id: str, *, request_options: RequestOptionsOrDict | None = None
@@ -1780,7 +1907,8 @@ class AsyncWfsInbound:
 
         Args:
             inbound_plan_id: Identifier of an inbound plan.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -1788,9 +1916,7 @@ class AsyncWfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return (
-            await self._with_raw_response.get_inbound_plan(inbound_plan_id, request_options=request_options)
-        ).unwrap()
+        return unwrap(await self._with_raw_response.get_inbound_plan(inbound_plan_id, request_options=request_options))
 
     async def get_self_ship_appointment_slots(
         self,
@@ -1808,7 +1934,8 @@ class AsyncWfsInbound:
             shipment_id: Identifier of a shipment.
             page_size: The number of self ship appointment slots to return in the response matching the given query.
             pagination_token: A token to fetch a certain page when there are multiple pages worth of results.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -1816,15 +1943,15 @@ class AsyncWfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.get_self_ship_appointment_slots(
                 inbound_plan_id,
                 shipment_id,
                 page_size=page_size,
                 pagination_token=pagination_token,
                 request_options=request_options,
-            )
-        ).unwrap()
+            ),
+        )
 
     async def get_shipment(
         self, inbound_plan_id: str, shipment_id: str, *, request_options: RequestOptionsOrDict | None = None
@@ -1834,7 +1961,8 @@ class AsyncWfsInbound:
         Args:
             inbound_plan_id: Identifier of an inbound plan.
             shipment_id: Identifier of a shipment. A shipment contains the boxes and units being inbounded.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -1842,9 +1970,9 @@ class AsyncWfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.get_shipment(inbound_plan_id, shipment_id, request_options=request_options)
-        ).unwrap()
+        )
 
     async def get_shipment_content_update_preview(
         self,
@@ -1860,7 +1988,8 @@ class AsyncWfsInbound:
             inbound_plan_id: Identifier of an inbound plan.
             shipment_id: Identifier of a shipment.
             content_update_preview_id: Identifier of a content update preview.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -1868,11 +1997,11 @@ class AsyncWfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.get_shipment_content_update_preview(
                 inbound_plan_id, shipment_id, content_update_preview_id, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     async def list_delivery_window_options(
         self,
@@ -1890,7 +2019,8 @@ class AsyncWfsInbound:
             shipment_id: The shipment to get delivery window options for.
             page_size: The number of delivery window options to return in the response matching the given query.
             pagination_token: A token to fetch a certain page when there are multiple pages worth of results.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -1898,15 +2028,15 @@ class AsyncWfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.list_delivery_window_options(
                 inbound_plan_id,
                 shipment_id,
                 page_size=page_size,
                 pagination_token=pagination_token,
                 request_options=request_options,
-            )
-        ).unwrap()
+            ),
+        )
 
     async def list_inbound_plan_boxes(
         self,
@@ -1922,7 +2052,8 @@ class AsyncWfsInbound:
             inbound_plan_id: Identifier of an inbound plan.
             page_size: The number of boxes to return in the response matching the given query.
             pagination_token: A token to fetch a certain page when there are multiple pages worth of results.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -1930,11 +2061,11 @@ class AsyncWfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.list_inbound_plan_boxes(
                 inbound_plan_id, page_size=page_size, pagination_token=pagination_token, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     async def list_inbound_plan_items(
         self,
@@ -1950,7 +2081,8 @@ class AsyncWfsInbound:
             inbound_plan_id: Identifier of an inbound plan.
             page_size: The number of items to return in the response matching the given query.
             pagination_token: A token to fetch a certain page when there are multiple pages worth of results.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -1958,11 +2090,11 @@ class AsyncWfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.list_inbound_plan_items(
                 inbound_plan_id, page_size=page_size, pagination_token=pagination_token, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     async def list_inbound_plan_pallets(
         self,
@@ -1978,7 +2110,8 @@ class AsyncWfsInbound:
             inbound_plan_id: Identifier of an inbound plan.
             page_size: The number of pallets to return in the response matching the given query.
             pagination_token: A token to fetch a certain page when there are multiple pages worth of results.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -1986,11 +2119,11 @@ class AsyncWfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.list_inbound_plan_pallets(
                 inbound_plan_id, page_size=page_size, pagination_token=pagination_token, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     async def list_inbound_plans(
         self,
@@ -2010,7 +2143,8 @@ class AsyncWfsInbound:
             status: The status of an inbound plan. Possible values: ``ACTIVE``, ``VOIDED``, ``SHIPPED``, ``ERRORED``.
             sort_by: Sort by field.
             sort_order: The sort order. Possible values: ``ASC``, ``DESC``.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -2018,7 +2152,7 @@ class AsyncWfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.list_inbound_plans(
                 page_size=page_size,
                 pagination_token=pagination_token,
@@ -2026,8 +2160,8 @@ class AsyncWfsInbound:
                 sort_by=sort_by,
                 sort_order=sort_order,
                 request_options=request_options,
-            )
-        ).unwrap()
+            ),
+        )
 
     async def list_item_compliance_details(
         self, mskus: list[str], marketplace_id: str, *, request_options: RequestOptionsOrDict | None = None
@@ -2038,7 +2172,8 @@ class AsyncWfsInbound:
             mskus: A list of merchant SKUs, a merchant-supplied identifier of a specific SKU.
             marketplace_id: The Walmart Marketplace ID. For a list of possible values, refer to `Marketplace IDs
                 <https://developer-docs.walmart.com/seller-api/docs/marketplace-ids>`__.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -2046,11 +2181,11 @@ class AsyncWfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.list_item_compliance_details(
                 mskus, marketplace_id, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     async def list_packing_group_boxes(
         self,
@@ -2068,7 +2203,8 @@ class AsyncWfsInbound:
             packing_group_id: Identifier of a packing group.
             page_size: The number of packing group boxes to return in the response matching the given query.
             pagination_token: A token to fetch a certain page when there are multiple pages worth of results.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -2076,15 +2212,15 @@ class AsyncWfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.list_packing_group_boxes(
                 inbound_plan_id,
                 packing_group_id,
                 page_size=page_size,
                 pagination_token=pagination_token,
                 request_options=request_options,
-            )
-        ).unwrap()
+            ),
+        )
 
     async def list_packing_group_items(
         self,
@@ -2102,7 +2238,8 @@ class AsyncWfsInbound:
             packing_group_id: Identifier of a packing group.
             page_size: The number of packing group items to return in the response matching the given query.
             pagination_token: A token to fetch a certain page when there are multiple pages worth of results.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -2110,15 +2247,15 @@ class AsyncWfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.list_packing_group_items(
                 inbound_plan_id,
                 packing_group_id,
                 page_size=page_size,
                 pagination_token=pagination_token,
                 request_options=request_options,
-            )
-        ).unwrap()
+            ),
+        )
 
     async def list_packing_options(
         self,
@@ -2134,7 +2271,8 @@ class AsyncWfsInbound:
             inbound_plan_id: Identifier of an inbound plan.
             page_size: The number of packing options to return in the response matching the given query.
             pagination_token: A token to fetch a certain page when there are multiple pages worth of results.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -2142,11 +2280,11 @@ class AsyncWfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.list_packing_options(
                 inbound_plan_id, page_size=page_size, pagination_token=pagination_token, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     async def list_placement_options(
         self,
@@ -2162,7 +2300,8 @@ class AsyncWfsInbound:
             inbound_plan_id: Identifier of an inbound plan.
             page_size: The number of placement options to return in the response matching the given query.
             pagination_token: A token to fetch a certain page when there are multiple pages worth of results.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -2170,11 +2309,11 @@ class AsyncWfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.list_placement_options(
                 inbound_plan_id, page_size=page_size, pagination_token=pagination_token, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     async def list_prep_details(
         self, marketplace_id: str, mskus: list[str], *, request_options: RequestOptionsOrDict | None = None
@@ -2185,7 +2324,8 @@ class AsyncWfsInbound:
             marketplace_id: The Walmart Marketplace ID. For a list of possible values, refer to `Marketplace IDs
                 <https://developer-docs.walmart.com/seller-api/docs/marketplace-ids>`__.
             mskus: A list of merchant SKUs, a merchant-supplied identifier of a specific SKU.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -2193,9 +2333,9 @@ class AsyncWfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.list_prep_details(marketplace_id, mskus, request_options=request_options)
-        ).unwrap()
+        )
 
     async def list_shipment_boxes(
         self,
@@ -2213,7 +2353,8 @@ class AsyncWfsInbound:
             shipment_id: Identifier of a shipment. A shipment contains the boxes and units being inbounded.
             page_size: The number of boxes to return in the response matching the given query.
             pagination_token: A token to fetch a certain page when there are multiple pages worth of results.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -2221,15 +2362,15 @@ class AsyncWfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.list_shipment_boxes(
                 inbound_plan_id,
                 shipment_id,
                 page_size=page_size,
                 pagination_token=pagination_token,
                 request_options=request_options,
-            )
-        ).unwrap()
+            ),
+        )
 
     async def list_shipment_content_update_previews(
         self,
@@ -2247,7 +2388,8 @@ class AsyncWfsInbound:
             shipment_id: Identifier of a shipment.
             page_size: The number of content update previews to return.
             pagination_token: A token to fetch a certain page when there are multiple pages worth of results.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -2255,15 +2397,15 @@ class AsyncWfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.list_shipment_content_update_previews(
                 inbound_plan_id,
                 shipment_id,
                 page_size=page_size,
                 pagination_token=pagination_token,
                 request_options=request_options,
-            )
-        ).unwrap()
+            ),
+        )
 
     async def list_shipment_items(
         self,
@@ -2281,7 +2423,8 @@ class AsyncWfsInbound:
             shipment_id: Identifier of a shipment. A shipment contains the boxes and units being inbounded.
             page_size: The number of items to return in the response matching the given query.
             pagination_token: A token to fetch a certain page when there are multiple pages worth of results.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -2289,15 +2432,15 @@ class AsyncWfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.list_shipment_items(
                 inbound_plan_id,
                 shipment_id,
                 page_size=page_size,
                 pagination_token=pagination_token,
                 request_options=request_options,
-            )
-        ).unwrap()
+            ),
+        )
 
     async def list_shipment_pallets(
         self,
@@ -2315,7 +2458,8 @@ class AsyncWfsInbound:
             shipment_id: Identifier of a shipment.
             page_size: The number of pallets to return in the response matching the given query.
             pagination_token: A token to fetch a certain page when there are multiple pages worth of results.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -2323,15 +2467,15 @@ class AsyncWfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.list_shipment_pallets(
                 inbound_plan_id,
                 shipment_id,
                 page_size=page_size,
                 pagination_token=pagination_token,
                 request_options=request_options,
-            )
-        ).unwrap()
+            ),
+        )
 
     async def list_transportation_options(
         self,
@@ -2353,7 +2497,8 @@ class AsyncWfsInbound:
                 ``shipmentId`` must be specified.
             shipment_id: The shipment to get transportation options for. Either ``placementOptionId`` or ``shipmentId``
                 must be specified.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -2361,7 +2506,7 @@ class AsyncWfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.list_transportation_options(
                 inbound_plan_id,
                 page_size=page_size,
@@ -2369,8 +2514,8 @@ class AsyncWfsInbound:
                 placement_option_id=placement_option_id,
                 shipment_id=shipment_id,
                 request_options=request_options,
-            )
-        ).unwrap()
+            ),
+        )
 
     async def schedule_self_ship_appointment(
         self,
@@ -2388,7 +2533,8 @@ class AsyncWfsInbound:
             shipment_id: Identifier of a shipment.
             slot_id: An identifier to a self-ship appointment slot.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -2396,11 +2542,11 @@ class AsyncWfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.schedule_self_ship_appointment(
                 inbound_plan_id, shipment_id, slot_id, body, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     async def set_packing_information(
         self,
@@ -2414,7 +2560,8 @@ class AsyncWfsInbound:
         Args:
             inbound_plan_id: Identifier of an inbound plan.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Accepted — operation submitted asynchronously.
@@ -2422,11 +2569,11 @@ class AsyncWfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.set_packing_information(
                 inbound_plan_id, body, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     async def set_prep_details(
         self,
@@ -2438,7 +2585,8 @@ class AsyncWfsInbound:
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Accepted — operation submitted asynchronously.
@@ -2446,7 +2594,7 @@ class AsyncWfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return (await self._with_raw_response.set_prep_details(body, request_options=request_options)).unwrap()
+        return unwrap(await self._with_raw_response.set_prep_details(body, request_options=request_options))
 
     async def update_inbound_plan_name(
         self,
@@ -2460,7 +2608,8 @@ class AsyncWfsInbound:
         Args:
             inbound_plan_id: Identifier of an inbound plan.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             No content — name updated successfully.
@@ -2468,11 +2617,11 @@ class AsyncWfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.update_inbound_plan_name(
                 inbound_plan_id, body, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     async def update_item_compliance_details(
         self,
@@ -2487,7 +2636,8 @@ class AsyncWfsInbound:
             marketplace_id: The Walmart Marketplace ID. For a list of possible values, refer to `Marketplace IDs
                 <https://developer-docs.walmart.com/seller-api/docs/marketplace-ids>`__.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Accepted — operation submitted asynchronously.
@@ -2495,11 +2645,11 @@ class AsyncWfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.update_item_compliance_details(
                 marketplace_id, body, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     async def update_shipment_name(
         self,
@@ -2515,7 +2665,8 @@ class AsyncWfsInbound:
             inbound_plan_id: Identifier of an inbound plan.
             shipment_id: Identifier of a shipment.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             No content — name updated successfully.
@@ -2523,11 +2674,11 @@ class AsyncWfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.update_shipment_name(
                 inbound_plan_id, shipment_id, body, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     async def update_shipment_source_address(
         self,
@@ -2543,7 +2694,8 @@ class AsyncWfsInbound:
             inbound_plan_id: Identifier of an inbound plan.
             shipment_id: Identifier of a shipment.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Accepted — operation submitted asynchronously.
@@ -2551,11 +2703,11 @@ class AsyncWfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.update_shipment_source_address(
                 inbound_plan_id, shipment_id, body, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     async def update_shipment_tracking_details(
         self,
@@ -2571,7 +2723,8 @@ class AsyncWfsInbound:
             inbound_plan_id: Identifier of an inbound plan.
             shipment_id: Identifier of a shipment.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Accepted — operation submitted asynchronously.
@@ -2579,11 +2732,11 @@ class AsyncWfsInbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``CommonErrorList | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.update_shipment_tracking_details(
                 inbound_plan_id, shipment_id, body, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     @property
     def with_raw_response(self) -> AsyncWfsInboundWithRawResponse:
@@ -2598,7 +2751,8 @@ class WfsInboundWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
 
         Args:
             inbound_plan_id: Identifier of an inbound plan.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -2627,7 +2781,8 @@ class WfsInboundWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
             inbound_plan_id: Identifier of an inbound plan.
             shipment_id: Identifier of a shipment.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -2659,7 +2814,8 @@ class WfsInboundWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
             inbound_plan_id: Identifier of an inbound plan.
             shipment_id: The shipment to confirm the delivery window option for.
             delivery_window_option_id: The ID of the delivery window option to be confirmed.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -2688,7 +2844,8 @@ class WfsInboundWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
         Args:
             inbound_plan_id: Identifier of an inbound plan.
             packing_option_id: Identifier of a packing option.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -2715,7 +2872,8 @@ class WfsInboundWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
         Args:
             inbound_plan_id: Identifier of an inbound plan.
             placement_option_id: The identifier of a placement option.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -2748,7 +2906,8 @@ class WfsInboundWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
             inbound_plan_id: Identifier of an inbound plan.
             shipment_id: Identifier of a shipment.
             content_update_preview_id: Identifier of a content update preview.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -2781,7 +2940,8 @@ class WfsInboundWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
         Args:
             inbound_plan_id: Identifier of an inbound plan.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -2809,7 +2969,8 @@ class WfsInboundWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -2834,7 +2995,8 @@ class WfsInboundWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -2857,7 +3019,8 @@ class WfsInboundWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
         Args:
             inbound_plan_id: Identifier of an inbound plan.
             shipment_id: The shipment to generate delivery window options for.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -2881,7 +3044,8 @@ class WfsInboundWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
 
         Args:
             inbound_plan_id: Identifier of an inbound plan.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -2908,7 +3072,8 @@ class WfsInboundWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
         Args:
             inbound_plan_id: Identifier of an inbound plan.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -2938,7 +3103,8 @@ class WfsInboundWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
             inbound_plan_id: Identifier of an inbound plan.
             shipment_id: Identifier of a shipment.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -2970,7 +3136,8 @@ class WfsInboundWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
             inbound_plan_id: Identifier of an inbound plan.
             shipment_id: Identifier of a shipment.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -3002,7 +3169,8 @@ class WfsInboundWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
         Args:
             inbound_plan_id: Identifier of an inbound plan.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -3026,7 +3194,8 @@ class WfsInboundWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
         Args:
             inbound_plan_id: Identifier of an inbound plan.
             shipment_id: Identifier of a shipment.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -3049,7 +3218,8 @@ class WfsInboundWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
 
         Args:
             operation_id: Identifier of an asynchronous operation.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -3070,7 +3240,8 @@ class WfsInboundWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
 
         Args:
             inbound_plan_id: Identifier of an inbound plan.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -3100,7 +3271,8 @@ class WfsInboundWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
             shipment_id: Identifier of a shipment.
             page_size: The number of self ship appointment slots to return in the response matching the given query.
             pagination_token: A token to fetch a certain page when there are multiple pages worth of results.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -3127,7 +3299,8 @@ class WfsInboundWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
         Args:
             inbound_plan_id: Identifier of an inbound plan.
             shipment_id: Identifier of a shipment. A shipment contains the boxes and units being inbounded.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -3155,7 +3328,8 @@ class WfsInboundWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
             inbound_plan_id: Identifier of an inbound plan.
             shipment_id: Identifier of a shipment.
             content_update_preview_id: Identifier of a content update preview.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -3191,7 +3365,8 @@ class WfsInboundWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
             shipment_id: The shipment to get delivery window options for.
             page_size: The number of delivery window options to return in the response matching the given query.
             pagination_token: A token to fetch a certain page when there are multiple pages worth of results.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -3224,7 +3399,8 @@ class WfsInboundWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
             inbound_plan_id: Identifier of an inbound plan.
             page_size: The number of boxes to return in the response matching the given query.
             pagination_token: A token to fetch a certain page when there are multiple pages worth of results.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -3255,7 +3431,8 @@ class WfsInboundWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
             inbound_plan_id: Identifier of an inbound plan.
             page_size: The number of items to return in the response matching the given query.
             pagination_token: A token to fetch a certain page when there are multiple pages worth of results.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -3286,7 +3463,8 @@ class WfsInboundWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
             inbound_plan_id: Identifier of an inbound plan.
             page_size: The number of pallets to return in the response matching the given query.
             pagination_token: A token to fetch a certain page when there are multiple pages worth of results.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -3321,7 +3499,8 @@ class WfsInboundWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
             status: The status of an inbound plan. Possible values: ``ACTIVE``, ``VOIDED``, ``SHIPPED``, ``ERRORED``.
             sort_by: Sort by field.
             sort_order: The sort order. Possible values: ``ASC``, ``DESC``.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -3350,7 +3529,8 @@ class WfsInboundWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
             mskus: A list of merchant SKUs, a merchant-supplied identifier of a specific SKU.
             marketplace_id: The Walmart Marketplace ID. For a list of possible values, refer to `Marketplace IDs
                 <https://developer-docs.walmart.com/seller-api/docs/marketplace-ids>`__.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -3380,7 +3560,8 @@ class WfsInboundWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
             packing_group_id: Identifier of a packing group.
             page_size: The number of packing group boxes to return in the response matching the given query.
             pagination_token: A token to fetch a certain page when there are multiple pages worth of results.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -3415,7 +3596,8 @@ class WfsInboundWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
             packing_group_id: Identifier of a packing group.
             page_size: The number of packing group items to return in the response matching the given query.
             pagination_token: A token to fetch a certain page when there are multiple pages worth of results.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -3448,7 +3630,8 @@ class WfsInboundWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
             inbound_plan_id: Identifier of an inbound plan.
             page_size: The number of packing options to return in the response matching the given query.
             pagination_token: A token to fetch a certain page when there are multiple pages worth of results.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -3479,7 +3662,8 @@ class WfsInboundWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
             inbound_plan_id: Identifier of an inbound plan.
             page_size: The number of placement options to return in the response matching the given query.
             pagination_token: A token to fetch a certain page when there are multiple pages worth of results.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -3505,7 +3689,8 @@ class WfsInboundWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
             marketplace_id: The Walmart Marketplace ID. For a list of possible values, refer to `Marketplace IDs
                 <https://developer-docs.walmart.com/seller-api/docs/marketplace-ids>`__.
             mskus: A list of merchant SKUs, a merchant-supplied identifier of a specific SKU.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -3535,7 +3720,8 @@ class WfsInboundWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
             shipment_id: Identifier of a shipment. A shipment contains the boxes and units being inbounded.
             page_size: The number of boxes to return in the response matching the given query.
             pagination_token: A token to fetch a certain page when there are multiple pages worth of results.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -3570,7 +3756,8 @@ class WfsInboundWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
             shipment_id: Identifier of a shipment.
             page_size: The number of content update previews to return.
             pagination_token: A token to fetch a certain page when there are multiple pages worth of results.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -3605,7 +3792,8 @@ class WfsInboundWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
             shipment_id: Identifier of a shipment. A shipment contains the boxes and units being inbounded.
             page_size: The number of items to return in the response matching the given query.
             pagination_token: A token to fetch a certain page when there are multiple pages worth of results.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -3640,7 +3828,8 @@ class WfsInboundWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
             shipment_id: Identifier of a shipment.
             page_size: The number of pallets to return in the response matching the given query.
             pagination_token: A token to fetch a certain page when there are multiple pages worth of results.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -3679,7 +3868,8 @@ class WfsInboundWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
                 ``shipmentId`` must be specified.
             shipment_id: The shipment to get transportation options for. Either ``placementOptionId`` or ``shipmentId``
                 must be specified.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -3715,7 +3905,8 @@ class WfsInboundWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
             shipment_id: Identifier of a shipment.
             slot_id: An identifier to a self-ship appointment slot.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -3749,7 +3940,8 @@ class WfsInboundWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
         Args:
             inbound_plan_id: Identifier of an inbound plan.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -3775,7 +3967,8 @@ class WfsInboundWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -3802,7 +3995,8 @@ class WfsInboundWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
         Args:
             inbound_plan_id: Identifier of an inbound plan.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -3831,7 +4025,8 @@ class WfsInboundWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
             marketplace_id: The Walmart Marketplace ID. For a list of possible values, refer to `Marketplace IDs
                 <https://developer-docs.walmart.com/seller-api/docs/marketplace-ids>`__.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -3861,7 +4056,8 @@ class WfsInboundWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
             inbound_plan_id: Identifier of an inbound plan.
             shipment_id: Identifier of a shipment.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -3893,7 +4089,8 @@ class WfsInboundWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
             inbound_plan_id: Identifier of an inbound plan.
             shipment_id: Identifier of a shipment.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -3925,7 +4122,8 @@ class WfsInboundWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
             inbound_plan_id: Identifier of an inbound plan.
             shipment_id: Identifier of a shipment.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -3952,7 +4150,8 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
 
         Args:
             inbound_plan_id: Identifier of an inbound plan.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -3962,7 +4161,7 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             path_params=[param[str]("inboundPlanId", inbound_plan_id)],
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[CancelInboundPlanResponse],
+            decoder=async_json_decoder[CancelInboundPlanResponse],
             error_mapper=cancel_inbound_plan_error_mapper,
             request_options=request_options,
         )
@@ -3981,7 +4180,8 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             inbound_plan_id: Identifier of an inbound plan.
             shipment_id: Identifier of a shipment.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -3994,7 +4194,7 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             body=json_body[CancelSelfShipAppointmentRequest | CancelSelfShipAppointmentRequestDict](body),
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[CancelInboundPlanResponse],
+            decoder=async_json_decoder[CancelInboundPlanResponse],
             error_mapper=cancel_self_ship_appointment_error_mapper,
             request_options=request_options,
         )
@@ -4013,7 +4213,8 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             inbound_plan_id: Identifier of an inbound plan.
             shipment_id: The shipment to confirm the delivery window option for.
             delivery_window_option_id: The ID of the delivery window option to be confirmed.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -4029,7 +4230,7 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             ],
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[CancelInboundPlanResponse],
+            decoder=async_json_decoder[CancelInboundPlanResponse],
             error_mapper=confirm_delivery_window_options_error_mapper,
             request_options=request_options,
         )
@@ -4042,7 +4243,8 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
         Args:
             inbound_plan_id: Identifier of an inbound plan.
             packing_option_id: Identifier of a packing option.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -4056,7 +4258,7 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             ],
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[CancelInboundPlanResponse],
+            decoder=async_json_decoder[CancelInboundPlanResponse],
             error_mapper=confirm_packing_option_error_mapper,
             request_options=request_options,
         )
@@ -4069,7 +4271,8 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
         Args:
             inbound_plan_id: Identifier of an inbound plan.
             placement_option_id: The identifier of a placement option.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -4083,7 +4286,7 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             ],
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[CancelInboundPlanResponse],
+            decoder=async_json_decoder[CancelInboundPlanResponse],
             error_mapper=confirm_placement_option_error_mapper,
             request_options=request_options,
         )
@@ -4102,7 +4305,8 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             inbound_plan_id: Identifier of an inbound plan.
             shipment_id: Identifier of a shipment.
             content_update_preview_id: Identifier of a content update preview.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -4118,7 +4322,7 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             ],
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[CancelInboundPlanResponse],
+            decoder=async_json_decoder[CancelInboundPlanResponse],
             error_mapper=confirm_shipment_content_update_preview_error_mapper,
             request_options=request_options,
         )
@@ -4135,7 +4339,8 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
         Args:
             inbound_plan_id: Identifier of an inbound plan.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -4148,7 +4353,7 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             body=json_body[ConfirmTransportationOptionsRequest | ConfirmTransportationOptionsRequestDict](body),
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[CancelInboundPlanResponse],
+            decoder=async_json_decoder[CancelInboundPlanResponse],
             error_mapper=confirm_transportation_options_error_mapper,
             request_options=request_options,
         )
@@ -4163,7 +4368,8 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -4173,7 +4379,7 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             body=json_body[CreateInboundPlanRequest | CreateInboundPlanRequestDict](body),
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[CreateInboundPlanResponse],
+            decoder=async_json_decoder[CreateInboundPlanResponse],
             error_mapper=create_inbound_plan_error_mapper,
             request_options=request_options,
         )
@@ -4188,7 +4394,8 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -4198,7 +4405,7 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             body=json_body[CreateMarketplaceItemLabelsRequest | CreateMarketplaceItemLabelsRequestDict](body),
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[CreateMarketplaceItemLabelsResponse],
+            decoder=async_json_decoder[CreateMarketplaceItemLabelsResponse],
             error_mapper=create_marketplace_item_labels_error_mapper,
             request_options=request_options,
         )
@@ -4211,7 +4418,8 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
         Args:
             inbound_plan_id: Identifier of an inbound plan.
             shipment_id: The shipment to generate delivery window options for.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -4223,7 +4431,7 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             path_params=[param[str]("inboundPlanId", inbound_plan_id), param[str]("shipmentId", shipment_id)],
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[CancelInboundPlanResponse],
+            decoder=async_json_decoder[CancelInboundPlanResponse],
             error_mapper=generate_delivery_window_options_error_mapper,
             request_options=request_options,
         )
@@ -4235,7 +4443,8 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
 
         Args:
             inbound_plan_id: Identifier of an inbound plan.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -4245,7 +4454,7 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             path_params=[param[str]("inboundPlanId", inbound_plan_id)],
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[CancelInboundPlanResponse],
+            decoder=async_json_decoder[CancelInboundPlanResponse],
             error_mapper=generate_packing_options_error_mapper,
             request_options=request_options,
         )
@@ -4262,7 +4471,8 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
         Args:
             inbound_plan_id: Identifier of an inbound plan.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -4273,7 +4483,7 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             body=json_body[GeneratePlacementOptionsRequest | GeneratePlacementOptionsRequestDict](body),
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[CancelInboundPlanResponse],
+            decoder=async_json_decoder[CancelInboundPlanResponse],
             error_mapper=generate_placement_options_error_mapper,
             request_options=request_options,
         )
@@ -4292,7 +4502,8 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             inbound_plan_id: Identifier of an inbound plan.
             shipment_id: Identifier of a shipment.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -4305,7 +4516,7 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             body=json_body[GenerateSelfShipAppointmentSlotsRequest | GenerateSelfShipAppointmentSlotsRequestDict](body),
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[CancelInboundPlanResponse],
+            decoder=async_json_decoder[CancelInboundPlanResponse],
             error_mapper=generate_self_ship_appointment_slots_error_mapper,
             request_options=request_options,
         )
@@ -4324,7 +4535,8 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             inbound_plan_id: Identifier of an inbound plan.
             shipment_id: Identifier of a shipment.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -4339,7 +4551,7 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
                 GenerateShipmentContentUpdatePreviewsRequest | GenerateShipmentContentUpdatePreviewsRequestDict
             ](body),
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[CancelInboundPlanResponse],
+            decoder=async_json_decoder[CancelInboundPlanResponse],
             error_mapper=generate_shipment_content_update_previews_error_mapper,
             request_options=request_options,
         )
@@ -4356,7 +4568,8 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
         Args:
             inbound_plan_id: Identifier of an inbound plan.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -4367,7 +4580,7 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             body=json_body[GenerateTransportationOptionsRequest | GenerateTransportationOptionsRequestDict](body),
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[CancelInboundPlanResponse],
+            decoder=async_json_decoder[CancelInboundPlanResponse],
             error_mapper=generate_transportation_options_error_mapper,
             request_options=request_options,
         )
@@ -4380,7 +4593,8 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
         Args:
             inbound_plan_id: Identifier of an inbound plan.
             shipment_id: Identifier of a shipment.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -4391,7 +4605,7 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             ),
             path_params=[param[str]("inboundPlanId", inbound_plan_id), param[str]("shipmentId", shipment_id)],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[GetDeliveryChallanDocumentResponse],
+            decoder=async_json_decoder[GetDeliveryChallanDocumentResponse],
             error_mapper=get_delivery_challan_document_error_mapper,
             request_options=request_options,
         )
@@ -4403,7 +4617,8 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
 
         Args:
             operation_id: Identifier of an asynchronous operation.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -4412,7 +4627,7 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             url_template=self._server.default1("/inbound/wfs/v4/operations/{operationId}"),
             path_params=[param[str]("operationId", operation_id)],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[CommonInboundOperationStatus],
+            decoder=async_json_decoder[CommonInboundOperationStatus],
             error_mapper=get_inbound_operation_status_error_mapper,
             request_options=request_options,
         )
@@ -4424,7 +4639,8 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
 
         Args:
             inbound_plan_id: Identifier of an inbound plan.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -4433,7 +4649,7 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             url_template=self._server.default1("/inbound/wfs/v4/inboundPlans/{inboundPlanId}"),
             path_params=[param[str]("inboundPlanId", inbound_plan_id)],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[InboundPlan],
+            decoder=async_json_decoder[InboundPlan],
             error_mapper=get_inbound_plan_error_mapper,
             request_options=request_options,
         )
@@ -4454,7 +4670,8 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             shipment_id: Identifier of a shipment.
             page_size: The number of self ship appointment slots to return in the response matching the given query.
             pagination_token: A token to fetch a certain page when there are multiple pages worth of results.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -4468,7 +4685,7 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
                 param[int | None]("pageSize", page_size), param[str | None]("paginationToken", pagination_token)
             ],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[GetSelfShipAppointmentSlotsResponse],
+            decoder=async_json_decoder[GetSelfShipAppointmentSlotsResponse],
             error_mapper=get_self_ship_appointment_slots_error_mapper,
             request_options=request_options,
         )
@@ -4481,7 +4698,8 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
         Args:
             inbound_plan_id: Identifier of an inbound plan.
             shipment_id: Identifier of a shipment. A shipment contains the boxes and units being inbounded.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -4490,7 +4708,7 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             url_template=self._server.default1("/inbound/wfs/v4/inboundPlans/{inboundPlanId}/shipments/{shipmentId}"),
             path_params=[param[str]("inboundPlanId", inbound_plan_id), param[str]("shipmentId", shipment_id)],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[CommonShipment],
+            decoder=async_json_decoder[CommonShipment],
             error_mapper=get_shipment_error_mapper,
             request_options=request_options,
         )
@@ -4509,7 +4727,8 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             inbound_plan_id: Identifier of an inbound plan.
             shipment_id: Identifier of a shipment.
             content_update_preview_id: Identifier of a content update preview.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -4524,7 +4743,7 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
                 param[str]("contentUpdatePreviewId", content_update_preview_id),
             ],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[CommonContentUpdatePreview],
+            decoder=async_json_decoder[CommonContentUpdatePreview],
             error_mapper=get_shipment_content_update_preview_error_mapper,
             request_options=request_options,
         )
@@ -4545,7 +4764,8 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             shipment_id: The shipment to get delivery window options for.
             page_size: The number of delivery window options to return in the response matching the given query.
             pagination_token: A token to fetch a certain page when there are multiple pages worth of results.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -4559,7 +4779,7 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
                 param[int | None]("pageSize", page_size), param[str | None]("paginationToken", pagination_token)
             ],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[ListDeliveryWindowOptionsResponse],
+            decoder=async_json_decoder[ListDeliveryWindowOptionsResponse],
             error_mapper=list_delivery_window_options_error_mapper,
             request_options=request_options,
         )
@@ -4578,7 +4798,8 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             inbound_plan_id: Identifier of an inbound plan.
             page_size: The number of boxes to return in the response matching the given query.
             pagination_token: A token to fetch a certain page when there are multiple pages worth of results.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -4590,7 +4811,7 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
                 param[int | None]("pageSize", page_size), param[str | None]("paginationToken", pagination_token)
             ],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[ListInboundPlanBoxesResponse],
+            decoder=async_json_decoder[ListInboundPlanBoxesResponse],
             error_mapper=list_inbound_plan_boxes_error_mapper,
             request_options=request_options,
         )
@@ -4609,7 +4830,8 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             inbound_plan_id: Identifier of an inbound plan.
             page_size: The number of items to return in the response matching the given query.
             pagination_token: A token to fetch a certain page when there are multiple pages worth of results.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -4621,7 +4843,7 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
                 param[int | None]("pageSize", page_size), param[str | None]("paginationToken", pagination_token)
             ],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[ListInboundPlanItemsResponse],
+            decoder=async_json_decoder[ListInboundPlanItemsResponse],
             error_mapper=list_inbound_plan_items_error_mapper,
             request_options=request_options,
         )
@@ -4640,7 +4862,8 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             inbound_plan_id: Identifier of an inbound plan.
             page_size: The number of pallets to return in the response matching the given query.
             pagination_token: A token to fetch a certain page when there are multiple pages worth of results.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -4652,7 +4875,7 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
                 param[int | None]("pageSize", page_size), param[str | None]("paginationToken", pagination_token)
             ],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[ListInboundPlanPalletsResponse],
+            decoder=async_json_decoder[ListInboundPlanPalletsResponse],
             error_mapper=list_inbound_plan_pallets_error_mapper,
             request_options=request_options,
         )
@@ -4675,7 +4898,8 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             status: The status of an inbound plan. Possible values: ``ACTIVE``, ``VOIDED``, ``SHIPPED``, ``ERRORED``.
             sort_by: Sort by field.
             sort_order: The sort order. Possible values: ``ASC``, ``DESC``.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -4690,7 +4914,7 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
                 param[str | None]("sortOrder", sort_order),
             ],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[ListInboundPlansResponse],
+            decoder=async_json_decoder[ListInboundPlansResponse],
             error_mapper=list_inbound_plans_error_mapper,
             request_options=request_options,
         )
@@ -4704,7 +4928,8 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             mskus: A list of merchant SKUs, a merchant-supplied identifier of a specific SKU.
             marketplace_id: The Walmart Marketplace ID. For a list of possible values, refer to `Marketplace IDs
                 <https://developer-docs.walmart.com/seller-api/docs/marketplace-ids>`__.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -4713,7 +4938,7 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             url_template=self._server.default1("/inbound/wfs/v4/items/compliance"),
             query_params=[param[list[str]]("mskus", mskus), param[str]("marketplaceId", marketplace_id)],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[ListItemComplianceDetailsResponse],
+            decoder=async_json_decoder[ListItemComplianceDetailsResponse],
             error_mapper=list_item_compliance_details_error_mapper,
             request_options=request_options,
         )
@@ -4734,7 +4959,8 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             packing_group_id: Identifier of a packing group.
             page_size: The number of packing group boxes to return in the response matching the given query.
             pagination_token: A token to fetch a certain page when there are multiple pages worth of results.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -4748,7 +4974,7 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
                 param[int | None]("pageSize", page_size), param[str | None]("paginationToken", pagination_token)
             ],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[ListInboundPlanBoxesResponse],
+            decoder=async_json_decoder[ListInboundPlanBoxesResponse],
             error_mapper=list_packing_group_boxes_error_mapper,
             request_options=request_options,
         )
@@ -4769,7 +4995,8 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             packing_group_id: Identifier of a packing group.
             page_size: The number of packing group items to return in the response matching the given query.
             pagination_token: A token to fetch a certain page when there are multiple pages worth of results.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -4783,7 +5010,7 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
                 param[int | None]("pageSize", page_size), param[str | None]("paginationToken", pagination_token)
             ],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[ListInboundPlanItemsResponse],
+            decoder=async_json_decoder[ListInboundPlanItemsResponse],
             error_mapper=list_packing_group_items_error_mapper,
             request_options=request_options,
         )
@@ -4802,7 +5029,8 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             inbound_plan_id: Identifier of an inbound plan.
             page_size: The number of packing options to return in the response matching the given query.
             pagination_token: A token to fetch a certain page when there are multiple pages worth of results.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -4814,7 +5042,7 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
                 param[int | None]("pageSize", page_size), param[str | None]("paginationToken", pagination_token)
             ],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[ListPackingOptionsResponse],
+            decoder=async_json_decoder[ListPackingOptionsResponse],
             error_mapper=list_packing_options_error_mapper,
             request_options=request_options,
         )
@@ -4833,7 +5061,8 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             inbound_plan_id: Identifier of an inbound plan.
             page_size: The number of placement options to return in the response matching the given query.
             pagination_token: A token to fetch a certain page when there are multiple pages worth of results.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -4845,7 +5074,7 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
                 param[int | None]("pageSize", page_size), param[str | None]("paginationToken", pagination_token)
             ],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[ListPlacementOptionsResponse],
+            decoder=async_json_decoder[ListPlacementOptionsResponse],
             error_mapper=list_placement_options_error_mapper,
             request_options=request_options,
         )
@@ -4859,7 +5088,8 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             marketplace_id: The Walmart Marketplace ID. For a list of possible values, refer to `Marketplace IDs
                 <https://developer-docs.walmart.com/seller-api/docs/marketplace-ids>`__.
             mskus: A list of merchant SKUs, a merchant-supplied identifier of a specific SKU.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -4868,7 +5098,7 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             url_template=self._server.default1("/inbound/wfs/v4/items/prepDetails"),
             query_params=[param[str]("marketplaceId", marketplace_id), param[list[str]]("mskus", mskus)],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[ListPrepDetailsResponse],
+            decoder=async_json_decoder[ListPrepDetailsResponse],
             error_mapper=list_prep_details_error_mapper,
             request_options=request_options,
         )
@@ -4889,7 +5119,8 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             shipment_id: Identifier of a shipment. A shipment contains the boxes and units being inbounded.
             page_size: The number of boxes to return in the response matching the given query.
             pagination_token: A token to fetch a certain page when there are multiple pages worth of results.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -4903,7 +5134,7 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
                 param[int | None]("pageSize", page_size), param[str | None]("paginationToken", pagination_token)
             ],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[ListInboundPlanBoxesResponse],
+            decoder=async_json_decoder[ListInboundPlanBoxesResponse],
             error_mapper=list_shipment_boxes_error_mapper,
             request_options=request_options,
         )
@@ -4924,7 +5155,8 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             shipment_id: Identifier of a shipment.
             page_size: The number of content update previews to return.
             pagination_token: A token to fetch a certain page when there are multiple pages worth of results.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -4938,7 +5170,7 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
                 param[int | None]("pageSize", page_size), param[str | None]("paginationToken", pagination_token)
             ],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[ListShipmentContentUpdatePreviewsResponse],
+            decoder=async_json_decoder[ListShipmentContentUpdatePreviewsResponse],
             error_mapper=list_shipment_content_update_previews_error_mapper,
             request_options=request_options,
         )
@@ -4959,7 +5191,8 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             shipment_id: Identifier of a shipment. A shipment contains the boxes and units being inbounded.
             page_size: The number of items to return in the response matching the given query.
             pagination_token: A token to fetch a certain page when there are multiple pages worth of results.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -4973,7 +5206,7 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
                 param[int | None]("pageSize", page_size), param[str | None]("paginationToken", pagination_token)
             ],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[ListInboundPlanItemsResponse],
+            decoder=async_json_decoder[ListInboundPlanItemsResponse],
             error_mapper=list_shipment_items_error_mapper,
             request_options=request_options,
         )
@@ -4994,7 +5227,8 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             shipment_id: Identifier of a shipment.
             page_size: The number of pallets to return in the response matching the given query.
             pagination_token: A token to fetch a certain page when there are multiple pages worth of results.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -5008,7 +5242,7 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
                 param[int | None]("pageSize", page_size), param[str | None]("paginationToken", pagination_token)
             ],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[ListInboundPlanPalletsResponse],
+            decoder=async_json_decoder[ListInboundPlanPalletsResponse],
             error_mapper=list_shipment_pallets_error_mapper,
             request_options=request_options,
         )
@@ -5033,7 +5267,8 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
                 ``shipmentId`` must be specified.
             shipment_id: The shipment to get transportation options for. Either ``placementOptionId`` or ``shipmentId``
                 must be specified.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -5048,7 +5283,7 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
                 param[str | None]("shipmentId", shipment_id),
             ],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[ListTransportationOptionsResponse],
+            decoder=async_json_decoder[ListTransportationOptionsResponse],
             error_mapper=list_transportation_options_error_mapper,
             request_options=request_options,
         )
@@ -5069,7 +5304,8 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             shipment_id: Identifier of a shipment.
             slot_id: An identifier to a self-ship appointment slot.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -5086,7 +5322,7 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             body=json_body[ScheduleSelfShipAppointmentRequest | ScheduleSelfShipAppointmentRequestDict](body),
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[ScheduleSelfShipAppointmentResponse],
+            decoder=async_json_decoder[ScheduleSelfShipAppointmentResponse],
             error_mapper=schedule_self_ship_appointment_error_mapper,
             request_options=request_options,
         )
@@ -5103,7 +5339,8 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
         Args:
             inbound_plan_id: Identifier of an inbound plan.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -5114,7 +5351,7 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             body=json_body[SetPackingInformationRequest | SetPackingInformationRequestDict](body),
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[CancelInboundPlanResponse],
+            decoder=async_json_decoder[CancelInboundPlanResponse],
             error_mapper=set_packing_information_error_mapper,
             request_options=request_options,
         )
@@ -5129,7 +5366,8 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -5139,7 +5377,7 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             body=json_body[SetPrepDetailsRequest | SetPrepDetailsRequestDict](body),
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[CancelInboundPlanResponse],
+            decoder=async_json_decoder[CancelInboundPlanResponse],
             error_mapper=set_prep_details_error_mapper,
             request_options=request_options,
         )
@@ -5156,7 +5394,8 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
         Args:
             inbound_plan_id: Identifier of an inbound plan.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -5167,7 +5406,7 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             body=json_body[UpdateInboundPlanNameRequest | UpdateInboundPlanNameRequestDict](body),
             auth_scheme=self._auth.wallet_auth,
-            decoder=empty_response,
+            decoder=async_empty_response,
             error_mapper=update_inbound_plan_name_error_mapper,
             request_options=request_options,
         )
@@ -5185,7 +5424,8 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             marketplace_id: The Walmart Marketplace ID. For a list of possible values, refer to `Marketplace IDs
                 <https://developer-docs.walmart.com/seller-api/docs/marketplace-ids>`__.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -5196,7 +5436,7 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             body=json_body[UpdateItemComplianceDetailsRequest | UpdateItemComplianceDetailsRequestDict](body),
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[CancelInboundPlanResponse],
+            decoder=async_json_decoder[CancelInboundPlanResponse],
             error_mapper=update_item_compliance_details_error_mapper,
             request_options=request_options,
         )
@@ -5215,7 +5455,8 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             inbound_plan_id: Identifier of an inbound plan.
             shipment_id: Identifier of a shipment.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -5228,7 +5469,7 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             body=json_body[UpdateShipmentNameRequest | UpdateShipmentNameRequestDict](body),
             auth_scheme=self._auth.wallet_auth,
-            decoder=empty_response,
+            decoder=async_empty_response,
             error_mapper=update_shipment_name_error_mapper,
             request_options=request_options,
         )
@@ -5247,7 +5488,8 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             inbound_plan_id: Identifier of an inbound plan.
             shipment_id: Identifier of a shipment.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -5260,7 +5502,7 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             body=json_body[UpdateShipmentSourceAddressRequest | UpdateShipmentSourceAddressRequestDict](body),
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[CancelInboundPlanResponse],
+            decoder=async_json_decoder[CancelInboundPlanResponse],
             error_mapper=update_shipment_source_address_error_mapper,
             request_options=request_options,
         )
@@ -5279,7 +5521,8 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             inbound_plan_id: Identifier of an inbound plan.
             shipment_id: Identifier of a shipment.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -5292,7 +5535,7 @@ class AsyncWfsInboundWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             body=json_body[UpdateShipmentTrackingDetailsRequest | UpdateShipmentTrackingDetailsRequestDict](body),
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[CancelInboundPlanResponse],
+            decoder=async_json_decoder[CancelInboundPlanResponse],
             error_mapper=update_shipment_tracking_details_error_mapper,
             request_options=request_options,
         )

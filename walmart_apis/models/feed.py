@@ -47,4 +47,4 @@ class FeedDict(TypedDict):
     processing_completed_at: NotRequired[RFC3339DateTime]
     processing_status: ProcessingStatus1OrStr
     result_feed_document_id: NotRequired[str]
-    feed_processing_summary: NotRequired[FeedProcessingSummary | FeedProcessingSummaryDict]
+    feed_processing_summary: NotRequired[FeedProcessingSummaryDict]

@@ -24,6 +24,6 @@ class ShipPackage(SdkBaseModel):
 
 class ShipPackageDict(TypedDict):
     package_id: NotRequired[str]
-    tracking_info: TrackingInfo | TrackingInfoDict
-    dimensions: NotRequired[PackageDimensions1 | PackageDimensions1Dict]
-    lines: list[ShipPackageLine | ShipPackageLineDict]
+    tracking_info: TrackingInfoDict
+    dimensions: NotRequired[PackageDimensions1Dict]
+    lines: list[ShipPackageLineDict]

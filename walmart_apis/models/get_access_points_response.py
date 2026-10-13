@@ -11,4 +11,4 @@ class GetAccessPointsResponse(SdkBaseModel):
 
 
 class GetAccessPointsResponseDict(TypedDict):
-    payload: NotRequired[Payload6 | Payload6Dict]
+    payload: NotRequired[Payload6Dict]

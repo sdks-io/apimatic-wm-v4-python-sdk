@@ -24,6 +24,4 @@ class GenerateTransportationOptionsRequest(SdkBaseModel):
 
 class GenerateTransportationOptionsRequestDict(TypedDict):
     placement_option_id: str
-    shipment_transportation_configurations: list[
-        CommonShipmentTransportationConfiguration | CommonShipmentTransportationConfigurationDict
-    ]
+    shipment_transportation_configurations: list[CommonShipmentTransportationConfigurationDict]

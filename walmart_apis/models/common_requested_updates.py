@@ -18,5 +18,5 @@ class CommonRequestedUpdates(SdkBaseModel):
 
 
 class CommonRequestedUpdatesDict(TypedDict):
-    boxes: NotRequired[list[CommonBoxUpdateInput | CommonBoxUpdateInputDict]]
-    items: NotRequired[list[CommonItemInput | CommonItemInputDict]]
+    boxes: NotRequired[list[CommonBoxUpdateInputDict]]
+    items: NotRequired[list[CommonItemInputDict]]

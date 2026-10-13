@@ -53,12 +53,12 @@ class CommonBox(SdkBaseModel):
 class CommonBoxDict(TypedDict):
     box_id: NotRequired[str]
     content_information_source: NotRequired[CommonBoxContentInformationSourceOrStr]
-    destination_region: NotRequired[CommonRegion | CommonRegionDict]
-    dimensions: NotRequired[CommonDimensions | CommonDimensionsDict]
+    destination_region: NotRequired[CommonRegionDict]
+    dimensions: NotRequired[CommonDimensionsDict]
     external_container_identifier: NotRequired[str]
     external_container_identifier_type: NotRequired[str]
-    items: NotRequired[list[CommonItem | CommonItemDict]]
+    items: NotRequired[list[CommonItemDict]]
     package_id: str
     quantity: NotRequired[int]
     template_name: NotRequired[str]
-    weight: NotRequired[CommonWeight | CommonWeightDict]
+    weight: NotRequired[CommonWeightDict]

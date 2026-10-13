@@ -22,6 +22,6 @@ class PriceType(SdkBaseModel):
 
 
 class PriceTypeDict(TypedDict):
-    landed_price: NotRequired[MoneyType | MoneyTypeDict]
-    listing_price: MoneyType | MoneyTypeDict
-    shipping: NotRequired[MoneyType | MoneyTypeDict]
+    landed_price: NotRequired[MoneyTypeDict]
+    listing_price: MoneyTypeDict
+    shipping: NotRequired[MoneyTypeDict]

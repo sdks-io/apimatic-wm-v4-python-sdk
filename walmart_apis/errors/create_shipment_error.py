@@ -3,7 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Final, TypeAlias
 
-from ..core import ErrorMapper, HttpResponse, RawError, decode_json
+from ..core import ErrorMapper, RawError, decode_json
 from ..models.error_list import ErrorList
 
 CreateShipmentErrorBody: TypeAlias = ErrorList | RawError
@@ -11,12 +11,12 @@ CreateShipmentErrorBody: TypeAlias = ErrorList | RawError
 
 @dataclass(frozen=True, slots=True)
 class _CreateShipmentError:
-    def map(self, response: HttpResponse) -> CreateShipmentErrorBody:
-        match response.status_code:
+    def map(self, status_code: int, content: bytes) -> CreateShipmentErrorBody:
+        match status_code:
             case 400 | 403 | 429 | 500:
-                return decode_json[ErrorList](response)
+                return decode_json[ErrorList](content)
             case _:
-                return RawError(response)
+                return RawError(status_code, content)
 
 
 create_shipment_error_mapper: Final[ErrorMapper[CreateShipmentErrorBody]] = _CreateShipmentError()

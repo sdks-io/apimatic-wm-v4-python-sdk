@@ -24,7 +24,7 @@ class RequestedDocumentSpecification(SdkBaseModel):
 
 class RequestedDocumentSpecificationDict(TypedDict):
     format: Format1OrStr
-    size: LabelDimensions | LabelDimensionsDict
+    size: LabelDimensionsDict
     dpi: DpiOrInt
     page_layout: NotRequired[PageLayoutOrStr]
     need_file_joining: NotRequired[bool]

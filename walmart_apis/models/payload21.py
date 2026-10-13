@@ -14,4 +14,4 @@ class Payload21(SdkBaseModel):
 
 class Payload21Dict(TypedDict):
     purchase_order_id: NotRequired[str]
-    shipping_address: NotRequired[Address2 | Address2Dict]
+    shipping_address: NotRequired[Address2Dict]

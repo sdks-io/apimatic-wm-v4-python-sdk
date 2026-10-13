@@ -9,9 +9,11 @@ from ..core import (
     RawClient,
     RequestOptionsOrDict,
     SecuredRawResponse,
+    async_json_decoder,
     json_body,
     json_decoder,
     param,
+    unwrap,
 )
 from ..errors.get_competitive_pricing_error import GetCompetitivePricingErrorBody, get_competitive_pricing_error_mapper
 from ..errors.get_competitive_summary_error import GetCompetitiveSummaryErrorBody, get_competitive_summary_error_mapper
@@ -34,7 +36,7 @@ from ..models.competitive_summary_batch_request import (
 from ..models.competitive_summary_batch_response import CompetitiveSummaryBatchResponse
 from ..models.enums.condition_type2 import ConditionType2OrStr
 from ..models.enums.customer_type import CustomerTypeOrStr
-from ..models.enums.item_type import ItemTypeOrStr
+from ..models.enums.item_type import ItemType, ItemTypeOrStr
 from ..models.enums.offer_type import OfferTypeOrStr
 from ..models.get_featured_offer_expected_price_batch_request import (
     GetFeaturedOfferExpectedPriceBatchRequest,
@@ -57,8 +59,8 @@ class ProductPricing:
     def get_competitive_pricing(
         self,
         marketplace_id: str,
-        item_type: ItemTypeOrStr,
         *,
+        item_type: ItemTypeOrStr = ItemType.SKU,
         skus: list[str] | None = None,
         walmart_item_ids: list[str] | None = None,
         customer_type: CustomerTypeOrStr | None = None,
@@ -75,7 +77,8 @@ class ProductPricing:
                 marketplace.
             customer_type: Indicates whether to request pricing information from the point of view of Consumer or
                 Business buyers. Default is Consumer.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -83,14 +86,16 @@ class ProductPricing:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``list[Error3] | RawError``."""
-        return self._with_raw_response.get_competitive_pricing(
-            marketplace_id,
-            item_type,
-            skus=skus,
-            walmart_item_ids=walmart_item_ids,
-            customer_type=customer_type,
-            request_options=request_options,
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.get_competitive_pricing(
+                marketplace_id,
+                item_type=item_type,
+                skus=skus,
+                walmart_item_ids=walmart_item_ids,
+                customer_type=customer_type,
+                request_options=request_options,
+            ),
+        )
 
     def get_competitive_summary(
         self,
@@ -105,7 +110,8 @@ class ProductPricing:
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -113,7 +119,7 @@ class ProductPricing:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``list[Error3] | RawError``."""
-        return self._with_raw_response.get_competitive_summary(body, request_options=request_options).unwrap()
+        return unwrap(self._with_raw_response.get_competitive_summary(body, request_options=request_options))
 
     def get_featured_offer_expected_price_batch(
         self,
@@ -128,7 +134,8 @@ class ProductPricing:
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -136,9 +143,9 @@ class ProductPricing:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``list[Error3] | RawError``."""
-        return self._with_raw_response.get_featured_offer_expected_price_batch(
-            body, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.get_featured_offer_expected_price_batch(body, request_options=request_options)
+        )
 
     def get_item_offers(
         self,
@@ -163,7 +170,8 @@ class ProductPricing:
             item_condition: Filters the offer listings based on item condition. Possible values: New, Used, Collectible,
                 Refurbished, Club.
             customer_type: Indicates whether to request Consumer or Business offers. Default is Consumer.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -171,9 +179,11 @@ class ProductPricing:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``list[Error3] | RawError``."""
-        return self._with_raw_response.get_item_offers(
-            item_id, marketplace_id, item_condition, customer_type=customer_type, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.get_item_offers(
+                item_id, marketplace_id, item_condition, customer_type=customer_type, request_options=request_options
+            ),
+        )
 
     def get_item_offers_batch(
         self,
@@ -189,7 +199,8 @@ class ProductPricing:
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -197,7 +208,7 @@ class ProductPricing:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``list[Error3] | RawError``."""
-        return self._with_raw_response.get_item_offers_batch(body, request_options=request_options).unwrap()
+        return unwrap(self._with_raw_response.get_item_offers_batch(body, request_options=request_options))
 
     def get_listing_offers(
         self,
@@ -216,7 +227,8 @@ class ProductPricing:
             item_condition: Filters the offer listings based on item condition. Possible values: New, Used, Collectible,
                 Refurbished, Club.
             customer_type: Indicates whether to request Consumer or Business offers. Default is Consumer.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -224,9 +236,11 @@ class ProductPricing:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``list[Error3] | RawError``."""
-        return self._with_raw_response.get_listing_offers(
-            seller_sku, marketplace_id, item_condition, customer_type=customer_type, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.get_listing_offers(
+                seller_sku, marketplace_id, item_condition, customer_type=customer_type, request_options=request_options
+            ),
+        )
 
     def get_listing_offers_batch(
         self,
@@ -241,7 +255,8 @@ class ProductPricing:
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -249,13 +264,13 @@ class ProductPricing:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``list[Error3] | RawError``."""
-        return self._with_raw_response.get_listing_offers_batch(body, request_options=request_options).unwrap()
+        return unwrap(self._with_raw_response.get_listing_offers_batch(body, request_options=request_options))
 
     def get_pricing(
         self,
         marketplace_id: str,
-        item_type: ItemTypeOrStr,
         *,
+        item_type: ItemTypeOrStr = ItemType.SKU,
         skus: list[str] | None = None,
         walmart_item_ids: list[str] | None = None,
         item_condition: ConditionType2OrStr | None = None,
@@ -276,7 +291,8 @@ class ProductPricing:
             offer_type: Indicates whether to request pricing information for the seller's B2C or B2B offers. Default is
                 B2C.
             customer_type: Indicates whether to request Consumer or Business offers. Default is Consumer.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -284,16 +300,18 @@ class ProductPricing:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``list[Error3] | RawError``."""
-        return self._with_raw_response.get_pricing(
-            marketplace_id,
-            item_type,
-            skus=skus,
-            walmart_item_ids=walmart_item_ids,
-            item_condition=item_condition,
-            offer_type=offer_type,
-            customer_type=customer_type,
-            request_options=request_options,
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.get_pricing(
+                marketplace_id,
+                item_type=item_type,
+                skus=skus,
+                walmart_item_ids=walmart_item_ids,
+                item_condition=item_condition,
+                offer_type=offer_type,
+                customer_type=customer_type,
+                request_options=request_options,
+            ),
+        )
 
     @property
     def with_raw_response(self) -> ProductPricingWithRawResponse:
@@ -307,8 +325,8 @@ class AsyncProductPricing:
     async def get_competitive_pricing(
         self,
         marketplace_id: str,
-        item_type: ItemTypeOrStr,
         *,
+        item_type: ItemTypeOrStr = ItemType.SKU,
         skus: list[str] | None = None,
         walmart_item_ids: list[str] | None = None,
         customer_type: CustomerTypeOrStr | None = None,
@@ -325,7 +343,8 @@ class AsyncProductPricing:
                 marketplace.
             customer_type: Indicates whether to request pricing information from the point of view of Consumer or
                 Business buyers. Default is Consumer.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -333,16 +352,16 @@ class AsyncProductPricing:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``list[Error3] | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.get_competitive_pricing(
                 marketplace_id,
-                item_type,
+                item_type=item_type,
                 skus=skus,
                 walmart_item_ids=walmart_item_ids,
                 customer_type=customer_type,
                 request_options=request_options,
-            )
-        ).unwrap()
+            ),
+        )
 
     async def get_competitive_summary(
         self,
@@ -357,7 +376,8 @@ class AsyncProductPricing:
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -365,7 +385,7 @@ class AsyncProductPricing:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``list[Error3] | RawError``."""
-        return (await self._with_raw_response.get_competitive_summary(body, request_options=request_options)).unwrap()
+        return unwrap(await self._with_raw_response.get_competitive_summary(body, request_options=request_options))
 
     async def get_featured_offer_expected_price_batch(
         self,
@@ -380,7 +400,8 @@ class AsyncProductPricing:
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -388,9 +409,9 @@ class AsyncProductPricing:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``list[Error3] | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.get_featured_offer_expected_price_batch(body, request_options=request_options)
-        ).unwrap()
+        )
 
     async def get_item_offers(
         self,
@@ -415,7 +436,8 @@ class AsyncProductPricing:
             item_condition: Filters the offer listings based on item condition. Possible values: New, Used, Collectible,
                 Refurbished, Club.
             customer_type: Indicates whether to request Consumer or Business offers. Default is Consumer.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -423,11 +445,11 @@ class AsyncProductPricing:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``list[Error3] | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.get_item_offers(
                 item_id, marketplace_id, item_condition, customer_type=customer_type, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     async def get_item_offers_batch(
         self,
@@ -443,7 +465,8 @@ class AsyncProductPricing:
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -451,7 +474,7 @@ class AsyncProductPricing:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``list[Error3] | RawError``."""
-        return (await self._with_raw_response.get_item_offers_batch(body, request_options=request_options)).unwrap()
+        return unwrap(await self._with_raw_response.get_item_offers_batch(body, request_options=request_options))
 
     async def get_listing_offers(
         self,
@@ -470,7 +493,8 @@ class AsyncProductPricing:
             item_condition: Filters the offer listings based on item condition. Possible values: New, Used, Collectible,
                 Refurbished, Club.
             customer_type: Indicates whether to request Consumer or Business offers. Default is Consumer.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -478,11 +502,11 @@ class AsyncProductPricing:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``list[Error3] | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.get_listing_offers(
                 seller_sku, marketplace_id, item_condition, customer_type=customer_type, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     async def get_listing_offers_batch(
         self,
@@ -497,7 +521,8 @@ class AsyncProductPricing:
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -505,13 +530,13 @@ class AsyncProductPricing:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``list[Error3] | RawError``."""
-        return (await self._with_raw_response.get_listing_offers_batch(body, request_options=request_options)).unwrap()
+        return unwrap(await self._with_raw_response.get_listing_offers_batch(body, request_options=request_options))
 
     async def get_pricing(
         self,
         marketplace_id: str,
-        item_type: ItemTypeOrStr,
         *,
+        item_type: ItemTypeOrStr = ItemType.SKU,
         skus: list[str] | None = None,
         walmart_item_ids: list[str] | None = None,
         item_condition: ConditionType2OrStr | None = None,
@@ -532,7 +557,8 @@ class AsyncProductPricing:
             offer_type: Indicates whether to request pricing information for the seller's B2C or B2B offers. Default is
                 B2C.
             customer_type: Indicates whether to request Consumer or Business offers. Default is Consumer.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -540,18 +566,18 @@ class AsyncProductPricing:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is
                 ``list[Error3] | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.get_pricing(
                 marketplace_id,
-                item_type,
+                item_type=item_type,
                 skus=skus,
                 walmart_item_ids=walmart_item_ids,
                 item_condition=item_condition,
                 offer_type=offer_type,
                 customer_type=customer_type,
                 request_options=request_options,
-            )
-        ).unwrap()
+            ),
+        )
 
     @property
     def with_raw_response(self) -> AsyncProductPricingWithRawResponse:
@@ -562,8 +588,8 @@ class ProductPricingWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSc
     def get_competitive_pricing(
         self,
         marketplace_id: str,
-        item_type: ItemTypeOrStr,
         *,
+        item_type: ItemTypeOrStr = ItemType.SKU,
         skus: list[str] | None = None,
         walmart_item_ids: list[str] | None = None,
         customer_type: CustomerTypeOrStr | None = None,
@@ -580,7 +606,8 @@ class ProductPricingWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSc
                 marketplace.
             customer_type: Indicates whether to request pricing information from the point of view of Consumer or
                 Business buyers. Default is Consumer.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -613,7 +640,8 @@ class ProductPricingWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSc
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -641,7 +669,8 @@ class ProductPricingWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSc
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -681,7 +710,8 @@ class ProductPricingWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSc
             item_condition: Filters the offer listings based on item condition. Possible values: New, Used, Collectible,
                 Refurbished, Club.
             customer_type: Indicates whether to request Consumer or Business offers. Default is Consumer.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -714,7 +744,8 @@ class ProductPricingWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSc
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -746,7 +777,8 @@ class ProductPricingWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSc
             item_condition: Filters the offer listings based on item condition. Possible values: New, Used, Collectible,
                 Refurbished, Club.
             customer_type: Indicates whether to request Consumer or Business offers. Default is Consumer.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -778,7 +810,8 @@ class ProductPricingWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSc
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -796,8 +829,8 @@ class ProductPricingWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSc
     def get_pricing(
         self,
         marketplace_id: str,
-        item_type: ItemTypeOrStr,
         *,
+        item_type: ItemTypeOrStr = ItemType.SKU,
         skus: list[str] | None = None,
         walmart_item_ids: list[str] | None = None,
         item_condition: ConditionType2OrStr | None = None,
@@ -818,7 +851,8 @@ class ProductPricingWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSc
             offer_type: Indicates whether to request pricing information for the seller's B2C or B2B offers. Default is
                 B2C.
             customer_type: Indicates whether to request Consumer or Business offers. Default is Consumer.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -845,8 +879,8 @@ class AsyncProductPricingWithRawResponse(SecuredRawResponse[AsyncRawClient, Serv
     async def get_competitive_pricing(
         self,
         marketplace_id: str,
-        item_type: ItemTypeOrStr,
         *,
+        item_type: ItemTypeOrStr = ItemType.SKU,
         skus: list[str] | None = None,
         walmart_item_ids: list[str] | None = None,
         customer_type: CustomerTypeOrStr | None = None,
@@ -863,7 +897,8 @@ class AsyncProductPricingWithRawResponse(SecuredRawResponse[AsyncRawClient, Serv
                 marketplace.
             customer_type: Indicates whether to request pricing information from the point of view of Consumer or
                 Business buyers. Default is Consumer.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -878,7 +913,7 @@ class AsyncProductPricingWithRawResponse(SecuredRawResponse[AsyncRawClient, Serv
                 param[CustomerTypeOrStr | None]("CustomerType", customer_type),
             ],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[GetPricingResponse],
+            decoder=async_json_decoder[GetPricingResponse],
             error_mapper=get_competitive_pricing_error_mapper,
             request_options=request_options,
         )
@@ -896,7 +931,8 @@ class AsyncProductPricingWithRawResponse(SecuredRawResponse[AsyncRawClient, Serv
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -906,7 +942,7 @@ class AsyncProductPricingWithRawResponse(SecuredRawResponse[AsyncRawClient, Serv
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             body=json_body[CompetitiveSummaryBatchRequest | CompetitiveSummaryBatchRequestDict](body),
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[CompetitiveSummaryBatchResponse],
+            decoder=async_json_decoder[CompetitiveSummaryBatchResponse],
             error_mapper=get_competitive_summary_error_mapper,
             request_options=request_options,
         )
@@ -924,7 +960,8 @@ class AsyncProductPricingWithRawResponse(SecuredRawResponse[AsyncRawClient, Serv
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -936,7 +973,7 @@ class AsyncProductPricingWithRawResponse(SecuredRawResponse[AsyncRawClient, Serv
                 body
             ),
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[GetFeaturedOfferExpectedPriceBatchResponse],
+            decoder=async_json_decoder[GetFeaturedOfferExpectedPriceBatchResponse],
             error_mapper=get_featured_offer_expected_price_batch_error_mapper,
             request_options=request_options,
         )
@@ -964,7 +1001,8 @@ class AsyncProductPricingWithRawResponse(SecuredRawResponse[AsyncRawClient, Serv
             item_condition: Filters the offer listings based on item condition. Possible values: New, Used, Collectible,
                 Refurbished, Club.
             customer_type: Indicates whether to request Consumer or Business offers. Default is Consumer.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -978,7 +1016,7 @@ class AsyncProductPricingWithRawResponse(SecuredRawResponse[AsyncRawClient, Serv
                 param[CustomerTypeOrStr | None]("CustomerType", customer_type),
             ],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[GetOffersResponse],
+            decoder=async_json_decoder[GetOffersResponse],
             error_mapper=get_item_offers_error_mapper,
             request_options=request_options,
         )
@@ -997,7 +1035,8 @@ class AsyncProductPricingWithRawResponse(SecuredRawResponse[AsyncRawClient, Serv
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -1007,7 +1046,7 @@ class AsyncProductPricingWithRawResponse(SecuredRawResponse[AsyncRawClient, Serv
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             body=json_body[GetItemOffersBatchRequest | GetItemOffersBatchRequestDict](body),
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[GetItemOffersBatchResponse],
+            decoder=async_json_decoder[GetItemOffersBatchResponse],
             error_mapper=get_item_offers_batch_error_mapper,
             request_options=request_options,
         )
@@ -1029,7 +1068,8 @@ class AsyncProductPricingWithRawResponse(SecuredRawResponse[AsyncRawClient, Serv
             item_condition: Filters the offer listings based on item condition. Possible values: New, Used, Collectible,
                 Refurbished, Club.
             customer_type: Indicates whether to request Consumer or Business offers. Default is Consumer.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -1043,7 +1083,7 @@ class AsyncProductPricingWithRawResponse(SecuredRawResponse[AsyncRawClient, Serv
                 param[CustomerTypeOrStr | None]("CustomerType", customer_type),
             ],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[GetOffersResponse],
+            decoder=async_json_decoder[GetOffersResponse],
             error_mapper=get_listing_offers_error_mapper,
             request_options=request_options,
         )
@@ -1061,7 +1101,8 @@ class AsyncProductPricingWithRawResponse(SecuredRawResponse[AsyncRawClient, Serv
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -1071,7 +1112,7 @@ class AsyncProductPricingWithRawResponse(SecuredRawResponse[AsyncRawClient, Serv
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             body=json_body[GetListingOffersBatchRequest | GetListingOffersBatchRequestDict](body),
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[GetListingOffersBatchResponse],
+            decoder=async_json_decoder[GetListingOffersBatchResponse],
             error_mapper=get_listing_offers_batch_error_mapper,
             request_options=request_options,
         )
@@ -1079,8 +1120,8 @@ class AsyncProductPricingWithRawResponse(SecuredRawResponse[AsyncRawClient, Serv
     async def get_pricing(
         self,
         marketplace_id: str,
-        item_type: ItemTypeOrStr,
         *,
+        item_type: ItemTypeOrStr = ItemType.SKU,
         skus: list[str] | None = None,
         walmart_item_ids: list[str] | None = None,
         item_condition: ConditionType2OrStr | None = None,
@@ -1101,7 +1142,8 @@ class AsyncProductPricingWithRawResponse(SecuredRawResponse[AsyncRawClient, Serv
             offer_type: Indicates whether to request pricing information for the seller's B2C or B2B offers. Default is
                 B2C.
             customer_type: Indicates whether to request Consumer or Business offers. Default is Consumer.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -1118,7 +1160,7 @@ class AsyncProductPricingWithRawResponse(SecuredRawResponse[AsyncRawClient, Serv
                 param[CustomerTypeOrStr | None]("CustomerType", customer_type),
             ],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[GetPricingResponse],
+            decoder=async_json_decoder[GetPricingResponse],
             error_mapper=get_pricing_error_mapper,
             request_options=request_options,
         )

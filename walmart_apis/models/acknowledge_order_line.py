@@ -17,5 +17,5 @@ class AcknowledgeOrderLine(SdkBaseModel):
 
 class AcknowledgeOrderLineDict(TypedDict):
     line_number: str
-    status_code: NotRequired[Literal["Acknowledged"]]
-    status_quantity: NotRequired[QuantityWithUnit | QuantityWithUnitDict]
+    status_code: Literal["Acknowledged"]
+    status_quantity: NotRequired[QuantityWithUnitDict]

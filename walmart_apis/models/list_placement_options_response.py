@@ -19,5 +19,5 @@ class ListPlacementOptionsResponse(SdkBaseModel):
 
 
 class ListPlacementOptionsResponseDict(TypedDict):
-    placement_options: list[CommonPlacementOption | CommonPlacementOptionDict]
-    pagination: NotRequired[CommonPagination | CommonPaginationDict]
+    placement_options: list[CommonPlacementOptionDict]
+    pagination: NotRequired[CommonPaginationDict]

@@ -27,5 +27,5 @@ class ChannelDetails(SdkBaseModel):
 
 class ChannelDetailsDict(TypedDict):
     channel_type: ChannelTypeOrStr
-    marketplace_order_details: NotRequired[MarketplaceOrderDetails | MarketplaceOrderDetailsDict]
-    marketplace_shipment_details: NotRequired[MarketplaceShipmentDetails | MarketplaceShipmentDetailsDict]
+    marketplace_order_details: NotRequired[MarketplaceOrderDetailsDict]
+    marketplace_shipment_details: NotRequired[MarketplaceShipmentDetailsDict]

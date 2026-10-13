@@ -15,4 +15,4 @@ class ListItemComplianceDetailsResponse(SdkBaseModel):
 
 
 class ListItemComplianceDetailsResponseDict(TypedDict):
-    compliance_details: NotRequired[list[CommonComplianceDetail | CommonComplianceDetailDict]]
+    compliance_details: NotRequired[list[CommonComplianceDetailDict]]

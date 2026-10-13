@@ -8,8 +8,10 @@ from ..core import (
     RequestOptionsOrDict,
     RFC3339DateTime,
     SecuredRawResponse,
+    async_json_decoder,
     json_decoder,
     param,
+    unwrap,
 )
 from ..errors.list_settlement_details_error import ListSettlementDetailsErrorBody, list_settlement_details_error_mapper
 from ..errors.list_settlement_periods_error import ListSettlementPeriodsErrorBody, list_settlement_periods_error_mapper
@@ -42,7 +44,8 @@ class Settlement:
             report_date: Report date in MMddyyyy format (e.g. 06172026)
             page_size: Value sent with the request.
             next_token: Opaque cursor from a prior response; omit for first page
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -50,9 +53,11 @@ class Settlement:
         Raises:
             ApiError: Bad Request Unauthorized — missing, expired, or invalid OAuth2 token Forbidden Rate limit exceeded
                 Internal Server Error ``error`` is ``ErrorList | RawError``."""
-        return self._with_raw_response.list_settlement_details(
-            partner_id, report_date, page_size=page_size, next_token=next_token, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.list_settlement_details(
+                partner_id, report_date, page_size=page_size, next_token=next_token, request_options=request_options
+            ),
+        )
 
     def list_settlement_periods(
         self,
@@ -67,7 +72,8 @@ class Settlement:
         Args:
             page_size: Value sent with the request.
             next_token: Opaque cursor from a prior response; omit for first page
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -75,9 +81,11 @@ class Settlement:
         Raises:
             ApiError: Bad Request Unauthorized — missing, expired, or invalid OAuth2 token Forbidden Rate limit exceeded
                 Internal Server Error ``error`` is ``ErrorList | RawError``."""
-        return self._with_raw_response.list_settlement_periods(
-            page_size=page_size, next_token=next_token, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.list_settlement_periods(
+                page_size=page_size, next_token=next_token, request_options=request_options
+            ),
+        )
 
     def search_transactions(
         self,
@@ -96,7 +104,8 @@ class Settlement:
             next_token: Opaque cursor from a prior response; omit for first page
             posted_after: Value sent with the request.
             posted_before: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -104,13 +113,15 @@ class Settlement:
         Raises:
             ApiError: Bad Request Unauthorized — missing, expired, or invalid OAuth2 token Internal Server Error
                 ``error`` is ``ErrorList | RawError``."""
-        return self._with_raw_response.search_transactions(
-            page_size=page_size,
-            next_token=next_token,
-            posted_after=posted_after,
-            posted_before=posted_before,
-            request_options=request_options,
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.search_transactions(
+                page_size=page_size,
+                next_token=next_token,
+                posted_after=posted_after,
+                posted_before=posted_before,
+                request_options=request_options,
+            ),
+        )
 
     @property
     def with_raw_response(self) -> SettlementWithRawResponse:
@@ -139,7 +150,8 @@ class AsyncSettlement:
             report_date: Report date in MMddyyyy format (e.g. 06172026)
             page_size: Value sent with the request.
             next_token: Opaque cursor from a prior response; omit for first page
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -147,11 +159,11 @@ class AsyncSettlement:
         Raises:
             ApiError: Bad Request Unauthorized — missing, expired, or invalid OAuth2 token Forbidden Rate limit exceeded
                 Internal Server Error ``error`` is ``ErrorList | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.list_settlement_details(
                 partner_id, report_date, page_size=page_size, next_token=next_token, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     async def list_settlement_periods(
         self,
@@ -166,7 +178,8 @@ class AsyncSettlement:
         Args:
             page_size: Value sent with the request.
             next_token: Opaque cursor from a prior response; omit for first page
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -174,11 +187,11 @@ class AsyncSettlement:
         Raises:
             ApiError: Bad Request Unauthorized — missing, expired, or invalid OAuth2 token Forbidden Rate limit exceeded
                 Internal Server Error ``error`` is ``ErrorList | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.list_settlement_periods(
                 page_size=page_size, next_token=next_token, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     async def search_transactions(
         self,
@@ -197,7 +210,8 @@ class AsyncSettlement:
             next_token: Opaque cursor from a prior response; omit for first page
             posted_after: Value sent with the request.
             posted_before: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -205,15 +219,15 @@ class AsyncSettlement:
         Raises:
             ApiError: Bad Request Unauthorized — missing, expired, or invalid OAuth2 token Internal Server Error
                 ``error`` is ``ErrorList | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.search_transactions(
                 page_size=page_size,
                 next_token=next_token,
                 posted_after=posted_after,
                 posted_before=posted_before,
                 request_options=request_options,
-            )
-        ).unwrap()
+            ),
+        )
 
     @property
     def with_raw_response(self) -> AsyncSettlementWithRawResponse:
@@ -239,7 +253,8 @@ class SettlementWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
             report_date: Report date in MMddyyyy format (e.g. 06172026)
             page_size: Value sent with the request.
             next_token: Opaque cursor from a prior response; omit for first page
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -271,7 +286,8 @@ class SettlementWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
         Args:
             page_size: Value sent with the request.
             next_token: Opaque cursor from a prior response; omit for first page
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -302,7 +318,8 @@ class SettlementWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
             next_token: Opaque cursor from a prior response; omit for first page
             posted_after: Value sent with the request.
             posted_before: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -341,7 +358,8 @@ class AsyncSettlementWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             report_date: Report date in MMddyyyy format (e.g. 06172026)
             page_size: Value sent with the request.
             next_token: Opaque cursor from a prior response; omit for first page
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -355,7 +373,7 @@ class AsyncSettlementWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
                 param[str | None]("nextToken", next_token),
             ],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[SettlementDetailsResponse],
+            decoder=async_json_decoder[SettlementDetailsResponse],
             error_mapper=list_settlement_details_error_mapper,
             request_options=request_options,
         )
@@ -373,7 +391,8 @@ class AsyncSettlementWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
         Args:
             page_size: Value sent with the request.
             next_token: Opaque cursor from a prior response; omit for first page
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -382,7 +401,7 @@ class AsyncSettlementWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             url_template=self._server.default1("/disbursements/v4/payment/settlementPeriods"),
             query_params=[param[int | None]("pageSize", page_size), param[str | None]("nextToken", next_token)],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[SettlementPeriodsResponse],
+            decoder=async_json_decoder[SettlementPeriodsResponse],
             error_mapper=list_settlement_periods_error_mapper,
             request_options=request_options,
         )
@@ -404,7 +423,8 @@ class AsyncSettlementWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             next_token: Opaque cursor from a prior response; omit for first page
             posted_after: Value sent with the request.
             posted_before: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -418,7 +438,7 @@ class AsyncSettlementWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
                 param[RFC3339DateTime | None]("postedBefore", posted_before),
             ],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[TransactionSearchResponse],
+            decoder=async_json_decoder[TransactionSearchResponse],
             error_mapper=search_transactions_error_mapper,
             request_options=request_options,
         )

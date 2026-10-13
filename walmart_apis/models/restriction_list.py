@@ -11,4 +11,4 @@ class RestrictionList(SdkBaseModel):
 
 
 class RestrictionListDict(TypedDict):
-    restrictions: NotRequired[list[Restriction | RestrictionDict]]
+    restrictions: NotRequired[list[RestrictionDict]]

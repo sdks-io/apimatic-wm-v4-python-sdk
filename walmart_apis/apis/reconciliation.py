@@ -11,9 +11,11 @@ from ..core import (
     RequestOptionsOrDict,
     SecuredRawResponse,
     async_file_decoder,
+    async_json_decoder,
     file_decoder,
     json_decoder,
     param,
+    unwrap,
 )
 from ..errors.check_download_report_by_period_error import (
     CheckDownloadReportByPeriodErrorBody,
@@ -45,7 +47,8 @@ class Reconciliation:
         Args:
             partner_id: Numeric partner/seller ID
             date: Report date in yyyy-MM-dd format
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -53,9 +56,9 @@ class Reconciliation:
         Raises:
             ApiError: Bad Request Unauthorized — missing, expired, or invalid OAuth2 token Internal Server Error
                 ``error`` is ``ErrorList | RawError``."""
-        return self._with_raw_response.check_download_report_by_period(
-            partner_id, date, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.check_download_report_by_period(partner_id, date, request_options=request_options)
+        )
 
     def download_reconciliation_report(
         self, partner_id: str, report_date: str, *, request_options: RequestOptionsOrDict | None = None
@@ -66,7 +69,8 @@ class Reconciliation:
         Args:
             partner_id: Numeric partner/seller ID
             report_date: Report date in MMddyyyy format (e.g. 06172026)
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             ZIP file stream
@@ -74,9 +78,11 @@ class Reconciliation:
         Raises:
             ApiError: Bad Request Unauthorized — missing, expired, or invalid OAuth2 token Not Found Internal Server
                 Error ``error`` is ``ErrorList | RawError``."""
-        return self._with_raw_response.download_reconciliation_report(
-            partner_id, report_date, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.download_reconciliation_report(
+                partner_id, report_date, request_options=request_options
+            ),
+        )
 
     def list_reconciliation_dates(
         self, partner_id: str, *, request_options: RequestOptionsOrDict | None = None
@@ -86,7 +92,8 @@ class Reconciliation:
 
         Args:
             partner_id: Numeric partner/seller ID
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -94,7 +101,7 @@ class Reconciliation:
         Raises:
             ApiError: Bad Request Unauthorized — missing, expired, or invalid OAuth2 token Internal Server Error
                 ``error`` is ``ErrorList | RawError``."""
-        return self._with_raw_response.list_reconciliation_dates(partner_id, request_options=request_options).unwrap()
+        return unwrap(self._with_raw_response.list_reconciliation_dates(partner_id, request_options=request_options))
 
     @property
     def with_raw_response(self) -> ReconciliationWithRawResponse:
@@ -115,7 +122,8 @@ class AsyncReconciliation:
         Args:
             partner_id: Numeric partner/seller ID
             date: Report date in yyyy-MM-dd format
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -123,11 +131,11 @@ class AsyncReconciliation:
         Raises:
             ApiError: Bad Request Unauthorized — missing, expired, or invalid OAuth2 token Internal Server Error
                 ``error`` is ``ErrorList | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.check_download_report_by_period(
                 partner_id, date, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     async def download_reconciliation_report(
         self, partner_id: str, report_date: str, *, request_options: RequestOptionsOrDict | None = None
@@ -138,7 +146,8 @@ class AsyncReconciliation:
         Args:
             partner_id: Numeric partner/seller ID
             report_date: Report date in MMddyyyy format (e.g. 06172026)
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             ZIP file stream
@@ -146,11 +155,11 @@ class AsyncReconciliation:
         Raises:
             ApiError: Bad Request Unauthorized — missing, expired, or invalid OAuth2 token Not Found Internal Server
                 Error ``error`` is ``ErrorList | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.download_reconciliation_report(
                 partner_id, report_date, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     async def list_reconciliation_dates(
         self, partner_id: str, *, request_options: RequestOptionsOrDict | None = None
@@ -160,7 +169,8 @@ class AsyncReconciliation:
 
         Args:
             partner_id: Numeric partner/seller ID
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -168,9 +178,9 @@ class AsyncReconciliation:
         Raises:
             ApiError: Bad Request Unauthorized — missing, expired, or invalid OAuth2 token Internal Server Error
                 ``error`` is ``ErrorList | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.list_reconciliation_dates(partner_id, request_options=request_options)
-        ).unwrap()
+        )
 
     @property
     def with_raw_response(self) -> AsyncReconciliationWithRawResponse:
@@ -188,7 +198,8 @@ class ReconciliationWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSc
         Args:
             partner_id: Numeric partner/seller ID
             date: Report date in yyyy-MM-dd format
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -211,11 +222,12 @@ class ReconciliationWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSc
         Args:
             partner_id: Numeric partner/seller ID
             report_date: Report date in MMddyyyy format (e.g. 06172026)
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the body unread or the error body."""
-        return self._client.stream(
+        return self._client.execute(
             http_method="GET",
             url_template=self._server.default1("/disbursements/v4/payment/reconciliation/download"),
             query_params=[param[str]("partnerId", partner_id), param[str]("reportDate", report_date)],
@@ -233,7 +245,8 @@ class ReconciliationWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSc
 
         Args:
             partner_id: Numeric partner/seller ID
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -259,7 +272,8 @@ class AsyncReconciliationWithRawResponse(SecuredRawResponse[AsyncRawClient, Serv
         Args:
             partner_id: Numeric partner/seller ID
             date: Report date in yyyy-MM-dd format
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -268,7 +282,7 @@ class AsyncReconciliationWithRawResponse(SecuredRawResponse[AsyncRawClient, Serv
             url_template=self._server.default1("/disbursements/v4/payment/checkDownloadReportByPeriod"),
             query_params=[param[str]("partnerId", partner_id), param[Date]("date", date)],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[ReportAvailabilityResponse],
+            decoder=async_json_decoder[ReportAvailabilityResponse],
             error_mapper=check_download_report_by_period_error_mapper,
             request_options=request_options,
         )
@@ -282,11 +296,12 @@ class AsyncReconciliationWithRawResponse(SecuredRawResponse[AsyncRawClient, Serv
         Args:
             partner_id: Numeric partner/seller ID
             report_date: Report date in MMddyyyy format (e.g. 06172026)
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the body unread or the error body."""
-        return await self._client.stream(
+        return await self._client.execute(
             http_method="GET",
             url_template=self._server.default1("/disbursements/v4/payment/reconciliation/download"),
             query_params=[param[str]("partnerId", partner_id), param[str]("reportDate", report_date)],
@@ -304,7 +319,8 @@ class AsyncReconciliationWithRawResponse(SecuredRawResponse[AsyncRawClient, Serv
 
         Args:
             partner_id: Numeric partner/seller ID
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -313,7 +329,7 @@ class AsyncReconciliationWithRawResponse(SecuredRawResponse[AsyncRawClient, Serv
             url_template=self._server.default1("/disbursements/v4/payment/reconciliation/dateList"),
             query_params=[param[str]("partnerId", partner_id)],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[ReportAvailabilityResponse],
+            decoder=async_json_decoder[ReportAvailabilityResponse],
             error_mapper=list_reconciliation_dates_error_mapper,
             request_options=request_options,
         )

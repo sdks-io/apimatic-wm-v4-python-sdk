@@ -10,9 +10,11 @@ from ..core import (
     RequestOptionsOrDict,
     RFC3339DateTime,
     SecuredRawResponse,
+    async_json_decoder,
     json_body,
     json_decoder,
     param,
+    unwrap,
 )
 from ..errors.cancel_fulfillment_order_error import (
     CancelFulfillmentOrderErrorBody,
@@ -60,7 +62,8 @@ class FulfillmentOutbound:
 
         Args:
             seller_fulfillment_order_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Cancellation request submitted
@@ -68,9 +71,11 @@ class FulfillmentOutbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return self._with_raw_response.cancel_fulfillment_order(
-            seller_fulfillment_order_id, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.cancel_fulfillment_order(
+                seller_fulfillment_order_id, request_options=request_options
+            ),
+        )
 
     def create_fulfillment_order(
         self,
@@ -82,7 +87,8 @@ class FulfillmentOutbound:
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Fulfillment order created
@@ -90,7 +96,7 @@ class FulfillmentOutbound:
         Raises:
             ApiError: Bad Request Forbidden Rate limit exceeded Internal Server Error ``error`` is ``ErrorList |
                 RawError``."""
-        return self._with_raw_response.create_fulfillment_order(body, request_options=request_options).unwrap()
+        return unwrap(self._with_raw_response.create_fulfillment_order(body, request_options=request_options))
 
     def get_fulfillment_order(
         self, seller_fulfillment_order_id: str, *, request_options: RequestOptionsOrDict | None = None
@@ -99,7 +105,8 @@ class FulfillmentOutbound:
 
         Args:
             seller_fulfillment_order_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -107,9 +114,9 @@ class FulfillmentOutbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return self._with_raw_response.get_fulfillment_order(
-            seller_fulfillment_order_id, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.get_fulfillment_order(seller_fulfillment_order_id, request_options=request_options)
+        )
 
     def get_fulfillment_order_shipments(
         self, seller_fulfillment_order_id: str, *, request_options: RequestOptionsOrDict | None = None
@@ -118,7 +125,8 @@ class FulfillmentOutbound:
 
         Args:
             seller_fulfillment_order_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -126,9 +134,11 @@ class FulfillmentOutbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return self._with_raw_response.get_fulfillment_order_shipments(
-            seller_fulfillment_order_id, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.get_fulfillment_order_shipments(
+                seller_fulfillment_order_id, request_options=request_options
+            ),
+        )
 
     def get_fulfillment_preview(
         self,
@@ -141,7 +151,8 @@ class FulfillmentOutbound:
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -149,7 +160,7 @@ class FulfillmentOutbound:
         Raises:
             ApiError: Bad Request Forbidden Rate limit exceeded Internal Server Error ``error`` is ``ErrorList |
                 RawError``."""
-        return self._with_raw_response.get_fulfillment_preview(body, request_options=request_options).unwrap()
+        return unwrap(self._with_raw_response.get_fulfillment_preview(body, request_options=request_options))
 
     def list_all_fulfillment_orders(
         self,
@@ -163,7 +174,8 @@ class FulfillmentOutbound:
         Args:
             query_start_date: Value sent with the request.
             next_token: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -171,9 +183,11 @@ class FulfillmentOutbound:
         Raises:
             ApiError: Bad Request Forbidden Rate limit exceeded Internal Server Error ``error`` is ``ErrorList |
                 RawError``."""
-        return self._with_raw_response.list_all_fulfillment_orders(
-            query_start_date=query_start_date, next_token=next_token, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.list_all_fulfillment_orders(
+                query_start_date=query_start_date, next_token=next_token, request_options=request_options
+            ),
+        )
 
     def update_fulfillment_order(
         self,
@@ -187,7 +201,8 @@ class FulfillmentOutbound:
         Args:
             seller_fulfillment_order_id: Value sent with the request.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Order updated
@@ -195,9 +210,11 @@ class FulfillmentOutbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return self._with_raw_response.update_fulfillment_order(
-            seller_fulfillment_order_id, body, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.update_fulfillment_order(
+                seller_fulfillment_order_id, body, request_options=request_options
+            ),
+        )
 
     @property
     def with_raw_response(self) -> FulfillmentOutboundWithRawResponse:
@@ -215,7 +232,8 @@ class AsyncFulfillmentOutbound:
 
         Args:
             seller_fulfillment_order_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Cancellation request submitted
@@ -223,11 +241,11 @@ class AsyncFulfillmentOutbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.cancel_fulfillment_order(
                 seller_fulfillment_order_id, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     async def create_fulfillment_order(
         self,
@@ -239,7 +257,8 @@ class AsyncFulfillmentOutbound:
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Fulfillment order created
@@ -247,7 +266,7 @@ class AsyncFulfillmentOutbound:
         Raises:
             ApiError: Bad Request Forbidden Rate limit exceeded Internal Server Error ``error`` is ``ErrorList |
                 RawError``."""
-        return (await self._with_raw_response.create_fulfillment_order(body, request_options=request_options)).unwrap()
+        return unwrap(await self._with_raw_response.create_fulfillment_order(body, request_options=request_options))
 
     async def get_fulfillment_order(
         self, seller_fulfillment_order_id: str, *, request_options: RequestOptionsOrDict | None = None
@@ -256,7 +275,8 @@ class AsyncFulfillmentOutbound:
 
         Args:
             seller_fulfillment_order_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -264,11 +284,11 @@ class AsyncFulfillmentOutbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.get_fulfillment_order(
                 seller_fulfillment_order_id, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     async def get_fulfillment_order_shipments(
         self, seller_fulfillment_order_id: str, *, request_options: RequestOptionsOrDict | None = None
@@ -277,7 +297,8 @@ class AsyncFulfillmentOutbound:
 
         Args:
             seller_fulfillment_order_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -285,11 +306,11 @@ class AsyncFulfillmentOutbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.get_fulfillment_order_shipments(
                 seller_fulfillment_order_id, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     async def get_fulfillment_preview(
         self,
@@ -302,7 +323,8 @@ class AsyncFulfillmentOutbound:
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -310,7 +332,7 @@ class AsyncFulfillmentOutbound:
         Raises:
             ApiError: Bad Request Forbidden Rate limit exceeded Internal Server Error ``error`` is ``ErrorList |
                 RawError``."""
-        return (await self._with_raw_response.get_fulfillment_preview(body, request_options=request_options)).unwrap()
+        return unwrap(await self._with_raw_response.get_fulfillment_preview(body, request_options=request_options))
 
     async def list_all_fulfillment_orders(
         self,
@@ -324,7 +346,8 @@ class AsyncFulfillmentOutbound:
         Args:
             query_start_date: Value sent with the request.
             next_token: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -332,11 +355,11 @@ class AsyncFulfillmentOutbound:
         Raises:
             ApiError: Bad Request Forbidden Rate limit exceeded Internal Server Error ``error`` is ``ErrorList |
                 RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.list_all_fulfillment_orders(
                 query_start_date=query_start_date, next_token=next_token, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     async def update_fulfillment_order(
         self,
@@ -350,7 +373,8 @@ class AsyncFulfillmentOutbound:
         Args:
             seller_fulfillment_order_id: Value sent with the request.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Order updated
@@ -358,11 +382,11 @@ class AsyncFulfillmentOutbound:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.update_fulfillment_order(
                 seller_fulfillment_order_id, body, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     @property
     def with_raw_response(self) -> AsyncFulfillmentOutboundWithRawResponse:
@@ -377,7 +401,8 @@ class FulfillmentOutboundWithRawResponse(SecuredRawResponse[RawClient, Server, A
 
         Args:
             seller_fulfillment_order_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -402,7 +427,8 @@ class FulfillmentOutboundWithRawResponse(SecuredRawResponse[RawClient, Server, A
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -424,7 +450,8 @@ class FulfillmentOutboundWithRawResponse(SecuredRawResponse[RawClient, Server, A
 
         Args:
             seller_fulfillment_order_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -445,7 +472,8 @@ class FulfillmentOutboundWithRawResponse(SecuredRawResponse[RawClient, Server, A
 
         Args:
             seller_fulfillment_order_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -472,7 +500,8 @@ class FulfillmentOutboundWithRawResponse(SecuredRawResponse[RawClient, Server, A
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -499,7 +528,8 @@ class FulfillmentOutboundWithRawResponse(SecuredRawResponse[RawClient, Server, A
         Args:
             query_start_date: Value sent with the request.
             next_token: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -528,7 +558,8 @@ class FulfillmentOutboundWithRawResponse(SecuredRawResponse[RawClient, Server, A
         Args:
             seller_fulfillment_order_id: Value sent with the request.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -553,7 +584,8 @@ class AsyncFulfillmentOutboundWithRawResponse(SecuredRawResponse[AsyncRawClient,
 
         Args:
             seller_fulfillment_order_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -563,7 +595,7 @@ class AsyncFulfillmentOutboundWithRawResponse(SecuredRawResponse[AsyncRawClient,
             path_params=[param[str]("sellerFulfillmentOrderId", seller_fulfillment_order_id)],
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[CancelFulfillmentOrderResponse],
+            decoder=async_json_decoder[CancelFulfillmentOrderResponse],
             error_mapper=cancel_fulfillment_order_error_mapper,
             request_options=request_options,
         )
@@ -578,7 +610,8 @@ class AsyncFulfillmentOutboundWithRawResponse(SecuredRawResponse[AsyncRawClient,
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -588,7 +621,7 @@ class AsyncFulfillmentOutboundWithRawResponse(SecuredRawResponse[AsyncRawClient,
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             body=json_body[CreateFulfillmentOrderRequest | CreateFulfillmentOrderRequestDict](body),
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[CreateFulfillmentOrderResponse],
+            decoder=async_json_decoder[CreateFulfillmentOrderResponse],
             error_mapper=create_fulfillment_order_error_mapper,
             request_options=request_options,
         )
@@ -600,7 +633,8 @@ class AsyncFulfillmentOutboundWithRawResponse(SecuredRawResponse[AsyncRawClient,
 
         Args:
             seller_fulfillment_order_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -609,7 +643,7 @@ class AsyncFulfillmentOutboundWithRawResponse(SecuredRawResponse[AsyncRawClient,
             url_template=self._server.default1("/wfs/outbound/v4/fulfillmentOrders/{sellerFulfillmentOrderId}"),
             path_params=[param[str]("sellerFulfillmentOrderId", seller_fulfillment_order_id)],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[GetFulfillmentOrderResponse],
+            decoder=async_json_decoder[GetFulfillmentOrderResponse],
             error_mapper=get_fulfillment_order_error_mapper,
             request_options=request_options,
         )
@@ -621,7 +655,8 @@ class AsyncFulfillmentOutboundWithRawResponse(SecuredRawResponse[AsyncRawClient,
 
         Args:
             seller_fulfillment_order_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -632,7 +667,7 @@ class AsyncFulfillmentOutboundWithRawResponse(SecuredRawResponse[AsyncRawClient,
             ),
             path_params=[param[str]("sellerFulfillmentOrderId", seller_fulfillment_order_id)],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[GetFulfillmentOrderShipmentsResponse],
+            decoder=async_json_decoder[GetFulfillmentOrderShipmentsResponse],
             error_mapper=get_fulfillment_order_shipments_error_mapper,
             request_options=request_options,
         )
@@ -648,7 +683,8 @@ class AsyncFulfillmentOutboundWithRawResponse(SecuredRawResponse[AsyncRawClient,
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -658,7 +694,7 @@ class AsyncFulfillmentOutboundWithRawResponse(SecuredRawResponse[AsyncRawClient,
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             body=json_body[GetFulfillmentPreviewRequest | GetFulfillmentPreviewRequestDict](body),
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[GetFulfillmentPreviewResponse],
+            decoder=async_json_decoder[GetFulfillmentPreviewResponse],
             error_mapper=get_fulfillment_preview_error_mapper,
             request_options=request_options,
         )
@@ -675,7 +711,8 @@ class AsyncFulfillmentOutboundWithRawResponse(SecuredRawResponse[AsyncRawClient,
         Args:
             query_start_date: Value sent with the request.
             next_token: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -687,7 +724,7 @@ class AsyncFulfillmentOutboundWithRawResponse(SecuredRawResponse[AsyncRawClient,
                 param[str | None]("nextToken", next_token),
             ],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[ListAllFulfillmentOrdersResponse],
+            decoder=async_json_decoder[ListAllFulfillmentOrdersResponse],
             error_mapper=list_all_fulfillment_orders_error_mapper,
             request_options=request_options,
         )
@@ -704,7 +741,8 @@ class AsyncFulfillmentOutboundWithRawResponse(SecuredRawResponse[AsyncRawClient,
         Args:
             seller_fulfillment_order_id: Value sent with the request.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -715,7 +753,7 @@ class AsyncFulfillmentOutboundWithRawResponse(SecuredRawResponse[AsyncRawClient,
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             body=json_body[UpdateFulfillmentOrderRequest | UpdateFulfillmentOrderRequestDict](body),
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[UpdateFulfillmentOrderResponse],
+            decoder=async_json_decoder[UpdateFulfillmentOrderResponse],
             error_mapper=update_fulfillment_order_error_mapper,
             request_options=request_options,
         )

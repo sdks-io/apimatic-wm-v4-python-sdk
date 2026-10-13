@@ -13,5 +13,5 @@ class BulkUpdateInventoryResponse(SdkBaseModel):
 
 
 class BulkUpdateInventoryResponseDict(TypedDict):
-    succeeded: NotRequired[list[UpdateInventoryResponse | UpdateInventoryResponseDict]]
-    errors: NotRequired[list[BulkItemError | BulkItemErrorDict]]
+    succeeded: NotRequired[list[UpdateInventoryResponseDict]]
+    errors: NotRequired[list[BulkItemErrorDict]]

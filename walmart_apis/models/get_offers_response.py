@@ -18,5 +18,5 @@ class GetOffersResponse(SdkBaseModel):
 
 
 class GetOffersResponseDict(TypedDict):
-    payload: NotRequired[GetOffersResult | GetOffersResultDict]
-    errors: NotRequired[list[Error3 | Error3Dict]]
+    payload: NotRequired[GetOffersResultDict]
+    errors: NotRequired[list[Error3Dict]]

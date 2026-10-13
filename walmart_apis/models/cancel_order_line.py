@@ -16,5 +16,5 @@ class CancelOrderLine(SdkBaseModel):
 
 class CancelOrderLineDict(TypedDict):
     line_number: str
-    cancel_quantity: NotRequired[QuantityWithUnit | QuantityWithUnitDict]
+    cancel_quantity: NotRequired[QuantityWithUnitDict]
     cancellation_reason: CancellationReasonOrStr

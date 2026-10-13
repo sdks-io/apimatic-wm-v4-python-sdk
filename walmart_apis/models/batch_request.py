@@ -5,7 +5,7 @@ from typing import Any
 from typing_extensions import NotRequired, TypedDict
 
 from ..core import UNSET, Optional, SdkBaseModel
-from .enums.http_method import HttpMethodOrStr
+from .enums.http_method_model import HttpMethodModelOrStr
 
 
 class BatchRequest(SdkBaseModel):
@@ -14,7 +14,7 @@ class BatchRequest(SdkBaseModel):
     uri: str
     """The resource path of the operation being called in batch, without query parameters."""
 
-    method: HttpMethodOrStr
+    method: HttpMethodModelOrStr
     """The HTTP method associated with the individual APIs being called as part of the batch request."""
 
     headers: Optional[Any] = UNSET
@@ -23,5 +23,5 @@ class BatchRequest(SdkBaseModel):
 
 class BatchRequestDict(TypedDict):
     uri: str
-    method: HttpMethodOrStr
+    method: HttpMethodModelOrStr
     headers: NotRequired[Any]

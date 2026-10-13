@@ -25,7 +25,7 @@ class CommonPalletInput(SdkBaseModel):
 
 
 class CommonPalletInputDict(TypedDict):
-    dimensions: NotRequired[CommonDimensions | CommonDimensionsDict]
+    dimensions: NotRequired[CommonDimensionsDict]
     quantity: int
     stackability: NotRequired[CommonStackabilityOrStr]
-    weight: NotRequired[CommonWeight | CommonWeightDict]
+    weight: NotRequired[CommonWeightDict]

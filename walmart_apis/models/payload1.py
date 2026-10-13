@@ -12,4 +12,4 @@ class Payload1(SdkBaseModel):
 
 
 class Payload1Dict(TypedDict):
-    fulfillment_shipments: NotRequired[list[FulfillmentShipment | FulfillmentShipmentDict]]
+    fulfillment_shipments: NotRequired[list[FulfillmentShipmentDict]]

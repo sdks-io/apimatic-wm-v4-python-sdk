@@ -3,7 +3,17 @@ from __future__ import annotations
 from uuid import UUID, uuid4
 
 from ..auth import AsyncAuthSchemes, AuthSchemes
-from ..core import ApiResult, AsyncRawClient, RawClient, RequestOptionsOrDict, SecuredRawResponse, json_decoder, param
+from ..core import (
+    ApiResult,
+    AsyncRawClient,
+    RawClient,
+    RequestOptionsOrDict,
+    SecuredRawResponse,
+    async_json_decoder,
+    json_decoder,
+    param,
+    unwrap,
+)
 from ..errors.create_upload_destination_for_resource_error import (
     CreateUploadDestinationForResourceErrorBody,
     create_upload_destination_for_resource_error_mapper,
@@ -35,7 +45,8 @@ class Uploads:
             content_type: MIME type of the content to be uploaded
             marketplace_ids: Value sent with the request.
             content_md5: MD5 hash of the content to be uploaded, encoded as base64
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Upload destination created
@@ -43,9 +54,11 @@ class Uploads:
         Raises:
             ApiError: Bad Request Forbidden Rate limit exceeded Internal Server Error ``error`` is ``ErrorList |
                 RawError``."""
-        return self._with_raw_response.create_upload_destination_for_resource(
-            resource, content_type, marketplace_ids, content_md5, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.create_upload_destination_for_resource(
+                resource, content_type, marketplace_ids, content_md5, request_options=request_options
+            ),
+        )
 
     @property
     def with_raw_response(self) -> UploadsWithRawResponse:
@@ -73,7 +86,8 @@ class AsyncUploads:
             content_type: MIME type of the content to be uploaded
             marketplace_ids: Value sent with the request.
             content_md5: MD5 hash of the content to be uploaded, encoded as base64
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Upload destination created
@@ -81,11 +95,11 @@ class AsyncUploads:
         Raises:
             ApiError: Bad Request Forbidden Rate limit exceeded Internal Server Error ``error`` is ``ErrorList |
                 RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.create_upload_destination_for_resource(
                 resource, content_type, marketplace_ids, content_md5, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     @property
     def with_raw_response(self) -> AsyncUploadsWithRawResponse:
@@ -110,7 +124,8 @@ class UploadsWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes])
             content_type: MIME type of the content to be uploaded
             marketplace_ids: Value sent with the request.
             content_md5: MD5 hash of the content to be uploaded, encoded as base64
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -148,7 +163,8 @@ class AsyncUploadsWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asy
             content_type: MIME type of the content to be uploaded
             marketplace_ids: Value sent with the request.
             content_md5: MD5 hash of the content to be uploaded, encoded as base64
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -162,7 +178,7 @@ class AsyncUploadsWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asy
             ],
             headers=[param[str]("contentMD5", content_md5), param[UUID]("Idempotency-Key", uuid4())],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[CreateUploadDestinationResponse],
+            decoder=async_json_decoder[CreateUploadDestinationResponse],
             error_mapper=create_upload_destination_for_resource_error_mapper,
             request_options=request_options,
         )

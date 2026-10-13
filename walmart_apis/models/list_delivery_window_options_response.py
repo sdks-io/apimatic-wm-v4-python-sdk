@@ -19,5 +19,5 @@ class ListDeliveryWindowOptionsResponse(SdkBaseModel):
 
 
 class ListDeliveryWindowOptionsResponseDict(TypedDict):
-    delivery_window_options: list[CommonDeliveryWindowOption | CommonDeliveryWindowOptionDict]
-    pagination: NotRequired[CommonPagination | CommonPaginationDict]
+    delivery_window_options: list[CommonDeliveryWindowOptionDict]
+    pagination: NotRequired[CommonPaginationDict]

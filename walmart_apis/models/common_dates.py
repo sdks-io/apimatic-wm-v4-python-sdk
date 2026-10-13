@@ -15,4 +15,4 @@ class CommonDates(SdkBaseModel):
 
 
 class CommonDatesDict(TypedDict):
-    ready_to_ship_window: NotRequired[CommonWindow | CommonWindowDict]
+    ready_to_ship_window: NotRequired[CommonWindowDict]

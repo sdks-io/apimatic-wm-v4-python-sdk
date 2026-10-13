@@ -11,4 +11,4 @@ class GetOrderResponse(SdkBaseModel):
 
 
 class GetOrderResponseDict(TypedDict):
-    payload: NotRequired[Order | OrderDict]
+    payload: NotRequired[OrderDict]

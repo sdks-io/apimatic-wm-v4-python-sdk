@@ -3,7 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Final, TypeAlias
 
-from ..core import ErrorMapper, HttpResponse, RawError, decode_json
+from ..core import ErrorMapper, RawError, decode_json
 from ..models.error_list import ErrorList
 
 GetDocumentErrorBody: TypeAlias = ErrorList | RawError
@@ -11,12 +11,12 @@ GetDocumentErrorBody: TypeAlias = ErrorList | RawError
 
 @dataclass(frozen=True, slots=True)
 class _GetDocumentError:
-    def map(self, response: HttpResponse) -> GetDocumentErrorBody:
-        match response.status_code:
+    def map(self, status_code: int, content: bytes) -> GetDocumentErrorBody:
+        match status_code:
             case 400 | 403 | 404 | 429 | 500:
-                return decode_json[ErrorList](response)
+                return decode_json[ErrorList](content)
             case _:
-                return RawError(response)
+                return RawError(status_code, content)
 
 
 get_document_error_mapper: Final[ErrorMapper[GetDocumentErrorBody]] = _GetDocumentError()

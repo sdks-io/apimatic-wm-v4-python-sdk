@@ -27,7 +27,7 @@ class FeaturedOfferExpectedPriceResult(SdkBaseModel):
 
 
 class FeaturedOfferExpectedPriceResultDict(TypedDict):
-    featured_offer_expected_price: NotRequired[FeaturedOfferExpectedPrice | FeaturedOfferExpectedPriceDict]
+    featured_offer_expected_price: NotRequired[FeaturedOfferExpectedPriceDict]
     result_status: NotRequired[str]
-    competing_featured_offer: NotRequired[FeaturedOffer | FeaturedOfferDict]
-    current_featured_offer: NotRequired[FeaturedOffer | FeaturedOfferDict]
+    competing_featured_offer: NotRequired[FeaturedOfferDict]
+    current_featured_offer: NotRequired[FeaturedOfferDict]

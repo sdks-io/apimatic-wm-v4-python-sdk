@@ -15,5 +15,5 @@ class PackageDocumentDetail(SdkBaseModel):
 
 class PackageDocumentDetailDict(TypedDict):
     package_client_reference_id: str
-    package_documents: list[PackageDocument | PackageDocumentDict]
+    package_documents: list[PackageDocumentDict]
     tracking_id: NotRequired[str]

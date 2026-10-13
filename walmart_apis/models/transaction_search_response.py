@@ -16,4 +16,4 @@ class TransactionSearchResponse(SdkBaseModel):
 class TransactionSearchResponseDict(TypedDict):
     next_token: NotRequired[str]
     total_records: NotRequired[int]
-    transactions: NotRequired[list[SettlementTransaction | SettlementTransactionDict]]
+    transactions: NotRequired[list[SettlementTransactionDict]]

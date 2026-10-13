@@ -15,4 +15,4 @@ class ListPrepDetailsResponse(SdkBaseModel):
 
 
 class ListPrepDetailsResponseDict(TypedDict):
-    msku_prep_details: list[CommonMskuPrepDetail | CommonMskuPrepDetailDict]
+    msku_prep_details: list[CommonMskuPrepDetailDict]

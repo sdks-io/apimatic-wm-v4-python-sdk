@@ -10,8 +10,10 @@ from ..core import (
     RequestOptionsOrDict,
     RFC3339DateTime,
     SecuredRawResponse,
+    async_json_decoder,
     json_decoder,
     param,
+    unwrap,
 )
 from ..errors.list_financial_event_groups_error import (
     ListFinancialEventGroupsErrorBody,
@@ -52,7 +54,8 @@ class Finances:
             financial_event_group_started_before: Financial event groups that opened before this date/time (ISO 8601).
             financial_event_group_started_after: Financial event groups that opened after this date/time (ISO 8601).
             next_token: Cursor token for the next page of results.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -60,13 +63,15 @@ class Finances:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return self._with_raw_response.list_financial_event_groups(
-            max_results_per_page=max_results_per_page,
-            financial_event_group_started_before=financial_event_group_started_before,
-            financial_event_group_started_after=financial_event_group_started_after,
-            next_token=next_token,
-            request_options=request_options,
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.list_financial_event_groups(
+                max_results_per_page=max_results_per_page,
+                financial_event_group_started_before=financial_event_group_started_before,
+                financial_event_group_started_after=financial_event_group_started_after,
+                next_token=next_token,
+                request_options=request_options,
+            ),
+        )
 
     def list_financial_events(
         self,
@@ -90,7 +95,8 @@ class Finances:
             posted_after: Not supported — returns 400 Bad Request if supplied.
             posted_before: Not supported — returns 400 Bad Request if supplied.
             next_token: Not supported — returns 400 Bad Request if supplied.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -98,13 +104,15 @@ class Finances:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return self._with_raw_response.list_financial_events(
-            max_results_per_page=max_results_per_page,
-            posted_after=posted_after,
-            posted_before=posted_before,
-            next_token=next_token,
-            request_options=request_options,
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.list_financial_events(
+                max_results_per_page=max_results_per_page,
+                posted_after=posted_after,
+                posted_before=posted_before,
+                next_token=next_token,
+                request_options=request_options,
+            ),
+        )
 
     def list_financial_events_by_group_id(
         self,
@@ -127,7 +135,8 @@ class Finances:
             posted_after: Financial events posted after (or on) this date (ISO 8601).
             posted_before: Financial events posted before (but not on) this date (ISO 8601).
             next_token: Cursor token for the next page of results.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -135,14 +144,16 @@ class Finances:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return self._with_raw_response.list_financial_events_by_group_id(
-            event_group_id,
-            max_results_per_page=max_results_per_page,
-            posted_after=posted_after,
-            posted_before=posted_before,
-            next_token=next_token,
-            request_options=request_options,
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.list_financial_events_by_group_id(
+                event_group_id,
+                max_results_per_page=max_results_per_page,
+                posted_after=posted_after,
+                posted_before=posted_before,
+                next_token=next_token,
+                request_options=request_options,
+            ),
+        )
 
     def list_financial_events_by_order_id(
         self,
@@ -161,7 +172,8 @@ class Finances:
             order_id: Walmart order number — must be numeric (1–50 digits).
             max_results_per_page: Ignored — GMP returns all commission entries in one page.
             next_token: Not supported — returns 400 Bad Request if supplied.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -169,9 +181,14 @@ class Finances:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return self._with_raw_response.list_financial_events_by_order_id(
-            order_id, max_results_per_page=max_results_per_page, next_token=next_token, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.list_financial_events_by_order_id(
+                order_id,
+                max_results_per_page=max_results_per_page,
+                next_token=next_token,
+                request_options=request_options,
+            ),
+        )
 
     @property
     def with_raw_response(self) -> FinancesWithRawResponse:
@@ -201,7 +218,8 @@ class AsyncFinances:
             financial_event_group_started_before: Financial event groups that opened before this date/time (ISO 8601).
             financial_event_group_started_after: Financial event groups that opened after this date/time (ISO 8601).
             next_token: Cursor token for the next page of results.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -209,15 +227,15 @@ class AsyncFinances:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.list_financial_event_groups(
                 max_results_per_page=max_results_per_page,
                 financial_event_group_started_before=financial_event_group_started_before,
                 financial_event_group_started_after=financial_event_group_started_after,
                 next_token=next_token,
                 request_options=request_options,
-            )
-        ).unwrap()
+            ),
+        )
 
     async def list_financial_events(
         self,
@@ -241,7 +259,8 @@ class AsyncFinances:
             posted_after: Not supported — returns 400 Bad Request if supplied.
             posted_before: Not supported — returns 400 Bad Request if supplied.
             next_token: Not supported — returns 400 Bad Request if supplied.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -249,15 +268,15 @@ class AsyncFinances:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.list_financial_events(
                 max_results_per_page=max_results_per_page,
                 posted_after=posted_after,
                 posted_before=posted_before,
                 next_token=next_token,
                 request_options=request_options,
-            )
-        ).unwrap()
+            ),
+        )
 
     async def list_financial_events_by_group_id(
         self,
@@ -280,7 +299,8 @@ class AsyncFinances:
             posted_after: Financial events posted after (or on) this date (ISO 8601).
             posted_before: Financial events posted before (but not on) this date (ISO 8601).
             next_token: Cursor token for the next page of results.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -288,7 +308,7 @@ class AsyncFinances:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.list_financial_events_by_group_id(
                 event_group_id,
                 max_results_per_page=max_results_per_page,
@@ -296,8 +316,8 @@ class AsyncFinances:
                 posted_before=posted_before,
                 next_token=next_token,
                 request_options=request_options,
-            )
-        ).unwrap()
+            ),
+        )
 
     async def list_financial_events_by_order_id(
         self,
@@ -316,7 +336,8 @@ class AsyncFinances:
             order_id: Walmart order number — must be numeric (1–50 digits).
             max_results_per_page: Ignored — GMP returns all commission entries in one page.
             next_token: Not supported — returns 400 Bad Request if supplied.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -324,14 +345,14 @@ class AsyncFinances:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.list_financial_events_by_order_id(
                 order_id,
                 max_results_per_page=max_results_per_page,
                 next_token=next_token,
                 request_options=request_options,
-            )
-        ).unwrap()
+            ),
+        )
 
     @property
     def with_raw_response(self) -> AsyncFinancesWithRawResponse:
@@ -358,7 +379,8 @@ class FinancesWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]
             financial_event_group_started_before: Financial event groups that opened before this date/time (ISO 8601).
             financial_event_group_started_after: Financial event groups that opened after this date/time (ISO 8601).
             next_token: Cursor token for the next page of results.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -399,7 +421,8 @@ class FinancesWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]
             posted_after: Not supported — returns 400 Bad Request if supplied.
             posted_before: Not supported — returns 400 Bad Request if supplied.
             next_token: Not supported — returns 400 Bad Request if supplied.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -439,7 +462,8 @@ class FinancesWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]
             posted_after: Financial events posted after (or on) this date (ISO 8601).
             posted_before: Financial events posted before (but not on) this date (ISO 8601).
             next_token: Cursor token for the next page of results.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -476,7 +500,8 @@ class FinancesWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]
             order_id: Walmart order number — must be numeric (1–50 digits).
             max_results_per_page: Ignored — GMP returns all commission entries in one page.
             next_token: Not supported — returns 400 Bad Request if supplied.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -514,7 +539,8 @@ class AsyncFinancesWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, As
             financial_event_group_started_before: Financial event groups that opened before this date/time (ISO 8601).
             financial_event_group_started_after: Financial event groups that opened after this date/time (ISO 8601).
             next_token: Cursor token for the next page of results.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -528,7 +554,7 @@ class AsyncFinancesWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, As
                 param[str | None]("NextToken", next_token),
             ],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[Any],
+            decoder=async_json_decoder[Any],
             error_mapper=list_financial_event_groups_error_mapper,
             request_options=request_options,
         )
@@ -555,7 +581,8 @@ class AsyncFinancesWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, As
             posted_after: Not supported — returns 400 Bad Request if supplied.
             posted_before: Not supported — returns 400 Bad Request if supplied.
             next_token: Not supported — returns 400 Bad Request if supplied.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -569,7 +596,7 @@ class AsyncFinancesWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, As
                 param[str | None]("NextToken", next_token),
             ],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[Any],
+            decoder=async_json_decoder[Any],
             error_mapper=list_financial_events_error_mapper,
             request_options=request_options,
         )
@@ -595,7 +622,8 @@ class AsyncFinancesWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, As
             posted_after: Financial events posted after (or on) this date (ISO 8601).
             posted_before: Financial events posted before (but not on) this date (ISO 8601).
             next_token: Cursor token for the next page of results.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -610,7 +638,7 @@ class AsyncFinancesWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, As
                 param[str | None]("NextToken", next_token),
             ],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[Any],
+            decoder=async_json_decoder[Any],
             error_mapper=list_financial_events_by_group_id_error_mapper,
             request_options=request_options,
         )
@@ -632,7 +660,8 @@ class AsyncFinancesWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, As
             order_id: Walmart order number — must be numeric (1–50 digits).
             max_results_per_page: Ignored — GMP returns all commission entries in one page.
             next_token: Not supported — returns 400 Bad Request if supplied.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -644,7 +673,7 @@ class AsyncFinancesWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, As
                 param[int | None]("MaxResultsPerPage", max_results_per_page), param[str | None]("NextToken", next_token)
             ],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[Any],
+            decoder=async_json_decoder[Any],
             error_mapper=list_financial_events_by_order_id_error_mapper,
             request_options=request_options,
         )

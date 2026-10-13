@@ -4,7 +4,17 @@ from typing import Any
 from uuid import UUID, uuid4
 
 from ..auth import AsyncAuthSchemes, AuthSchemes
-from ..core import ApiResult, AsyncRawClient, RawClient, RequestOptionsOrDict, SecuredRawResponse, json_decoder, param
+from ..core import (
+    ApiResult,
+    AsyncRawClient,
+    RawClient,
+    RequestOptionsOrDict,
+    SecuredRawResponse,
+    async_json_decoder,
+    json_decoder,
+    param,
+    unwrap,
+)
 from ..errors.create_product_review_and_seller_feedback_solicitation_error import (
     CreateProductReviewAndSellerFeedbackSolicitationErrorBody,
     create_product_review_and_seller_feedback_solicitation_error_mapper,
@@ -29,7 +39,8 @@ class Solicitations:
             sp_api_order_id: An SP-API order identifier. This specifies the order for which a solicitation is sent.
             marketplace_ids: A marketplace identifier. This specifies the marketplace in which the order was placed.
                 Only one marketplace can be spec
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -37,9 +48,11 @@ class Solicitations:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return self._with_raw_response.create_product_review_and_seller_feedback_solicitation(
-            sp_api_order_id, marketplace_ids, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.create_product_review_and_seller_feedback_solicitation(
+                sp_api_order_id, marketplace_ids, request_options=request_options
+            ),
+        )
 
     def get_solicitation_actions_for_order(
         self, sp_api_order_id: str, marketplace_ids: list[str], *, request_options: RequestOptionsOrDict | None = None
@@ -51,7 +64,8 @@ class Solicitations:
                 solicitation types.
             marketplace_ids: A marketplace identifier. This specifies the marketplace in which the order was placed.
                 Only one marketplace can be spec
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -59,9 +73,11 @@ class Solicitations:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return self._with_raw_response.get_solicitation_actions_for_order(
-            sp_api_order_id, marketplace_ids, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.get_solicitation_actions_for_order(
+                sp_api_order_id, marketplace_ids, request_options=request_options
+            ),
+        )
 
     @property
     def with_raw_response(self) -> SolicitationsWithRawResponse:
@@ -81,7 +97,8 @@ class AsyncSolicitations:
             sp_api_order_id: An SP-API order identifier. This specifies the order for which a solicitation is sent.
             marketplace_ids: A marketplace identifier. This specifies the marketplace in which the order was placed.
                 Only one marketplace can be spec
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -89,11 +106,11 @@ class AsyncSolicitations:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.create_product_review_and_seller_feedback_solicitation(
                 sp_api_order_id, marketplace_ids, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     async def get_solicitation_actions_for_order(
         self, sp_api_order_id: str, marketplace_ids: list[str], *, request_options: RequestOptionsOrDict | None = None
@@ -105,7 +122,8 @@ class AsyncSolicitations:
                 solicitation types.
             marketplace_ids: A marketplace identifier. This specifies the marketplace in which the order was placed.
                 Only one marketplace can be spec
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -113,11 +131,11 @@ class AsyncSolicitations:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.get_solicitation_actions_for_order(
                 sp_api_order_id, marketplace_ids, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     @property
     def with_raw_response(self) -> AsyncSolicitationsWithRawResponse:
@@ -134,7 +152,8 @@ class SolicitationsWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSch
             sp_api_order_id: An SP-API order identifier. This specifies the order for which a solicitation is sent.
             marketplace_ids: A marketplace identifier. This specifies the marketplace in which the order was placed.
                 Only one marketplace can be spec
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -162,7 +181,8 @@ class SolicitationsWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSch
                 solicitation types.
             marketplace_ids: A marketplace identifier. This specifies the marketplace in which the order was placed.
                 Only one marketplace can be spec
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -188,7 +208,8 @@ class AsyncSolicitationsWithRawResponse(SecuredRawResponse[AsyncRawClient, Serve
             sp_api_order_id: An SP-API order identifier. This specifies the order for which a solicitation is sent.
             marketplace_ids: A marketplace identifier. This specifies the marketplace in which the order was placed.
                 Only one marketplace can be spec
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -201,7 +222,7 @@ class AsyncSolicitationsWithRawResponse(SecuredRawResponse[AsyncRawClient, Serve
             query_params=[param[list[str]]("marketplaceIds", marketplace_ids)],
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[Any],
+            decoder=async_json_decoder[Any],
             error_mapper=create_product_review_and_seller_feedback_solicitation_error_mapper,
             request_options=request_options,
         )
@@ -216,7 +237,8 @@ class AsyncSolicitationsWithRawResponse(SecuredRawResponse[AsyncRawClient, Serve
                 solicitation types.
             marketplace_ids: A marketplace identifier. This specifies the marketplace in which the order was placed.
                 Only one marketplace can be spec
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -226,7 +248,7 @@ class AsyncSolicitationsWithRawResponse(SecuredRawResponse[AsyncRawClient, Serve
             path_params=[param[str]("sp-apiOrderId", sp_api_order_id)],
             query_params=[param[list[str]]("marketplaceIds", marketplace_ids)],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[Any],
+            decoder=async_json_decoder[Any],
             error_mapper=get_solicitation_actions_for_order_error_mapper,
             request_options=request_options,
         )

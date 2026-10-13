@@ -14,4 +14,4 @@ class CompetitiveSummaryBatchRequest(SdkBaseModel):
 
 
 class CompetitiveSummaryBatchRequestDict(TypedDict):
-    requests: NotRequired[list[CompetitiveSummaryRequest | CompetitiveSummaryRequestDict]]
+    requests: NotRequired[list[CompetitiveSummaryRequestDict]]

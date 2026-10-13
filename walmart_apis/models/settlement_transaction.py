@@ -17,5 +17,5 @@ class SettlementTransaction(SdkBaseModel):
 class SettlementTransactionDict(TypedDict):
     purchase_order_id: NotRequired[str]
     transaction_type: NotRequired[str]
-    amount: NotRequired[Money | MoneyDict]
+    amount: NotRequired[MoneyDict]
     posted_date: NotRequired[RFC3339DateTime]

@@ -14,4 +14,4 @@ class Payload2(SdkBaseModel):
 
 class Payload2Dict(TypedDict):
     next_token: NotRequired[str]
-    orders: NotRequired[list[Order | OrderDict]]
+    orders: NotRequired[list[OrderDict]]

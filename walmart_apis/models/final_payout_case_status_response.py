@@ -17,4 +17,4 @@ class FinalPayoutCaseStatusResponse(SdkBaseModel):
 class FinalPayoutCaseStatusResponseDict(TypedDict):
     case_id: NotRequired[str]
     status: NotRequired[Status21OrStr]
-    amount: NotRequired[Money | MoneyDict]
+    amount: NotRequired[MoneyDict]

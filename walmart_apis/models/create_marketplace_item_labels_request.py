@@ -18,7 +18,7 @@ class CreateMarketplaceItemLabelsRequest(SdkBaseModel):
     label_type: CommonLabelPrintTypeOrStr = Field(alias="labelType")
     """Indicates the type of print type for a given label."""
 
-    locale_code: Optional[str] = Field(default=UNSET, alias="localeCode")
+    locale_code: str = Field(default="en_US", alias="localeCode")
     """The locale code constructed from ISO 639 language code and ISO 3166-1 alpha-2 country codes separated by an
     underscore character."""
 
@@ -41,6 +41,6 @@ class CreateMarketplaceItemLabelsRequestDict(TypedDict):
     label_type: CommonLabelPrintTypeOrStr
     locale_code: NotRequired[str]
     marketplace_id: str
-    msku_quantities: list[CommonMskuQuantity | CommonMskuQuantityDict]
+    msku_quantities: list[CommonMskuQuantityDict]
     page_type: NotRequired[CommonItemLabelPageTypeOrStr]
     width: NotRequired[float]

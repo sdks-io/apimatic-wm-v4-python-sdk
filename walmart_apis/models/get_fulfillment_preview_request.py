@@ -16,12 +16,12 @@ class GetFulfillmentPreviewRequest(SdkBaseModel):
     shipping_speed_categories: Optional[list[ShippingSpeedCategoryOrStr]] = Field(
         default=UNSET, alias="shippingSpeedCategories"
     )
-    include_cod_fulfillment_preview: Optional[bool] = Field(default=UNSET, alias="includeCODFulfillmentPreview")
+    include_cod_fulfillment_preview: bool = Field(default=False, alias="includeCODFulfillmentPreview")
 
 
 class GetFulfillmentPreviewRequestDict(TypedDict):
     marketplace_id: NotRequired[str]
-    address: Address | AddressDict
-    items: list[GetFulfillmentPreviewItem | GetFulfillmentPreviewItemDict]
+    address: AddressDict
+    items: list[GetFulfillmentPreviewItemDict]
     shipping_speed_categories: NotRequired[list[ShippingSpeedCategoryOrStr]]
     include_cod_fulfillment_preview: NotRequired[bool]

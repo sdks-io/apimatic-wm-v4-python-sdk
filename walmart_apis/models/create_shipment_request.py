@@ -16,7 +16,7 @@ class CreateShipmentRequest(SdkBaseModel):
 
 
 class CreateShipmentRequestDict(TypedDict):
-    shipment_request_details: ShipmentRequestDetails | ShipmentRequestDetailsDict
+    shipment_request_details: ShipmentRequestDetailsDict
     shipping_service_id: str
     shipping_service_offer_id: NotRequired[str]
     label_format: NotRequired[LabelFormatOrStr]

@@ -35,9 +35,9 @@ class Product(SdkBaseModel):
 
 
 class ProductDict(TypedDict):
-    identifiers: IdentifierType1 | IdentifierType1Dict
+    identifiers: IdentifierType1Dict
     attribute_sets: NotRequired[list[Any]]
     relationships: NotRequired[list[Any]]
-    competitive_pricing: NotRequired[CompetitivePricingType | CompetitivePricingTypeDict]
-    sales_rankings: NotRequired[list[SalesRankType | SalesRankTypeDict]]
-    offers: NotRequired[list[OfferType1 | OfferType1Dict]]
+    competitive_pricing: NotRequired[CompetitivePricingTypeDict]
+    sales_rankings: NotRequired[list[SalesRankTypeDict]]
+    offers: NotRequired[list[OfferType1Dict]]

@@ -19,5 +19,5 @@ class Event(SdkBaseModel):
 class EventDict(TypedDict):
     event_code: str
     event_time: RFC3339DateTime
-    location: NotRequired[Location | LocationDict]
+    location: NotRequired[LocationDict]
     description: NotRequired[str]

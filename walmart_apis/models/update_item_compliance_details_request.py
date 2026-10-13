@@ -19,4 +19,4 @@ class UpdateItemComplianceDetailsRequest(SdkBaseModel):
 
 class UpdateItemComplianceDetailsRequestDict(TypedDict):
     msku: str
-    tax_details: CommonTaxDetails | CommonTaxDetailsDict
+    tax_details: CommonTaxDetailsDict

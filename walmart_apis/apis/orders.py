@@ -10,9 +10,11 @@ from ..core import (
     RequestOptionsOrDict,
     RFC3339DateTime,
     SecuredRawResponse,
+    async_json_decoder,
     json_body,
     json_decoder,
     param,
+    unwrap,
 )
 from ..errors.acknowledge_order_error import AcknowledgeOrderErrorBody, acknowledge_order_error_mapper
 from ..errors.cancel_order_lines_error import CancelOrderLinesErrorBody, cancel_order_lines_error_mapper
@@ -83,7 +85,8 @@ class Orders:
         Args:
             purchase_order_id: Value sent with the request.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -96,9 +99,9 @@ class Orders:
                 codes can be added without a breaking spec change — but the example below is the canonical shape SDK
                 consumers should be prepared to handle. Forbidden Not Found Rate limit exceeded Internal Server Error
                 ``error`` is ``ErrorList | RawError``."""
-        return self._with_raw_response.acknowledge_order(
-            purchase_order_id, body, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.acknowledge_order(purchase_order_id, body, request_options=request_options)
+        )
 
     def cancel_order_lines(
         self,
@@ -112,7 +115,8 @@ class Orders:
         Args:
             purchase_order_id: Value sent with the request.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -126,9 +130,9 @@ class Orders:
                 consumers should be prepared to handle. Forbidden Not Found Rate limit exceeded Internal Server Error
                 Service temporarily unavailable — the capability is momentarily disabled (e.g. an operational
                 kill-switch) or a dependency is in maintenance. Retryable. ``error`` is ``ErrorList | RawError``."""
-        return self._with_raw_response.cancel_order_lines(
-            purchase_order_id, body, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.cancel_order_lines(purchase_order_id, body, request_options=request_options)
+        )
 
     def deliver_order_lines(
         self,
@@ -147,7 +151,8 @@ class Orders:
         Args:
             purchase_order_id: Value sent with the request.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -161,9 +166,9 @@ class Orders:
                 consumers should be prepared to handle. Forbidden Not Found Rate limit exceeded Internal Server Error
                 Service temporarily unavailable — the capability is momentarily disabled (e.g. an operational
                 kill-switch) or a dependency is in maintenance. Retryable. ``error`` is ``ErrorList | RawError``."""
-        return self._with_raw_response.deliver_order_lines(
-            purchase_order_id, body, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.deliver_order_lines(purchase_order_id, body, request_options=request_options)
+        )
 
     def get_order(
         self, purchase_order_id: str, *, request_options: RequestOptionsOrDict | None = None
@@ -172,7 +177,8 @@ class Orders:
 
         Args:
             purchase_order_id: Walmart Purchase Order ID
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -185,7 +191,7 @@ class Orders:
                 codes can be added without a breaking spec change — but the example below is the canonical shape SDK
                 consumers should be prepared to handle. Forbidden Not Found Rate limit exceeded Internal Server Error
                 ``error`` is ``ErrorList | RawError``."""
-        return self._with_raw_response.get_order(purchase_order_id, request_options=request_options).unwrap()
+        return unwrap(self._with_raw_response.get_order(purchase_order_id, request_options=request_options))
 
     def get_order_address(
         self, purchase_order_id: str, *, request_options: RequestOptionsOrDict | None = None
@@ -196,7 +202,8 @@ class Orders:
 
         Args:
             purchase_order_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -210,7 +217,7 @@ class Orders:
                 consumers should be prepared to handle. Forbidden Not Found Rate limit exceeded Internal Server Error
                 Service temporarily unavailable — the capability is momentarily disabled (e.g. an operational
                 kill-switch) or a dependency is in maintenance. Retryable. ``error`` is ``ErrorList | RawError``."""
-        return self._with_raw_response.get_order_address(purchase_order_id, request_options=request_options).unwrap()
+        return unwrap(self._with_raw_response.get_order_address(purchase_order_id, request_options=request_options))
 
     def get_order_buyer_info(
         self, purchase_order_id: str, *, request_options: RequestOptionsOrDict | None = None
@@ -221,7 +228,8 @@ class Orders:
 
         Args:
             purchase_order_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -235,7 +243,7 @@ class Orders:
                 consumers should be prepared to handle. Forbidden Not Found Rate limit exceeded Internal Server Error
                 Service temporarily unavailable — the capability is momentarily disabled (e.g. an operational
                 kill-switch) or a dependency is in maintenance. Retryable. ``error`` is ``ErrorList | RawError``."""
-        return self._with_raw_response.get_order_buyer_info(purchase_order_id, request_options=request_options).unwrap()
+        return unwrap(self._with_raw_response.get_order_buyer_info(purchase_order_id, request_options=request_options))
 
     def get_order_items(
         self, purchase_order_id: str, *, request_options: RequestOptionsOrDict | None = None
@@ -245,7 +253,8 @@ class Orders:
 
         Args:
             purchase_order_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -259,7 +268,7 @@ class Orders:
                 consumers should be prepared to handle. Forbidden Not Found Rate limit exceeded Internal Server Error
                 Service temporarily unavailable — the capability is momentarily disabled (e.g. an operational
                 kill-switch) or a dependency is in maintenance. Retryable. ``error`` is ``ErrorList | RawError``."""
-        return self._with_raw_response.get_order_items(purchase_order_id, request_options=request_options).unwrap()
+        return unwrap(self._with_raw_response.get_order_items(purchase_order_id, request_options=request_options))
 
     def get_order_regulated_info(
         self, purchase_order_id: str, *, request_options: RequestOptionsOrDict | None = None
@@ -277,7 +286,8 @@ class Orders:
 
         Args:
             purchase_order_id: Walmart Purchase Order ID
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -290,9 +300,9 @@ class Orders:
                 codes can be added without a breaking spec change — but the example below is the canonical shape SDK
                 consumers should be prepared to handle. Forbidden Not Found Rate limit exceeded Internal Server Error
                 ``error`` is ``ErrorList | RawError``."""
-        return self._with_raw_response.get_order_regulated_info(
-            purchase_order_id, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.get_order_regulated_info(purchase_order_id, request_options=request_options)
+        )
 
     def get_orders(
         self,
@@ -349,7 +359,8 @@ class Orders:
                 multi-type fan-out is Phase 2. Tracked by .
             page_size: Value sent with the request.
             next_token: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -362,16 +373,18 @@ class Orders:
                 codes can be added without a breaking spec change — but the example below is the canonical shape SDK
                 consumers should be prepared to handle. Forbidden Rate limit exceeded Internal Server Error ``error`` is
                 ``ErrorList | RawError``."""
-        return self._with_raw_response.get_orders(
-            created_after=created_after,
-            created_before=created_before,
-            last_updated_after=last_updated_after,
-            order_statuses=order_statuses,
-            fulfillment_types=fulfillment_types,
-            page_size=page_size,
-            next_token=next_token,
-            request_options=request_options,
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.get_orders(
+                created_after=created_after,
+                created_before=created_before,
+                last_updated_after=last_updated_after,
+                order_statuses=order_statuses,
+                fulfillment_types=fulfillment_types,
+                page_size=page_size,
+                next_token=next_token,
+                request_options=request_options,
+            ),
+        )
 
     def refund_order_lines(
         self,
@@ -388,7 +401,8 @@ class Orders:
         Args:
             purchase_order_id: Value sent with the request.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -402,9 +416,9 @@ class Orders:
                 consumers should be prepared to handle. Forbidden Not Found Rate limit exceeded Internal Server Error
                 Service temporarily unavailable — the capability is momentarily disabled (e.g. an operational
                 kill-switch) or a dependency is in maintenance. Retryable. ``error`` is ``ErrorList | RawError``."""
-        return self._with_raw_response.refund_order_lines(
-            purchase_order_id, body, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.refund_order_lines(purchase_order_id, body, request_options=request_options)
+        )
 
     def ship_order_lines(
         self,
@@ -418,7 +432,8 @@ class Orders:
         Args:
             purchase_order_id: Value sent with the request.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -431,9 +446,9 @@ class Orders:
                 codes can be added without a breaking spec change — but the example below is the canonical shape SDK
                 consumers should be prepared to handle. Forbidden Not Found Rate limit exceeded Internal Server Error
                 ``error`` is ``ErrorList | RawError``."""
-        return self._with_raw_response.ship_order_lines(
-            purchase_order_id, body, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.ship_order_lines(purchase_order_id, body, request_options=request_options)
+        )
 
     def ship_order_multi_package(
         self,
@@ -451,7 +466,8 @@ class Orders:
         Args:
             purchase_order_id: Value sent with the request.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -465,9 +481,9 @@ class Orders:
                 consumers should be prepared to handle. Forbidden Not Found Rate limit exceeded Internal Server Error
                 Service temporarily unavailable — the capability is momentarily disabled (e.g. an operational
                 kill-switch) or a dependency is in maintenance. Retryable. ``error`` is ``ErrorList | RawError``."""
-        return self._with_raw_response.ship_order_multi_package(
-            purchase_order_id, body, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.ship_order_multi_package(purchase_order_id, body, request_options=request_options)
+        )
 
     def update_shipment_status(
         self,
@@ -485,7 +501,8 @@ class Orders:
         Args:
             purchase_order_id: Value sent with the request.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -499,9 +516,9 @@ class Orders:
                 consumers should be prepared to handle. Forbidden Not Found Rate limit exceeded Internal Server Error
                 Service temporarily unavailable — the capability is momentarily disabled (e.g. an operational
                 kill-switch) or a dependency is in maintenance. Retryable. ``error`` is ``ErrorList | RawError``."""
-        return self._with_raw_response.update_shipment_status(
-            purchase_order_id, body, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.update_shipment_status(purchase_order_id, body, request_options=request_options)
+        )
 
     def update_verification_status(
         self,
@@ -521,7 +538,8 @@ class Orders:
         Args:
             purchase_order_id: Walmart Purchase Order ID
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -535,9 +553,9 @@ class Orders:
                 consumers should be prepared to handle. Forbidden Not Found Rate limit exceeded Internal Server Error
                 Service temporarily unavailable — the capability is momentarily disabled (e.g. an operational
                 kill-switch) or a dependency is in maintenance. Retryable. ``error`` is ``ErrorList | RawError``."""
-        return self._with_raw_response.update_verification_status(
-            purchase_order_id, body, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.update_verification_status(purchase_order_id, body, request_options=request_options)
+        )
 
     @property
     def with_raw_response(self) -> OrdersWithRawResponse:
@@ -560,7 +578,8 @@ class AsyncOrders:
         Args:
             purchase_order_id: Value sent with the request.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -573,9 +592,9 @@ class AsyncOrders:
                 codes can be added without a breaking spec change — but the example below is the canonical shape SDK
                 consumers should be prepared to handle. Forbidden Not Found Rate limit exceeded Internal Server Error
                 ``error`` is ``ErrorList | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.acknowledge_order(purchase_order_id, body, request_options=request_options)
-        ).unwrap()
+        )
 
     async def cancel_order_lines(
         self,
@@ -589,7 +608,8 @@ class AsyncOrders:
         Args:
             purchase_order_id: Value sent with the request.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -603,9 +623,9 @@ class AsyncOrders:
                 consumers should be prepared to handle. Forbidden Not Found Rate limit exceeded Internal Server Error
                 Service temporarily unavailable — the capability is momentarily disabled (e.g. an operational
                 kill-switch) or a dependency is in maintenance. Retryable. ``error`` is ``ErrorList | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.cancel_order_lines(purchase_order_id, body, request_options=request_options)
-        ).unwrap()
+        )
 
     async def deliver_order_lines(
         self,
@@ -624,7 +644,8 @@ class AsyncOrders:
         Args:
             purchase_order_id: Value sent with the request.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -638,9 +659,9 @@ class AsyncOrders:
                 consumers should be prepared to handle. Forbidden Not Found Rate limit exceeded Internal Server Error
                 Service temporarily unavailable — the capability is momentarily disabled (e.g. an operational
                 kill-switch) or a dependency is in maintenance. Retryable. ``error`` is ``ErrorList | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.deliver_order_lines(purchase_order_id, body, request_options=request_options)
-        ).unwrap()
+        )
 
     async def get_order(
         self, purchase_order_id: str, *, request_options: RequestOptionsOrDict | None = None
@@ -649,7 +670,8 @@ class AsyncOrders:
 
         Args:
             purchase_order_id: Walmart Purchase Order ID
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -662,7 +684,7 @@ class AsyncOrders:
                 codes can be added without a breaking spec change — but the example below is the canonical shape SDK
                 consumers should be prepared to handle. Forbidden Not Found Rate limit exceeded Internal Server Error
                 ``error`` is ``ErrorList | RawError``."""
-        return (await self._with_raw_response.get_order(purchase_order_id, request_options=request_options)).unwrap()
+        return unwrap(await self._with_raw_response.get_order(purchase_order_id, request_options=request_options))
 
     async def get_order_address(
         self, purchase_order_id: str, *, request_options: RequestOptionsOrDict | None = None
@@ -673,7 +695,8 @@ class AsyncOrders:
 
         Args:
             purchase_order_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -687,9 +710,9 @@ class AsyncOrders:
                 consumers should be prepared to handle. Forbidden Not Found Rate limit exceeded Internal Server Error
                 Service temporarily unavailable — the capability is momentarily disabled (e.g. an operational
                 kill-switch) or a dependency is in maintenance. Retryable. ``error`` is ``ErrorList | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.get_order_address(purchase_order_id, request_options=request_options)
-        ).unwrap()
+        )
 
     async def get_order_buyer_info(
         self, purchase_order_id: str, *, request_options: RequestOptionsOrDict | None = None
@@ -700,7 +723,8 @@ class AsyncOrders:
 
         Args:
             purchase_order_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -714,9 +738,9 @@ class AsyncOrders:
                 consumers should be prepared to handle. Forbidden Not Found Rate limit exceeded Internal Server Error
                 Service temporarily unavailable — the capability is momentarily disabled (e.g. an operational
                 kill-switch) or a dependency is in maintenance. Retryable. ``error`` is ``ErrorList | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.get_order_buyer_info(purchase_order_id, request_options=request_options)
-        ).unwrap()
+        )
 
     async def get_order_items(
         self, purchase_order_id: str, *, request_options: RequestOptionsOrDict | None = None
@@ -726,7 +750,8 @@ class AsyncOrders:
 
         Args:
             purchase_order_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -740,9 +765,7 @@ class AsyncOrders:
                 consumers should be prepared to handle. Forbidden Not Found Rate limit exceeded Internal Server Error
                 Service temporarily unavailable — the capability is momentarily disabled (e.g. an operational
                 kill-switch) or a dependency is in maintenance. Retryable. ``error`` is ``ErrorList | RawError``."""
-        return (
-            await self._with_raw_response.get_order_items(purchase_order_id, request_options=request_options)
-        ).unwrap()
+        return unwrap(await self._with_raw_response.get_order_items(purchase_order_id, request_options=request_options))
 
     async def get_order_regulated_info(
         self, purchase_order_id: str, *, request_options: RequestOptionsOrDict | None = None
@@ -760,7 +783,8 @@ class AsyncOrders:
 
         Args:
             purchase_order_id: Walmart Purchase Order ID
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -773,9 +797,9 @@ class AsyncOrders:
                 codes can be added without a breaking spec change — but the example below is the canonical shape SDK
                 consumers should be prepared to handle. Forbidden Not Found Rate limit exceeded Internal Server Error
                 ``error`` is ``ErrorList | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.get_order_regulated_info(purchase_order_id, request_options=request_options)
-        ).unwrap()
+        )
 
     async def get_orders(
         self,
@@ -832,7 +856,8 @@ class AsyncOrders:
                 multi-type fan-out is Phase 2. Tracked by .
             page_size: Value sent with the request.
             next_token: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -845,7 +870,7 @@ class AsyncOrders:
                 codes can be added without a breaking spec change — but the example below is the canonical shape SDK
                 consumers should be prepared to handle. Forbidden Rate limit exceeded Internal Server Error ``error`` is
                 ``ErrorList | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.get_orders(
                 created_after=created_after,
                 created_before=created_before,
@@ -855,8 +880,8 @@ class AsyncOrders:
                 page_size=page_size,
                 next_token=next_token,
                 request_options=request_options,
-            )
-        ).unwrap()
+            ),
+        )
 
     async def refund_order_lines(
         self,
@@ -873,7 +898,8 @@ class AsyncOrders:
         Args:
             purchase_order_id: Value sent with the request.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -887,9 +913,9 @@ class AsyncOrders:
                 consumers should be prepared to handle. Forbidden Not Found Rate limit exceeded Internal Server Error
                 Service temporarily unavailable — the capability is momentarily disabled (e.g. an operational
                 kill-switch) or a dependency is in maintenance. Retryable. ``error`` is ``ErrorList | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.refund_order_lines(purchase_order_id, body, request_options=request_options)
-        ).unwrap()
+        )
 
     async def ship_order_lines(
         self,
@@ -903,7 +929,8 @@ class AsyncOrders:
         Args:
             purchase_order_id: Value sent with the request.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -916,9 +943,9 @@ class AsyncOrders:
                 codes can be added without a breaking spec change — but the example below is the canonical shape SDK
                 consumers should be prepared to handle. Forbidden Not Found Rate limit exceeded Internal Server Error
                 ``error`` is ``ErrorList | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.ship_order_lines(purchase_order_id, body, request_options=request_options)
-        ).unwrap()
+        )
 
     async def ship_order_multi_package(
         self,
@@ -936,7 +963,8 @@ class AsyncOrders:
         Args:
             purchase_order_id: Value sent with the request.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -950,11 +978,11 @@ class AsyncOrders:
                 consumers should be prepared to handle. Forbidden Not Found Rate limit exceeded Internal Server Error
                 Service temporarily unavailable — the capability is momentarily disabled (e.g. an operational
                 kill-switch) or a dependency is in maintenance. Retryable. ``error`` is ``ErrorList | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.ship_order_multi_package(
                 purchase_order_id, body, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     async def update_shipment_status(
         self,
@@ -972,7 +1000,8 @@ class AsyncOrders:
         Args:
             purchase_order_id: Value sent with the request.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -986,11 +1015,11 @@ class AsyncOrders:
                 consumers should be prepared to handle. Forbidden Not Found Rate limit exceeded Internal Server Error
                 Service temporarily unavailable — the capability is momentarily disabled (e.g. an operational
                 kill-switch) or a dependency is in maintenance. Retryable. ``error`` is ``ErrorList | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.update_shipment_status(
                 purchase_order_id, body, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     async def update_verification_status(
         self,
@@ -1010,7 +1039,8 @@ class AsyncOrders:
         Args:
             purchase_order_id: Walmart Purchase Order ID
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -1024,11 +1054,11 @@ class AsyncOrders:
                 consumers should be prepared to handle. Forbidden Not Found Rate limit exceeded Internal Server Error
                 Service temporarily unavailable — the capability is momentarily disabled (e.g. an operational
                 kill-switch) or a dependency is in maintenance. Retryable. ``error`` is ``ErrorList | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.update_verification_status(
                 purchase_order_id, body, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     @property
     def with_raw_response(self) -> AsyncOrdersWithRawResponse:
@@ -1048,7 +1078,8 @@ class OrdersWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]):
         Args:
             purchase_order_id: Value sent with the request.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -1076,7 +1107,8 @@ class OrdersWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]):
         Args:
             purchase_order_id: Value sent with the request.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -1109,7 +1141,8 @@ class OrdersWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]):
         Args:
             purchase_order_id: Value sent with the request.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -1132,7 +1165,8 @@ class OrdersWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]):
 
         Args:
             purchase_order_id: Walmart Purchase Order ID
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -1155,7 +1189,8 @@ class OrdersWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]):
 
         Args:
             purchase_order_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -1178,7 +1213,8 @@ class OrdersWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]):
 
         Args:
             purchase_order_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -1200,7 +1236,8 @@ class OrdersWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]):
 
         Args:
             purchase_order_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -1230,7 +1267,8 @@ class OrdersWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]):
 
         Args:
             purchase_order_id: Walmart Purchase Order ID
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -1299,7 +1337,8 @@ class OrdersWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]):
                 multi-type fan-out is Phase 2. Tracked by .
             page_size: Value sent with the request.
             next_token: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -1336,7 +1375,8 @@ class OrdersWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]):
         Args:
             purchase_order_id: Value sent with the request.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -1364,7 +1404,8 @@ class OrdersWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]):
         Args:
             purchase_order_id: Value sent with the request.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -1396,7 +1437,8 @@ class OrdersWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]):
         Args:
             purchase_order_id: Value sent with the request.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -1428,7 +1470,8 @@ class OrdersWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]):
         Args:
             purchase_order_id: Value sent with the request.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -1462,7 +1505,8 @@ class OrdersWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]):
         Args:
             purchase_order_id: Walmart Purchase Order ID
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -1492,7 +1536,8 @@ class AsyncOrdersWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asyn
         Args:
             purchase_order_id: Value sent with the request.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -1503,7 +1548,7 @@ class AsyncOrdersWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asyn
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             body=json_body[AcknowledgeOrderRequest | AcknowledgeOrderRequestDict](body),
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[AcknowledgeOrderResponse],
+            decoder=async_json_decoder[AcknowledgeOrderResponse],
             error_mapper=acknowledge_order_error_mapper,
             request_options=request_options,
         )
@@ -1520,7 +1565,8 @@ class AsyncOrdersWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asyn
         Args:
             purchase_order_id: Value sent with the request.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -1531,7 +1577,7 @@ class AsyncOrdersWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asyn
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             body=json_body[CancelOrderLinesRequest | CancelOrderLinesRequestDict](body),
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[CancelOrderLinesResponse],
+            decoder=async_json_decoder[CancelOrderLinesResponse],
             error_mapper=cancel_order_lines_error_mapper,
             request_options=request_options,
         )
@@ -1553,7 +1599,8 @@ class AsyncOrdersWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asyn
         Args:
             purchase_order_id: Value sent with the request.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -1564,7 +1611,7 @@ class AsyncOrdersWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asyn
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             body=json_body[DeliverOrderLinesRequest | DeliverOrderLinesRequestDict](body),
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[DeliverOrderLinesResponse],
+            decoder=async_json_decoder[DeliverOrderLinesResponse],
             error_mapper=deliver_order_lines_error_mapper,
             request_options=request_options,
         )
@@ -1576,7 +1623,8 @@ class AsyncOrdersWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asyn
 
         Args:
             purchase_order_id: Walmart Purchase Order ID
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -1585,7 +1633,7 @@ class AsyncOrdersWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asyn
             url_template=self._server.default1("/orders/v4/orders/{purchaseOrderId}"),
             path_params=[param[str]("purchaseOrderId", purchase_order_id)],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[GetOrderResponse],
+            decoder=async_json_decoder[GetOrderResponse],
             error_mapper=get_order_error_mapper,
             request_options=request_options,
         )
@@ -1599,7 +1647,8 @@ class AsyncOrdersWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asyn
 
         Args:
             purchase_order_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -1608,7 +1657,7 @@ class AsyncOrdersWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asyn
             url_template=self._server.default1("/orders/v4/orders/{purchaseOrderId}/address"),
             path_params=[param[str]("purchaseOrderId", purchase_order_id)],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[GetOrderAddressResponse],
+            decoder=async_json_decoder[GetOrderAddressResponse],
             error_mapper=get_order_address_error_mapper,
             request_options=request_options,
         )
@@ -1622,7 +1671,8 @@ class AsyncOrdersWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asyn
 
         Args:
             purchase_order_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -1631,7 +1681,7 @@ class AsyncOrdersWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asyn
             url_template=self._server.default1("/orders/v4/orders/{purchaseOrderId}/buyerInfo"),
             path_params=[param[str]("purchaseOrderId", purchase_order_id)],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[GetOrderBuyerInfoResponse],
+            decoder=async_json_decoder[GetOrderBuyerInfoResponse],
             error_mapper=get_order_buyer_info_error_mapper,
             request_options=request_options,
         )
@@ -1644,7 +1694,8 @@ class AsyncOrdersWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asyn
 
         Args:
             purchase_order_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -1653,7 +1704,7 @@ class AsyncOrdersWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asyn
             url_template=self._server.default1("/orders/v4/orders/{purchaseOrderId}/items"),
             path_params=[param[str]("purchaseOrderId", purchase_order_id)],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[GetFulfillmentOrderShipmentsResponse],
+            decoder=async_json_decoder[GetFulfillmentOrderShipmentsResponse],
             error_mapper=get_order_items_error_mapper,
             request_options=request_options,
         )
@@ -1674,7 +1725,8 @@ class AsyncOrdersWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asyn
 
         Args:
             purchase_order_id: Walmart Purchase Order ID
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -1683,7 +1735,7 @@ class AsyncOrdersWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asyn
             url_template=self._server.default1("/orders/v4/orders/{purchaseOrderId}/regulatedInfo"),
             path_params=[param[str]("purchaseOrderId", purchase_order_id)],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[GetOrderRegulatedInfoResponse],
+            decoder=async_json_decoder[GetOrderRegulatedInfoResponse],
             error_mapper=get_order_regulated_info_error_mapper,
             request_options=request_options,
         )
@@ -1743,7 +1795,8 @@ class AsyncOrdersWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asyn
                 multi-type fan-out is Phase 2. Tracked by .
             page_size: Value sent with the request.
             next_token: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -1760,7 +1813,7 @@ class AsyncOrdersWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asyn
                 param[str | None]("nextToken", next_token),
             ],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[GetFulfillmentOrderResponse],
+            decoder=async_json_decoder[GetFulfillmentOrderResponse],
             error_mapper=get_orders_error_mapper,
             request_options=request_options,
         )
@@ -1780,7 +1833,8 @@ class AsyncOrdersWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asyn
         Args:
             purchase_order_id: Value sent with the request.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -1791,7 +1845,7 @@ class AsyncOrdersWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asyn
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             body=json_body[RefundOrderLinesRequest | RefundOrderLinesRequestDict](body),
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[RefundOrderLinesResponse],
+            decoder=async_json_decoder[RefundOrderLinesResponse],
             error_mapper=refund_order_lines_error_mapper,
             request_options=request_options,
         )
@@ -1808,7 +1862,8 @@ class AsyncOrdersWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asyn
         Args:
             purchase_order_id: Value sent with the request.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -1819,7 +1874,7 @@ class AsyncOrdersWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asyn
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             body=json_body[ShipOrderLinesRequest | ShipOrderLinesRequestDict](body),
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[ShipOrderLinesResponse],
+            decoder=async_json_decoder[ShipOrderLinesResponse],
             error_mapper=ship_order_lines_error_mapper,
             request_options=request_options,
         )
@@ -1840,7 +1895,8 @@ class AsyncOrdersWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asyn
         Args:
             purchase_order_id: Value sent with the request.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -1851,7 +1907,7 @@ class AsyncOrdersWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asyn
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             body=json_body[MultiPackageShipRequest | MultiPackageShipRequestDict](body),
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[MultiPackageShipResponse],
+            decoder=async_json_decoder[MultiPackageShipResponse],
             error_mapper=ship_order_multi_package_error_mapper,
             request_options=request_options,
         )
@@ -1872,7 +1928,8 @@ class AsyncOrdersWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asyn
         Args:
             purchase_order_id: Value sent with the request.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -1883,7 +1940,7 @@ class AsyncOrdersWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asyn
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             body=json_body[UpdateShipmentStatusRequest | UpdateShipmentStatusRequestDict](body),
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[UpdateShipmentStatusResponse],
+            decoder=async_json_decoder[UpdateShipmentStatusResponse],
             error_mapper=update_shipment_status_error_mapper,
             request_options=request_options,
         )
@@ -1906,7 +1963,8 @@ class AsyncOrdersWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asyn
         Args:
             purchase_order_id: Walmart Purchase Order ID
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -1917,7 +1975,7 @@ class AsyncOrdersWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asyn
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             body=json_body[UpdateVerificationStatusRequest | UpdateVerificationStatusRequestDict](body),
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[UpdateVerificationStatusResponse],
+            decoder=async_json_decoder[UpdateVerificationStatusResponse],
             error_mapper=update_verification_status_error_mapper,
             request_options=request_options,
         )

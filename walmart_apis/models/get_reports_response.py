@@ -14,4 +14,4 @@ class GetReportsResponse(SdkBaseModel):
 
 class GetReportsResponseDict(TypedDict):
     next_token: NotRequired[str]
-    reports: NotRequired[list[Report | ReportDict]]
+    reports: NotRequired[list[ReportDict]]

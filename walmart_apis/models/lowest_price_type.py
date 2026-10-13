@@ -44,6 +44,6 @@ class LowestPriceTypeDict(TypedDict):
     offer_type: NotRequired[OfferTypeOrStr]
     quantity_tier: NotRequired[int]
     quantity_discount_type: NotRequired[QuantityDiscountTypeOrStr]
-    landed_price: NotRequired[MoneyType | MoneyTypeDict]
-    listing_price: MoneyType | MoneyTypeDict
-    shipping: NotRequired[MoneyType | MoneyTypeDict]
+    landed_price: NotRequired[MoneyTypeDict]
+    listing_price: MoneyTypeDict
+    shipping: NotRequired[MoneyTypeDict]

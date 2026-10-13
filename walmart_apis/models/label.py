@@ -20,7 +20,7 @@ class Label(SdkBaseModel):
 
 class LabelDict(TypedDict):
     custom_text_for_label: NotRequired[str]
-    dimensions: NotRequired[LabelDimensions | LabelDimensionsDict]
-    file_contents: NotRequired[FileContents | FileContentsDict]
+    dimensions: NotRequired[LabelDimensionsDict]
+    file_contents: NotRequired[FileContentsDict]
     label_format: NotRequired[LabelFormatOrStr]
     standard_id_for_label: NotRequired[StandardIdForLabelOrStr]

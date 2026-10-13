@@ -34,11 +34,11 @@ class Rate(SdkBaseModel):
 
 class RateDict(TypedDict):
     rate_id: str
-    carrier: Carrier | CarrierDict
-    service: Service | ServiceDict
-    total_charge: Money | MoneyDict
-    billed_weight: NotRequired[Weight | WeightDict]
+    carrier: CarrierDict
+    service: ServiceDict
+    total_charge: MoneyDict
+    billed_weight: NotRequired[WeightDict]
     expiration_time: NotRequired[RFC3339DateTime]
-    promise: NotRequired[Promise | PromiseDict]
+    promise: NotRequired[PromiseDict]
     supported_document_specifications: NotRequired[list[Any]]
     available_value_added_services: NotRequired[list[Any]]

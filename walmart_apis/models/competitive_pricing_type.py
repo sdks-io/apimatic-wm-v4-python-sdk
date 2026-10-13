@@ -23,6 +23,6 @@ class CompetitivePricingType(SdkBaseModel):
 
 
 class CompetitivePricingTypeDict(TypedDict):
-    competitive_prices: list[CompetitivePriceType | CompetitivePriceTypeDict]
-    number_of_offer_listings: list[OfferListingCountType | OfferListingCountTypeDict]
-    trade_in_value: NotRequired[MoneyType | MoneyTypeDict]
+    competitive_prices: list[CompetitivePriceTypeDict]
+    number_of_offer_listings: list[OfferListingCountTypeDict]
+    trade_in_value: NotRequired[MoneyTypeDict]

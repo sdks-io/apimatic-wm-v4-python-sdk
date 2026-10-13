@@ -14,4 +14,4 @@ class UpdateShipmentStatusLine(SdkBaseModel):
 
 class UpdateShipmentStatusLineDict(TypedDict):
     line_number: str
-    status_quantity: NotRequired[QuantityWithUnit | QuantityWithUnitDict]
+    status_quantity: NotRequired[QuantityWithUnitDict]

@@ -12,4 +12,4 @@ class RefundOrderLinesRequest(SdkBaseModel):
 
 
 class RefundOrderLinesRequestDict(TypedDict):
-    order_lines: list[RefundOrderLine | RefundOrderLineDict]
+    order_lines: list[RefundOrderLineDict]

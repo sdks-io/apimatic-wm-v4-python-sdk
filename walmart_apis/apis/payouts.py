@@ -9,9 +9,11 @@ from ..core import (
     RawClient,
     RequestOptionsOrDict,
     SecuredRawResponse,
+    async_json_decoder,
     json_body,
     json_decoder,
     param,
+    unwrap,
 )
 from ..errors.configure_auto_payout_error import ConfigureAutoPayoutErrorBody, configure_auto_payout_error_mapper
 from ..errors.get_annual_statement_opts_error import (
@@ -51,7 +53,8 @@ class Payouts:
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -59,7 +62,7 @@ class Payouts:
         Raises:
             ApiError: Bad Request Unauthorized — missing, expired, or invalid OAuth2 token Internal Server Error
                 ``error`` is ``ErrorList | RawError``."""
-        return self._with_raw_response.configure_auto_payout(body, request_options=request_options).unwrap()
+        return unwrap(self._with_raw_response.configure_auto_payout(body, request_options=request_options))
 
     def get_annual_statement_opts(
         self, *, request_options: RequestOptionsOrDict | None = None
@@ -68,7 +71,8 @@ class Payouts:
         year. Delegates to GMPPaymentsPlatform GET /annualStatementOpts/{partnerId}.
 
         Args:
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -76,7 +80,7 @@ class Payouts:
         Raises:
             ApiError: Bad Request Unauthorized — missing, expired, or invalid OAuth2 token Internal Server Error
                 ``error`` is ``ErrorList | RawError``."""
-        return self._with_raw_response.get_annual_statement_opts(request_options=request_options).unwrap()
+        return unwrap(self._with_raw_response.get_annual_statement_opts(request_options=request_options))
 
     def get_faster_payout_eligibility(
         self, *, request_options: RequestOptionsOrDict | None = None
@@ -85,7 +89,8 @@ class Payouts:
         amount and any ineligibility reason. Delegates to GMPPaymentsPlatform GET /fasterPayout/eligibility/{partnerId}.
 
         Args:
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -93,14 +98,15 @@ class Payouts:
         Raises:
             ApiError: Bad Request Unauthorized — missing, expired, or invalid OAuth2 token Internal Server Error
                 ``error`` is ``ErrorList | RawError``."""
-        return self._with_raw_response.get_faster_payout_eligibility(request_options=request_options).unwrap()
+        return unwrap(self._with_raw_response.get_faster_payout_eligibility(request_options=request_options))
 
     def get_payment_status(self, *, request_options: RequestOptionsOrDict | None = None) -> PayoutStatusResponse:
         """Returns the current payout status for the authenticated seller, including scheduled payout date, amount, and
         lifecycle state (Pending, Processing, Completed, Failed, OnHold). Delegates to GMPPaymentsPlatform (Phase 5).
 
         Args:
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -108,7 +114,7 @@ class Payouts:
         Raises:
             ApiError: Bad Request Unauthorized — missing, expired, or invalid OAuth2 token Internal Server Error
                 ``error`` is ``ErrorList | RawError``."""
-        return self._with_raw_response.get_payment_status(request_options=request_options).unwrap()
+        return unwrap(self._with_raw_response.get_payment_status(request_options=request_options))
 
     def initiate_faster_payout(self, *, request_options: RequestOptionsOrDict | None = None) -> InitiatePayoutResponse:
         """Triggers an immediate on-demand payout for the authenticated seller, bypassing the standard settlement
@@ -116,7 +122,8 @@ class Payouts:
         GMPPaymentsPlatform (Phase 5).
 
         Args:
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Payout initiated
@@ -124,7 +131,7 @@ class Payouts:
         Raises:
             ApiError: Bad Request Unauthorized — missing, expired, or invalid OAuth2 token Conflict — resource state
                 prevents this operation Internal Server Error ``error`` is ``ErrorList | RawError``."""
-        return self._with_raw_response.initiate_faster_payout(request_options=request_options).unwrap()
+        return unwrap(self._with_raw_response.initiate_faster_payout(request_options=request_options))
 
     @property
     def with_raw_response(self) -> PayoutsWithRawResponse:
@@ -147,7 +154,8 @@ class AsyncPayouts:
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -155,7 +163,7 @@ class AsyncPayouts:
         Raises:
             ApiError: Bad Request Unauthorized — missing, expired, or invalid OAuth2 token Internal Server Error
                 ``error`` is ``ErrorList | RawError``."""
-        return (await self._with_raw_response.configure_auto_payout(body, request_options=request_options)).unwrap()
+        return unwrap(await self._with_raw_response.configure_auto_payout(body, request_options=request_options))
 
     async def get_annual_statement_opts(
         self, *, request_options: RequestOptionsOrDict | None = None
@@ -164,7 +172,8 @@ class AsyncPayouts:
         year. Delegates to GMPPaymentsPlatform GET /annualStatementOpts/{partnerId}.
 
         Args:
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -172,7 +181,7 @@ class AsyncPayouts:
         Raises:
             ApiError: Bad Request Unauthorized — missing, expired, or invalid OAuth2 token Internal Server Error
                 ``error`` is ``ErrorList | RawError``."""
-        return (await self._with_raw_response.get_annual_statement_opts(request_options=request_options)).unwrap()
+        return unwrap(await self._with_raw_response.get_annual_statement_opts(request_options=request_options))
 
     async def get_faster_payout_eligibility(
         self, *, request_options: RequestOptionsOrDict | None = None
@@ -181,7 +190,8 @@ class AsyncPayouts:
         amount and any ineligibility reason. Delegates to GMPPaymentsPlatform GET /fasterPayout/eligibility/{partnerId}.
 
         Args:
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -189,14 +199,15 @@ class AsyncPayouts:
         Raises:
             ApiError: Bad Request Unauthorized — missing, expired, or invalid OAuth2 token Internal Server Error
                 ``error`` is ``ErrorList | RawError``."""
-        return (await self._with_raw_response.get_faster_payout_eligibility(request_options=request_options)).unwrap()
+        return unwrap(await self._with_raw_response.get_faster_payout_eligibility(request_options=request_options))
 
     async def get_payment_status(self, *, request_options: RequestOptionsOrDict | None = None) -> PayoutStatusResponse:
         """Returns the current payout status for the authenticated seller, including scheduled payout date, amount, and
         lifecycle state (Pending, Processing, Completed, Failed, OnHold). Delegates to GMPPaymentsPlatform (Phase 5).
 
         Args:
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -204,7 +215,7 @@ class AsyncPayouts:
         Raises:
             ApiError: Bad Request Unauthorized — missing, expired, or invalid OAuth2 token Internal Server Error
                 ``error`` is ``ErrorList | RawError``."""
-        return (await self._with_raw_response.get_payment_status(request_options=request_options)).unwrap()
+        return unwrap(await self._with_raw_response.get_payment_status(request_options=request_options))
 
     async def initiate_faster_payout(
         self, *, request_options: RequestOptionsOrDict | None = None
@@ -214,7 +225,8 @@ class AsyncPayouts:
         GMPPaymentsPlatform (Phase 5).
 
         Args:
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Payout initiated
@@ -222,7 +234,7 @@ class AsyncPayouts:
         Raises:
             ApiError: Bad Request Unauthorized — missing, expired, or invalid OAuth2 token Conflict — resource state
                 prevents this operation Internal Server Error ``error`` is ``ErrorList | RawError``."""
-        return (await self._with_raw_response.initiate_faster_payout(request_options=request_options)).unwrap()
+        return unwrap(await self._with_raw_response.initiate_faster_payout(request_options=request_options))
 
     @property
     def with_raw_response(self) -> AsyncPayoutsWithRawResponse:
@@ -242,7 +254,8 @@ class PayoutsWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes])
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -264,7 +277,8 @@ class PayoutsWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes])
         year. Delegates to GMPPaymentsPlatform GET /annualStatementOpts/{partnerId}.
 
         Args:
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -284,7 +298,8 @@ class PayoutsWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes])
         amount and any ineligibility reason. Delegates to GMPPaymentsPlatform GET /fasterPayout/eligibility/{partnerId}.
 
         Args:
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -304,7 +319,8 @@ class PayoutsWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes])
         lifecycle state (Pending, Processing, Completed, Failed, OnHold). Delegates to GMPPaymentsPlatform (Phase 5).
 
         Args:
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -325,7 +341,8 @@ class PayoutsWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes])
         GMPPaymentsPlatform (Phase 5).
 
         Args:
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -353,7 +370,8 @@ class AsyncPayoutsWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asy
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -363,7 +381,7 @@ class AsyncPayoutsWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asy
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             body=json_body[DisbursementsV4PaymentAutoPayoutRequest | DisbursementsV4PaymentAutoPayoutRequestDict](body),
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[PayoutStatusResponse],
+            decoder=async_json_decoder[PayoutStatusResponse],
             error_mapper=configure_auto_payout_error_mapper,
             request_options=request_options,
         )
@@ -375,7 +393,8 @@ class AsyncPayoutsWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asy
         year. Delegates to GMPPaymentsPlatform GET /annualStatementOpts/{partnerId}.
 
         Args:
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -383,7 +402,7 @@ class AsyncPayoutsWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asy
             http_method="GET",
             url_template=self._server.default1("/disbursements/v4/payment/annualStatementOpts"),
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[AnnualStatementOptsResponse],
+            decoder=async_json_decoder[AnnualStatementOptsResponse],
             error_mapper=get_annual_statement_opts_error_mapper,
             request_options=request_options,
         )
@@ -395,7 +414,8 @@ class AsyncPayoutsWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asy
         amount and any ineligibility reason. Delegates to GMPPaymentsPlatform GET /fasterPayout/eligibility/{partnerId}.
 
         Args:
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -403,7 +423,7 @@ class AsyncPayoutsWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asy
             http_method="GET",
             url_template=self._server.default1("/disbursements/v4/payment/fasterPayoutEligibility"),
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[FasterPayoutEligibilityResponse],
+            decoder=async_json_decoder[FasterPayoutEligibilityResponse],
             error_mapper=get_faster_payout_eligibility_error_mapper,
             request_options=request_options,
         )
@@ -415,7 +435,8 @@ class AsyncPayoutsWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asy
         lifecycle state (Pending, Processing, Completed, Failed, OnHold). Delegates to GMPPaymentsPlatform (Phase 5).
 
         Args:
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -423,7 +444,7 @@ class AsyncPayoutsWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asy
             http_method="GET",
             url_template=self._server.default1("/disbursements/v4/payment/paymentstatus"),
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[PayoutStatusResponse],
+            decoder=async_json_decoder[PayoutStatusResponse],
             error_mapper=get_payment_status_error_mapper,
             request_options=request_options,
         )
@@ -436,7 +457,8 @@ class AsyncPayoutsWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asy
         GMPPaymentsPlatform (Phase 5).
 
         Args:
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -445,7 +467,7 @@ class AsyncPayoutsWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asy
             url_template=self._server.default1("/disbursements/v4/payment/fasterPayout"),
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[InitiatePayoutResponse],
+            decoder=async_json_decoder[InitiatePayoutResponse],
             error_mapper=initiate_faster_payout_error_mapper,
             request_options=request_options,
         )

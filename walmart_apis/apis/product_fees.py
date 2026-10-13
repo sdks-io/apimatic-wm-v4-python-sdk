@@ -9,9 +9,11 @@ from ..core import (
     RawClient,
     RequestOptionsOrDict,
     SecuredRawResponse,
+    async_json_decoder,
     json_body,
     json_decoder,
     param,
+    unwrap,
 )
 from ..errors.get_my_fees_estimate_for_item_error import (
     GetMyFeesEstimateForItemErrorBody,
@@ -49,7 +51,8 @@ class ProductFees:
         Args:
             walmart_item_id: The Walmart Item ID of the item. Replaces SP-API ASIN.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -57,9 +60,11 @@ class ProductFees:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return self._with_raw_response.get_my_fees_estimate_for_item(
-            walmart_item_id, body, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.get_my_fees_estimate_for_item(
+                walmart_item_id, body, request_options=request_options
+            ),
+        )
 
     def get_my_fees_estimate_for_sku(
         self,
@@ -75,7 +80,8 @@ class ProductFees:
             seller_sku: The seller's SKU for the listing. Scoped to the authenticated seller.
             marketplace_id: Marketplace identifier.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -83,9 +89,11 @@ class ProductFees:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return self._with_raw_response.get_my_fees_estimate_for_sku(
-            seller_sku, marketplace_id, body, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.get_my_fees_estimate_for_sku(
+                seller_sku, marketplace_id, body, request_options=request_options
+            ),
+        )
 
     def get_my_fees_estimates(
         self,
@@ -97,7 +105,8 @@ class ProductFees:
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -105,7 +114,7 @@ class ProductFees:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return self._with_raw_response.get_my_fees_estimates(body, request_options=request_options).unwrap()
+        return unwrap(self._with_raw_response.get_my_fees_estimates(body, request_options=request_options))
 
     @property
     def with_raw_response(self) -> ProductFeesWithRawResponse:
@@ -132,7 +141,8 @@ class AsyncProductFees:
         Args:
             walmart_item_id: The Walmart Item ID of the item. Replaces SP-API ASIN.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -140,11 +150,11 @@ class AsyncProductFees:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.get_my_fees_estimate_for_item(
                 walmart_item_id, body, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     async def get_my_fees_estimate_for_sku(
         self,
@@ -160,7 +170,8 @@ class AsyncProductFees:
             seller_sku: The seller's SKU for the listing. Scoped to the authenticated seller.
             marketplace_id: Marketplace identifier.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -168,11 +179,11 @@ class AsyncProductFees:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.get_my_fees_estimate_for_sku(
                 seller_sku, marketplace_id, body, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     async def get_my_fees_estimates(
         self,
@@ -184,7 +195,8 @@ class AsyncProductFees:
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -192,7 +204,7 @@ class AsyncProductFees:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return (await self._with_raw_response.get_my_fees_estimates(body, request_options=request_options)).unwrap()
+        return unwrap(await self._with_raw_response.get_my_fees_estimates(body, request_options=request_options))
 
     @property
     def with_raw_response(self) -> AsyncProductFeesWithRawResponse:
@@ -216,7 +228,8 @@ class ProductFeesWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchem
         Args:
             walmart_item_id: The Walmart Item ID of the item. Replaces SP-API ASIN.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -246,7 +259,8 @@ class ProductFeesWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchem
             seller_sku: The seller's SKU for the listing. Scoped to the authenticated seller.
             marketplace_id: Marketplace identifier.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -273,7 +287,8 @@ class ProductFeesWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchem
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -306,7 +321,8 @@ class AsyncProductFeesWithRawResponse(SecuredRawResponse[AsyncRawClient, Server,
         Args:
             walmart_item_id: The Walmart Item ID of the item. Replaces SP-API ASIN.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -317,7 +333,7 @@ class AsyncProductFeesWithRawResponse(SecuredRawResponse[AsyncRawClient, Server,
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             body=json_body[GetMyFeesEstimateRequest | GetMyFeesEstimateRequestDict](body),
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[GetMyFeesEstimateResponse],
+            decoder=async_json_decoder[GetMyFeesEstimateResponse],
             error_mapper=get_my_fees_estimate_for_item_error_mapper,
             request_options=request_options,
         )
@@ -336,7 +352,8 @@ class AsyncProductFeesWithRawResponse(SecuredRawResponse[AsyncRawClient, Server,
             seller_sku: The seller's SKU for the listing. Scoped to the authenticated seller.
             marketplace_id: Marketplace identifier.
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -348,7 +365,7 @@ class AsyncProductFeesWithRawResponse(SecuredRawResponse[AsyncRawClient, Server,
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             body=json_body[GetMyFeesEstimateRequest | GetMyFeesEstimateRequestDict](body),
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[GetMyFeesEstimateResponse],
+            decoder=async_json_decoder[GetMyFeesEstimateResponse],
             error_mapper=get_my_fees_estimate_for_sku_error_mapper,
             request_options=request_options,
         )
@@ -363,7 +380,8 @@ class AsyncProductFeesWithRawResponse(SecuredRawResponse[AsyncRawClient, Server,
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -373,7 +391,7 @@ class AsyncProductFeesWithRawResponse(SecuredRawResponse[AsyncRawClient, Server,
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             body=json_body[list[FeesEstimateByIdRequest | FeesEstimateByIdRequestDict]](body),
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[list[FeesEstimateResult]],
+            decoder=async_json_decoder[list[FeesEstimateResult]],
             error_mapper=get_my_fees_estimates_error_mapper,
             request_options=request_options,
         )

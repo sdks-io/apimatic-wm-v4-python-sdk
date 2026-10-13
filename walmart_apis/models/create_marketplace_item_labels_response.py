@@ -15,4 +15,4 @@ class CreateMarketplaceItemLabelsResponse(SdkBaseModel):
 
 
 class CreateMarketplaceItemLabelsResponseDict(TypedDict):
-    document_downloads: list[CommonDocumentDownload | CommonDocumentDownloadDict]
+    document_downloads: list[CommonDocumentDownloadDict]

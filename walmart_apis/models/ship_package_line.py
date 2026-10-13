@@ -14,4 +14,4 @@ class ShipPackageLine(SdkBaseModel):
 
 class ShipPackageLineDict(TypedDict):
     line_number: str
-    ship_quantity: NotRequired[QuantityWithUnit | QuantityWithUnitDict]
+    ship_quantity: NotRequired[QuantityWithUnitDict]

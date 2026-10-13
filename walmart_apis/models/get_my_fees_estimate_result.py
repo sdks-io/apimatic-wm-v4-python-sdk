@@ -16,4 +16,4 @@ class GetMyFeesEstimateResult(SdkBaseModel):
 
 
 class GetMyFeesEstimateResultDict(TypedDict):
-    fees_estimate_result: NotRequired[FeesEstimateResult | FeesEstimateResultDict]
+    fees_estimate_result: NotRequired[FeesEstimateResultDict]

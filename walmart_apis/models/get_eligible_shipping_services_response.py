@@ -16,5 +16,5 @@ class GetEligibleShippingServicesResponse(SdkBaseModel):
 
 
 class GetEligibleShippingServicesResponseDict(TypedDict):
-    shipping_service_list: NotRequired[list[ShippingService | ShippingServiceDict]]
-    rejected_shipping_service_list: NotRequired[list[RejectedShippingService | RejectedShippingServiceDict]]
+    shipping_service_list: NotRequired[list[ShippingServiceDict]]
+    rejected_shipping_service_list: NotRequired[list[RejectedShippingServiceDict]]

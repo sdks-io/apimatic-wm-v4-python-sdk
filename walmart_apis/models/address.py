@@ -13,7 +13,7 @@ class Address(SdkBaseModel):
     city: str
     state_or_region: str = Field(alias="stateOrRegion")
     postal_code: str = Field(alias="postalCode")
-    country_code: str = Field(alias="countryCode")
+    country_code: str = Field(default="US", alias="countryCode")
     phone: Optional[str] = UNSET
 
 

@@ -71,13 +71,13 @@ class OfferDetailDict(TypedDict):
     sub_condition: str
     seller_id: NotRequired[str]
     condition_notes: NotRequired[str]
-    seller_feedback_rating: NotRequired[SellerFeedbackType | SellerFeedbackTypeDict]
-    shipping_time: DetailedShippingTimeType | DetailedShippingTimeTypeDict
-    listing_price: MoneyType | MoneyTypeDict
-    quantity_discount_prices: NotRequired[list[QuantityDiscountPriceType | QuantityDiscountPriceTypeDict]]
-    shipping: MoneyType | MoneyTypeDict
-    ships_from: NotRequired[ShipsFromType | ShipsFromTypeDict]
+    seller_feedback_rating: NotRequired[SellerFeedbackTypeDict]
+    shipping_time: DetailedShippingTimeTypeDict
+    listing_price: MoneyTypeDict
+    quantity_discount_prices: NotRequired[list[QuantityDiscountPriceTypeDict]]
+    shipping: MoneyTypeDict
+    ships_from: NotRequired[ShipsFromTypeDict]
     is_fulfilled_by_wfs: bool
-    wfs_prime_details: NotRequired[WfsprimeDetailsType | WfsprimeDetailsTypeDict]
+    wfs_prime_details: NotRequired[WfsprimeDetailsTypeDict]
     is_buy_box_winner: NotRequired[bool]
     is_featured_merchant: NotRequired[bool]

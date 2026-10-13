@@ -21,7 +21,7 @@ class FulfillmentPreview(SdkBaseModel):
 
 class FulfillmentPreviewDict(TypedDict):
     shipping_speed_category: NotRequired[ShippingSpeedCategoryOrStr]
-    fulfillment_preview_shipments: NotRequired[list[FulfillmentPreviewShipment | FulfillmentPreviewShipmentDict]]
+    fulfillment_preview_shipments: NotRequired[list[FulfillmentPreviewShipmentDict]]
     is_fulfillable: NotRequired[bool]
     is_cod_capable: NotRequired[bool]
-    estimated_fees: NotRequired[list[Fee | FeeDict]]
+    estimated_fees: NotRequired[list[FeeDict]]

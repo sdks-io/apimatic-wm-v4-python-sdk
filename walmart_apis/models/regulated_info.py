@@ -42,4 +42,4 @@ class RegulatedInfoDict(TypedDict):
     required_age_minimum: NotRequired[int]
     signature_required: NotRequired[bool]
     buyer_date_of_birth_required: NotRequired[bool]
-    value_added_services: NotRequired[list[ValueAddedService | ValueAddedServiceDict]]
+    value_added_services: NotRequired[list[ValueAddedServiceDict]]

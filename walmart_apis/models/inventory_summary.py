@@ -38,4 +38,4 @@ class InventorySummaryDict(TypedDict):
     condition: NotRequired[ConditionOrStr]
     last_updated: NotRequired[RFC3339DateTime | None]
     inventory_available_date: NotRequired[Date | None]
-    inventory_details: NotRequired[InventoryDetails | InventoryDetailsDict | None]
+    inventory_details: NotRequired[InventoryDetailsDict | None]

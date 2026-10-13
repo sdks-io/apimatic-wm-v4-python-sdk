@@ -11,4 +11,4 @@ class GetFulfillmentOrderResponse(SdkBaseModel):
 
 
 class GetFulfillmentOrderResponseDict(TypedDict):
-    payload: NotRequired[Payload | PayloadDict]
+    payload: NotRequired[PayloadDict]

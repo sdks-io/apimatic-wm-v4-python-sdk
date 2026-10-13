@@ -16,5 +16,5 @@ class GetFeedsResponse(SdkBaseModel):
 
 
 class GetFeedsResponseDict(TypedDict):
-    feeds: NotRequired[list[Feed | FeedDict]]
+    feeds: NotRequired[list[FeedDict]]
     next_token: NotRequired[str]

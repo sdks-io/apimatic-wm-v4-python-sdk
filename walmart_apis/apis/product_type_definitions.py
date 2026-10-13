@@ -1,7 +1,17 @@
 from __future__ import annotations
 
 from ..auth import AsyncAuthSchemes, AuthSchemes
-from ..core import ApiResult, AsyncRawClient, RawClient, RequestOptionsOrDict, SecuredRawResponse, json_decoder, param
+from ..core import (
+    ApiResult,
+    AsyncRawClient,
+    RawClient,
+    RequestOptionsOrDict,
+    SecuredRawResponse,
+    async_json_decoder,
+    json_decoder,
+    param,
+    unwrap,
+)
 from ..errors.get_definitions_product_type_error import (
     GetDefinitionsProductTypeErrorBody,
     get_definitions_product_type_error_mapper,
@@ -33,7 +43,8 @@ class ProductTypeDefinitions:
             product_type: Value sent with the request.
             seller_id: Value sent with the request.
             locale: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Product type definition schema
@@ -41,9 +52,11 @@ class ProductTypeDefinitions:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return self._with_raw_response.get_definitions_product_type(
-            product_type, seller_id=seller_id, locale=locale, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.get_definitions_product_type(
+                product_type, seller_id=seller_id, locale=locale, request_options=request_options
+            ),
+        )
 
     def search_definitions_product_types(
         self,
@@ -59,7 +72,8 @@ class ProductTypeDefinitions:
             keywords: Value sent with the request.
             item_name: Value sent with the request.
             locale: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Product type list
@@ -67,9 +81,11 @@ class ProductTypeDefinitions:
         Raises:
             ApiError: Bad Request Forbidden Rate limit exceeded Internal Server Error ``error`` is ``ErrorList |
                 RawError``."""
-        return self._with_raw_response.search_definitions_product_types(
-            keywords=keywords, item_name=item_name, locale=locale, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.search_definitions_product_types(
+                keywords=keywords, item_name=item_name, locale=locale, request_options=request_options
+            ),
+        )
 
     @property
     def with_raw_response(self) -> ProductTypeDefinitionsWithRawResponse:
@@ -94,7 +110,8 @@ class AsyncProductTypeDefinitions:
             product_type: Value sent with the request.
             seller_id: Value sent with the request.
             locale: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Product type definition schema
@@ -102,11 +119,11 @@ class AsyncProductTypeDefinitions:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.get_definitions_product_type(
                 product_type, seller_id=seller_id, locale=locale, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     async def search_definitions_product_types(
         self,
@@ -122,7 +139,8 @@ class AsyncProductTypeDefinitions:
             keywords: Value sent with the request.
             item_name: Value sent with the request.
             locale: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Product type list
@@ -130,11 +148,11 @@ class AsyncProductTypeDefinitions:
         Raises:
             ApiError: Bad Request Forbidden Rate limit exceeded Internal Server Error ``error`` is ``ErrorList |
                 RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.search_definitions_product_types(
                 keywords=keywords, item_name=item_name, locale=locale, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     @property
     def with_raw_response(self) -> AsyncProductTypeDefinitionsWithRawResponse:
@@ -156,7 +174,8 @@ class ProductTypeDefinitionsWithRawResponse(SecuredRawResponse[RawClient, Server
             product_type: Value sent with the request.
             seller_id: Value sent with the request.
             locale: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -185,7 +204,8 @@ class ProductTypeDefinitionsWithRawResponse(SecuredRawResponse[RawClient, Server
             keywords: Value sent with the request.
             item_name: Value sent with the request.
             locale: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -219,7 +239,8 @@ class AsyncProductTypeDefinitionsWithRawResponse(SecuredRawResponse[AsyncRawClie
             product_type: Value sent with the request.
             seller_id: Value sent with the request.
             locale: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -229,7 +250,7 @@ class AsyncProductTypeDefinitionsWithRawResponse(SecuredRawResponse[AsyncRawClie
             path_params=[param[str]("productType", product_type)],
             query_params=[param[str | None]("sellerId", seller_id), param[str | None]("locale", locale)],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[ProductTypeDefinition],
+            decoder=async_json_decoder[ProductTypeDefinition],
             error_mapper=get_definitions_product_type_error_mapper,
             request_options=request_options,
         )
@@ -248,7 +269,8 @@ class AsyncProductTypeDefinitionsWithRawResponse(SecuredRawResponse[AsyncRawClie
             keywords: Value sent with the request.
             item_name: Value sent with the request.
             locale: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -261,7 +283,7 @@ class AsyncProductTypeDefinitionsWithRawResponse(SecuredRawResponse[AsyncRawClie
                 param[str | None]("locale", locale),
             ],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[ProductTypeList],
+            decoder=async_json_decoder[ProductTypeList],
             error_mapper=search_definitions_product_types_error_mapper,
             request_options=request_options,
         )

@@ -12,4 +12,4 @@ class AcknowledgeOrderRequest(SdkBaseModel):
 
 
 class AcknowledgeOrderRequestDict(TypedDict):
-    order_lines: list[AcknowledgeOrderLine | AcknowledgeOrderLineDict]
+    order_lines: list[AcknowledgeOrderLineDict]

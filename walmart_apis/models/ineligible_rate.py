@@ -16,4 +16,4 @@ class IneligibleRate(SdkBaseModel):
 class IneligibleRateDict(TypedDict):
     carrier_name: NotRequired[str]
     service_name: NotRequired[str]
-    ineligibility_reasons: NotRequired[list[IneligibilityReason | IneligibilityReasonDict]]
+    ineligibility_reasons: NotRequired[list[IneligibilityReasonDict]]

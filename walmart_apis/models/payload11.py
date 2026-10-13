@@ -14,4 +14,4 @@ class Payload11(SdkBaseModel):
 
 class Payload11Dict(TypedDict):
     purchase_order_id: NotRequired[str]
-    order_items: NotRequired[list[OrderLine | OrderLineDict]]
+    order_items: NotRequired[list[OrderLineDict]]

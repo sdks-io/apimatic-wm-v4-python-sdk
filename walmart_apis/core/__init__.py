@@ -13,6 +13,7 @@ path for the unit tests that target it.
 
 Everything remains importable from its fully-qualified module path as well."""
 
+from ._internal.headers import find_link_target, read_header
 from .auth import (
     AllSchemes,
     AnySchemes,
@@ -121,33 +122,51 @@ from .converters import (
     open_enum_validator,
 )
 from .decoding import (
-    AsyncStreamDecoder,
+    AsyncResponseDecoder,
     ErrorMapper,
     ResponseDecoder,
-    StreamDecoder,
+    async_empty_response,
     async_file_decoder,
+    async_json_decoder,
+    async_json_event_decoder,
+    async_text_decoder,
+    async_text_event_decoder,
     decode_json,
     decode_text,
     empty_response,
     file_decoder,
     json_decoder,
+    json_event_decoder,
     raw_error_response,
     text_decoder,
+    text_event_decoder,
 )
-from .exceptions import ApiError
+from .discriminators import WireDiscriminator
+from .event_streams import AsyncEventStream, EventStream
+from .exceptions import ApiError, TransportError
 from .file_responses import AsyncFileResponse, FileResponse
 from .files import (
-    AsyncBinaryInput,
+    AsyncBinaryContent,
     AsyncBinaryReader,
-    BinaryInput,
+    AsyncFileInput,
+    BinaryContent,
     BinaryReader,
-    FileContent,
     FileInput,
     NamedFile,
 )
-from .httpx_transport import AsyncHttpxClient, HttpxClient
+from .httpx2_transport import AsyncHttpx2Client, Httpx2Client
 from .models import SdkBaseModel
 from .optionality import UNSET, Optional, OptionalNullable, UnsetType
+from .pagination import (
+    async_paginate,
+    cursor_state,
+    keyset_state,
+    link_state,
+    offset_state,
+    page_state,
+    paginate,
+)
+from .paginator import AsyncPaginator, Paginator
 from .params import SerializationFormat, UrlTemplate, param
 from .raw_client import (
     AsyncRawClient,
@@ -155,16 +174,17 @@ from .raw_client import (
     RawClientT,
 )
 from .request_options import RequestOptions, RequestOptionsDict, RequestOptionsOrDict
-from .results import ApiResult, Failure, RawError, Success
+from .results import ApiResult, Failure, RawError, Success, unwrap
+from .retries import RetryOptions, RetryOptionsDict, RetryOptionsOrDict
 from .runtime_env import OPERATING_SYSTEM, PYTHON_RUNTIME
 from .servers import validate_one_of
 from .transport import (
     AsyncHttpClient,
-    AsyncStreamedResponse,
+    AsyncHttpResponse,
     HttpClient,
+    HttpMethod,
     HttpRequest,
     HttpResponse,
-    StreamedResponse,
 )
 
 __all__ = [
@@ -172,15 +192,19 @@ __all__ = [
     "ApiResult",
     "Success",
     "Failure",
+    "unwrap",
     "RawError",
     "ApiError",
+    "TransportError",
     # HTTP transport
     "HttpClient",
     "AsyncHttpClient",
+    "HttpMethod",
     "HttpRequest",
     "HttpResponse",
-    "HttpxClient",
-    "AsyncHttpxClient",
+    "AsyncHttpResponse",
+    "Httpx2Client",
+    "AsyncHttpx2Client",
     # Request parameters and bodies
     "param",
     "SerializationFormat",
@@ -204,20 +228,24 @@ __all__ = [
     # File input
     "BinaryReader",
     "AsyncBinaryReader",
-    "FileContent",
+    "BinaryContent",
+    "AsyncBinaryContent",
     "NamedFile",
     "FileInput",
-    "BinaryInput",
-    "AsyncBinaryInput",
-    # Streamed responses
-    "StreamedResponse",
-    "AsyncStreamedResponse",
+    "AsyncFileInput",
+    # Streamed payloads
     "FileResponse",
     "AsyncFileResponse",
+    "EventStream",
+    "AsyncEventStream",
     # Per-call request options
     "RequestOptions",
     "RequestOptionsDict",
     "RequestOptionsOrDict",
+    # Retries
+    "RetryOptions",
+    "RetryOptionsDict",
+    "RetryOptionsOrDict",
     # Authentication
     "AuthParams",
     "AuthScheme",
@@ -281,23 +309,31 @@ __all__ = [
     "AsyncAuthorizationCodeTokenSource",
     # Response decoding and error mapping
     "ResponseDecoder",
+    "AsyncResponseDecoder",
     "ErrorMapper",
-    "StreamDecoder",
-    "AsyncStreamDecoder",
     "json_decoder",
+    "async_json_decoder",
     "text_decoder",
+    "async_text_decoder",
     "decode_json",
     "decode_text",
     "empty_response",
+    "async_empty_response",
     "raw_error_response",
     "file_decoder",
     "async_file_decoder",
+    "json_event_decoder",
+    "text_event_decoder",
+    "async_json_event_decoder",
+    "async_text_event_decoder",
     # Model base and optionality
     "SdkBaseModel",
     "UNSET",
     "UnsetType",
     "Optional",
     "OptionalNullable",
+    # Union discrimination
+    "WireDiscriminator",
     # Wire-format converters
     "Date",
     "RFC3339DateTime",
@@ -339,4 +375,16 @@ __all__ = [
     "PYTHON_RUNTIME",
     # Server layer
     "validate_one_of",
+    # Pagination
+    "Paginator",
+    "AsyncPaginator",
+    "paginate",
+    "async_paginate",
+    "offset_state",
+    "page_state",
+    "cursor_state",
+    "keyset_state",
+    "link_state",
+    "read_header",
+    "find_link_target",
 ]

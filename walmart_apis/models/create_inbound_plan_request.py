@@ -26,6 +26,6 @@ class CreateInboundPlanRequest(SdkBaseModel):
 
 class CreateInboundPlanRequestDict(TypedDict):
     destination_marketplaces: list[str]
-    items: list[CommonItemInput | CommonItemInputDict]
+    items: list[CommonItemInputDict]
     name: NotRequired[str]
-    source_address: CommonAddressInput | CommonAddressInputDict
+    source_address: CommonAddressInputDict

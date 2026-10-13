@@ -22,6 +22,6 @@ class FeaturedOffer(SdkBaseModel):
 
 
 class FeaturedOfferDict(TypedDict):
-    offer_identifier: NotRequired[OfferIdentifier | OfferIdentifierDict]
+    offer_identifier: NotRequired[OfferIdentifierDict]
     condition: NotRequired[str]
-    price: NotRequired[MoneyType | MoneyTypeDict]
+    price: NotRequired[MoneyTypeDict]

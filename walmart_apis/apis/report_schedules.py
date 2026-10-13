@@ -9,9 +9,11 @@ from ..core import (
     RawClient,
     RequestOptionsOrDict,
     SecuredRawResponse,
+    async_json_decoder,
     json_body,
     json_decoder,
     param,
+    unwrap,
 )
 from ..errors.cancel_report_schedule_error import CancelReportScheduleErrorBody, cancel_report_schedule_error_mapper
 from ..errors.create_report_schedule_error import CreateReportScheduleErrorBody, create_report_schedule_error_mapper
@@ -40,7 +42,8 @@ class ReportSchedules:
 
         Args:
             report_schedule_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Schedule cancelled
@@ -48,9 +51,9 @@ class ReportSchedules:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return self._with_raw_response.cancel_report_schedule(
-            report_schedule_id, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.cancel_report_schedule(report_schedule_id, request_options=request_options)
+        )
 
     def create_report_schedule(
         self,
@@ -62,7 +65,8 @@ class ReportSchedules:
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Schedule created
@@ -70,7 +74,7 @@ class ReportSchedules:
         Raises:
             ApiError: Bad Request Forbidden Rate limit exceeded Internal Server Error ``error`` is ``ErrorList |
                 RawError``."""
-        return self._with_raw_response.create_report_schedule(body, request_options=request_options).unwrap()
+        return unwrap(self._with_raw_response.create_report_schedule(body, request_options=request_options))
 
     def get_report_schedule(
         self, report_schedule_id: str, *, request_options: RequestOptionsOrDict | None = None
@@ -79,7 +83,8 @@ class ReportSchedules:
 
         Args:
             report_schedule_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -87,7 +92,7 @@ class ReportSchedules:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return self._with_raw_response.get_report_schedule(report_schedule_id, request_options=request_options).unwrap()
+        return unwrap(self._with_raw_response.get_report_schedule(report_schedule_id, request_options=request_options))
 
     def get_report_schedules(
         self, *, report_types: list[ReportType1OrStr] | None = None, request_options: RequestOptionsOrDict | None = None
@@ -97,7 +102,8 @@ class ReportSchedules:
         Args:
             report_types: Filter by report type. Values are Walmart Partner Reporting Platform enum names. Runtime
                 availability is CCM-controlled; consult PRP docs for current PROD-enabled types.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -105,9 +111,9 @@ class ReportSchedules:
         Raises:
             ApiError: Bad Request Forbidden Rate limit exceeded Internal Server Error ``error`` is ``ErrorList |
                 RawError``."""
-        return self._with_raw_response.get_report_schedules(
-            report_types=report_types, request_options=request_options
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.get_report_schedules(report_types=report_types, request_options=request_options)
+        )
 
     @property
     def with_raw_response(self) -> ReportSchedulesWithRawResponse:
@@ -125,7 +131,8 @@ class AsyncReportSchedules:
 
         Args:
             report_schedule_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Schedule cancelled
@@ -133,9 +140,9 @@ class AsyncReportSchedules:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.cancel_report_schedule(report_schedule_id, request_options=request_options)
-        ).unwrap()
+        )
 
     async def create_report_schedule(
         self,
@@ -147,7 +154,8 @@ class AsyncReportSchedules:
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Schedule created
@@ -155,7 +163,7 @@ class AsyncReportSchedules:
         Raises:
             ApiError: Bad Request Forbidden Rate limit exceeded Internal Server Error ``error`` is ``ErrorList |
                 RawError``."""
-        return (await self._with_raw_response.create_report_schedule(body, request_options=request_options)).unwrap()
+        return unwrap(await self._with_raw_response.create_report_schedule(body, request_options=request_options))
 
     async def get_report_schedule(
         self, report_schedule_id: str, *, request_options: RequestOptionsOrDict | None = None
@@ -164,7 +172,8 @@ class AsyncReportSchedules:
 
         Args:
             report_schedule_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -172,9 +181,9 @@ class AsyncReportSchedules:
         Raises:
             ApiError: Bad Request Forbidden Not Found Rate limit exceeded Internal Server Error ``error`` is ``ErrorList
                 | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.get_report_schedule(report_schedule_id, request_options=request_options)
-        ).unwrap()
+        )
 
     async def get_report_schedules(
         self, *, report_types: list[ReportType1OrStr] | None = None, request_options: RequestOptionsOrDict | None = None
@@ -184,7 +193,8 @@ class AsyncReportSchedules:
         Args:
             report_types: Filter by report type. Values are Walmart Partner Reporting Platform enum names. Runtime
                 availability is CCM-controlled; consult PRP docs for current PROD-enabled types.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Success
@@ -192,11 +202,11 @@ class AsyncReportSchedules:
         Raises:
             ApiError: Bad Request Forbidden Rate limit exceeded Internal Server Error ``error`` is ``ErrorList |
                 RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.get_report_schedules(
                 report_types=report_types, request_options=request_options
-            )
-        ).unwrap()
+            ),
+        )
 
     @property
     def with_raw_response(self) -> AsyncReportSchedulesWithRawResponse:
@@ -211,7 +221,8 @@ class ReportSchedulesWithRawResponse(SecuredRawResponse[RawClient, Server, AuthS
 
         Args:
             report_schedule_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -236,7 +247,8 @@ class ReportSchedulesWithRawResponse(SecuredRawResponse[RawClient, Server, AuthS
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -258,7 +270,8 @@ class ReportSchedulesWithRawResponse(SecuredRawResponse[RawClient, Server, AuthS
 
         Args:
             report_schedule_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -280,7 +293,8 @@ class ReportSchedulesWithRawResponse(SecuredRawResponse[RawClient, Server, AuthS
         Args:
             report_types: Filter by report type. Values are Walmart Partner Reporting Platform enum names. Runtime
                 availability is CCM-controlled; consult PRP docs for current PROD-enabled types.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -303,7 +317,8 @@ class AsyncReportSchedulesWithRawResponse(SecuredRawResponse[AsyncRawClient, Ser
 
         Args:
             report_schedule_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -313,7 +328,7 @@ class AsyncReportSchedulesWithRawResponse(SecuredRawResponse[AsyncRawClient, Ser
             path_params=[param[str]("reportScheduleId", report_schedule_id)],
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[CancelReportScheduleResponse],
+            decoder=async_json_decoder[CancelReportScheduleResponse],
             error_mapper=cancel_report_schedule_error_mapper,
             request_options=request_options,
         )
@@ -328,7 +343,8 @@ class AsyncReportSchedulesWithRawResponse(SecuredRawResponse[AsyncRawClient, Ser
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -338,7 +354,7 @@ class AsyncReportSchedulesWithRawResponse(SecuredRawResponse[AsyncRawClient, Ser
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             body=json_body[CreateReportScheduleSpecification | CreateReportScheduleSpecificationDict](body),
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[CreateReportScheduleResponse],
+            decoder=async_json_decoder[CreateReportScheduleResponse],
             error_mapper=create_report_schedule_error_mapper,
             request_options=request_options,
         )
@@ -350,7 +366,8 @@ class AsyncReportSchedulesWithRawResponse(SecuredRawResponse[AsyncRawClient, Ser
 
         Args:
             report_schedule_id: Value sent with the request.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -359,7 +376,7 @@ class AsyncReportSchedulesWithRawResponse(SecuredRawResponse[AsyncRawClient, Ser
             url_template=self._server.default1("/reports/v4/schedules/{reportScheduleId}"),
             path_params=[param[str]("reportScheduleId", report_schedule_id)],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[ReportSchedule],
+            decoder=async_json_decoder[ReportSchedule],
             error_mapper=get_report_schedule_error_mapper,
             request_options=request_options,
         )
@@ -372,7 +389,8 @@ class AsyncReportSchedulesWithRawResponse(SecuredRawResponse[AsyncRawClient, Ser
         Args:
             report_types: Filter by report type. Values are Walmart Partner Reporting Platform enum names. Runtime
                 availability is CCM-controlled; consult PRP docs for current PROD-enabled types.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -381,7 +399,7 @@ class AsyncReportSchedulesWithRawResponse(SecuredRawResponse[AsyncRawClient, Ser
             url_template=self._server.default1("/reports/v4/schedules"),
             query_params=[param[list[ReportType1OrStr] | None]("reportTypes", report_types)],
             auth_scheme=self._auth.wallet_auth,
-            decoder=json_decoder[GetReportSchedulesResponse],
+            decoder=async_json_decoder[GetReportSchedulesResponse],
             error_mapper=get_report_schedules_error_mapper,
             request_options=request_options,
         )

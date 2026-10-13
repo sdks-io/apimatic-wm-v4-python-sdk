@@ -9,11 +9,14 @@ from ..core import (
     RawClient,
     RequestOptionsOrDict,
     SecuredRawResponse,
+    async_empty_response,
+    async_json_decoder,
     empty_response,
     form_body,
     json_body,
     json_decoder,
     param,
+    unwrap,
 )
 from ..errors.authorize_error import AuthorizeErrorBody, authorize_error_mapper
 from ..errors.create_token_error import CreateTokenErrorBody, create_token_error_mapper
@@ -76,21 +79,24 @@ class Authorization:
             state: Opaque CSRF token; echoed back unchanged.
             code_challenge: PKCE challenge — base64url(SHA-256(code_verifier)).
             code_challenge_method: Must be ``S256``.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Raises:
             ApiError: Non-redirectable request (bad ``client_id``/``redirect_uri``). Rate limit exceeded. Internal
                 error. ``error`` is ``AuthorizeError | OauthErrorModel | RawError``."""
-        return self._with_raw_response.authorize(
-            response_type,
-            client_id,
-            redirect_uri,
-            scope,
-            state,
-            code_challenge,
-            code_challenge_method,
-            request_options=request_options,
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.authorize(
+                response_type,
+                client_id,
+                redirect_uri,
+                scope,
+                state,
+                code_challenge,
+                code_challenge_method,
+                request_options=request_options,
+            ),
+        )
 
     def create_token(
         self,
@@ -146,7 +152,8 @@ class Authorization:
                 injection).
             scope: **client_credentials:** accepted for compatibility but **not honored** — no down-scoping; not echoed.
                 **refresh_token:** optional; MUST NOT exceed the originally granted scope.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Access token issued.
@@ -154,17 +161,19 @@ class Authorization:
         Raises:
             ApiError: Invalid token request (RFC 6749 §5.2). Client authentication failed — ``invalid_client``. Rate
                 limit exceeded. Internal error. ``error`` is ``OauthErrorModel | RawError``."""
-        return self._with_raw_response.create_token(
-            grant_type,
-            client_id=client_id,
-            client_secret=client_secret,
-            code=code,
-            code_verifier=code_verifier,
-            refresh_token=refresh_token,
-            redirect_uri=redirect_uri,
-            scope=scope,
-            request_options=request_options,
-        ).unwrap()
+        return unwrap(
+            self._with_raw_response.create_token(
+                grant_type,
+                client_id=client_id,
+                client_secret=client_secret,
+                code=code,
+                code_verifier=code_verifier,
+                refresh_token=refresh_token,
+                redirect_uri=redirect_uri,
+                scope=scope,
+                request_options=request_options,
+            ),
+        )
 
     def register_client(
         self,
@@ -184,7 +193,8 @@ class Authorization:
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Client registered.
@@ -193,7 +203,7 @@ class Authorization:
             ApiError: Invalid client metadata (RFC 7591 §3.2.2). Registration requires an initial access token and
                 none/invalid was supplied. Rate limit exceeded. Internal error. ``error`` is ``RegistrationError |
                 OauthErrorModel | RawError``."""
-        return self._with_raw_response.register_client(body, request_options=request_options).unwrap()
+        return unwrap(self._with_raw_response.register_client(body, request_options=request_options))
 
     @property
     def with_raw_response(self) -> AuthorizationWithRawResponse:
@@ -249,12 +259,13 @@ class AsyncAuthorization:
             state: Opaque CSRF token; echoed back unchanged.
             code_challenge: PKCE challenge — base64url(SHA-256(code_verifier)).
             code_challenge_method: Must be ``S256``.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Raises:
             ApiError: Non-redirectable request (bad ``client_id``/``redirect_uri``). Rate limit exceeded. Internal
                 error. ``error`` is ``AuthorizeError | OauthErrorModel | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.authorize(
                 response_type,
                 client_id,
@@ -264,8 +275,8 @@ class AsyncAuthorization:
                 code_challenge,
                 code_challenge_method,
                 request_options=request_options,
-            )
-        ).unwrap()
+            ),
+        )
 
     async def create_token(
         self,
@@ -321,7 +332,8 @@ class AsyncAuthorization:
                 injection).
             scope: **client_credentials:** accepted for compatibility but **not honored** — no down-scoping; not echoed.
                 **refresh_token:** optional; MUST NOT exceed the originally granted scope.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Access token issued.
@@ -329,7 +341,7 @@ class AsyncAuthorization:
         Raises:
             ApiError: Invalid token request (RFC 6749 §5.2). Client authentication failed — ``invalid_client``. Rate
                 limit exceeded. Internal error. ``error`` is ``OauthErrorModel | RawError``."""
-        return (
+        return unwrap(
             await self._with_raw_response.create_token(
                 grant_type,
                 client_id=client_id,
@@ -340,8 +352,8 @@ class AsyncAuthorization:
                 redirect_uri=redirect_uri,
                 scope=scope,
                 request_options=request_options,
-            )
-        ).unwrap()
+            ),
+        )
 
     async def register_client(
         self,
@@ -361,7 +373,8 @@ class AsyncAuthorization:
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             Client registered.
@@ -370,7 +383,7 @@ class AsyncAuthorization:
             ApiError: Invalid client metadata (RFC 7591 §3.2.2). Registration requires an initial access token and
                 none/invalid was supplied. Rate limit exceeded. Internal error. ``error`` is ``RegistrationError |
                 OauthErrorModel | RawError``."""
-        return (await self._with_raw_response.register_client(body, request_options=request_options)).unwrap()
+        return unwrap(await self._with_raw_response.register_client(body, request_options=request_options))
 
     @property
     def with_raw_response(self) -> AsyncAuthorizationWithRawResponse:
@@ -423,7 +436,8 @@ class AuthorizationWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSch
             state: Opaque CSRF token; echoed back unchanged.
             code_challenge: PKCE challenge — base64url(SHA-256(code_verifier)).
             code_challenge_method: Must be ``S256``.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -498,7 +512,8 @@ class AuthorizationWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSch
                 injection).
             scope: **client_credentials:** accepted for compatibility but **not honored** — no down-scoping; not echoed.
                 **refresh_token:** optional; MUST NOT exceed the originally granted scope.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -540,7 +555,8 @@ class AuthorizationWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSch
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -601,7 +617,8 @@ class AsyncAuthorizationWithRawResponse(SecuredRawResponse[AsyncRawClient, Serve
             state: Opaque CSRF token; echoed back unchanged.
             code_challenge: PKCE challenge — base64url(SHA-256(code_verifier)).
             code_challenge_method: Must be ``S256``.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -617,7 +634,7 @@ class AsyncAuthorizationWithRawResponse(SecuredRawResponse[AsyncRawClient, Serve
                 param[str]("code_challenge", code_challenge),
                 param[CodeChallengeMethodOrStr]("code_challenge_method", code_challenge_method),
             ],
-            decoder=empty_response,
+            decoder=async_empty_response,
             error_mapper=authorize_error_mapper,
             request_options=request_options,
         )
@@ -676,7 +693,8 @@ class AsyncAuthorizationWithRawResponse(SecuredRawResponse[AsyncRawClient, Serve
                 injection).
             scope: **client_credentials:** accepted for compatibility but **not honored** — no down-scoping; not echoed.
                 **refresh_token:** optional; MUST NOT exceed the originally granted scope.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -695,7 +713,7 @@ class AsyncAuthorizationWithRawResponse(SecuredRawResponse[AsyncRawClient, Serve
                 param[str | None]("scope", scope),
             ),
             auth_scheme=self._auth.basic_client_auth,
-            decoder=json_decoder[TokenResponse],
+            decoder=async_json_decoder[TokenResponse],
             error_mapper=create_token_error_mapper,
             request_options=request_options,
         )
@@ -718,7 +736,8 @@ class AsyncAuthorizationWithRawResponse(SecuredRawResponse[AsyncRawClient, Serve
 
         Args:
             body: The request body.
-            request_options: Per-call overrides for this one request, such as a timeout or extra headers.
+            request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
+                count and statuses.
 
         Returns:
             An ``ApiResult`` holding the deserialized response or the error body."""
@@ -727,7 +746,7 @@ class AsyncAuthorizationWithRawResponse(SecuredRawResponse[AsyncRawClient, Serve
             url_template=self._server.default("/auth/v4/register"),
             headers=[param[UUID]("Idempotency-Key", uuid4())],
             body=json_body[ClientRegistrationRequest | ClientRegistrationRequestDict](body),
-            decoder=json_decoder[ClientRegistrationResponse],
+            decoder=async_json_decoder[ClientRegistrationResponse],
             error_mapper=register_client_error_mapper,
             request_options=request_options,
         )

@@ -17,4 +17,4 @@ class Restriction(SdkBaseModel):
 class RestrictionDict(TypedDict):
     marketplace_id: str
     condition_type: str
-    reasons: NotRequired[list[Reason | ReasonDict]]
+    reasons: NotRequired[list[ReasonDict]]

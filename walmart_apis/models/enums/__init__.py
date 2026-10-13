@@ -55,7 +55,7 @@ from .fulfillment_type1 import FulfillmentType1, FulfillmentType1OrStr
 from .grant_type import GrantType, GrantTypeOrStr
 from .grant_type1 import GrantType1, GrantType1OrStr
 from .granularity import Granularity, GranularityOrStr
-from .http_method import HttpMethod, HttpMethodOrStr
+from .http_method_model import HttpMethodModel, HttpMethodModelOrStr
 from .id_type import IdType, IdTypeOrStr
 from .id_type1 import IdType1, IdType1OrStr
 from .identifier_type import IdentifierType, IdentifierTypeOrStr
@@ -230,8 +230,8 @@ __all__ = [
     "GrantTypeOrStr",
     "Granularity",
     "GranularityOrStr",
-    "HttpMethod",
-    "HttpMethodOrStr",
+    "HttpMethodModel",
+    "HttpMethodModelOrStr",
     "IdType",
     "IdType1",
     "IdType1OrStr",

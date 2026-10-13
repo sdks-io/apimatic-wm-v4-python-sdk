@@ -22,6 +22,6 @@ class CommonQuote(SdkBaseModel):
 
 
 class CommonQuoteDict(TypedDict):
-    cost: CommonCurrency | CommonCurrencyDict
+    cost: CommonCurrencyDict
     expiration: NotRequired[RFC3339DateTime]
     voidable_until: NotRequired[RFC3339DateTime]

@@ -16,5 +16,5 @@ class Refinements(SdkBaseModel):
 
 
 class RefinementsDict(TypedDict):
-    departments: NotRequired[list[Department | DepartmentDict]]
-    classification_refinements: NotRequired[list[ClassificationRefinement | ClassificationRefinementDict]]
+    departments: NotRequired[list[DepartmentDict]]
+    classification_refinements: NotRequired[list[ClassificationRefinementDict]]

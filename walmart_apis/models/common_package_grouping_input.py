@@ -21,6 +21,6 @@ class CommonPackageGroupingInput(SdkBaseModel):
 
 
 class CommonPackageGroupingInputDict(TypedDict):
-    boxes: list[CommonBoxInput | CommonBoxInputDict]
+    boxes: list[CommonBoxInputDict]
     packing_group_id: NotRequired[str]
     shipment_id: NotRequired[str]

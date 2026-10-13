@@ -19,6 +19,6 @@ class Item3(SdkBaseModel):
 class Item3Dict(TypedDict):
     quantity: int
     description: str
-    unit_price: NotRequired[Money | MoneyDict]
-    unit_weight: NotRequired[Weight | WeightDict]
+    unit_price: NotRequired[MoneyDict]
+    unit_weight: NotRequired[WeightDict]
     seller_sku: NotRequired[str]

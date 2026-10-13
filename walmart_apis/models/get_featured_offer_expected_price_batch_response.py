@@ -17,4 +17,4 @@ class GetFeaturedOfferExpectedPriceBatchResponse(SdkBaseModel):
 
 
 class GetFeaturedOfferExpectedPriceBatchResponseDict(TypedDict):
-    responses: NotRequired[list[FeaturedOfferExpectedPriceResponse | FeaturedOfferExpectedPriceResponseDict]]
+    responses: NotRequired[list[FeaturedOfferExpectedPriceResponseDict]]

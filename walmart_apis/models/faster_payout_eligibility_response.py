@@ -16,4 +16,4 @@ class FasterPayoutEligibilityResponse(SdkBaseModel):
 class FasterPayoutEligibilityResponseDict(TypedDict):
     is_eligible: NotRequired[bool]
     ineligible_reason: NotRequired[str]
-    available_amount: NotRequired[Money | MoneyDict]
+    available_amount: NotRequired[MoneyDict]

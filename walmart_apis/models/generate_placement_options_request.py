@@ -15,4 +15,4 @@ class GeneratePlacementOptionsRequest(SdkBaseModel):
 
 
 class GeneratePlacementOptionsRequestDict(TypedDict):
-    custom_placement: NotRequired[list[CommonCustomPlacementInput | CommonCustomPlacementInputDict]]
+    custom_placement: NotRequired[list[CommonCustomPlacementInputDict]]

@@ -13,5 +13,5 @@ class MarketplaceParticipation(SdkBaseModel):
 
 
 class MarketplaceParticipationDict(TypedDict):
-    marketplace: NotRequired[Marketplace | MarketplaceDict]
-    participation: NotRequired[Participation | ParticipationDict]
+    marketplace: NotRequired[MarketplaceDict]
+    participation: NotRequired[ParticipationDict]

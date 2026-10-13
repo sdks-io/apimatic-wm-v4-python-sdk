@@ -33,7 +33,7 @@ class FulfillmentOrderDict(TypedDict):
     displayable_order_date: NotRequired[RFC3339DateTime]
     displayable_order_comment: NotRequired[str]
     shipping_speed_category: NotRequired[ShippingSpeedCategoryOrStr]
-    destination_address: NotRequired[Address | AddressDict]
+    destination_address: NotRequired[AddressDict]
     fulfillment_order_status: FulfillmentOrderStatusOrStr
     status_updated_at: NotRequired[RFC3339DateTime]
     notification_emails: NotRequired[list[EmailStr]]

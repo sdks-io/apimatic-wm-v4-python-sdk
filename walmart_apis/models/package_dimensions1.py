@@ -4,8 +4,8 @@ from pydantic import Field
 from typing_extensions import NotRequired, TypedDict
 
 from ..core import UNSET, Optional, SdkBaseModel
-from .enums.common_unit_of_measurement import CommonUnitOfMeasurementOrStr
-from .enums.weight_unit import WeightUnitOrStr
+from .enums.common_unit_of_measurement import CommonUnitOfMeasurement, CommonUnitOfMeasurementOrStr
+from .enums.weight_unit import WeightUnit, WeightUnitOrStr
 
 
 class PackageDimensions1(SdkBaseModel):
@@ -15,9 +15,9 @@ class PackageDimensions1(SdkBaseModel):
     length: Optional[float] = UNSET
     width: Optional[float] = UNSET
     height: Optional[float] = UNSET
-    dimension_unit: Optional[CommonUnitOfMeasurementOrStr] = Field(default=UNSET, alias="dimensionUnit")
+    dimension_unit: CommonUnitOfMeasurementOrStr = Field(default=CommonUnitOfMeasurement.IN, alias="dimensionUnit")
     weight: Optional[float] = UNSET
-    weight_unit: Optional[WeightUnitOrStr] = Field(default=UNSET, alias="weightUnit")
+    weight_unit: WeightUnitOrStr = Field(default=WeightUnit.LB, alias="weightUnit")
 
 
 class PackageDimensions1Dict(TypedDict):

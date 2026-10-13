@@ -19,6 +19,6 @@ class Link(SdkBaseModel):
 
 class LinkDict(TypedDict):
     resource: str
-    verb: NotRequired[Literal["GET"]]
+    verb: Literal["GET"]
     title: NotRequired[str]
     type_: NotRequired[str]
