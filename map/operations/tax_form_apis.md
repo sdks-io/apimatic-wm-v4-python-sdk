@@ -10,9 +10,9 @@ Each `###` block is one operation and assumes `sdk-map.md` is loaded: blocks omi
 
 - **Route**: `GET /v1/settings/downloadtaxformprofile`
 - **Auth**: `access_token`
-- **Signature**: `def download_tax_form(payout_year: str, tax_form_type: str, form_id: str, wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_global_version: WmGlobalVersionOrStr, wm_market: str, wm_partner_id: str, wm_tenant_id: str, *, request_options: RequestOptionsOrDict | None = None)`
-  - required, positional: `payout_year`, `tax_form_type`, `form_id`, `wm_sec_access_token`, `wm_qos_correlation_id`, `wm_svc_name`, `wm_global_version`, `wm_market`, `wm_partner_id`, `wm_tenant_id`
-- **Params**: `payout_year` — query `payoutYear` · `tax_form_type` — query `taxFormType` · `form_id` — query `formId` · `wm_sec_access_token` — header `WM_SEC.ACCESS_TOKEN` · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_global_version` — header `WM_GLOBAL_VERSION` · `wm_market` — header `WM_MARKET` · `wm_partner_id` — header `WM_PARTNER_ID` · `wm_tenant_id` — header `WM.TENANT_ID`
+- **Signature**: `def download_tax_form(payout_year: str, tax_form_type: str, form_id: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_global_version: WmGlobalVersionOrStr, wm_market: str, wm_partner_id: str, wm_tenant_id: str, *, request_options: RequestOptionsOrDict | None = None)`
+  - required, positional: `payout_year`, `tax_form_type`, `form_id`, `wm_qos_correlation_id`, `wm_svc_name`, `wm_global_version`, `wm_market`, `wm_partner_id`, `wm_tenant_id`
+- **Params**: `payout_year` — query `payoutYear` · `tax_form_type` — query `taxFormType` · `form_id` — query `formId` · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_global_version` — header `WM_GLOBAL_VERSION` · `wm_market` — header `WM_MARKET` · `wm_partner_id` — header `WM_PARTNER_ID` · `wm_tenant_id` — header `WM.TENANT_ID`
 - **Returns (parsed)**: `None`
 - **Returns (raw)**: `ApiResult[None, DownloadTaxFormErrorBody]`
 - **Error**: `DownloadTaxFormErrorBody` — **Case A (typed)**
@@ -31,9 +31,9 @@ Each `###` block is one operation and assumes `sdk-map.md` is loaded: blocks omi
 
 - **Route**: `GET /v1/settings/gettaxformprofile`
 - **Auth**: `access_token`
-- **Signature**: `def get_tax_forms(wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_global_version: WmGlobalVersionOrStr, wm_market: str, wm_partner_id: str, wm_tenant_id: str, *, request_options: RequestOptionsOrDict | None = None)`
-  - required, positional: `wm_sec_access_token`, `wm_qos_correlation_id`, `wm_svc_name`, `wm_global_version`, `wm_market`, `wm_partner_id`, `wm_tenant_id`
-- **Params**: `wm_sec_access_token` — header `WM_SEC.ACCESS_TOKEN` · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_global_version` — header `WM_GLOBAL_VERSION` · `wm_market` — header `WM_MARKET` · `wm_partner_id` — header `WM_PARTNER_ID` · `wm_tenant_id` — header `WM.TENANT_ID`
+- **Signature**: `def get_tax_forms(wm_qos_correlation_id: str, wm_svc_name: str, wm_global_version: WmGlobalVersionOrStr, wm_market: str, wm_partner_id: str, wm_tenant_id: str, *, request_options: RequestOptionsOrDict | None = None)`
+  - required, positional: `wm_qos_correlation_id`, `wm_svc_name`, `wm_global_version`, `wm_market`, `wm_partner_id`, `wm_tenant_id`
+- **Params**: `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_global_version` — header `WM_GLOBAL_VERSION` · `wm_market` — header `WM_MARKET` · `wm_partner_id` — header `WM_PARTNER_ID` · `wm_tenant_id` — header `WM.TENANT_ID`
 - **Returns (parsed)**: `V1SettingsGettaxformprofileResponse`
 - **Returns (raw)**: `ApiResult[V1SettingsGettaxformprofileResponse, GetTaxFormsErrorBody]`
 - **Error**: `GetTaxFormsErrorBody` — **Case A (typed)**

@@ -60,7 +60,6 @@ class InventoryApi:
     def get_inventory(
         self,
         sku: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -79,8 +78,6 @@ class InventoryApi:
                 are: ':', '/', '?', '#', '[', ']', '@', '!', '$', '&', "'", '(', ')', '*', '+', ',', ';', '=', ‘ ’, '{',
                 '}' as well as '%' itself if it's a part of sku. Make sure to encode space with %20. Other characters
                 don't need to be encoded. <strong style="color: green;">Market availability: Global</strong>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs. <strong style="color: green;">Market availability: Global</strong>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID. <strong style="color: green;">Market availability: Global</strong>
             wm_svc_name: Specifies the name of the Walmart service being called. <strong style="color: green;">Market
@@ -104,7 +101,6 @@ class InventoryApi:
         return unwrap(
             self._with_raw_response.get_inventory(
                 sku,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -117,7 +113,6 @@ class InventoryApi:
 
     def get_multi_node_inventory_for_all_sku_and_all_ship_nodes(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -133,8 +128,6 @@ class InventoryApi:
         passed on from the previous call to next call. <br><b style='color:green;'>Market availability: US only</b>
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs. <strong style="color: green;">Market availability: Global</strong>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID. <strong style="color: green;">Market availability: Global</strong>
             wm_svc_name: Specifies the name of the Walmart service being called. <strong style="color: green;">Market
@@ -159,7 +152,6 @@ class InventoryApi:
             ApiError: Not Found ``error`` is ``V3Inventories403Error1 | RawError``."""
         return unwrap(
             self._with_raw_response.get_multi_node_inventory_for_all_sku_and_all_ship_nodes(
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -174,7 +166,6 @@ class InventoryApi:
     def get_multi_node_inventory_for_sku_and_all_shipnodes(
         self,
         sku: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -194,8 +185,6 @@ class InventoryApi:
                 are: ':', '/', '?', '#', '[', ']', '@', '!', '$', '&', "'", '(', ')', '*', '+', ',', ';', '=', ‘ ’ as
                 well as '%' itself if it's a part of sku. Make sure to encode space with %20. Other characters don't
                 need to be encoded. <strong style="color: green;">Market availability: Global</strong>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs. <strong style="color: green;">Market availability: Global</strong>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID. <strong style="color: green;">Market availability: Global</strong>
             wm_svc_name: Specifies the name of the Walmart service being called. <strong style="color: green;">Market
@@ -219,7 +208,6 @@ class InventoryApi:
         return unwrap(
             self._with_raw_response.get_multi_node_inventory_for_sku_and_all_shipnodes(
                 sku,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -232,7 +220,6 @@ class InventoryApi:
 
     def get_wfs_inventory(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -252,8 +239,6 @@ class InventoryApi:
         reduce the response size. <br><b style='color:green;'>Market availability: Global</b>
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs. <strong style="color: green;">Market availability: Global</strong>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID. <strong style="color: green;">Market availability: Global</strong>
             wm_svc_name: Specifies the name of the Walmart service being called. <strong style="color: green;">Market
@@ -291,7 +276,6 @@ class InventoryApi:
             ApiError: Not Found ``error`` is ``V3FulfillmentInventory403Error1 | RawError``."""
         return unwrap(
             self._with_raw_response.get_wfs_inventory(
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -310,7 +294,6 @@ class InventoryApi:
     def update_bulk_inventory(
         self,
         feed_type: FeedType1OrStr,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -339,8 +322,6 @@ class InventoryApi:
         Args:
             feed_type: The feed Type Inventory: Global MP_Inventory: US | MX | CA <strong style="color: green;">Market
                 availability: Global</strong>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs. <strong style="color: green;">Market availability: Global</strong>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID. <strong style="color: green;">Market availability: Global</strong>
             wm_svc_name: Specifies the name of the Walmart service being called. <strong style="color: green;">Market
@@ -366,7 +347,6 @@ class InventoryApi:
         return unwrap(
             self._with_raw_response.update_bulk_inventory(
                 feed_type,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -381,7 +361,6 @@ class InventoryApi:
     def update_inventory_for_an_item(
         self,
         sku: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -400,8 +379,6 @@ class InventoryApi:
                 are: ':', '/', '?', '#', '[', ']', '@', '!', '$', '&', "'", '(', ')', '*', '+', ',', ';', '=', ‘ ’, '{',
                 '}' as well as '%' itself if it's a part of sku. Make sure to encode space with %20. Other characters
                 don't need to be encoded. <strong style="color: green;">Market availability: Global</strong>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs. <strong style="color: green;">Market availability: Global</strong>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID. <strong style="color: green;">Market availability: Global</strong>
             wm_svc_name: Specifies the name of the Walmart service being called. <strong style="color: green;">Market
@@ -426,7 +403,6 @@ class InventoryApi:
         return unwrap(
             self._with_raw_response.update_inventory_for_an_item(
                 sku,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -441,7 +417,6 @@ class InventoryApi:
     def update_multi_node_inventory(
         self,
         sku: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -460,8 +435,6 @@ class InventoryApi:
                 are: ':', '/', '?', '#', '[', ']', '@', '!', '$', '&', "'", '(', ')', '*', '+', ',', ';', '=', ‘ ’ as
                 well as '%' itself if it's a part of sku. Make sure to encode space with %20. Other characters don't
                 need to be encoded. <strong style="color: green;">Market availability: Global</strong>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs. <strong style="color: green;">Market availability: Global</strong>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID. <strong style="color: green;">Market availability: Global</strong>
             wm_svc_name: Specifies the name of the Walmart service being called. <strong style="color: green;">Market
@@ -484,7 +457,6 @@ class InventoryApi:
         return unwrap(
             self._with_raw_response.update_multi_node_inventory(
                 sku,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -507,7 +479,6 @@ class AsyncInventoryApi:
     async def get_inventory(
         self,
         sku: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -526,8 +497,6 @@ class AsyncInventoryApi:
                 are: ':', '/', '?', '#', '[', ']', '@', '!', '$', '&', "'", '(', ')', '*', '+', ',', ';', '=', ‘ ’, '{',
                 '}' as well as '%' itself if it's a part of sku. Make sure to encode space with %20. Other characters
                 don't need to be encoded. <strong style="color: green;">Market availability: Global</strong>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs. <strong style="color: green;">Market availability: Global</strong>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID. <strong style="color: green;">Market availability: Global</strong>
             wm_svc_name: Specifies the name of the Walmart service being called. <strong style="color: green;">Market
@@ -551,7 +520,6 @@ class AsyncInventoryApi:
         return unwrap(
             await self._with_raw_response.get_inventory(
                 sku,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -564,7 +532,6 @@ class AsyncInventoryApi:
 
     async def get_multi_node_inventory_for_all_sku_and_all_ship_nodes(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -580,8 +547,6 @@ class AsyncInventoryApi:
         passed on from the previous call to next call. <br><b style='color:green;'>Market availability: US only</b>
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs. <strong style="color: green;">Market availability: Global</strong>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID. <strong style="color: green;">Market availability: Global</strong>
             wm_svc_name: Specifies the name of the Walmart service being called. <strong style="color: green;">Market
@@ -606,7 +571,6 @@ class AsyncInventoryApi:
             ApiError: Not Found ``error`` is ``V3Inventories403Error1 | RawError``."""
         return unwrap(
             await self._with_raw_response.get_multi_node_inventory_for_all_sku_and_all_ship_nodes(
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -621,7 +585,6 @@ class AsyncInventoryApi:
     async def get_multi_node_inventory_for_sku_and_all_shipnodes(
         self,
         sku: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -641,8 +604,6 @@ class AsyncInventoryApi:
                 are: ':', '/', '?', '#', '[', ']', '@', '!', '$', '&', "'", '(', ')', '*', '+', ',', ';', '=', ‘ ’ as
                 well as '%' itself if it's a part of sku. Make sure to encode space with %20. Other characters don't
                 need to be encoded. <strong style="color: green;">Market availability: Global</strong>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs. <strong style="color: green;">Market availability: Global</strong>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID. <strong style="color: green;">Market availability: Global</strong>
             wm_svc_name: Specifies the name of the Walmart service being called. <strong style="color: green;">Market
@@ -666,7 +627,6 @@ class AsyncInventoryApi:
         return unwrap(
             await self._with_raw_response.get_multi_node_inventory_for_sku_and_all_shipnodes(
                 sku,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -679,7 +639,6 @@ class AsyncInventoryApi:
 
     async def get_wfs_inventory(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -699,8 +658,6 @@ class AsyncInventoryApi:
         reduce the response size. <br><b style='color:green;'>Market availability: Global</b>
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs. <strong style="color: green;">Market availability: Global</strong>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID. <strong style="color: green;">Market availability: Global</strong>
             wm_svc_name: Specifies the name of the Walmart service being called. <strong style="color: green;">Market
@@ -738,7 +695,6 @@ class AsyncInventoryApi:
             ApiError: Not Found ``error`` is ``V3FulfillmentInventory403Error1 | RawError``."""
         return unwrap(
             await self._with_raw_response.get_wfs_inventory(
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -757,7 +713,6 @@ class AsyncInventoryApi:
     async def update_bulk_inventory(
         self,
         feed_type: FeedType1OrStr,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -786,8 +741,6 @@ class AsyncInventoryApi:
         Args:
             feed_type: The feed Type Inventory: Global MP_Inventory: US | MX | CA <strong style="color: green;">Market
                 availability: Global</strong>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs. <strong style="color: green;">Market availability: Global</strong>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID. <strong style="color: green;">Market availability: Global</strong>
             wm_svc_name: Specifies the name of the Walmart service being called. <strong style="color: green;">Market
@@ -813,7 +766,6 @@ class AsyncInventoryApi:
         return unwrap(
             await self._with_raw_response.update_bulk_inventory(
                 feed_type,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -828,7 +780,6 @@ class AsyncInventoryApi:
     async def update_inventory_for_an_item(
         self,
         sku: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -847,8 +798,6 @@ class AsyncInventoryApi:
                 are: ':', '/', '?', '#', '[', ']', '@', '!', '$', '&', "'", '(', ')', '*', '+', ',', ';', '=', ‘ ’, '{',
                 '}' as well as '%' itself if it's a part of sku. Make sure to encode space with %20. Other characters
                 don't need to be encoded. <strong style="color: green;">Market availability: Global</strong>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs. <strong style="color: green;">Market availability: Global</strong>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID. <strong style="color: green;">Market availability: Global</strong>
             wm_svc_name: Specifies the name of the Walmart service being called. <strong style="color: green;">Market
@@ -873,7 +822,6 @@ class AsyncInventoryApi:
         return unwrap(
             await self._with_raw_response.update_inventory_for_an_item(
                 sku,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -888,7 +836,6 @@ class AsyncInventoryApi:
     async def update_multi_node_inventory(
         self,
         sku: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -907,8 +854,6 @@ class AsyncInventoryApi:
                 are: ':', '/', '?', '#', '[', ']', '@', '!', '$', '&', "'", '(', ')', '*', '+', ',', ';', '=', ‘ ’ as
                 well as '%' itself if it's a part of sku. Make sure to encode space with %20. Other characters don't
                 need to be encoded. <strong style="color: green;">Market availability: Global</strong>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs. <strong style="color: green;">Market availability: Global</strong>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID. <strong style="color: green;">Market availability: Global</strong>
             wm_svc_name: Specifies the name of the Walmart service being called. <strong style="color: green;">Market
@@ -931,7 +876,6 @@ class AsyncInventoryApi:
         return unwrap(
             await self._with_raw_response.update_multi_node_inventory(
                 sku,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -951,7 +895,6 @@ class InventoryApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSche
     def get_inventory(
         self,
         sku: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -970,8 +913,6 @@ class InventoryApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSche
                 are: ':', '/', '?', '#', '[', ']', '@', '!', '$', '&', "'", '(', ')', '*', '+', ',', ';', '=', ‘ ’, '{',
                 '}' as well as '%' itself if it's a part of sku. Make sure to encode space with %20. Other characters
                 don't need to be encoded. <strong style="color: green;">Market availability: Global</strong>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs. <strong style="color: green;">Market availability: Global</strong>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID. <strong style="color: green;">Market availability: Global</strong>
             wm_svc_name: Specifies the name of the Walmart service being called. <strong style="color: green;">Market
@@ -994,7 +935,6 @@ class InventoryApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSche
             url_template=self._server.default("/v3/inventory"),
             query_params=[param[str]("sku", sku), param[str | None]("shipNode", ship_node)],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket1OrStr]("WM_MARKET", wm_market),
@@ -1009,7 +949,6 @@ class InventoryApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSche
 
     def get_multi_node_inventory_for_all_sku_and_all_ship_nodes(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -1025,8 +964,6 @@ class InventoryApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSche
         passed on from the previous call to next call. <br><b style='color:green;'>Market availability: US only</b>
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs. <strong style="color: green;">Market availability: Global</strong>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID. <strong style="color: green;">Market availability: Global</strong>
             wm_svc_name: Specifies the name of the Walmart service being called. <strong style="color: green;">Market
@@ -1051,7 +988,6 @@ class InventoryApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSche
             url_template=self._server.default("/v3/inventories"),
             query_params=[param[str | None]("limit", limit), param[str | None]("nextCursor", next_cursor)],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket1OrStr]("WM_MARKET", wm_market),
@@ -1067,7 +1003,6 @@ class InventoryApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSche
     def get_multi_node_inventory_for_sku_and_all_shipnodes(
         self,
         sku: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -1087,8 +1022,6 @@ class InventoryApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSche
                 are: ':', '/', '?', '#', '[', ']', '@', '!', '$', '&', "'", '(', ')', '*', '+', ',', ';', '=', ‘ ’ as
                 well as '%' itself if it's a part of sku. Make sure to encode space with %20. Other characters don't
                 need to be encoded. <strong style="color: green;">Market availability: Global</strong>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs. <strong style="color: green;">Market availability: Global</strong>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID. <strong style="color: green;">Market availability: Global</strong>
             wm_svc_name: Specifies the name of the Walmart service being called. <strong style="color: green;">Market
@@ -1112,7 +1045,6 @@ class InventoryApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSche
             path_params=[param[str]("sku", sku)],
             query_params=[param[str | None]("shipNode", ship_node)],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket1OrStr]("WM_MARKET", wm_market),
@@ -1127,7 +1059,6 @@ class InventoryApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSche
 
     def get_wfs_inventory(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -1147,8 +1078,6 @@ class InventoryApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSche
         reduce the response size. <br><b style='color:green;'>Market availability: Global</b>
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs. <strong style="color: green;">Market availability: Global</strong>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID. <strong style="color: green;">Market availability: Global</strong>
             wm_svc_name: Specifies the name of the Walmart service being called. <strong style="color: green;">Market
@@ -1193,7 +1122,6 @@ class InventoryApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSche
                 param[str | None]("shipNodeType", ship_node_type),
             ],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket1OrStr]("WM_MARKET", wm_market),
@@ -1209,7 +1137,6 @@ class InventoryApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSche
     def update_bulk_inventory(
         self,
         feed_type: FeedType1OrStr,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -1238,8 +1165,6 @@ class InventoryApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSche
         Args:
             feed_type: The feed Type Inventory: Global MP_Inventory: US | MX | CA <strong style="color: green;">Market
                 availability: Global</strong>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs. <strong style="color: green;">Market availability: Global</strong>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID. <strong style="color: green;">Market availability: Global</strong>
             wm_svc_name: Specifies the name of the Walmart service being called. <strong style="color: green;">Market
@@ -1264,7 +1189,6 @@ class InventoryApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSche
             url_template=self._server.default("/v3/feeds"),
             query_params=[param[FeedType1OrStr]("feedType", feed_type), param[str | None]("shipNode", ship_node)],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket1OrStr]("WM_MARKET", wm_market),
@@ -1282,7 +1206,6 @@ class InventoryApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSche
     def update_inventory_for_an_item(
         self,
         sku: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -1301,8 +1224,6 @@ class InventoryApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSche
                 are: ':', '/', '?', '#', '[', ']', '@', '!', '$', '&', "'", '(', ')', '*', '+', ',', ';', '=', ‘ ’, '{',
                 '}' as well as '%' itself if it's a part of sku. Make sure to encode space with %20. Other characters
                 don't need to be encoded. <strong style="color: green;">Market availability: Global</strong>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs. <strong style="color: green;">Market availability: Global</strong>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID. <strong style="color: green;">Market availability: Global</strong>
             wm_svc_name: Specifies the name of the Walmart service being called. <strong style="color: green;">Market
@@ -1326,7 +1247,6 @@ class InventoryApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSche
             url_template=self._server.default("/v3/inventory"),
             query_params=[param[str]("sku", sku), param[str | None]("shipNode", ship_node)],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket1OrStr]("WM_MARKET", wm_market),
@@ -1344,7 +1264,6 @@ class InventoryApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSche
     def update_multi_node_inventory(
         self,
         sku: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -1363,8 +1282,6 @@ class InventoryApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSche
                 are: ':', '/', '?', '#', '[', ']', '@', '!', '$', '&', "'", '(', ')', '*', '+', ',', ';', '=', ‘ ’ as
                 well as '%' itself if it's a part of sku. Make sure to encode space with %20. Other characters don't
                 need to be encoded. <strong style="color: green;">Market availability: Global</strong>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs. <strong style="color: green;">Market availability: Global</strong>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID. <strong style="color: green;">Market availability: Global</strong>
             wm_svc_name: Specifies the name of the Walmart service being called. <strong style="color: green;">Market
@@ -1386,7 +1303,6 @@ class InventoryApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSche
             url_template=self._server.default("/v3/inventories/{sku}"),
             path_params=[param[str]("sku", sku)],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket1OrStr]("WM_MARKET", wm_market),
@@ -1406,7 +1322,6 @@ class AsyncInventoryApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server
     async def get_inventory(
         self,
         sku: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -1425,8 +1340,6 @@ class AsyncInventoryApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server
                 are: ':', '/', '?', '#', '[', ']', '@', '!', '$', '&', "'", '(', ')', '*', '+', ',', ';', '=', ‘ ’, '{',
                 '}' as well as '%' itself if it's a part of sku. Make sure to encode space with %20. Other characters
                 don't need to be encoded. <strong style="color: green;">Market availability: Global</strong>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs. <strong style="color: green;">Market availability: Global</strong>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID. <strong style="color: green;">Market availability: Global</strong>
             wm_svc_name: Specifies the name of the Walmart service being called. <strong style="color: green;">Market
@@ -1449,7 +1362,6 @@ class AsyncInventoryApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server
             url_template=self._server.default("/v3/inventory"),
             query_params=[param[str]("sku", sku), param[str | None]("shipNode", ship_node)],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket1OrStr]("WM_MARKET", wm_market),
@@ -1464,7 +1376,6 @@ class AsyncInventoryApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server
 
     async def get_multi_node_inventory_for_all_sku_and_all_ship_nodes(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -1480,8 +1391,6 @@ class AsyncInventoryApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server
         passed on from the previous call to next call. <br><b style='color:green;'>Market availability: US only</b>
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs. <strong style="color: green;">Market availability: Global</strong>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID. <strong style="color: green;">Market availability: Global</strong>
             wm_svc_name: Specifies the name of the Walmart service being called. <strong style="color: green;">Market
@@ -1506,7 +1415,6 @@ class AsyncInventoryApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server
             url_template=self._server.default("/v3/inventories"),
             query_params=[param[str | None]("limit", limit), param[str | None]("nextCursor", next_cursor)],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket1OrStr]("WM_MARKET", wm_market),
@@ -1522,7 +1430,6 @@ class AsyncInventoryApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server
     async def get_multi_node_inventory_for_sku_and_all_shipnodes(
         self,
         sku: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -1542,8 +1449,6 @@ class AsyncInventoryApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server
                 are: ':', '/', '?', '#', '[', ']', '@', '!', '$', '&', "'", '(', ')', '*', '+', ',', ';', '=', ‘ ’ as
                 well as '%' itself if it's a part of sku. Make sure to encode space with %20. Other characters don't
                 need to be encoded. <strong style="color: green;">Market availability: Global</strong>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs. <strong style="color: green;">Market availability: Global</strong>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID. <strong style="color: green;">Market availability: Global</strong>
             wm_svc_name: Specifies the name of the Walmart service being called. <strong style="color: green;">Market
@@ -1567,7 +1472,6 @@ class AsyncInventoryApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server
             path_params=[param[str]("sku", sku)],
             query_params=[param[str | None]("shipNode", ship_node)],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket1OrStr]("WM_MARKET", wm_market),
@@ -1582,7 +1486,6 @@ class AsyncInventoryApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server
 
     async def get_wfs_inventory(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -1602,8 +1505,6 @@ class AsyncInventoryApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server
         reduce the response size. <br><b style='color:green;'>Market availability: Global</b>
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs. <strong style="color: green;">Market availability: Global</strong>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID. <strong style="color: green;">Market availability: Global</strong>
             wm_svc_name: Specifies the name of the Walmart service being called. <strong style="color: green;">Market
@@ -1648,7 +1549,6 @@ class AsyncInventoryApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server
                 param[str | None]("shipNodeType", ship_node_type),
             ],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket1OrStr]("WM_MARKET", wm_market),
@@ -1664,7 +1564,6 @@ class AsyncInventoryApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server
     async def update_bulk_inventory(
         self,
         feed_type: FeedType1OrStr,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -1693,8 +1592,6 @@ class AsyncInventoryApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server
         Args:
             feed_type: The feed Type Inventory: Global MP_Inventory: US | MX | CA <strong style="color: green;">Market
                 availability: Global</strong>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs. <strong style="color: green;">Market availability: Global</strong>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID. <strong style="color: green;">Market availability: Global</strong>
             wm_svc_name: Specifies the name of the Walmart service being called. <strong style="color: green;">Market
@@ -1719,7 +1616,6 @@ class AsyncInventoryApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server
             url_template=self._server.default("/v3/feeds"),
             query_params=[param[FeedType1OrStr]("feedType", feed_type), param[str | None]("shipNode", ship_node)],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket1OrStr]("WM_MARKET", wm_market),
@@ -1737,7 +1633,6 @@ class AsyncInventoryApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server
     async def update_inventory_for_an_item(
         self,
         sku: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -1756,8 +1651,6 @@ class AsyncInventoryApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server
                 are: ':', '/', '?', '#', '[', ']', '@', '!', '$', '&', "'", '(', ')', '*', '+', ',', ';', '=', ‘ ’, '{',
                 '}' as well as '%' itself if it's a part of sku. Make sure to encode space with %20. Other characters
                 don't need to be encoded. <strong style="color: green;">Market availability: Global</strong>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs. <strong style="color: green;">Market availability: Global</strong>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID. <strong style="color: green;">Market availability: Global</strong>
             wm_svc_name: Specifies the name of the Walmart service being called. <strong style="color: green;">Market
@@ -1781,7 +1674,6 @@ class AsyncInventoryApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server
             url_template=self._server.default("/v3/inventory"),
             query_params=[param[str]("sku", sku), param[str | None]("shipNode", ship_node)],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket1OrStr]("WM_MARKET", wm_market),
@@ -1799,7 +1691,6 @@ class AsyncInventoryApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server
     async def update_multi_node_inventory(
         self,
         sku: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -1818,8 +1709,6 @@ class AsyncInventoryApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server
                 are: ':', '/', '?', '#', '[', ']', '@', '!', '$', '&', "'", '(', ')', '*', '+', ',', ';', '=', ‘ ’ as
                 well as '%' itself if it's a part of sku. Make sure to encode space with %20. Other characters don't
                 need to be encoded. <strong style="color: green;">Market availability: Global</strong>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs. <strong style="color: green;">Market availability: Global</strong>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID. <strong style="color: green;">Market availability: Global</strong>
             wm_svc_name: Specifies the name of the Walmart service being called. <strong style="color: green;">Market
@@ -1841,7 +1730,6 @@ class AsyncInventoryApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server
             url_template=self._server.default("/v3/inventories/{sku}"),
             path_params=[param[str]("sku", sku)],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket1OrStr]("WM_MARKET", wm_market),

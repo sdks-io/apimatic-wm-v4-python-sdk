@@ -41,7 +41,6 @@ class SeoRecommendations:
 
     def get_seo_recommendations(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         accept: str,
@@ -59,7 +58,6 @@ class SeoRecommendations:
         large datasets..
 
         Args:
-            wm_sec_access_token: The access tok en retrieved in the Token API call
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID
             wm_svc_name: Walmart Service Name
@@ -82,7 +80,6 @@ class SeoRecommendations:
                 | V3SeoRecommendationGetItems500Error1 | RawError``."""
         return unwrap(
             self._with_raw_response.get_seo_recommendations(
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 accept,
@@ -100,7 +97,6 @@ class SeoRecommendations:
         self,
         item_id: str,
         decision: DecisionOrStr,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         accept: str,
@@ -114,7 +110,6 @@ class SeoRecommendations:
         Args:
             item_id: Unique Item Identifier
             decision: approve/reject a recommendation
-            wm_sec_access_token: The access token retrieved in the Token API call
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID
             wm_svc_name: Walmart Service Name
@@ -136,7 +131,6 @@ class SeoRecommendations:
             self._with_raw_response.update_seo_recommendations(
                 item_id,
                 decision,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 accept,
@@ -157,7 +151,6 @@ class AsyncSeoRecommendations:
 
     async def get_seo_recommendations(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         accept: str,
@@ -175,7 +168,6 @@ class AsyncSeoRecommendations:
         large datasets..
 
         Args:
-            wm_sec_access_token: The access tok en retrieved in the Token API call
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID
             wm_svc_name: Walmart Service Name
@@ -198,7 +190,6 @@ class AsyncSeoRecommendations:
                 | V3SeoRecommendationGetItems500Error1 | RawError``."""
         return unwrap(
             await self._with_raw_response.get_seo_recommendations(
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 accept,
@@ -216,7 +207,6 @@ class AsyncSeoRecommendations:
         self,
         item_id: str,
         decision: DecisionOrStr,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         accept: str,
@@ -230,7 +220,6 @@ class AsyncSeoRecommendations:
         Args:
             item_id: Unique Item Identifier
             decision: approve/reject a recommendation
-            wm_sec_access_token: The access token retrieved in the Token API call
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID
             wm_svc_name: Walmart Service Name
@@ -252,7 +241,6 @@ class AsyncSeoRecommendations:
             await self._with_raw_response.update_seo_recommendations(
                 item_id,
                 decision,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 accept,
@@ -270,7 +258,6 @@ class AsyncSeoRecommendations:
 class SeoRecommendationsWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]):
     def get_seo_recommendations(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         accept: str,
@@ -288,7 +275,6 @@ class SeoRecommendationsWithRawResponse(SecuredRawResponse[RawClient, Server, Au
         large datasets..
 
         Args:
-            wm_sec_access_token: The access tok en retrieved in the Token API call
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID
             wm_svc_name: Walmart Service Name
@@ -315,7 +301,6 @@ class SeoRecommendationsWithRawResponse(SecuredRawResponse[RawClient, Server, Au
                 param[str | None]("previous_cursor", previous_cursor),
             ],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[str]("Accept", accept),
@@ -333,7 +318,6 @@ class SeoRecommendationsWithRawResponse(SecuredRawResponse[RawClient, Server, Au
         self,
         item_id: str,
         decision: DecisionOrStr,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         accept: str,
@@ -347,7 +331,6 @@ class SeoRecommendationsWithRawResponse(SecuredRawResponse[RawClient, Server, Au
         Args:
             item_id: Unique Item Identifier
             decision: approve/reject a recommendation
-            wm_sec_access_token: The access token retrieved in the Token API call
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID
             wm_svc_name: Walmart Service Name
@@ -365,7 +348,6 @@ class SeoRecommendationsWithRawResponse(SecuredRawResponse[RawClient, Server, Au
             url_template=self._server.default("/v3/seo/recommendation/updateItems/{itemId}/{decision}"),
             path_params=[param[str]("itemId", item_id), param[DecisionOrStr]("decision", decision)],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[str]("Accept", accept),
@@ -385,7 +367,6 @@ class SeoRecommendationsWithRawResponse(SecuredRawResponse[RawClient, Server, Au
 class AsyncSeoRecommendationsWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, AsyncAuthSchemes]):
     async def get_seo_recommendations(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         accept: str,
@@ -403,7 +384,6 @@ class AsyncSeoRecommendationsWithRawResponse(SecuredRawResponse[AsyncRawClient, 
         large datasets..
 
         Args:
-            wm_sec_access_token: The access tok en retrieved in the Token API call
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID
             wm_svc_name: Walmart Service Name
@@ -430,7 +410,6 @@ class AsyncSeoRecommendationsWithRawResponse(SecuredRawResponse[AsyncRawClient, 
                 param[str | None]("previous_cursor", previous_cursor),
             ],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[str]("Accept", accept),
@@ -448,7 +427,6 @@ class AsyncSeoRecommendationsWithRawResponse(SecuredRawResponse[AsyncRawClient, 
         self,
         item_id: str,
         decision: DecisionOrStr,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         accept: str,
@@ -462,7 +440,6 @@ class AsyncSeoRecommendationsWithRawResponse(SecuredRawResponse[AsyncRawClient, 
         Args:
             item_id: Unique Item Identifier
             decision: approve/reject a recommendation
-            wm_sec_access_token: The access token retrieved in the Token API call
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID
             wm_svc_name: Walmart Service Name
@@ -480,7 +457,6 @@ class AsyncSeoRecommendationsWithRawResponse(SecuredRawResponse[AsyncRawClient, 
             url_template=self._server.default("/v3/seo/recommendation/updateItems/{itemId}/{decision}"),
             path_params=[param[str]("itemId", item_id), param[DecisionOrStr]("decision", decision)],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[str]("Accept", accept),

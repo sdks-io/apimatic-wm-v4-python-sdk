@@ -35,7 +35,6 @@ class OnRequestReport:
         self,
         report_type: ReportType4OrStr,
         report_version: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -66,8 +65,6 @@ class OnRequestReport:
                 |SHIPPING_PROGRAM|US only| v1 |FITMENT_MISSING_ATTR|US only| v1 |FITMENT_ACES_COVERAGE|US only| v1
                 |BUYBOX|US only| v1 |ASSORTMENT_RECOMMENDATIONS|US only| v1 |CANCELLATION|US only| v1
                 |INVENTORY_RECOMMENDATIONS|US only| v1 |
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs. <strong style="color: green;">Market availability: Global</strong>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID. <strong style="color: green;">Market availability: Global</strong>
             wm_svc_name: Specifies the name of the Walmart service being called. <strong style="color: green;">Market
@@ -93,7 +90,6 @@ class OnRequestReport:
             self._with_raw_response.generate_report(
                 report_type,
                 report_version,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -118,7 +114,6 @@ class AsyncOnRequestReport:
         self,
         report_type: ReportType4OrStr,
         report_version: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -149,8 +144,6 @@ class AsyncOnRequestReport:
                 |SHIPPING_PROGRAM|US only| v1 |FITMENT_MISSING_ATTR|US only| v1 |FITMENT_ACES_COVERAGE|US only| v1
                 |BUYBOX|US only| v1 |ASSORTMENT_RECOMMENDATIONS|US only| v1 |CANCELLATION|US only| v1
                 |INVENTORY_RECOMMENDATIONS|US only| v1 |
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs. <strong style="color: green;">Market availability: Global</strong>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID. <strong style="color: green;">Market availability: Global</strong>
             wm_svc_name: Specifies the name of the Walmart service being called. <strong style="color: green;">Market
@@ -176,7 +169,6 @@ class AsyncOnRequestReport:
             await self._with_raw_response.generate_report(
                 report_type,
                 report_version,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -198,7 +190,6 @@ class OnRequestReportWithRawResponse(SecuredRawResponse[RawClient, Server, AuthS
         self,
         report_type: ReportType4OrStr,
         report_version: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -229,8 +220,6 @@ class OnRequestReportWithRawResponse(SecuredRawResponse[RawClient, Server, AuthS
                 |SHIPPING_PROGRAM|US only| v1 |FITMENT_MISSING_ATTR|US only| v1 |FITMENT_ACES_COVERAGE|US only| v1
                 |BUYBOX|US only| v1 |ASSORTMENT_RECOMMENDATIONS|US only| v1 |CANCELLATION|US only| v1
                 |INVENTORY_RECOMMENDATIONS|US only| v1 |
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs. <strong style="color: green;">Market availability: Global</strong>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID. <strong style="color: green;">Market availability: Global</strong>
             wm_svc_name: Specifies the name of the Walmart service being called. <strong style="color: green;">Market
@@ -256,7 +245,6 @@ class OnRequestReportWithRawResponse(SecuredRawResponse[RawClient, Server, AuthS
                 param[ReportType4OrStr]("reportType", report_type), param[str]("reportVersion", report_version)
             ],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket1OrStr]("WM_MARKET", wm_market),
@@ -278,7 +266,6 @@ class AsyncOnRequestReportWithRawResponse(SecuredRawResponse[AsyncRawClient, Ser
         self,
         report_type: ReportType4OrStr,
         report_version: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -309,8 +296,6 @@ class AsyncOnRequestReportWithRawResponse(SecuredRawResponse[AsyncRawClient, Ser
                 |SHIPPING_PROGRAM|US only| v1 |FITMENT_MISSING_ATTR|US only| v1 |FITMENT_ACES_COVERAGE|US only| v1
                 |BUYBOX|US only| v1 |ASSORTMENT_RECOMMENDATIONS|US only| v1 |CANCELLATION|US only| v1
                 |INVENTORY_RECOMMENDATIONS|US only| v1 |
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs. <strong style="color: green;">Market availability: Global</strong>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID. <strong style="color: green;">Market availability: Global</strong>
             wm_svc_name: Specifies the name of the Walmart service being called. <strong style="color: green;">Market
@@ -336,7 +321,6 @@ class AsyncOnRequestReportWithRawResponse(SecuredRawResponse[AsyncRawClient, Ser
                 param[ReportType4OrStr]("reportType", report_type), param[str]("reportVersion", report_version)
             ],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket1OrStr]("WM_MARKET", wm_market),

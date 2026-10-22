@@ -10,9 +10,9 @@ Each `###` block is one operation and assumes `sdk-map.md` is loaded: blocks omi
 
 - **Route**: `POST /v3/webhooks/subscriptions`
 - **Auth**: `access_token`
-- **Signature**: `def create_subscription(wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket2OrStr, wm_global_version: WmGlobalVersionOrStr, body: V3WebhooksSubscriptionsRequest | V3WebhooksSubscriptionsRequestDict, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None)`
-  - required, positional: `wm_sec_access_token`, `wm_qos_correlation_id`, `wm_svc_name`, `wm_market`, `wm_global_version`, `body`
-- **Params**: `wm_sec_access_token` — header `WM_SEC.ACCESS_TOKEN` · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_market` — header `WM_MARKET` · `wm_global_version` — header `WM_GLOBAL_VERSION` · `wm_consumer_channel_type` — header `WM_CONSUMER.CHANNEL.TYPE` · `body` — JSON body
+- **Signature**: `def create_subscription(wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket2OrStr, wm_global_version: WmGlobalVersionOrStr, body: V3WebhooksSubscriptionsRequest | V3WebhooksSubscriptionsRequestDict, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None)`
+  - required, positional: `wm_qos_correlation_id`, `wm_svc_name`, `wm_market`, `wm_global_version`, `body`
+- **Params**: `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_market` — header `WM_MARKET` · `wm_global_version` — header `WM_GLOBAL_VERSION` · `wm_consumer_channel_type` — header `WM_CONSUMER.CHANNEL.TYPE` · `body` — JSON body
 - **Returns (parsed)**: `V3WebhooksSubscriptionsResponse1`
 - **Returns (raw)**: `ApiResult[V3WebhooksSubscriptionsResponse1, RawError]`
 - **Error**: `RawError` — **Case B**
@@ -29,9 +29,9 @@ Each `###` block is one operation and assumes `sdk-map.md` is loaded: blocks omi
 
 - **Route**: `DELETE /v3/webhooks/subscriptions/{subscriptionId}`
 - **Auth**: `access_token`
-- **Signature**: `def delete_subscription(subscription_id: str, wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket2OrStr, wm_global_version: WmGlobalVersionOrStr, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None)`
-  - required, positional: `subscription_id`, `wm_sec_access_token`, `wm_qos_correlation_id`, `wm_svc_name`, `wm_market`, `wm_global_version`
-- **Params**: `subscription_id` — path `subscriptionId` · `wm_sec_access_token` — header `WM_SEC.ACCESS_TOKEN` · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_market` — header `WM_MARKET` · `wm_global_version` — header `WM_GLOBAL_VERSION` · `wm_consumer_channel_type` — header `WM_CONSUMER.CHANNEL.TYPE`
+- **Signature**: `def delete_subscription(subscription_id: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket2OrStr, wm_global_version: WmGlobalVersionOrStr, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None)`
+  - required, positional: `subscription_id`, `wm_qos_correlation_id`, `wm_svc_name`, `wm_market`, `wm_global_version`
+- **Params**: `subscription_id` — path `subscriptionId` · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_market` — header `WM_MARKET` · `wm_global_version` — header `WM_GLOBAL_VERSION` · `wm_consumer_channel_type` — header `WM_CONSUMER.CHANNEL.TYPE`
 - **Returns (parsed)**: `V3WebhooksSubscriptionsResponse2`
 - **Returns (raw)**: `ApiResult[V3WebhooksSubscriptionsResponse2, RawError]`
 - **Error**: `RawError` — **Case B**
@@ -46,9 +46,9 @@ Each `###` block is one operation and assumes `sdk-map.md` is loaded: blocks omi
 
 - **Route**: `GET /v3/webhooks/subscriptions`
 - **Auth**: `access_token`
-- **Signature**: `def get_all_subscriptions(wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket2OrStr, wm_global_version: WmGlobalVersionOrStr, *, subscription_id: str | None = None, event_type: str | None = None, resource_name: str | None = None, status: str | None = None, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None)`
-  - required, positional: `wm_sec_access_token`, `wm_qos_correlation_id`, `wm_svc_name`, `wm_market`, `wm_global_version`
-- **Params**: `subscription_id` — query `subscriptionId` · `event_type` — query `eventType` · `resource_name` — query `resourceName` · `status` — query · `wm_sec_access_token` — header `WM_SEC.ACCESS_TOKEN` · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_market` — header `WM_MARKET` · `wm_global_version` — header `WM_GLOBAL_VERSION` · `wm_consumer_channel_type` — header `WM_CONSUMER.CHANNEL.TYPE`
+- **Signature**: `def get_all_subscriptions(wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket2OrStr, wm_global_version: WmGlobalVersionOrStr, *, subscription_id: str | None = None, event_type: str | None = None, resource_name: str | None = None, status: str | None = None, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None)`
+  - required, positional: `wm_qos_correlation_id`, `wm_svc_name`, `wm_market`, `wm_global_version`
+- **Params**: `subscription_id` — query `subscriptionId` · `event_type` — query `eventType` · `resource_name` — query `resourceName` · `status` — query · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_market` — header `WM_MARKET` · `wm_global_version` — header `WM_GLOBAL_VERSION` · `wm_consumer_channel_type` — header `WM_CONSUMER.CHANNEL.TYPE`
 - **Returns (parsed)**: `V3WebhooksSubscriptionsResponse`
 - **Returns (raw)**: `ApiResult[V3WebhooksSubscriptionsResponse, RawError]`
 - **Error**: `RawError` — **Case B**
@@ -63,9 +63,9 @@ Each `###` block is one operation and assumes `sdk-map.md` is loaded: blocks omi
 
 - **Route**: `GET /v3/webhooks/eventTypes`
 - **Auth**: `access_token`
-- **Signature**: `def get_event_types(wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket2OrStr, wm_global_version: WmGlobalVersionOrStr, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None)`
-  - required, positional: `wm_sec_access_token`, `wm_qos_correlation_id`, `wm_svc_name`, `wm_market`, `wm_global_version`
-- **Params**: `wm_sec_access_token` — header `WM_SEC.ACCESS_TOKEN` · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_market` — header `WM_MARKET` · `wm_global_version` — header `WM_GLOBAL_VERSION` · `wm_consumer_channel_type` — header `WM_CONSUMER.CHANNEL.TYPE`
+- **Signature**: `def get_event_types(wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket2OrStr, wm_global_version: WmGlobalVersionOrStr, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None)`
+  - required, positional: `wm_qos_correlation_id`, `wm_svc_name`, `wm_market`, `wm_global_version`
+- **Params**: `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_market` — header `WM_MARKET` · `wm_global_version` — header `WM_GLOBAL_VERSION` · `wm_consumer_channel_type` — header `WM_CONSUMER.CHANNEL.TYPE`
 - **Returns (parsed)**: `V3WebhooksEventTypesResponse`
 - **Returns (raw)**: `ApiResult[V3WebhooksEventTypesResponse, RawError]`
 - **Error**: `RawError` — **Case B**
@@ -80,9 +80,9 @@ Each `###` block is one operation and assumes `sdk-map.md` is loaded: blocks omi
 
 - **Route**: `POST /v3/webhooks/test`
 - **Auth**: `access_token`
-- **Signature**: `def test_notification(wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket2OrStr, wm_global_version: WmGlobalVersionOrStr, body: V3WebhooksTestRequest | V3WebhooksTestRequestDict, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None)`
-  - required, positional: `wm_sec_access_token`, `wm_qos_correlation_id`, `wm_svc_name`, `wm_market`, `wm_global_version`, `body`
-- **Params**: `wm_sec_access_token` — header `WM_SEC.ACCESS_TOKEN` · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_market` — header `WM_MARKET` · `wm_global_version` — header `WM_GLOBAL_VERSION` · `wm_consumer_channel_type` — header `WM_CONSUMER.CHANNEL.TYPE` · `body` — JSON body
+- **Signature**: `def test_notification(wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket2OrStr, wm_global_version: WmGlobalVersionOrStr, body: V3WebhooksTestRequest | V3WebhooksTestRequestDict, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None)`
+  - required, positional: `wm_qos_correlation_id`, `wm_svc_name`, `wm_market`, `wm_global_version`, `body`
+- **Params**: `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_market` — header `WM_MARKET` · `wm_global_version` — header `WM_GLOBAL_VERSION` · `wm_consumer_channel_type` — header `WM_CONSUMER.CHANNEL.TYPE` · `body` — JSON body
 - **Returns (parsed)**: `RejectRecommendationsResponsePayload`
 - **Returns (raw)**: `ApiResult[RejectRecommendationsResponsePayload, RawError]`
 - **Error**: `RawError` — **Case B**
@@ -99,9 +99,9 @@ Each `###` block is one operation and assumes `sdk-map.md` is loaded: blocks omi
 
 - **Route**: `PATCH /v3/webhooks/subscriptions/{subscriptionId}`
 - **Auth**: `access_token`
-- **Signature**: `def update_subscription(subscription_id: str, wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket2OrStr, wm_global_version: WmGlobalVersionOrStr, body: V3WebhooksSubscriptionsRequest1 | V3WebhooksSubscriptionsRequest1Dict, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None)`
-  - required, positional: `subscription_id`, `wm_sec_access_token`, `wm_qos_correlation_id`, `wm_svc_name`, `wm_market`, `wm_global_version`, `body`
-- **Params**: `subscription_id` — path `subscriptionId` · `wm_sec_access_token` — header `WM_SEC.ACCESS_TOKEN` · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_market` — header `WM_MARKET` · `wm_global_version` — header `WM_GLOBAL_VERSION` · `wm_consumer_channel_type` — header `WM_CONSUMER.CHANNEL.TYPE` · `body` — JSON body
+- **Signature**: `def update_subscription(subscription_id: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket2OrStr, wm_global_version: WmGlobalVersionOrStr, body: V3WebhooksSubscriptionsRequest1 | V3WebhooksSubscriptionsRequest1Dict, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None)`
+  - required, positional: `subscription_id`, `wm_qos_correlation_id`, `wm_svc_name`, `wm_market`, `wm_global_version`, `body`
+- **Params**: `subscription_id` — path `subscriptionId` · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_market` — header `WM_MARKET` · `wm_global_version` — header `WM_GLOBAL_VERSION` · `wm_consumer_channel_type` — header `WM_CONSUMER.CHANNEL.TYPE` · `body` — JSON body
 - **Returns (parsed)**: `V3WebhooksSubscriptionsResponse3`
 - **Returns (raw)**: `ApiResult[V3WebhooksSubscriptionsResponse3, RawError]`
 - **Error**: `RawError` — **Case B**

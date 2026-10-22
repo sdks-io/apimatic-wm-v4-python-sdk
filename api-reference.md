@@ -640,7 +640,7 @@ except ApiError as e:
 </details>
 
 <details>
-<summary><code>def token_api(wm_market: str, authorization: str, wm_qos_correlation_id: str, wm_svc_name: str, *, wm_partner_id: str | None = None, wm_consumer_channel_type: str | None = None, grant_type: GrantType1OrStr = GrantType1.CLIENT_CREDENTIALS, code: str | None = "65CA5DA313A549D49D15D3119D9AD85D", redirect_uri: str | None = "https://example-client-app.com", refresh_token: str | None = "APXcIoTpKMH9OQN.....", request_options: RequestOptionsOrDict | None = None) -> OauthTokenModel</code></summary>
+<summary><code>def token_api(wm_market: str, wm_qos_correlation_id: str, wm_svc_name: str, *, wm_partner_id: str | None = None, wm_consumer_channel_type: str | None = None, grant_type: GrantType1OrStr = GrantType1.CLIENT_CREDENTIALS, code: str | None = None, redirect_uri: str | None = None, refresh_token: str | None = None, request_options: RequestOptionsOrDict | None = None) -> OauthTokenModel</code></summary>
 
 <dl>
 <dd>
@@ -666,14 +666,13 @@ except ApiError as e:
 try:
     response = client.authorization.token_api(
         "us, mx, ca or cl",
-        "Basic YzcyOTFjNmItNzI5MC00....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         wm_partner_id="43423324",
         grant_type=GrantType1.CLIENT_CREDENTIALS,
         code="65CA5DA313A549D49D15D3119D9AD85D",
         redirect_uri="https://example-client-app.com",
-        refresh_token="APXcIoTpKMH9OQN…….",
+        refresh_token="APXcIoTpKMH9OQN.....",
     )
     # TODO: Handle 'response' of type OauthTokenModel
 except ApiError as e:
@@ -686,14 +685,13 @@ except ApiError as e:
 try:
     response = await async_client.authorization.token_api(
         "us, mx, ca or cl",
-        "Basic YzcyOTFjNmItNzI5MC00....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         wm_partner_id="43423324",
         grant_type=GrantType1.CLIENT_CREDENTIALS,
         code="65CA5DA313A549D49D15D3119D9AD85D",
         redirect_uri="https://example-client-app.com",
-        refresh_token="APXcIoTpKMH9OQN…….",
+        refresh_token="APXcIoTpKMH9OQN.....",
     )
     # TODO: Handle 'response' of type OauthTokenModel
 except ApiError as e:
@@ -711,15 +709,14 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>wm_market</code> | <code>str</code> | Available marketplace location: us (USA), mx (Mexico), ca (Canada) or cl (Chile)<br><br><strong style="color: green;">**Market availability: Global**</strong> |
-| <code>authorization</code> | <code>str</code> | Basic authorization header. Base 64 encodes the Client ID and Client Secret retrieved in step two of the integration steps. <br><br><strong style="color: green;">**Market availability: Global**</strong> |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID which identifies each API call and used to track and debug issues; use a random generated GUID for this ID <br><br><strong style="color: green;">**Market availability: Global**</strong> |
 | <code>wm_svc_name</code> | <code>str</code> | Walmart Service Name <br><br><strong style="color: green;">**Market availability: Global**</strong> |
 | <code>wm_partner_id</code> | <code>str \| None</code> | Partner Id registered in Walmart marketplace to identify a seller. <br /> This field is required when **grant_type: authorization_code** and **grant_type: refresh_token** <br><br><strong style="color: green;">**Market availability: Global**</strong><br>**Default**: <code>None</code> |
 | <code>wm_consumer_channel_type</code> | <code>str \| None</code> | A unique ID to track the consumer request by channel. Use the Consumer Channel Type received during onboarding. <br><br><strong style="color: green;">**Market availability: Global**</strong><br>**Default**: <code>None</code> |
 | <code>grant_type</code> | <code>[GrantType1OrStr](walmart_apis/models/enums/grant_type1.py)</code> | Type of grant requested. <br /> **Available grant types:** authorization_code, refresh_token and client_credentials <br><br><strong style="color: green;">**Market availability: Global**</strong><br>**Default**: <code>GrantType1.CLIENT_CREDENTIALS</code> |
-| <code>code</code> | <code>str \| None</code> | Authorization code obtained by your client app when the seller authorizes your app to access the seller resource. <br /> This field is required when **grant_type: authorization_code** <br><br><strong style="color: green;">**Market availability: Global**</strong><br>**Default**: <code>"65CA5DA313A549D49D15D3119D9AD85D"</code> |
-| <code>redirect_uri</code> | <code>str \| None</code> | This should be same as one of your client app URIs provided while registering the app. <br /> This field is required when **grant_type: authorization_code** <br><br><strong style="color: green;">**Market availability: Global**</strong><br>**Default**: <code>"https://example-client-app.com"</code> |
-| <code>refresh_token</code> | <code>str \| None</code> | Refresh token received as response of Authentication API with authorization_code grant type, to be used to refresh the access token. The token lifetime is 1 year. <br><br><strong style="color: green;">**Market availability: Global**</strong><br>**Default**: <code>"APXcIoTpKMH9OQN....."</code> |
+| <code>code</code> | <code>str \| None</code> | Authorization code obtained by your client app when the seller authorizes your app to access the seller resource. <br /> This field is required when **grant_type: authorization_code** <br><br><strong style="color: green;">**Market availability: Global**</strong><br>**Default**: <code>None</code> |
+| <code>redirect_uri</code> | <code>str \| None</code> | This should be same as one of your client app URIs provided while registering the app. <br /> This field is required when **grant_type: authorization_code** <br><br><strong style="color: green;">**Market availability: Global**</strong><br>**Default**: <code>None</code> |
+| <code>refresh_token</code> | <code>str \| None</code> | Refresh token received as response of Authentication API with authorization_code grant type, to be used to refresh the access token. The token lifetime is 1 year. <br><br><strong style="color: green;">**Market availability: Global**</strong><br>**Default**: <code>None</code> |
 | <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
@@ -987,7 +984,7 @@ Mapped in first-match order -- an earlier row wins over a later range that also 
 > Source: [FeedsApi](walmart_apis/apis/feeds_api.py)
 
 <details>
-<summary><code>def get_all_feed_statuses(wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, *, feed_id: str | None = None, feed_type: str | None = None, feed_status: FeedStatus1OrStr | None = None, offset: str | None = "0", limit: str | None = "50", wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> FeedRecordResponse</code></summary>
+<summary><code>def get_all_feed_statuses(wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, *, feed_id: str | None = None, feed_type: str | None = None, feed_status: FeedStatus1OrStr | None = None, offset: str | None = "0", limit: str | None = "50", wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> FeedRecordResponse</code></summary>
 
 <dl>
 <dd>
@@ -1023,11 +1020,7 @@ This API returns the feed statuses for all the specified feed IDs. Use the speci
 ```python
 try:
     response = client.feeds_api.get_all_feed_statuses(
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
-        "b3261d2d-028a-4ef7-8602-633c23200af6",
-        "Walmart Service Name",
-        WmMarket1.US,
-        WmGlobalVersion._3_1,
+        "b3261d2d-028a-4ef7-8602-633c23200af6", "Walmart Service Name", WmMarket1.US, WmGlobalVersion._3_1
     )
     # TODO: Handle 'response' of type FeedRecordResponse
 except ApiError as e:
@@ -1039,11 +1032,7 @@ except ApiError as e:
 ```python
 try:
     response = await async_client.feeds_api.get_all_feed_statuses(
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
-        "b3261d2d-028a-4ef7-8602-633c23200af6",
-        "Walmart Service Name",
-        WmMarket1.US,
-        WmGlobalVersion._3_1,
+        "b3261d2d-028a-4ef7-8602-633c23200af6", "Walmart Service Name", WmMarket1.US, WmGlobalVersion._3_1
     )
     # TODO: Handle 'response' of type FeedRecordResponse
 except ApiError as e:
@@ -1060,7 +1049,6 @@ except ApiError as e:
 
 | Name | Type | Description |
 | --- | --- | --- |
-| <code>wm_sec_access_token</code> | <code>str</code> | Access token obtained from the Token API. Required for authenticating requests to Walmart Marketplace APIs.<br><br><strong style="color: green;">Market availability: Global</strong> |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID which identifies each API call and used to track and debug issues; use a random generated GUID for this ID.<br><br><strong style="color: green;">Market availability: Global</strong> |
 | <code>wm_svc_name</code> | <code>str</code> | Specifies the name of the Walmart service being called.<br><br><strong style="color: green;">Market availability: Global</strong> |
 | <code>wm_market</code> | <code>[WmMarket1OrStr](walmart_apis/models/enums/wm_market1.py)</code> | The target market of the API call.<br><br><strong style="color: green;">Market availability: Global</strong> |
@@ -1101,7 +1089,7 @@ Mapped in first-match order -- an earlier row wins over a later range that also 
 </details>
 
 <details>
-<summary><code>def get_feed_error_report(feed_id: str, feed_type: FeedTypeOrStr, wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> FileResponse</code></summary>
+<summary><code>def get_feed_error_report(feed_id: str, feed_type: FeedTypeOrStr, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> FileResponse</code></summary>
 
 <dl>
 <dd>
@@ -1135,7 +1123,6 @@ try:
     response = client.feeds_api.get_feed_error_report(
         "some example string",
         FeedType.FITMENT_ACES,
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         WmMarket1.US,
@@ -1153,7 +1140,6 @@ try:
     response = await async_client.feeds_api.get_feed_error_report(
         "some example string",
         FeedType.FITMENT_ACES,
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         WmMarket1.US,
@@ -1176,7 +1162,6 @@ except ApiError as e:
 | --- | --- | --- |
 | <code>feed_id</code> | <code>str</code> | Feed Id of the feed.<br><br><strong style="color: green;">**Market availability: US only**</strong> |
 | <code>feed_type</code> | <code>[FeedTypeOrStr](walmart_apis/models/enums/feed_type.py)</code> | Feed type for which Error Report needs to be downloaded.<br><br><strong style="color: green;">**Market availability: US only**</strong> |
-| <code>wm_sec_access_token</code> | <code>str</code> | Access token obtained from the Token API. Required for authenticating requests to Walmart Marketplace APIs.<br><br><strong style="color: green;">Market availability: Global</strong> |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID which identifies each API call and used to track and debug issues; use a random generated GUID for this ID.<br><br><strong style="color: green;">Market availability: Global</strong> |
 | <code>wm_svc_name</code> | <code>str</code> | Specifies the name of the Walmart service being called.<br><br><strong style="color: green;">Market availability: Global</strong> |
 | <code>wm_market</code> | <code>[WmMarket1OrStr](walmart_apis/models/enums/wm_market1.py)</code> | The target market of the API call.<br><br><strong style="color: green;">Market availability: Global</strong> |
@@ -1205,7 +1190,7 @@ except ApiError as e:
 </details>
 
 <details>
-<summary><code>def get_feed_item_status(feed_id: str, wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, *, include_details: str | None = "false", offset: str | None = "0", limit: str | None = "50", wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> V3FeedsResponse1</code></summary>
+<summary><code>def get_feed_item_status(feed_id: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, *, include_details: str | None = "false", offset: str | None = "0", limit: str | None = "50", wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> V3FeedsResponse1</code></summary>
 
 <dl>
 <dd>
@@ -1232,7 +1217,6 @@ Returns the feed and item status for a specified Feed ID.
 try:
     response = client.feeds_api.get_feed_item_status(
         "some example string",
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         WmMarket1.US,
@@ -1249,7 +1233,6 @@ except ApiError as e:
 try:
     response = await async_client.feeds_api.get_feed_item_status(
         "some example string",
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         WmMarket1.US,
@@ -1271,7 +1254,6 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>feed_id</code> | <code>str</code> | A unique ID returned from the Bulk Upload API, used for tracking the Feed File. Special characters must be escaped. (e.g., feedId: '...3456@789...' must be entered in the URL as '...3456%40789).<br><br><strong style="color: green;">Market availability: Global</strong> |
-| <code>wm_sec_access_token</code> | <code>str</code> | Access token obtained from the Token API. Required for authenticating requests to Walmart Marketplace APIs.<br><br><strong style="color: green;">Market availability: Global</strong> |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID which identifies each API call and used to track and debug issues; use a random generated GUID for this ID.<br><br><strong style="color: green;">Market availability: Global</strong> |
 | <code>wm_svc_name</code> | <code>str</code> | Specifies the name of the Walmart service being called.<br><br><strong style="color: green;">Market availability: Global</strong> |
 | <code>wm_market</code> | <code>[WmMarket1OrStr](walmart_apis/models/enums/wm_market1.py)</code> | The target market of the API call.<br><br><strong style="color: green;">Market availability: Global</strong> |
@@ -1315,7 +1297,7 @@ Mapped in first-match order -- an earlier row wins over a later range that also 
 > Source: [InsightApi](walmart_apis/apis/insight_api.py)
 
 <details>
-<summary><code>def get_categories_list(wm_global_version: WmGlobalVersionOrStr, wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, *, view_trending_items: bool | None = True, wfs_flag: bool | None = None, has_issue: int | None = 0, type_: Type3OrStr | None = None, in_demand_indicator: bool | None = None, limit: int | None = None, offset: int | None = 0, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> V3InsightsItemsListingQualityCountResponse</code></summary>
+<summary><code>def get_categories_list(wm_global_version: WmGlobalVersionOrStr, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, *, view_trending_items: bool | None = True, wfs_flag: bool | None = None, has_issue: int | None = 0, type_: Type3OrStr | None = None, in_demand_indicator: bool | None = None, limit: int | None = None, offset: int | None = 0, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> V3InsightsItemsListingQualityCountResponse</code></summary>
 
 <dl>
 <dd>
@@ -1340,11 +1322,7 @@ Get a list of all item categories that have items with listing quality issues or
 ```python
 try:
     response = client.insight_api.get_categories_list(
-        WmGlobalVersion._3_1,
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
-        "b3261d2d-028a-4ef7-8602-633c23200af6",
-        "Walmart Service Name",
-        WmMarket1.US,
+        WmGlobalVersion._3_1, "b3261d2d-028a-4ef7-8602-633c23200af6", "Walmart Service Name", WmMarket1.US
     )
     # TODO: Handle 'response' of type V3InsightsItemsListingQualityCountResponse
 except ApiError as e:
@@ -1356,11 +1334,7 @@ except ApiError as e:
 ```python
 try:
     response = await async_client.insight_api.get_categories_list(
-        WmGlobalVersion._3_1,
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
-        "b3261d2d-028a-4ef7-8602-633c23200af6",
-        "Walmart Service Name",
-        WmMarket1.US,
+        WmGlobalVersion._3_1, "b3261d2d-028a-4ef7-8602-633c23200af6", "Walmart Service Name", WmMarket1.US
     )
     # TODO: Handle 'response' of type V3InsightsItemsListingQualityCountResponse
 except ApiError as e:
@@ -1378,7 +1352,6 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>wm_global_version</code> | <code>[WmGlobalVersionOrStr](walmart_apis/models/enums/wm_global_version.py)</code> | GLOBAL VERSION DEFAULT AS 3.1<br><b style='color:green;'>Market availability: Global</b> |
-| <code>wm_sec_access_token</code> | <code>str</code> | Access token obtained from the Token API. Required for authenticating requests to Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID that identifies each API call and is used to track and debug issues. Use a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_svc_name</code> | <code>str</code> | Walmart Service Name<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_market</code> | <code>[WmMarket1OrStr](walmart_apis/models/enums/wm_market1.py)</code> | Identifies the Walmart Marketplace region for the request. If not specified, US is used by default.<br><b style='color:green;'>Market availability: Global</b> |
@@ -1422,7 +1395,7 @@ Mapped in first-match order -- an earlier row wins over a later range that also 
 </details>
 
 <details>
-<summary><code>def get_listing_quality_score(wm_global_version: WmGlobalVersionOrStr, wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, *, view_trending_items: bool | None = None, wfs_flag: str | None = None, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> V3InsightsItemsListingQualityScoreResponse</code></summary>
+<summary><code>def get_listing_quality_score(wm_global_version: WmGlobalVersionOrStr, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, *, view_trending_items: bool | None = None, wfs_flag: str | None = None, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> V3InsightsItemsListingQualityScoreResponse</code></summary>
 
 <dl>
 <dd>
@@ -1447,11 +1420,7 @@ Get the total Listing Quality Score for a seller's entire item catalog.<br><b st
 ```python
 try:
     response = client.insight_api.get_listing_quality_score(
-        WmGlobalVersion._3_1,
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
-        "b3261d2d-028a-4ef7-8602-633c23200af6",
-        "Walmart Service Name",
-        WmMarket1.US,
+        WmGlobalVersion._3_1, "b3261d2d-028a-4ef7-8602-633c23200af6", "Walmart Service Name", WmMarket1.US
     )
     # TODO: Handle 'response' of type V3InsightsItemsListingQualityScoreResponse
 except ApiError as e:
@@ -1463,11 +1432,7 @@ except ApiError as e:
 ```python
 try:
     response = await async_client.insight_api.get_listing_quality_score(
-        WmGlobalVersion._3_1,
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
-        "b3261d2d-028a-4ef7-8602-633c23200af6",
-        "Walmart Service Name",
-        WmMarket1.US,
+        WmGlobalVersion._3_1, "b3261d2d-028a-4ef7-8602-633c23200af6", "Walmart Service Name", WmMarket1.US
     )
     # TODO: Handle 'response' of type V3InsightsItemsListingQualityScoreResponse
 except ApiError as e:
@@ -1485,7 +1450,6 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>wm_global_version</code> | <code>[WmGlobalVersionOrStr](walmart_apis/models/enums/wm_global_version.py)</code> | Indicates the global version of the API. The value must be set to 3.1.<br><b style='color:green;'>Market availability: Global</span></b> |
-| <code>wm_sec_access_token</code> | <code>str</code> | Access token obtained from the Token API. Required for authenticating requests to Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID which identifies each API call and used to track and debug issues; use a random generated GUID for this ID<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_svc_name</code> | <code>str</code> | Walmart Service Name<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_market</code> | <code>[WmMarket1OrStr](walmart_apis/models/enums/wm_market1.py)</code> | Identifies the Walmart Marketplace region for the request. If not specified, US is used by default.<br><b style='color:green;'>Market availability: Global</b> |
@@ -1524,7 +1488,7 @@ Mapped in first-match order -- an earlier row wins over a later range that also 
 </details>
 
 <details>
-<summary><code>def get_pro_seller_badge_info(wm_global_version: WmGlobalVersionOrStr, wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> V3InsightsProsellerbadgeResponse</code></summary>
+<summary><code>def get_pro_seller_badge_info(wm_global_version: WmGlobalVersionOrStr, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> V3InsightsProsellerbadgeResponse</code></summary>
 
 <dl>
 <dd>
@@ -1549,11 +1513,7 @@ The Pro Seller badge status will provide you with information regarding your cur
 ```python
 try:
     response = client.insight_api.get_pro_seller_badge_info(
-        WmGlobalVersion._3_1,
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
-        "b3261d2d-028a-4ef7-8602-633c23200af6",
-        "Walmart Service Name",
-        WmMarket1.US,
+        WmGlobalVersion._3_1, "b3261d2d-028a-4ef7-8602-633c23200af6", "Walmart Service Name", WmMarket1.US
     )
     # TODO: Handle 'response' of type V3InsightsProsellerbadgeResponse
 except ApiError as e:
@@ -1565,11 +1525,7 @@ except ApiError as e:
 ```python
 try:
     response = await async_client.insight_api.get_pro_seller_badge_info(
-        WmGlobalVersion._3_1,
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
-        "b3261d2d-028a-4ef7-8602-633c23200af6",
-        "Walmart Service Name",
-        WmMarket1.US,
+        WmGlobalVersion._3_1, "b3261d2d-028a-4ef7-8602-633c23200af6", "Walmart Service Name", WmMarket1.US
     )
     # TODO: Handle 'response' of type V3InsightsProsellerbadgeResponse
 except ApiError as e:
@@ -1587,7 +1543,6 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>wm_global_version</code> | <code>[WmGlobalVersionOrStr](walmart_apis/models/enums/wm_global_version.py)</code> | GLOBAL VERSION DEFAULT AS 3.1<br><b style='color:green;'>Market availability: Global</b> |
-| <code>wm_sec_access_token</code> | <code>str</code> | Access token obtained from the Token API. Required for authenticating requests to Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID which identifies each API call and used to track and debug issues; use a random generated GUID for this ID<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_svc_name</code> | <code>str</code> | Walmart Service Name<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_market</code> | <code>[WmMarket1OrStr](walmart_apis/models/enums/wm_market1.py)</code> | Identifies the Walmart Marketplace region for the request. If not specified, US is used by default.<br><b style='color:green;'>Market availability: Global</b> |
@@ -1624,7 +1579,7 @@ Mapped in first-match order -- an earlier row wins over a later range that also 
 </details>
 
 <details>
-<summary><code>def get_seller_incentives_info(wm_global_version: WmGlobalVersionOrStr, wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> V3InsightsSellerIncentivesResponse</code></summary>
+<summary><code>def get_seller_incentives_info(wm_global_version: WmGlobalVersionOrStr, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> V3InsightsSellerIncentivesResponse</code></summary>
 
 <dl>
 <dd>
@@ -1649,11 +1604,7 @@ The Pro Seller Tier and Rewards Status API allows you to check your seller’s c
 ```python
 try:
     response = client.insight_api.get_seller_incentives_info(
-        WmGlobalVersion._3_1,
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
-        "b3261d2d-028a-4ef7-8602-633c23200af6",
-        "Walmart Service Name",
-        WmMarket1.US,
+        WmGlobalVersion._3_1, "b3261d2d-028a-4ef7-8602-633c23200af6", "Walmart Service Name", WmMarket1.US
     )
     # TODO: Handle 'response' of type V3InsightsSellerIncentivesResponse
 except ApiError as e:
@@ -1665,11 +1616,7 @@ except ApiError as e:
 ```python
 try:
     response = await async_client.insight_api.get_seller_incentives_info(
-        WmGlobalVersion._3_1,
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
-        "b3261d2d-028a-4ef7-8602-633c23200af6",
-        "Walmart Service Name",
-        WmMarket1.US,
+        WmGlobalVersion._3_1, "b3261d2d-028a-4ef7-8602-633c23200af6", "Walmart Service Name", WmMarket1.US
     )
     # TODO: Handle 'response' of type V3InsightsSellerIncentivesResponse
 except ApiError as e:
@@ -1687,7 +1634,6 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>wm_global_version</code> | <code>[WmGlobalVersionOrStr](walmart_apis/models/enums/wm_global_version.py)</code> | GLOBAL VERSION DEFAULT AS 3.1<br><b style='color:green;'>Market availability: Global</b> |
-| <code>wm_sec_access_token</code> | <code>str</code> | Access token obtained from the Token API. Required for authenticating requests to Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID that identifies each API call and is used to track and debug issues. Use a randomly generated GUID for this ID. <br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_svc_name</code> | <code>str</code> | Walmart Service Name<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_market</code> | <code>[WmMarket1OrStr](walmart_apis/models/enums/wm_market1.py)</code> | Identifies the Walmart Marketplace region for the request. If not specified, US is used by default.<br><b style='color:green;'>Market availability: Global</b> |
@@ -1723,7 +1669,7 @@ Mapped in first-match order -- an earlier row wins over a later range that also 
 </details>
 
 <details>
-<summary><code>def get_unpublished_item_count(from_date: str, wm_global_version: WmGlobalVersionOrStr, wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> V3InsightsItemsUnpublishedCountsResponse</code></summary>
+<summary><code>def get_unpublished_item_count(from_date: str, wm_global_version: WmGlobalVersionOrStr, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> V3InsightsItemsUnpublishedCountsResponse</code></summary>
 
 <dl>
 <dd>
@@ -1748,12 +1694,7 @@ This API allows you to get the count of unpublished items.<br><b style='color:gr
 ```python
 try:
     response = client.insight_api.get_unpublished_item_count(
-        "2020-09-23",
-        WmGlobalVersion._3_1,
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
-        "b3261d2d-028a-4ef7-8602-633c23200af6",
-        "Walmart Service Name",
-        WmMarket1.US,
+        "2020-09-23", WmGlobalVersion._3_1, "b3261d2d-028a-4ef7-8602-633c23200af6", "Walmart Service Name", WmMarket1.US
     )
     # TODO: Handle 'response' of type V3InsightsItemsUnpublishedCountsResponse
 except ApiError as e:
@@ -1765,12 +1706,7 @@ except ApiError as e:
 ```python
 try:
     response = await async_client.insight_api.get_unpublished_item_count(
-        "2020-09-23",
-        WmGlobalVersion._3_1,
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
-        "b3261d2d-028a-4ef7-8602-633c23200af6",
-        "Walmart Service Name",
-        WmMarket1.US,
+        "2020-09-23", WmGlobalVersion._3_1, "b3261d2d-028a-4ef7-8602-633c23200af6", "Walmart Service Name", WmMarket1.US
     )
     # TODO: Handle 'response' of type V3InsightsItemsUnpublishedCountsResponse
 except ApiError as e:
@@ -1789,7 +1725,6 @@ except ApiError as e:
 | --- | --- | --- |
 | <code>from_date</code> | <code>str</code> | Returns all unpublished items count with reason codes since the given date period<br><b style='color:green;'>Market availability: US \| CA \| MX</b> |
 | <code>wm_global_version</code> | <code>[WmGlobalVersionOrStr](walmart_apis/models/enums/wm_global_version.py)</code> | GLOBAL VERSION DEFAULT AS 3.1<br><b style='color:green;'>Market availability: Global</b> |
-| <code>wm_sec_access_token</code> | <code>str</code> | Access token obtained from the Token API. Required for authenticating requests to Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID which identifies each API call and used to track and debug issues; use a random generated GUID for this ID<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_svc_name</code> | <code>str</code> | Walmart Service Name<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_market</code> | <code>[WmMarket1OrStr](walmart_apis/models/enums/wm_market1.py)</code> | Identifies the Walmart Marketplace region for the request. If not specified, US is used by default.<br><b style='color:green;'>Market availability: Global</b> |
@@ -1825,7 +1760,7 @@ Mapped in first-match order -- an earlier row wins over a later range that also 
 </details>
 
 <details>
-<summary><code>def get_unpublished_items(from_date: str, wm_global_version: WmGlobalVersionOrStr, wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, *, unpublished_reason_code: str | None = "all", limit: str | None = "20", offer_lifecycle_status: str | None = "all", market_trending: str | None = "true", items_with_inventory: str | None = "true", is_customer_favorite: bool | None = None, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> V3InsightsItemsUnpublishedItemsResponse</code></summary>
+<summary><code>def get_unpublished_items(from_date: str, wm_global_version: WmGlobalVersionOrStr, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, *, unpublished_reason_code: str | None = "all", limit: str | None = "20", offer_lifecycle_status: str | None = "all", market_trending: str | None = "true", items_with_inventory: str | None = "true", is_customer_favorite: bool | None = None, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> V3InsightsItemsUnpublishedItemsResponse</code></summary>
 
 <dl>
 <dd>
@@ -1850,12 +1785,7 @@ Get Unpublished Items<br><b style='color:green;'>Market availability: US | CA | 
 ```python
 try:
     response = client.insight_api.get_unpublished_items(
-        "2020-09-23",
-        WmGlobalVersion._3_1,
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
-        "b3261d2d-028a-4ef7-8602-633c23200af6",
-        "Walmart Service Name",
-        WmMarket1.US,
+        "2020-09-23", WmGlobalVersion._3_1, "b3261d2d-028a-4ef7-8602-633c23200af6", "Walmart Service Name", WmMarket1.US
     )
     # TODO: Handle 'response' of type V3InsightsItemsUnpublishedItemsResponse
 except ApiError as e:
@@ -1867,12 +1797,7 @@ except ApiError as e:
 ```python
 try:
     response = await async_client.insight_api.get_unpublished_items(
-        "2020-09-23",
-        WmGlobalVersion._3_1,
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
-        "b3261d2d-028a-4ef7-8602-633c23200af6",
-        "Walmart Service Name",
-        WmMarket1.US,
+        "2020-09-23", WmGlobalVersion._3_1, "b3261d2d-028a-4ef7-8602-633c23200af6", "Walmart Service Name", WmMarket1.US
     )
     # TODO: Handle 'response' of type V3InsightsItemsUnpublishedItemsResponse
 except ApiError as e:
@@ -1891,7 +1816,6 @@ except ApiError as e:
 | --- | --- | --- |
 | <code>from_date</code> | <code>str</code> | Returns all unpublished items since the given date<br><b style='color:green;'>Market availability: US \| CA \| MX</b> |
 | <code>wm_global_version</code> | <code>[WmGlobalVersionOrStr](walmart_apis/models/enums/wm_global_version.py)</code> | GLOBAL VERSION DEFAULT AS 3.1<br><b style='color:green;'>Market availability: Global</b> |
-| <code>wm_sec_access_token</code> | <code>str</code> | Access token obtained from the Token API. Required for authenticating requests to Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID which identifies each API call and used to track and debug issues; use a random generated GUID for this ID<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_svc_name</code> | <code>str</code> | Walmart Service Name<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_market</code> | <code>[WmMarket1OrStr](walmart_apis/models/enums/wm_market1.py)</code> | Identifies the Walmart Marketplace region for the request. If not specified, US is used by default.<br><b style='color:green;'>Market availability: Global</b> |
@@ -1933,7 +1857,7 @@ Mapped in first-match order -- an earlier row wins over a later range that also 
 </details>
 
 <details>
-<summary><code>def items_details_for_listing(wm_global_version: WmGlobalVersionOrStr, wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, body: V3InsightsItemsListingQualityItemsRequest | V3InsightsItemsListingQualityItemsRequestDict, *, limit: str | None = "200", next_cursor: str | None = None, offset: str | None = None, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> V3InsightsItemsListingQualityItemsResponse</code></summary>
+<summary><code>def items_details_for_listing(wm_global_version: WmGlobalVersionOrStr, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, body: V3InsightsItemsListingQualityItemsRequest | V3InsightsItemsListingQualityItemsRequestDict, *, limit: str | None = "200", next_cursor: str | None = None, offset: str | None = None, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> V3InsightsItemsListingQualityItemsResponse</code></summary>
 
 <dl>
 <dd>
@@ -1959,7 +1883,6 @@ Get each item's listing quality details including: item quality score, offer sco
 try:
     response = client.insight_api.items_details_for_listing(
         WmGlobalVersion._3_1,
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         WmMarket1.US,
@@ -1976,7 +1899,6 @@ except ApiError as e:
 try:
     response = await async_client.insight_api.items_details_for_listing(
         WmGlobalVersion._3_1,
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         WmMarket1.US,
@@ -1998,7 +1920,6 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>wm_global_version</code> | <code>[WmGlobalVersionOrStr](walmart_apis/models/enums/wm_global_version.py)</code> | GLOBAL VERSION DEFAULT AS 3.1.<br><b style='color:green;'>Market availability: Global</span></b> |
-| <code>wm_sec_access_token</code> | <code>str</code> | Access token obtained from the Token API. Required for authenticating requests to Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID that identifies each API call and is used to track and debug issues. Use a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_svc_name</code> | <code>str</code> | Walmart Service Name<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_market</code> | <code>[WmMarket1OrStr](walmart_apis/models/enums/wm_market1.py)</code> | Identifies the Walmart Marketplace region for the request. If not specified, US is used by default.<br><b style='color:green;'>Market availability: Global</b> |
@@ -2042,7 +1963,7 @@ Mapped in first-match order -- an earlier row wins over a later range that also 
 > Source: [InventoryApi](walmart_apis/apis/inventory_api.py)
 
 <details>
-<summary><code>def get_inventory(sku: str, wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, *, ship_node: str | None = None, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> Inventory1</code></summary>
+<summary><code>def get_inventory(sku: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, *, ship_node: str | None = None, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> Inventory1</code></summary>
 
 <dl>
 <dd>
@@ -2069,7 +1990,6 @@ You can use this API to get the inventory for a given item.
 try:
     response = client.inventory_api.get_inventory(
         "some example string",
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         WmMarket1.US,
@@ -2086,7 +2006,6 @@ except ApiError as e:
 try:
     response = await async_client.inventory_api.get_inventory(
         "some example string",
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         WmMarket1.US,
@@ -2108,7 +2027,6 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>sku</code> | <code>str</code> | An arbitrary alphanumeric unique ID, specified by the seller, which identifies each item. This will be used by the seller in the XSD file to refer to each item. Special characters in the sku needing encoding are: ':', '/', '?', '#', '[', ']', '@', '!', '$', '&', "'", '(', ')', '*', '+', ',', ';', '=', ‘ ’, '{', '}' as well as '%' itself if it's a part of sku. Make sure to encode space with %20. Other characters don't need to be encoded.<br><br><strong style="color: green;">Market availability: Global</strong> |
-| <code>wm_sec_access_token</code> | <code>str</code> | Access token obtained from the Token API. Required for authenticating requests to Walmart Marketplace APIs.<br><br><strong style="color: green;">Market availability: Global</strong> |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID which identifies each API call and used to track and debug issues; use a random generated GUID for this ID.<br><br><strong style="color: green;">Market availability: Global</strong> |
 | <code>wm_svc_name</code> | <code>str</code> | Specifies the name of the Walmart service being called.<br><br><strong style="color: green;">Market availability: Global</strong> |
 | <code>wm_market</code> | <code>[WmMarket1OrStr](walmart_apis/models/enums/wm_market1.py)</code> | The target market of the API call.<br><br><strong style="color: green;">Market availability: Global</strong> |
@@ -2145,7 +2063,7 @@ Mapped in first-match order -- an earlier row wins over a later range that also 
 </details>
 
 <details>
-<summary><code>def get_multi_node_inventory_for_all_sku_and_all_ship_nodes(wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, *, limit: str | None = "10", next_cursor: str | None = None, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> MultiNodeInventoryFetchResponseDto</code></summary>
+<summary><code>def get_multi_node_inventory_for_all_sku_and_all_ship_nodes(wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, *, limit: str | None = "10", next_cursor: str | None = None, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> MultiNodeInventoryFetchResponseDto</code></summary>
 
 <dl>
 <dd>
@@ -2171,11 +2089,7 @@ This API will retrieve the inventory count for all of a seller's items across al
 ```python
 try:
     response = client.inventory_api.get_multi_node_inventory_for_all_sku_and_all_ship_nodes(
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
-        "b3261d2d-028a-4ef7-8602-633c23200af6",
-        "Walmart Service Name",
-        WmMarket1.US,
-        WmGlobalVersion._3_1,
+        "b3261d2d-028a-4ef7-8602-633c23200af6", "Walmart Service Name", WmMarket1.US, WmGlobalVersion._3_1
     )
     # TODO: Handle 'response' of type MultiNodeInventoryFetchResponseDto
 except ApiError as e:
@@ -2187,11 +2101,7 @@ except ApiError as e:
 ```python
 try:
     response = await async_client.inventory_api.get_multi_node_inventory_for_all_sku_and_all_ship_nodes(
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
-        "b3261d2d-028a-4ef7-8602-633c23200af6",
-        "Walmart Service Name",
-        WmMarket1.US,
-        WmGlobalVersion._3_1,
+        "b3261d2d-028a-4ef7-8602-633c23200af6", "Walmart Service Name", WmMarket1.US, WmGlobalVersion._3_1
     )
     # TODO: Handle 'response' of type MultiNodeInventoryFetchResponseDto
 except ApiError as e:
@@ -2208,7 +2118,6 @@ except ApiError as e:
 
 | Name | Type | Description |
 | --- | --- | --- |
-| <code>wm_sec_access_token</code> | <code>str</code> | Access token obtained from the Token API. Required for authenticating requests to Walmart Marketplace APIs.<br><br><strong style="color: green;">Market availability: Global</strong> |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID which identifies each API call and used to track and debug issues; use a random generated GUID for this ID.<br><br><strong style="color: green;">Market availability: Global</strong> |
 | <code>wm_svc_name</code> | <code>str</code> | Specifies the name of the Walmart service being called.<br><br><strong style="color: green;">Market availability: Global</strong> |
 | <code>wm_market</code> | <code>[WmMarket1OrStr](walmart_apis/models/enums/wm_market1.py)</code> | The target market of the API call.<br><br><strong style="color: green;">Market availability: Global</strong> |
@@ -2246,7 +2155,7 @@ Mapped in first-match order -- an earlier row wins over a later range that also 
 </details>
 
 <details>
-<summary><code>def get_multi_node_inventory_for_sku_and_all_shipnodes(sku: str, wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, *, ship_node: str | None = None, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> InventoriesDto</code></summary>
+<summary><code>def get_multi_node_inventory_for_sku_and_all_shipnodes(sku: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, *, ship_node: str | None = None, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> InventoriesDto</code></summary>
 
 <dl>
 <dd>
@@ -2273,7 +2182,6 @@ This API will retrieve the inventory count for an item across all ship nodes or 
 try:
     response = client.inventory_api.get_multi_node_inventory_for_sku_and_all_shipnodes(
         "some example string",
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         WmMarket1.US,
@@ -2290,7 +2198,6 @@ except ApiError as e:
 try:
     response = await async_client.inventory_api.get_multi_node_inventory_for_sku_and_all_shipnodes(
         "some example string",
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         WmMarket1.US,
@@ -2312,7 +2219,6 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>sku</code> | <code>str</code> | An arbitrary alphanumeric unique ID, specified by the seller, which identifies each item. This will be used by the seller in the XSD file to refer to each item. Special characters in the sku needing encoding are: ':', '/', '?', '#', '[', ']', '@', '!', '$', '&', "'", '(', ')', '*', '+', ',', ';', '=', ‘ ’ as well as '%' itself if it's a part of sku. Make sure to encode space with %20. Other characters don't need to be encoded.<br><br><strong style="color: green;">Market availability: Global</strong> |
-| <code>wm_sec_access_token</code> | <code>str</code> | Access token obtained from the Token API. Required for authenticating requests to Walmart Marketplace APIs.<br><br><strong style="color: green;">Market availability: Global</strong> |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID which identifies each API call and used to track and debug issues; use a random generated GUID for this ID.<br><br><strong style="color: green;">Market availability: Global</strong> |
 | <code>wm_svc_name</code> | <code>str</code> | Specifies the name of the Walmart service being called.<br><br><strong style="color: green;">Market availability: Global</strong> |
 | <code>wm_market</code> | <code>[WmMarket1OrStr](walmart_apis/models/enums/wm_market1.py)</code> | The target market of the API call.<br><br><strong style="color: green;">Market availability: Global</strong> |
@@ -2349,7 +2255,7 @@ Mapped in first-match order -- an earlier row wins over a later range that also 
 </details>
 
 <details>
-<summary><code>def get_wfs_inventory(wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, *, sku: str | None = None, from_modified_date: str | None = None, to_modified_date: str | None = None, limit: str | None = "10", offset: str | None = "0", ship_node_type: str | None = None, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> V3FulfillmentInventoryResponse</code></summary>
+<summary><code>def get_wfs_inventory(wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, *, sku: str | None = None, from_modified_date: str | None = None, to_modified_date: str | None = None, limit: str | None = "10", offset: str | None = "0", ship_node_type: str | None = None, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> V3FulfillmentInventoryResponse</code></summary>
 
 <dl>
 <dd>
@@ -2375,11 +2281,7 @@ You can use this API to get the current Available to Sell inventory quantities f
 ```python
 try:
     response = client.inventory_api.get_wfs_inventory(
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
-        "b3261d2d-028a-4ef7-8602-633c23200af6",
-        "Walmart Service Name",
-        WmMarket1.US,
-        WmGlobalVersion._3_1,
+        "b3261d2d-028a-4ef7-8602-633c23200af6", "Walmart Service Name", WmMarket1.US, WmGlobalVersion._3_1
     )
     # TODO: Handle 'response' of type V3FulfillmentInventoryResponse
 except ApiError as e:
@@ -2391,11 +2293,7 @@ except ApiError as e:
 ```python
 try:
     response = await async_client.inventory_api.get_wfs_inventory(
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
-        "b3261d2d-028a-4ef7-8602-633c23200af6",
-        "Walmart Service Name",
-        WmMarket1.US,
-        WmGlobalVersion._3_1,
+        "b3261d2d-028a-4ef7-8602-633c23200af6", "Walmart Service Name", WmMarket1.US, WmGlobalVersion._3_1
     )
     # TODO: Handle 'response' of type V3FulfillmentInventoryResponse
 except ApiError as e:
@@ -2412,7 +2310,6 @@ except ApiError as e:
 
 | Name | Type | Description |
 | --- | --- | --- |
-| <code>wm_sec_access_token</code> | <code>str</code> | Access token obtained from the Token API. Required for authenticating requests to Walmart Marketplace APIs.<br><br><strong style="color: green;">Market availability: Global</strong> |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID which identifies each API call and used to track and debug issues; use a random generated GUID for this ID.<br><br><strong style="color: green;">Market availability: Global</strong> |
 | <code>wm_svc_name</code> | <code>str</code> | Specifies the name of the Walmart service being called.<br><br><strong style="color: green;">Market availability: Global</strong> |
 | <code>wm_market</code> | <code>[WmMarket1OrStr](walmart_apis/models/enums/wm_market1.py)</code> | The target market of the API call.<br><br><strong style="color: green;">Market availability: Global</strong> |
@@ -2454,7 +2351,7 @@ Mapped in first-match order -- an earlier row wins over a later range that also 
 </details>
 
 <details>
-<summary><code>def update_bulk_inventory(feed_type: FeedType1OrStr, wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, file: FileInput, *, ship_node: str | None = None, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> FeedId</code></summary>
+<summary><code>def update_bulk_inventory(feed_type: FeedType1OrStr, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, file: FileInput, *, ship_node: str | None = None, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> FeedId</code></summary>
 
 <dl>
 <dd>
@@ -2495,7 +2392,6 @@ Note: Multi Node Inventory Update Feed (feedType=MP_INVENTORY) only supports JSO
 try:
     response = client.inventory_api.update_bulk_inventory(
         FeedType1.INVENTORY,
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         WmMarket1.US,
@@ -2513,7 +2409,6 @@ except ApiError as e:
 try:
     response = await async_client.inventory_api.update_bulk_inventory(
         FeedType1.INVENTORY,
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         WmMarket1.US,
@@ -2536,7 +2431,6 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>feed_type</code> | <code>[FeedType1OrStr](walmart_apis/models/enums/feed_type1.py)</code> | The feed Type<br>Inventory: Global<br>MP_Inventory: US \| MX \| CA<br><br><strong style="color: green;">Market availability: Global</strong> |
-| <code>wm_sec_access_token</code> | <code>str</code> | Access token obtained from the Token API. Required for authenticating requests to Walmart Marketplace APIs.<br><br><strong style="color: green;">Market availability: Global</strong> |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID which identifies each API call and used to track and debug issues; use a random generated GUID for this ID.<br><br><strong style="color: green;">Market availability: Global</strong> |
 | <code>wm_svc_name</code> | <code>str</code> | Specifies the name of the Walmart service being called.<br><br><strong style="color: green;">Market availability: Global</strong> |
 | <code>wm_market</code> | <code>[WmMarket1OrStr](walmart_apis/models/enums/wm_market1.py)</code> | The target market of the API call.<br><br><strong style="color: green;">Market availability: Global</strong> |
@@ -2567,7 +2461,7 @@ except ApiError as e:
 </details>
 
 <details>
-<summary><code>def update_inventory_for_an_item(sku: str, wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, body: V3InventoryRequest | V3InventoryRequestDict, *, ship_node: str | None = None, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> Inventory1</code></summary>
+<summary><code>def update_inventory_for_an_item(sku: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, body: V3InventoryRequest | V3InventoryRequestDict, *, ship_node: str | None = None, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> Inventory1</code></summary>
 
 <dl>
 <dd>
@@ -2594,7 +2488,6 @@ Updates the inventory for a given item.
 try:
     response = client.inventory_api.update_inventory_for_an_item(
         "some example string",
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         WmMarket1.US,
@@ -2612,7 +2505,6 @@ except ApiError as e:
 try:
     response = await async_client.inventory_api.update_inventory_for_an_item(
         "some example string",
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         WmMarket1.US,
@@ -2635,7 +2527,6 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>sku</code> | <code>str</code> | An arbitrary alphanumeric unique ID, specified by the seller, which identifies each item. This will be used by the seller in the XSD file to refer to each item. Special characters in the sku needing encoding are: ':', '/', '?', '#', '[', ']', '@', '!', '$', '&', "'", '(', ')', '*', '+', ',', ';', '=', ‘ ’, '{', '}' as well as '%' itself if it's a part of sku. Make sure to encode space with %20. Other characters don't need to be encoded.<br><br><strong style="color: green;">Market availability: Global</strong> |
-| <code>wm_sec_access_token</code> | <code>str</code> | Access token obtained from the Token API. Required for authenticating requests to Walmart Marketplace APIs.<br><br><strong style="color: green;">Market availability: Global</strong> |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID which identifies each API call and used to track and debug issues; use a random generated GUID for this ID.<br><br><strong style="color: green;">Market availability: Global</strong> |
 | <code>wm_svc_name</code> | <code>str</code> | Specifies the name of the Walmart service being called.<br><br><strong style="color: green;">Market availability: Global</strong> |
 | <code>wm_market</code> | <code>[WmMarket1OrStr](walmart_apis/models/enums/wm_market1.py)</code> | The target market of the API call.<br><br><strong style="color: green;">Market availability: Global</strong> |
@@ -2673,7 +2564,7 @@ Mapped in first-match order -- an earlier row wins over a later range that also 
 </details>
 
 <details>
-<summary><code>def update_multi_node_inventory(sku: str, wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, body: V3InventoriesRequest | V3InventoriesRequestDict, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> MultiNodeInventoryUpdateResponseDto</code></summary>
+<summary><code>def update_multi_node_inventory(sku: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, body: V3InventoriesRequest | V3InventoriesRequestDict, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> MultiNodeInventoryUpdateResponseDto</code></summary>
 
 <dl>
 <dd>
@@ -2700,7 +2591,6 @@ This API will update the inventory for an item across one or more fulfillment ce
 try:
     response = client.inventory_api.update_multi_node_inventory(
         "some example string",
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         WmMarket1.US,
@@ -2727,7 +2617,6 @@ except ApiError as e:
 try:
     response = await async_client.inventory_api.update_multi_node_inventory(
         "some example string",
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         WmMarket1.US,
@@ -2759,7 +2648,6 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>sku</code> | <code>str</code> | An arbitrary alphanumeric unique ID, specified by the seller, which identifies each item. This will be used by the seller in the XSD file to refer to each item. Special characters in the sku needing encoding are: ':', '/', '?', '#', '[', ']', '@', '!', '$', '&', "'", '(', ')', '*', '+', ',', ';', '=', ‘ ’ as well as '%' itself if it's a part of sku. Make sure to encode space with %20. Other characters don't need to be encoded.<br><br><strong style="color: green;">Market availability: Global</strong> |
-| <code>wm_sec_access_token</code> | <code>str</code> | Access token obtained from the Token API. Required for authenticating requests to Walmart Marketplace APIs.<br><br><strong style="color: green;">Market availability: Global</strong> |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID which identifies each API call and used to track and debug issues; use a random generated GUID for this ID.<br><br><strong style="color: green;">Market availability: Global</strong> |
 | <code>wm_svc_name</code> | <code>str</code> | Specifies the name of the Walmart service being called.<br><br><strong style="color: green;">Market availability: Global</strong> |
 | <code>wm_market</code> | <code>[WmMarket1OrStr](walmart_apis/models/enums/wm_market1.py)</code> | The target market of the API call.<br><br><strong style="color: green;">Market availability: Global</strong> |
@@ -2800,7 +2688,7 @@ Mapped in first-match order -- an earlier row wins over a later range that also 
 > Source: [LagTimeApi](walmart_apis/apis/lag_time_api.py)
 
 <details>
-<summary><code>def get_lag_time(sku: str, wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> LagTimeResponse</code></summary>
+<summary><code>def get_lag_time(sku: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> LagTimeResponse</code></summary>
 
 <dl>
 <dd>
@@ -2829,7 +2717,6 @@ Lag Time represents the number of days between when an item is ordered and when 
 try:
     response = client.lag_time_api.get_lag_time(
         "some example string",
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         WmMarket1.US,
@@ -2846,7 +2733,6 @@ except ApiError as e:
 try:
     response = await async_client.lag_time_api.get_lag_time(
         "some example string",
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         WmMarket1.US,
@@ -2868,7 +2754,6 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>sku</code> | <code>str</code> | A unique alphanumeric ID assigned by the seller to identify each item. The seller uses this ID in the XSD file to reference specific items. If the SKU contains any of the following special characters — :, /, ?, #, [, ], @, !, $, &, ', (, ), *, +, ,, ;, =, space, {, }, or % — they must be URL-encoded. For example, encode spaces as %20. No encoding is required for other characters.<br><br><strong style="color: green;">Market availability: Global</strong> |
-| <code>wm_sec_access_token</code> | <code>str</code> | Access token obtained from the Token API. Required for authenticating requests to Walmart Marketplace APIs.<br><br><strong style="color: green;">Market availability: Global</strong> |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID which identifies each API call and used to track and debug issues; use a random generated GUID for this ID.<br><br><strong style="color: green;">Market availability: Global</strong> |
 | <code>wm_svc_name</code> | <code>str</code> | Specifies the name of the Walmart service being called.<br><br><strong style="color: green;">Market availability: Global</strong> |
 | <code>wm_market</code> | <code>[WmMarket1OrStr](walmart_apis/models/enums/wm_market1.py)</code> | The target market of the API call.<br><br><strong style="color: green;">Market availability: Global</strong> |
@@ -2906,7 +2791,7 @@ Mapped in first-match order -- an earlier row wins over a later range that also 
 </details>
 
 <details>
-<summary><code>def update_lag_time_bulk(feed_type: str, wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, body: V3FeedsRequest | V3FeedsRequestDict, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> FeedId1</code></summary>
+<summary><code>def update_lag_time_bulk(feed_type: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, body: V3FeedsRequest | V3FeedsRequestDict, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> FeedId1</code></summary>
 
 <dl>
 <dd>
@@ -2935,7 +2820,6 @@ Lag Time represents the number of days between when an item is ordered and when 
 try:
     response = client.lag_time_api.update_lag_time_bulk(
         "some example string",
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         WmMarket1.US,
@@ -2953,7 +2837,6 @@ except ApiError as e:
 try:
     response = await async_client.lag_time_api.update_lag_time_bulk(
         "some example string",
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         WmMarket1.US,
@@ -2976,7 +2859,6 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>feed_type</code> | <code>str</code> | Indicates the feed type. Use 'lagtime'.<br><br><strong style="color: green;">Market availability: Global</strong> |
-| <code>wm_sec_access_token</code> | <code>str</code> | Access token obtained from the Token API. Required for authenticating requests to Walmart Marketplace APIs.<br><br><strong style="color: green;">Market availability: Global</strong> |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID which identifies each API call and used to track and debug issues; use a random generated GUID for this ID.<br><br><strong style="color: green;">Market availability: Global</strong> |
 | <code>wm_svc_name</code> | <code>str</code> | Specifies the name of the Walmart service being called.<br><br><strong style="color: green;">Market availability: Global</strong> |
 | <code>wm_market</code> | <code>[WmMarket1OrStr](walmart_apis/models/enums/wm_market1.py)</code> | The target market of the API call.<br><br><strong style="color: green;">Market availability: Global</strong> |
@@ -3010,7 +2892,7 @@ except ApiError as e:
 > Source: [Notifications](walmart_apis/apis/notifications.py)
 
 <details>
-<summary><code>def create_subscription(wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket2OrStr, wm_global_version: WmGlobalVersionOrStr, body: V3WebhooksSubscriptionsRequest | V3WebhooksSubscriptionsRequestDict, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> V3WebhooksSubscriptionsResponse1</code></summary>
+<summary><code>def create_subscription(wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket2OrStr, wm_global_version: WmGlobalVersionOrStr, body: V3WebhooksSubscriptionsRequest | V3WebhooksSubscriptionsRequestDict, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> V3WebhooksSubscriptionsResponse1</code></summary>
 
 <dl>
 <dd>
@@ -3045,7 +2927,6 @@ URL authentication options
 ```python
 try:
     response = client.notifications.create_subscription(
-        "eyJraWQiOiIxNWNhNGIyYi0yODVjLTQ0ZDUtYmExNC05ZDk1NTlkZmUwNjgiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Marketplace",
         WmMarket2.US,
@@ -3079,7 +2960,6 @@ except ApiError as e:
 ```python
 try:
     response = await async_client.notifications.create_subscription(
-        "eyJraWQiOiIxNWNhNGIyYi0yODVjLTQ0ZDUtYmExNC05ZDk1NTlkZmUwNjgiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Marketplace",
         WmMarket2.US,
@@ -3118,7 +2998,6 @@ except ApiError as e:
 
 | Name | Type | Description |
 | --- | --- | --- |
-| <code>wm_sec_access_token</code> | <code>str</code> | Access token obtained from the Token API. This is required for authenticating requests to Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID that identifies each API call and is used to track and debug issues. Use a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_svc_name</code> | <code>str</code> | Name of the Walmart service being called.<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_market</code> | <code>[WmMarket2OrStr](walmart_apis/models/enums/wm_market2.py)</code> | Identifies the Walmart Marketplace region for the request. If not specified, US is used by default.<br><b style='color:green;'>Market availability: Global</span></b> |
@@ -3148,7 +3027,7 @@ except ApiError as e:
 </details>
 
 <details>
-<summary><code>def delete_subscription(subscription_id: str, wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket2OrStr, wm_global_version: WmGlobalVersionOrStr, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> V3WebhooksSubscriptionsResponse2</code></summary>
+<summary><code>def delete_subscription(subscription_id: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket2OrStr, wm_global_version: WmGlobalVersionOrStr, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> V3WebhooksSubscriptionsResponse2</code></summary>
 
 <dl>
 <dd>
@@ -3176,7 +3055,6 @@ Delete an existing webhook subscription by ID. After deletion, the subscription 
 try:
     response = client.notifications.delete_subscription(
         "some example string",
-        "eyJraWQiOiIxNWNhNGIyYi0yODVjLTQ0ZDUtYmExNC05ZDk1NTlkZmUwNjgiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Marketplace",
         WmMarket2.US,
@@ -3193,7 +3071,6 @@ except ApiError as e:
 try:
     response = await async_client.notifications.delete_subscription(
         "some example string",
-        "eyJraWQiOiIxNWNhNGIyYi0yODVjLTQ0ZDUtYmExNC05ZDk1NTlkZmUwNjgiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Marketplace",
         WmMarket2.US,
@@ -3215,7 +3092,6 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>subscription_id</code> | <code>str</code> | Unique identifier of the subscription to delete.<br><b style='color:green;'>Market availability: Global</b> |
-| <code>wm_sec_access_token</code> | <code>str</code> | Access token obtained from the Token API. This is required for authenticating requests to Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID that identifies each API call and is used to track and debug issues. Use a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_svc_name</code> | <code>str</code> | Name of the Walmart service being called.<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_market</code> | <code>[WmMarket2OrStr](walmart_apis/models/enums/wm_market2.py)</code> | Identifies the Walmart Marketplace region for the request. If not specified, US is used by default.<br><b style='color:green;'>Market availability: Global</span></b> |
@@ -3244,7 +3120,7 @@ except ApiError as e:
 </details>
 
 <details>
-<summary><code>def get_all_subscriptions(wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket2OrStr, wm_global_version: WmGlobalVersionOrStr, *, subscription_id: str | None = None, event_type: str | None = None, resource_name: str | None = None, status: str | None = None, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> V3WebhooksSubscriptionsResponse</code></summary>
+<summary><code>def get_all_subscriptions(wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket2OrStr, wm_global_version: WmGlobalVersionOrStr, *, subscription_id: str | None = None, event_type: str | None = None, resource_name: str | None = None, status: str | None = None, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> V3WebhooksSubscriptionsResponse</code></summary>
 
 <dl>
 <dd>
@@ -3271,11 +3147,7 @@ Retrieve details of all webhook subscriptions created using the Create Subscript
 ```python
 try:
     response = client.notifications.get_all_subscriptions(
-        "eyJraWQiOiIxNWNhNGIyYi0yODVjLTQ0ZDUtYmExNC05ZDk1NTlkZmUwNjgiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0....",
-        "b3261d2d-028a-4ef7-8602-633c23200af6",
-        "Walmart Marketplace",
-        WmMarket2.US,
-        WmGlobalVersion._3_1,
+        "b3261d2d-028a-4ef7-8602-633c23200af6", "Walmart Marketplace", WmMarket2.US, WmGlobalVersion._3_1
     )
     # TODO: Handle 'response' of type V3WebhooksSubscriptionsResponse
 except ApiError as e:
@@ -3287,11 +3159,7 @@ except ApiError as e:
 ```python
 try:
     response = await async_client.notifications.get_all_subscriptions(
-        "eyJraWQiOiIxNWNhNGIyYi0yODVjLTQ0ZDUtYmExNC05ZDk1NTlkZmUwNjgiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0....",
-        "b3261d2d-028a-4ef7-8602-633c23200af6",
-        "Walmart Marketplace",
-        WmMarket2.US,
-        WmGlobalVersion._3_1,
+        "b3261d2d-028a-4ef7-8602-633c23200af6", "Walmart Marketplace", WmMarket2.US, WmGlobalVersion._3_1
     )
     # TODO: Handle 'response' of type V3WebhooksSubscriptionsResponse
 except ApiError as e:
@@ -3308,7 +3176,6 @@ except ApiError as e:
 
 | Name | Type | Description |
 | --- | --- | --- |
-| <code>wm_sec_access_token</code> | <code>str</code> | Access token obtained from the Token API. This is required for authenticating requests to Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID that identifies each API call and is used to track and debug issues. Use a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_svc_name</code> | <code>str</code> | Name of the Walmart service being called.<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_market</code> | <code>[WmMarket2OrStr](walmart_apis/models/enums/wm_market2.py)</code> | Identifies the Walmart Marketplace region for the request. If not specified, US is used by default.<br><b style='color:green;'>Market availability: Global</span></b> |
@@ -3341,7 +3208,7 @@ except ApiError as e:
 </details>
 
 <details>
-<summary><code>def get_event_types(wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket2OrStr, wm_global_version: WmGlobalVersionOrStr, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> V3WebhooksEventTypesResponse</code></summary>
+<summary><code>def get_event_types(wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket2OrStr, wm_global_version: WmGlobalVersionOrStr, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> V3WebhooksEventTypesResponse</code></summary>
 
 <dl>
 <dd>
@@ -3372,11 +3239,7 @@ Resource names are functional API categories (for example, ITEM, PRICE, ORDER, I
 ```python
 try:
     response = client.notifications.get_event_types(
-        "eyJraWQiOiIxNWNhNGIyYi0yODVjLTQ0ZDUtYmExNC05ZDk1NTlkZmUwNjgiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0....",
-        "b3261d2d-028a-4ef7-8602-633c23200af6",
-        "Walmart Marketplace",
-        WmMarket2.US,
-        WmGlobalVersion._3_1,
+        "b3261d2d-028a-4ef7-8602-633c23200af6", "Walmart Marketplace", WmMarket2.US, WmGlobalVersion._3_1
     )
     # TODO: Handle 'response' of type V3WebhooksEventTypesResponse
 except ApiError as e:
@@ -3388,11 +3251,7 @@ except ApiError as e:
 ```python
 try:
     response = await async_client.notifications.get_event_types(
-        "eyJraWQiOiIxNWNhNGIyYi0yODVjLTQ0ZDUtYmExNC05ZDk1NTlkZmUwNjgiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0....",
-        "b3261d2d-028a-4ef7-8602-633c23200af6",
-        "Walmart Marketplace",
-        WmMarket2.US,
-        WmGlobalVersion._3_1,
+        "b3261d2d-028a-4ef7-8602-633c23200af6", "Walmart Marketplace", WmMarket2.US, WmGlobalVersion._3_1
     )
     # TODO: Handle 'response' of type V3WebhooksEventTypesResponse
 except ApiError as e:
@@ -3409,7 +3268,6 @@ except ApiError as e:
 
 | Name | Type | Description |
 | --- | --- | --- |
-| <code>wm_sec_access_token</code> | <code>str</code> | Access token obtained from the Token API. This is required for authenticating requests to Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID that identifies each API call and is used to track and debug issues. Use a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_svc_name</code> | <code>str</code> | Name of the Walmart service being called.<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_market</code> | <code>[WmMarket2OrStr](walmart_apis/models/enums/wm_market2.py)</code> | Identifies the Walmart Marketplace region for the request. If not specified, US is used by default.<br><b style='color:green;'>Market availability: Global</span></b> |
@@ -3438,7 +3296,7 @@ except ApiError as e:
 </details>
 
 <details>
-<summary><code>def test_notification(wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket2OrStr, wm_global_version: WmGlobalVersionOrStr, body: V3WebhooksTestRequest | V3WebhooksTestRequestDict, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> RejectRecommendationsResponsePayload</code></summary>
+<summary><code>def test_notification(wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket2OrStr, wm_global_version: WmGlobalVersionOrStr, body: V3WebhooksTestRequest | V3WebhooksTestRequestDict, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> RejectRecommendationsResponsePayload</code></summary>
 
 <dl>
 <dd>
@@ -3465,7 +3323,6 @@ Send a test notification to a destination URL using a sample payload.
 ```python
 try:
     response = client.notifications.test_notification(
-        "eyJraWQiOiIxNWNhNGIyYi0yODVjLTQ0ZDUtYmExNC05ZDk1NTlkZmUwNjgiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Marketplace",
         WmMarket2.US,
@@ -3491,7 +3348,6 @@ except ApiError as e:
 ```python
 try:
     response = await async_client.notifications.test_notification(
-        "eyJraWQiOiIxNWNhNGIyYi0yODVjLTQ0ZDUtYmExNC05ZDk1NTlkZmUwNjgiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Marketplace",
         WmMarket2.US,
@@ -3522,7 +3378,6 @@ except ApiError as e:
 
 | Name | Type | Description |
 | --- | --- | --- |
-| <code>wm_sec_access_token</code> | <code>str</code> | Access token obtained from the Token API. This is required for authenticating requests to Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID that identifies each API call and is used to track and debug issues. Use a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_svc_name</code> | <code>str</code> | Name of the Walmart service being called.<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_market</code> | <code>[WmMarket2OrStr](walmart_apis/models/enums/wm_market2.py)</code> | Identifies the Walmart Marketplace region for the request. If not specified, US is used by default.<br><b style='color:green;'>Market availability: Global</span></b> |
@@ -3552,7 +3407,7 @@ except ApiError as e:
 </details>
 
 <details>
-<summary><code>def update_subscription(subscription_id: str, wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket2OrStr, wm_global_version: WmGlobalVersionOrStr, body: V3WebhooksSubscriptionsRequest1 | V3WebhooksSubscriptionsRequest1Dict, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> V3WebhooksSubscriptionsResponse3</code></summary>
+<summary><code>def update_subscription(subscription_id: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket2OrStr, wm_global_version: WmGlobalVersionOrStr, body: V3WebhooksSubscriptionsRequest1 | V3WebhooksSubscriptionsRequest1Dict, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> V3WebhooksSubscriptionsResponse3</code></summary>
 
 <dl>
 <dd>
@@ -3580,7 +3435,6 @@ Update the details of a subscription. You can update the event version, destinat
 try:
     response = client.notifications.update_subscription(
         "some example string",
-        "eyJraWQiOiIxNWNhNGIyYi0yODVjLTQ0ZDUtYmExNC05ZDk1NTlkZmUwNjgiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Marketplace",
         WmMarket2.US,
@@ -3604,7 +3458,6 @@ except ApiError as e:
 try:
     response = await async_client.notifications.update_subscription(
         "some example string",
-        "eyJraWQiOiIxNWNhNGIyYi0yODVjLTQ0ZDUtYmExNC05ZDk1NTlkZmUwNjgiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Marketplace",
         WmMarket2.US,
@@ -3633,7 +3486,6 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>subscription_id</code> | <code>str</code> | Unique identifier of the subscription to update.<br><b style='color:green;'>Market availability: Global</b> |
-| <code>wm_sec_access_token</code> | <code>str</code> | Access token obtained from the Token API. This is required for authenticating requests to Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID that identifies each API call and is used to track and debug issues. Use a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_svc_name</code> | <code>str</code> | Name of the Walmart service being called.<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_market</code> | <code>[WmMarket2OrStr](walmart_apis/models/enums/wm_market2.py)</code> | Identifies the Walmart Marketplace region for the request. If not specified, US is used by default.<br><b style='color:green;'>Market availability: Global</span></b> |
@@ -3667,7 +3519,7 @@ except ApiError as e:
 > Source: [OnRequestReport](walmart_apis/apis/on_request_report.py)
 
 <details>
-<summary><code>def generate_report(report_type: ReportType4OrStr, report_version: str, wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, accept: str, *, wm_consumer_channel_type: str | None = None, body: V3ReportsReportRequestsRequest | V3ReportsReportRequestsRequestDict | None = None, request_options: RequestOptionsOrDict | None = None) -> V3ReportsReportRequestsResponse1</code></summary>
+<summary><code>def generate_report(report_type: ReportType4OrStr, report_version: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, accept: str, *, wm_consumer_channel_type: str | None = None, body: V3ReportsReportRequestsRequest | V3ReportsReportRequestsRequestDict | None = None, request_options: RequestOptionsOrDict | None = None) -> V3ReportsReportRequestsResponse1</code></summary>
 
 <dl>
 <dd>
@@ -3699,7 +3551,6 @@ try:
     response = client.on_request_report.generate_report(
         ReportType4.ITEM,
         "v1",
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         WmMarket1.US,
@@ -3733,7 +3584,6 @@ try:
     response = await async_client.on_request_report.generate_report(
         ReportType4.ITEM,
         "v1",
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         WmMarket1.US,
@@ -3772,7 +3622,6 @@ except ApiError as e:
 | --- | --- | --- |
 | <code>report_type</code> | <code>[ReportType4OrStr](walmart_apis/models/enums/report_type4.py)</code> | Type of report for which the request is created. Example, ITEM for Item Report.<br><br><strong style="color: green;">Market availability: <br><br> ITEM: Global <br>INVENTORY: Global <br>LAGTIME: US\|CA\|MX <br>Other Reports: US only</strong> |
 | <code>report_version</code> | <code>str</code> | Version of report for which the request is created.<br><br><strong style="color: green;">Market availability: Global</strong><br><br> \|ReportType \|Market Availabilty \|Version Supported <br>\|--------\|----------\|----------<br>\| ITEM   \|Global\|  v1  (**v3 to v6 : US only**)<br>\|INVENTORY\|Global\| v1 <br>\|LAGTIME\|US,CA,MX\| v1 <br>\|DELIVERY_DEFECT\|US only\| v1 <br>\|ITEM_PERFORMANCE\|US only\| v1 to v3 <br>\|PROMO\|US only\| v1 <br>\|RETURN_OVERRIDES\|US only\| v1 <br>\|CPA\|US only\| v1 <br>\|SHIPPING_CONFIGURATION\|US only\| v1 <br>\|SHIPPING_PROGRAM\|US only\| v1 <br>\|FITMENT_MISSING_ATTR\|US only\| v1 <br>\|FITMENT_ACES_COVERAGE\|US only\| v1 <br>\|BUYBOX\|US only\| v1 <br>\|ASSORTMENT_RECOMMENDATIONS\|US only\| v1 <br>\|CANCELLATION\|US only\| v1 <br>\|INVENTORY_RECOMMENDATIONS\|US only\| v1 \| |
-| <code>wm_sec_access_token</code> | <code>str</code> | Access token obtained from the Token API. Required for authenticating requests to Walmart Marketplace APIs.<br><br><strong style="color: green;">Market availability: Global</strong> |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID which identifies each API call and used to track and debug issues; use a random generated GUID for this ID.<br><br><strong style="color: green;">Market availability: Global</strong> |
 | <code>wm_svc_name</code> | <code>str</code> | Specifies the name of the Walmart service being called.<br><br><strong style="color: green;">Market availability: Global</strong> |
 | <code>wm_market</code> | <code>[WmMarket1OrStr](walmart_apis/models/enums/wm_market1.py)</code> | The target market of the API call. <br><br><strong style="color: green;">Market availability: Global</strong> |
@@ -3814,7 +3663,7 @@ Mapped in first-match order -- an earlier row wins over a later range that also 
 > Source: [OnRequestReportApi](walmart_apis/apis/on_request_report_api.py)
 
 <details>
-<summary><code>def download_report(request_id: str, wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, accept: str, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> DownloadReportResponse</code></summary>
+<summary><code>def download_report(request_id: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, accept: str, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> DownloadReportResponse</code></summary>
 
 <dl>
 <dd>
@@ -3841,7 +3690,6 @@ Fetches URL to download a generated report.
 try:
     response = client.on_request_report_api.download_report(
         "28fae71e-7f34-4493-ad5b-1edca6afebf7",
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         WmMarket1.US,
@@ -3859,7 +3707,6 @@ except ApiError as e:
 try:
     response = await async_client.on_request_report_api.download_report(
         "28fae71e-7f34-4493-ad5b-1edca6afebf7",
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         WmMarket1.US,
@@ -3882,7 +3729,6 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>request_id</code> | <code>str</code> | Automated ID generated by system that uniquely identifies the report request.<br><br><strong style="color: green;">Market availability: Global</strong> |
-| <code>wm_sec_access_token</code> | <code>str</code> | Access token obtained from the Token API. Required for authenticating requests to Walmart Marketplace APIs.<br><br><strong style="color: green;">Market availability: Global</strong> |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID which identifies each API call and used to track and debug issues; use a random generated GUID for this ID.<br><br><strong style="color: green;">Market availability: Global</strong> |
 | <code>wm_svc_name</code> | <code>str</code> | Specifies the name of the Walmart service being called.<br><br><strong style="color: green;">Market availability: Global</strong> |
 | <code>wm_market</code> | <code>[WmMarket1OrStr](walmart_apis/models/enums/wm_market1.py)</code> | The target market of the API call. <br><br><strong style="color: green;">Market availability: Global</strong> |
@@ -3912,7 +3758,7 @@ except ApiError as e:
 </details>
 
 <details>
-<summary><code>def get_requests_status(report_type: ReportType4OrStr, wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, accept: str, *, report_version: str | None = None, request_status: RequestStatus4OrStr | None = None, request_submission_start_date: str | None = None, request_submission_end_date: str | None = None, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> RequestsStatusResponse</code></summary>
+<summary><code>def get_requests_status(report_type: ReportType4OrStr, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, accept: str, *, report_version: str | None = None, request_status: RequestStatus4OrStr | None = None, request_submission_start_date: str | None = None, request_submission_end_date: str | None = None, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> RequestsStatusResponse</code></summary>
 
 <dl>
 <dd>
@@ -3941,7 +3787,6 @@ You can fetch details of report requests created in the last 30 days only.
 try:
     response = client.on_request_report_api.get_requests_status(
         ReportType4.ITEM,
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         WmMarket1.US,
@@ -3961,7 +3806,6 @@ except ApiError as e:
 try:
     response = await async_client.on_request_report_api.get_requests_status(
         ReportType4.ITEM,
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         WmMarket1.US,
@@ -3986,7 +3830,6 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>report_type</code> | <code>[ReportType4OrStr](walmart_apis/models/enums/report_type4.py)</code> | Type of report for which the request is created. Example, ITEM for Item Report.<br><br><strong style="color: green;">Market availability: <br><br> ITEM: Global <br>INVENTORY: Global <br>LAGTIME: US\|CA\|MX <br>Other Reports: US only</strong> |
-| <code>wm_sec_access_token</code> | <code>str</code> | Access token obtained from the Token API. Required for authenticating requests to Walmart Marketplace APIs.<br><br><strong style="color: green;">Market availability: Global</strong> |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID which identifies each API call and used to track and debug issues; use a random generated GUID for this ID.<br><br><strong style="color: green;">Market availability: Global</strong> |
 | <code>wm_svc_name</code> | <code>str</code> | Specifies the name of the Walmart service being called.<br><br><strong style="color: green;">Market availability: Global</strong> |
 | <code>wm_market</code> | <code>[WmMarket1OrStr](walmart_apis/models/enums/wm_market1.py)</code> | The target market of the API call. <br><br><strong style="color: green;">Market availability: Global</strong> |
@@ -4020,7 +3863,7 @@ except ApiError as e:
 </details>
 
 <details>
-<summary><code>def get_single_request_status(request_id: str, wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, accept: str, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> RequestStatusResponse</code></summary>
+<summary><code>def get_single_request_status(request_id: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, accept: str, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> RequestStatusResponse</code></summary>
 
 <dl>
 <dd>
@@ -4049,7 +3892,6 @@ You can fetch details of report request created in the last 30 days only.
 try:
     response = client.on_request_report_api.get_single_request_status(
         "28fae71e-7f34-4493-ad5b-1edca6afebf7",
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         WmMarket1.US,
@@ -4067,7 +3909,6 @@ except ApiError as e:
 try:
     response = await async_client.on_request_report_api.get_single_request_status(
         "28fae71e-7f34-4493-ad5b-1edca6afebf7",
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         WmMarket1.US,
@@ -4090,7 +3931,6 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>request_id</code> | <code>str</code> | Automated ID generated by system that uniquely identifies the report request.<br><br><strong style="color: green;">Market availability: Global</strong> |
-| <code>wm_sec_access_token</code> | <code>str</code> | Access token obtained from the Token API. Required for authenticating requests to Walmart Marketplace APIs.<br><br><strong style="color: green;">Market availability: Global</strong> |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID which identifies each API call and used to track and debug issues; use a random generated GUID for this ID.<br><br><strong style="color: green;">Market availability: Global</strong> |
 | <code>wm_svc_name</code> | <code>str</code> | Specifies the name of the Walmart service being called.<br><br><strong style="color: green;">Market availability: Global</strong> |
 | <code>wm_market</code> | <code>[WmMarket1OrStr](walmart_apis/models/enums/wm_market1.py)</code> | The target market of the API call. <br><br><strong style="color: green;">Market availability: Global</strong> |
@@ -4124,7 +3964,7 @@ except ApiError as e:
 > Source: [Prices](walmart_apis/apis/prices.py)
 
 <details>
-<summary><code>def create_strategy(wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, body: V3RepricerStrategyRequest1 | V3RepricerStrategyRequest1Dict, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> V3RepricerStrategyResponse2</code></summary>
+<summary><code>def create_strategy(wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, body: V3RepricerStrategyRequest1 | V3RepricerStrategyRequest1Dict, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> V3RepricerStrategyResponse2</code></summary>
 
 <dl>
 <dd>
@@ -4149,7 +3989,6 @@ Creates a new strategy for the seller.<br><b style='color:green;'>Market availab
 ```python
 try:
     response = client.prices.create_strategy(
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         WmMarket1.US,
@@ -4166,7 +4005,6 @@ except ApiError as e:
 ```python
 try:
     response = await async_client.prices.create_strategy(
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         WmMarket1.US,
@@ -4188,7 +4026,6 @@ except ApiError as e:
 
 | Name | Type | Description |
 | --- | --- | --- |
-| <code>wm_sec_access_token</code> | <code>str</code> | Access token obtained from the Token API. Required for authenticating requests to Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID which identifies each API call and is used to track and debug issues. Use a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_svc_name</code> | <code>str</code> | Specifies the name of the Walmart service being called.<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_market</code> | <code>[WmMarket1OrStr](walmart_apis/models/enums/wm_market1.py)</code> | Identifies the Walmart Marketplace region for the request. If not specified, US is used by default.<br><b style='color:green;'>Market availability: Global</b> |
@@ -4226,7 +4063,7 @@ Mapped in first-match order -- an earlier row wins over a later range that also 
 </details>
 
 <details>
-<summary><code>def delete_strategy(strategy_collection_id: str, wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> RejectRecommendationsResponsePayload</code></summary>
+<summary><code>def delete_strategy(strategy_collection_id: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> RejectRecommendationsResponsePayload</code></summary>
 
 <dl>
 <dd>
@@ -4252,7 +4089,6 @@ Deletes the strategy.<br><b style='color:green;'>Market availability: US | CA | 
 try:
     response = client.prices.delete_strategy(
         "some example string",
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         WmMarket1.US,
@@ -4269,7 +4105,6 @@ except ApiError as e:
 try:
     response = await async_client.prices.delete_strategy(
         "some example string",
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         WmMarket1.US,
@@ -4291,7 +4126,6 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>strategy_collection_id</code> | <code>str</code> | Unique identifier used to group and manage repricing strategies across different resources.<br><b style='color:green;'>Market availability: US \| CA \| MX</b> |
-| <code>wm_sec_access_token</code> | <code>str</code> | Access token obtained from the Token API. Required for authenticating requests to Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID which identifies each API call and is used to track and debug issues. Use a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_svc_name</code> | <code>str</code> | Specifies the name of the Walmart service being called.<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_market</code> | <code>[WmMarket1OrStr](walmart_apis/models/enums/wm_market1.py)</code> | Identifies the Walmart Marketplace region for the request. If not specified, US is used by default.<br><b style='color:green;'>Market availability: Global</b> |
@@ -4328,7 +4162,7 @@ Mapped in first-match order -- an earlier row wins over a later range that also 
 </details>
 
 <details>
-<summary><code>def get_all_incentives(wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, *, incentive_status: IncentiveStatusOrStr = IncentiveStatus.ELIGIBLE, limit: int | None = 25, offset: int | None = 0, sort_by: SortBy1OrStr | None = SortBy1.EXPIRATION_DATE, sort_order: OrderOrStr | None = Order.DESC, incentive_type: IncentiveTypeOrStr | None = None, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> V3PriceIncentivesResponse</code></summary>
+<summary><code>def get_all_incentives(wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, *, incentive_status: IncentiveStatusOrStr = IncentiveStatus.ELIGIBLE, limit: int | None = 25, offset: int | None = 0, sort_by: SortBy1OrStr | None = SortBy1.EXPIRATION_DATE, sort_order: OrderOrStr | None = Order.DESC, incentive_type: IncentiveTypeOrStr | None = None, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> V3PriceIncentivesResponse</code></summary>
 
 <dl>
 <dd>
@@ -4359,7 +4193,6 @@ Enrollment Type and Date for Eligible Reduced Referral Fee incentives will not s
 ```python
 try:
     response = client.prices.get_all_incentives(
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         WmMarket1.US,
@@ -4376,7 +4209,6 @@ except ApiError as e:
 ```python
 try:
     response = await async_client.prices.get_all_incentives(
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         WmMarket1.US,
@@ -4398,7 +4230,6 @@ except ApiError as e:
 
 | Name | Type | Description |
 | --- | --- | --- |
-| <code>wm_sec_access_token</code> | <code>str</code> | Access token obtained from the Token API. Required for authenticating requests to Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID which identifies each API call and is used to track and debug issues. Use a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_svc_name</code> | <code>str</code> | Specifies the name of the Walmart service being called.<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_market</code> | <code>[WmMarket1OrStr](walmart_apis/models/enums/wm_market1.py)</code> | Identifies the Walmart Marketplace region for the request. If not specified, US is used by default.<br><b style='color:green;'>Market availability: Global</b> |
@@ -4441,7 +4272,7 @@ Mapped in first-match order -- an earlier row wins over a later range that also 
 </details>
 
 <details>
-<summary><code>def get_repricer_feed(wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, body: V3RepricerFeedsRequest | V3RepricerFeedsRequestDict, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> FeedId1</code></summary>
+<summary><code>def get_repricer_feed(wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, body: V3RepricerFeedsRequest | V3RepricerFeedsRequestDict, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> FeedId1</code></summary>
 
 <dl>
 <dd>
@@ -4466,7 +4297,6 @@ Add/Remove one or more items from a strategy.<br><b style='color:green;'>Market 
 ```python
 try:
     response = client.prices.get_repricer_feed(
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         WmMarket1.US,
@@ -4483,7 +4313,6 @@ except ApiError as e:
 ```python
 try:
     response = await async_client.prices.get_repricer_feed(
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         WmMarket1.US,
@@ -4505,7 +4334,6 @@ except ApiError as e:
 
 | Name | Type | Description |
 | --- | --- | --- |
-| <code>wm_sec_access_token</code> | <code>str</code> | Access token obtained from the Token API. Required for authenticating requests to Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID which identifies each API call and is used to track and debug issues. Use a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_svc_name</code> | <code>str</code> | Specifies the name of the Walmart service being called.<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_market</code> | <code>[WmMarket1OrStr](walmart_apis/models/enums/wm_market1.py)</code> | Identifies the Walmart Marketplace region for the request. If not specified, US is used by default.<br><b style='color:green;'>Market availability: Global</b> |
@@ -4542,7 +4370,7 @@ Mapped in first-match order -- an earlier row wins over a later range that also 
 </details>
 
 <details>
-<summary><code>def get_strategies(wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, *, offset: str | None = "0", limit: str | None = "10", wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> V3RepricerStrategiesResponse</code></summary>
+<summary><code>def get_strategies(wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, *, offset: str | None = "0", limit: str | None = "10", wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> V3RepricerStrategiesResponse</code></summary>
 
 <dl>
 <dd>
@@ -4567,11 +4395,7 @@ Get the list of strategies.<br><b style='color:green;'>Market availability: US |
 ```python
 try:
     response = client.prices.get_strategies(
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
-        "b3261d2d-028a-4ef7-8602-633c23200af6",
-        "Walmart Service Name",
-        WmMarket1.US,
-        WmGlobalVersion._3_1,
+        "b3261d2d-028a-4ef7-8602-633c23200af6", "Walmart Service Name", WmMarket1.US, WmGlobalVersion._3_1
     )
     # TODO: Handle 'response' of type V3RepricerStrategiesResponse
 except ApiError as e:
@@ -4583,11 +4407,7 @@ except ApiError as e:
 ```python
 try:
     response = await async_client.prices.get_strategies(
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
-        "b3261d2d-028a-4ef7-8602-633c23200af6",
-        "Walmart Service Name",
-        WmMarket1.US,
-        WmGlobalVersion._3_1,
+        "b3261d2d-028a-4ef7-8602-633c23200af6", "Walmart Service Name", WmMarket1.US, WmGlobalVersion._3_1
     )
     # TODO: Handle 'response' of type V3RepricerStrategiesResponse
 except ApiError as e:
@@ -4604,7 +4424,6 @@ except ApiError as e:
 
 | Name | Type | Description |
 | --- | --- | --- |
-| <code>wm_sec_access_token</code> | <code>str</code> | Access token obtained from the Token API. Required for authenticating requests to Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID which identifies each API call and is used to track and debug issues. Use a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_svc_name</code> | <code>str</code> | Specifies the name of the Walmart service being called.<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_market</code> | <code>[WmMarket1OrStr](walmart_apis/models/enums/wm_market1.py)</code> | Identifies the Walmart Marketplace region for the request. If not specified, US is used by default.<br><b style='color:green;'>Market availability: Global</b> |
@@ -4642,7 +4461,7 @@ Mapped in first-match order -- an earlier row wins over a later range that also 
 </details>
 
 <details>
-<summary><code>def price_and_promotion_bulk_uploads(feed_type: FeedType21OrStr, wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, body: V3FeedsFeedTypePriceAndPromotionRequest | V3FeedsFeedTypePriceAndPromotionRequestDict, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> FeedId</code></summary>
+<summary><code>def price_and_promotion_bulk_uploads(feed_type: FeedType21OrStr, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, body: V3FeedsFeedTypePriceAndPromotionRequest | V3FeedsFeedTypePriceAndPromotionRequestDict, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> FeedId</code></summary>
 
 <dl>
 <dd>
@@ -4682,7 +4501,6 @@ For more information and usage examples, refer to the <a href="https://developer
 try:
     response = client.prices.price_and_promotion_bulk_uploads(
         FeedType21.PRICE_AND_PROMOTION,
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         WmMarket1.US,
@@ -4700,7 +4518,6 @@ except ApiError as e:
 try:
     response = await async_client.prices.price_and_promotion_bulk_uploads(
         FeedType21.PRICE_AND_PROMOTION,
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         WmMarket1.US,
@@ -4723,7 +4540,6 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>feed_type</code> | <code>[FeedType21OrStr](walmart_apis/models/enums/feed_type21.py)</code> | The feed Type.<br><b style='color:green;'>Market availability: Global</b> |
-| <code>wm_sec_access_token</code> | <code>str</code> | Access token obtained from the Token API. Required for authenticating requests to Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID that identifies each API call and is used to track and debug issues. Use a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_svc_name</code> | <code>str</code> | Specifies the name of the Walmart service being called.<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_market</code> | <code>[WmMarket1OrStr](walmart_apis/models/enums/wm_market1.py)</code> | Identifies the Walmart Marketplace region for the request. If not specified, US is used by default.<br><b style='color:green;'>Market availability: Global</b> |
@@ -4760,7 +4576,7 @@ Mapped in first-match order -- an earlier row wins over a later range that also 
 </details>
 
 <details>
-<summary><code>def reduced_referral_fee_incentives_enrollment(feed_type: FeedType11OrStr, wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, body: V3FeedsFeedTypeIncentiveEnrollmentRequest | V3FeedsFeedTypeIncentiveEnrollmentRequestDict, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> V3FeedsFeedTypeIncentiveEnrollmentResponse</code></summary>
+<summary><code>def reduced_referral_fee_incentives_enrollment(feed_type: FeedType11OrStr, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, body: V3FeedsFeedTypeIncentiveEnrollmentRequest | V3FeedsFeedTypeIncentiveEnrollmentRequestDict, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> V3FeedsFeedTypeIncentiveEnrollmentResponse</code></summary>
 
 <dl>
 <dd>
@@ -4786,7 +4602,6 @@ You can use this API endpoint to enroll any eligible reduced referral fee incent
 try:
     response = client.prices.reduced_referral_fee_incentives_enrollment(
         FeedType11.INCENTIVE_ENROLLMENT,
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         WmMarket1.US,
@@ -4804,7 +4619,6 @@ except ApiError as e:
 try:
     response = await async_client.prices.reduced_referral_fee_incentives_enrollment(
         FeedType11.INCENTIVE_ENROLLMENT,
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         WmMarket1.US,
@@ -4827,7 +4641,6 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>feed_type</code> | <code>[FeedType11OrStr](walmart_apis/models/enums/feed_type11.py)</code> | The feed Type.<br><b style='color:green;'>Market availability: US</b> |
-| <code>wm_sec_access_token</code> | <code>str</code> | Access token obtained from the Token API. Required for authenticating requests to Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID which identifies each API call and is used to track and debug issues. Use a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_svc_name</code> | <code>str</code> | Specifies the name of the Walmart service being called.<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_market</code> | <code>[WmMarket1OrStr](walmart_apis/models/enums/wm_market1.py)</code> | Identifies the Walmart Marketplace region for the request. If not specified, US is used by default.<br><b style='color:green;'>Market availability: Global</b> |
@@ -4864,7 +4677,7 @@ Mapped in first-match order -- an earlier row wins over a later range that also 
 </details>
 
 <details>
-<summary><code>def update_price(wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, body: V3PriceRequest | V3PriceRequestDict, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> V3PriceResponse</code></summary>
+<summary><code>def update_price(wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, body: V3PriceRequest | V3PriceRequestDict, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> V3PriceResponse</code></summary>
 
 <dl>
 <dd>
@@ -4891,7 +4704,6 @@ For more information and usage examples, refer to the <a href="https://developer
 ```python
 try:
     response = client.prices.update_price(
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         WmMarket1.US,
@@ -4908,7 +4720,6 @@ except ApiError as e:
 ```python
 try:
     response = await async_client.prices.update_price(
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         WmMarket1.US,
@@ -4930,7 +4741,6 @@ except ApiError as e:
 
 | Name | Type | Description |
 | --- | --- | --- |
-| <code>wm_sec_access_token</code> | <code>str</code> | Access token obtained from the Token API. Required for authenticating requests to Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID that identifies each API call and is used to track and debug issues. Use a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_svc_name</code> | <code>str</code> | Specifies the name of the Walmart service being called.<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_market</code> | <code>[WmMarket1OrStr](walmart_apis/models/enums/wm_market1.py)</code> | Identifies the Walmart Marketplace region for the request. If not specified, US is used by default.<br><b style='color:green;'>Market availability: Global</b> |
@@ -4967,7 +4777,7 @@ Mapped in first-match order -- an earlier row wins over a later range that also 
 </details>
 
 <details>
-<summary><code>def update_strategy(strategy_collection_id: str, wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, body: V3RepricerStrategyRequest | V3RepricerStrategyRequestDict, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> V3RepricerStrategyResponse</code></summary>
+<summary><code>def update_strategy(strategy_collection_id: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, body: V3RepricerStrategyRequest | V3RepricerStrategyRequestDict, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> V3RepricerStrategyResponse</code></summary>
 
 <dl>
 <dd>
@@ -4993,7 +4803,6 @@ Updates the existing strategy.<br><b style='color:green;'>Market availability: U
 try:
     response = client.prices.update_strategy(
         "some example string",
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         WmMarket1.US,
@@ -5011,7 +4820,6 @@ except ApiError as e:
 try:
     response = await async_client.prices.update_strategy(
         "some example string",
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         WmMarket1.US,
@@ -5034,7 +4842,6 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>strategy_collection_id</code> | <code>str</code> | Unique identifier used to group and manage repricing strategies across different resources.<br><b style='color:green;'>Market availability: US \| CA \| MX</span></b> |
-| <code>wm_sec_access_token</code> | <code>str</code> | Access token obtained from the Token API. Required for authenticating requests to Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</span></b> |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID which identifies each API call and is used to track and debug issues. Use a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</span></b> |
 | <code>wm_svc_name</code> | <code>str</code> | Specifies the name of the Walmart service being called.<br><b style='color:green;'>Market availability: Global</span></b> |
 | <code>wm_market</code> | <code>[WmMarket1OrStr](walmart_apis/models/enums/wm_market1.py)</code> | Identifies the Walmart Marketplace region for the request. If not specified, US is used by default.<br><b style='color:green;'>Market availability: Global</b> |
@@ -5072,7 +4879,7 @@ Mapped in first-match order -- an earlier row wins over a later range that also 
 </details>
 
 <details>
-<summary><code>def update_walmart_funded_incentives_enrollment_status(wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, *, auto_enroll_enabled: bool = True, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> V3PriceIncentivesWfpreferenceResponse</code></summary>
+<summary><code>def update_walmart_funded_incentives_enrollment_status(wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, *, auto_enroll_enabled: bool = True, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> V3PriceIncentivesWfpreferenceResponse</code></summary>
 
 <dl>
 <dd>
@@ -5101,7 +4908,6 @@ Any changes to preferences will lock in (disable) the preference option for a pe
 ```python
 try:
     response = client.prices.update_walmart_funded_incentives_enrollment_status(
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         WmMarket1.US,
@@ -5118,7 +4924,6 @@ except ApiError as e:
 ```python
 try:
     response = await async_client.prices.update_walmart_funded_incentives_enrollment_status(
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         WmMarket1.US,
@@ -5140,7 +4945,6 @@ except ApiError as e:
 
 | Name | Type | Description |
 | --- | --- | --- |
-| <code>wm_sec_access_token</code> | <code>str</code> | Access token obtained from the Token API. Required for authenticating requests to Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID which identifies each API call and is used to track and debug issues. Use a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_svc_name</code> | <code>str</code> | Specifies the name of the Walmart service being called.<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_market</code> | <code>[WmMarket1OrStr](walmart_apis/models/enums/wm_market1.py)</code> | Identifies the Walmart Marketplace region for the request. If not specified, US is used by default.<br><b style='color:green;'>Market availability: Global</b> |
@@ -5177,7 +4981,7 @@ Mapped in first-match order -- an earlier row wins over a later range that also 
 </details>
 
 <details>
-<summary><code>def walmart_funded_incentives_enrollment(feed_type: FeedType2OrStr, wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, body: V3FeedsFeedTypeWalmartFundedIncentivesEnrollmentRequest | V3FeedsFeedTypeWalmartFundedIncentivesEnrollmentRequestDict, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> FeedId</code></summary>
+<summary><code>def walmart_funded_incentives_enrollment(feed_type: FeedType2OrStr, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, body: V3FeedsFeedTypeWalmartFundedIncentivesEnrollmentRequest | V3FeedsFeedTypeWalmartFundedIncentivesEnrollmentRequestDict, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> FeedId</code></summary>
 
 <dl>
 <dd>
@@ -5205,7 +5009,6 @@ You can also 'Opt-in' items which were previously Opted-out by you at any time u
 try:
     response = client.prices.walmart_funded_incentives_enrollment(
         FeedType2.WALMART_FUNDED_INCENTIVES_ENROLLMENT,
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         WmMarket1.US,
@@ -5223,7 +5026,6 @@ except ApiError as e:
 try:
     response = await async_client.prices.walmart_funded_incentives_enrollment(
         FeedType2.WALMART_FUNDED_INCENTIVES_ENROLLMENT,
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         WmMarket1.US,
@@ -5246,7 +5048,6 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>feed_type</code> | <code>[FeedType2OrStr](walmart_apis/models/enums/feed_type2.py)</code> | The feed Type.<br><b style='color:green;'>Market availability: US</b> |
-| <code>wm_sec_access_token</code> | <code>str</code> | Access token obtained from the Token API. Required for authenticating requests to Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID which identifies each API call and is used to track and debug issues. Use a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_svc_name</code> | <code>str</code> | Specifies the name of the Walmart service being called.<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_market</code> | <code>[WmMarket1OrStr](walmart_apis/models/enums/wm_market1.py)</code> | Identifies the Walmart Marketplace region for the request. If not specified, US is used by default.<br><b style='color:green;'>Market availability: Global</b> |
@@ -6086,7 +5887,7 @@ Mapped in first-match order -- an earlier row wins over a later range that also 
 > Source: [ReportScheduler](walmart_apis/apis/report_scheduler.py)
 
 <details>
-<summary><code>def delete_report_schedule(schedule_id: str, wm_svc_name: str, wm_qos_correlation_id: str, wm_sec_access_token: str, *, request_options: RequestOptionsOrDict | None = None) -> RejectRecommendationsResponsePayload</code></summary>
+<summary><code>def delete_report_schedule(schedule_id: str, wm_svc_name: str, wm_qos_correlation_id: str, *, request_options: RequestOptionsOrDict | None = None) -> RejectRecommendationsResponsePayload</code></summary>
 
 <dl>
 <dd>
@@ -6113,10 +5914,7 @@ This API allows you to remove an existing report schedule.
 ```python
 try:
     response = client.report_scheduler.delete_report_schedule(
-        "some example string",
-        "Walmart Marketplace",
-        "b3261d2d-028a-4ef7-8602-633c23200af6",
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
+        "some example string", "Walmart Marketplace", "b3261d2d-028a-4ef7-8602-633c23200af6"
     )
     # TODO: Handle 'response' of type RejectRecommendationsResponsePayload
 except ApiError as e:
@@ -6128,10 +5926,7 @@ except ApiError as e:
 ```python
 try:
     response = await async_client.report_scheduler.delete_report_schedule(
-        "some example string",
-        "Walmart Marketplace",
-        "b3261d2d-028a-4ef7-8602-633c23200af6",
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
+        "some example string", "Walmart Marketplace", "b3261d2d-028a-4ef7-8602-633c23200af6"
     )
     # TODO: Handle 'response' of type RejectRecommendationsResponsePayload
 except ApiError as e:
@@ -6151,7 +5946,6 @@ except ApiError as e:
 | <code>schedule_id</code> | <code>str</code> | A unique identifier assigned to the report schedule. |
 | <code>wm_svc_name</code> | <code>str</code> | Specifies the name of the Walmart service being called. |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID which identifies each API call and used to track and debug issues; use a random generated GUID for this ID |
-| <code>wm_sec_access_token</code> | <code>str</code> | Access token obtained from the Token API. This is required for authenticating requests to Walmart Marketplace APIs. |
 | <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
@@ -6175,7 +5969,7 @@ except ApiError as e:
 </details>
 
 <details>
-<summary><code>def get_all_report_schedules(report_type: ReportType10OrStr, wm_svc_name: str, wm_qos_correlation_id: str, wm_sec_access_token: str, *, request_options: RequestOptionsOrDict | None = None) -> V3ReportsSchedulesResponse</code></summary>
+<summary><code>def get_all_report_schedules(report_type: ReportType10OrStr, wm_svc_name: str, wm_qos_correlation_id: str, *, request_options: RequestOptionsOrDict | None = None) -> V3ReportsSchedulesResponse</code></summary>
 
 <dl>
 <dd>
@@ -6202,10 +5996,7 @@ The Get All Report Schedules API retrieves a list of all existing report schedul
 ```python
 try:
     response = client.report_scheduler.get_all_report_schedules(
-        ReportType10.ITEM,
-        "Walmart Marketplace",
-        "b3261d2d-028a-4ef7-8602-633c23200af6",
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
+        ReportType10.ITEM, "Walmart Marketplace", "b3261d2d-028a-4ef7-8602-633c23200af6"
     )
     # TODO: Handle 'response' of type V3ReportsSchedulesResponse
 except ApiError as e:
@@ -6217,10 +6008,7 @@ except ApiError as e:
 ```python
 try:
     response = await async_client.report_scheduler.get_all_report_schedules(
-        ReportType10.ITEM,
-        "Walmart Marketplace",
-        "b3261d2d-028a-4ef7-8602-633c23200af6",
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
+        ReportType10.ITEM, "Walmart Marketplace", "b3261d2d-028a-4ef7-8602-633c23200af6"
     )
     # TODO: Handle 'response' of type V3ReportsSchedulesResponse
 except ApiError as e:
@@ -6240,7 +6028,6 @@ except ApiError as e:
 | <code>report_type</code> | <code>[ReportType10OrStr](walmart_apis/models/enums/report_type10.py)</code> | Specifies the type of report to be generated. Example: ITEM for Item Report. |
 | <code>wm_svc_name</code> | <code>str</code> | Specifies the name of the Walmart service being called. |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID which identifies each API call and used to track and debug issues; use a random generated GUID for this ID |
-| <code>wm_sec_access_token</code> | <code>str</code> | Access token obtained from the Token API. This is required for authenticating requests to Walmart Marketplace APIs. |
 | <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
@@ -6264,7 +6051,7 @@ except ApiError as e:
 </details>
 
 <details>
-<summary><code>def get_report_schedule(schedule_id: str, wm_svc_name: str, wm_qos_correlation_id: str, wm_sec_access_token: str, *, request_options: RequestOptionsOrDict | None = None) -> V3ReportsSchedulesResponse1</code></summary>
+<summary><code>def get_report_schedule(schedule_id: str, wm_svc_name: str, wm_qos_correlation_id: str, *, request_options: RequestOptionsOrDict | None = None) -> V3ReportsSchedulesResponse1</code></summary>
 
 <dl>
 <dd>
@@ -6291,10 +6078,7 @@ This API retrieves the details of a single report schedule based on the specifie
 ```python
 try:
     response = client.report_scheduler.get_report_schedule(
-        "some example string",
-        "Walmart Marketplace",
-        "b3261d2d-028a-4ef7-8602-633c23200af6",
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
+        "some example string", "Walmart Marketplace", "b3261d2d-028a-4ef7-8602-633c23200af6"
     )
     # TODO: Handle 'response' of type V3ReportsSchedulesResponse1
 except ApiError as e:
@@ -6306,10 +6090,7 @@ except ApiError as e:
 ```python
 try:
     response = await async_client.report_scheduler.get_report_schedule(
-        "some example string",
-        "Walmart Marketplace",
-        "b3261d2d-028a-4ef7-8602-633c23200af6",
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
+        "some example string", "Walmart Marketplace", "b3261d2d-028a-4ef7-8602-633c23200af6"
     )
     # TODO: Handle 'response' of type V3ReportsSchedulesResponse1
 except ApiError as e:
@@ -6329,7 +6110,6 @@ except ApiError as e:
 | <code>schedule_id</code> | <code>str</code> | Value sent with the request. |
 | <code>wm_svc_name</code> | <code>str</code> | Specifies the name of the Walmart service being called. |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID which identifies each API call and used to track and debug issues; use a random generated GUID for this ID |
-| <code>wm_sec_access_token</code> | <code>str</code> | Access token obtained from the Token API. This is required for authenticating requests to Walmart Marketplace APIs. |
 | <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
 </dd>
@@ -6353,7 +6133,7 @@ except ApiError as e:
 </details>
 
 <details>
-<summary><code>def update_report_schedule(schedule_id: str, wm_svc_name: str, wm_qos_correlation_id: str, wm_sec_access_token: str, *, body: V3ReportsSchedulesRequest | V3ReportsSchedulesRequestDict | None = None, request_options: RequestOptionsOrDict | None = None) -> V3ReportsSchedulesResponse1</code></summary>
+<summary><code>def update_report_schedule(schedule_id: str, wm_svc_name: str, wm_qos_correlation_id: str, *, body: V3ReportsSchedulesRequest | V3ReportsSchedulesRequestDict | None = None, request_options: RequestOptionsOrDict | None = None) -> V3ReportsSchedulesResponse1</code></summary>
 
 <dl>
 <dd>
@@ -6380,10 +6160,7 @@ This API allows you to modify an existing report schedule. You can change the pa
 ```python
 try:
     response = client.report_scheduler.update_report_schedule(
-        "some example string",
-        "Walmart Marketplace",
-        "b3261d2d-028a-4ef7-8602-633c23200af6",
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
+        "some example string", "Walmart Marketplace", "b3261d2d-028a-4ef7-8602-633c23200af6"
     )
     # TODO: Handle 'response' of type V3ReportsSchedulesResponse1
 except ApiError as e:
@@ -6395,10 +6172,7 @@ except ApiError as e:
 ```python
 try:
     response = await async_client.report_scheduler.update_report_schedule(
-        "some example string",
-        "Walmart Marketplace",
-        "b3261d2d-028a-4ef7-8602-633c23200af6",
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
+        "some example string", "Walmart Marketplace", "b3261d2d-028a-4ef7-8602-633c23200af6"
     )
     # TODO: Handle 'response' of type V3ReportsSchedulesResponse1
 except ApiError as e:
@@ -6418,7 +6192,6 @@ except ApiError as e:
 | <code>schedule_id</code> | <code>str</code> | A unique identifier assigned to the report schedule. |
 | <code>wm_svc_name</code> | <code>str</code> | Specifies the name of the Walmart service being called. |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID which identifies each API call and used to track and debug issues; use a random generated GUID for this ID |
-| <code>wm_sec_access_token</code> | <code>str</code> | Access token obtained from the Token API. This is required for authenticating requests to Walmart Marketplace APIs. |
 | <code>body</code> | <code>[V3ReportsSchedulesRequest](walmart_apis/models/v3_reports_schedules_request.py) \| [V3ReportsSchedulesRequestDict](walmart_apis/models/v3_reports_schedules_request.py) \| None</code> | The request body.<br>**Default**: <code>None</code> |
 | <code>request_options</code> | <code>[RequestOptionsOrDict](walmart_apis/core/request_options.py) \| None</code> | Per-call overrides for this one request, such as a timeout, extra headers, or its retry count and statuses. |
 
@@ -6447,7 +6220,7 @@ except ApiError as e:
 > Source: [ReportsApi](walmart_apis/apis/reports_api.py)
 
 <details>
-<summary><code>def get_available_recon_report_dates(wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> ReconReportDateResponse</code></summary>
+<summary><code>def get_available_recon_report_dates(wm_qos_correlation_id: str, wm_svc_name: str, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> ReconReportDateResponse</code></summary>
 
 <dl>
 <dd>
@@ -6472,7 +6245,7 @@ This API will list all the available Marketplace reconciliation report dates for
 ```python
 try:
     response = client.reports_api.get_available_recon_report_dates(
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....", "b3261d2d-028a-4ef7-8602-633c23200af6", "Walmart Service Name"
+        "b3261d2d-028a-4ef7-8602-633c23200af6", "Walmart Service Name"
     )
     # TODO: Handle 'response' of type ReconReportDateResponse
 except ApiError as e:
@@ -6484,7 +6257,7 @@ except ApiError as e:
 ```python
 try:
     response = await async_client.reports_api.get_available_recon_report_dates(
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....", "b3261d2d-028a-4ef7-8602-633c23200af6", "Walmart Service Name"
+        "b3261d2d-028a-4ef7-8602-633c23200af6", "Walmart Service Name"
     )
     # TODO: Handle 'response' of type ReconReportDateResponse
 except ApiError as e:
@@ -6501,7 +6274,6 @@ except ApiError as e:
 
 | Name | Type | Description |
 | --- | --- | --- |
-| <code>wm_sec_access_token</code> | <code>str</code> | The access token retrieved in the Token API call |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID which identifies each API call and used to track and debug issues; use a random generated GUID for this ID |
 | <code>wm_svc_name</code> | <code>str</code> | Walmart Service Name |
 | <code>wm_consumer_channel_type</code> | <code>str \| None</code> | A unique ID to track the consumer request by channel. Use the Consumer Channel Type received during onboarding<br>**Default**: <code>None</code> |
@@ -6528,7 +6300,7 @@ except ApiError as e:
 </details>
 
 <details>
-<summary><code>def get_available_v1_recon_report_as_json(report_date: str, offset: int, no_of_records: int, wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> ReconReportV1AsJsonResponse</code></summary>
+<summary><code>def get_available_v1_recon_report_as_json(report_date: str, offset: int, no_of_records: int, wm_qos_correlation_id: str, wm_svc_name: str, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> ReconReportV1AsJsonResponse</code></summary>
 
 <dl>
 <dd>
@@ -6553,12 +6325,7 @@ This API will get a partner’s transaction details in JSON format for a specifi
 ```python
 try:
     response = client.reports_api.get_available_v1_recon_report_as_json(
-        "some example string",
-        1,
-        1,
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
-        "b3261d2d-028a-4ef7-8602-633c23200af6",
-        "Walmart Service Name",
+        "some example string", 1, 1, "b3261d2d-028a-4ef7-8602-633c23200af6", "Walmart Service Name"
     )
     # TODO: Handle 'response' of type ReconReportV1AsJsonResponse
 except ApiError as e:
@@ -6570,12 +6337,7 @@ except ApiError as e:
 ```python
 try:
     response = await async_client.reports_api.get_available_v1_recon_report_as_json(
-        "some example string",
-        1,
-        1,
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
-        "b3261d2d-028a-4ef7-8602-633c23200af6",
-        "Walmart Service Name",
+        "some example string", 1, 1, "b3261d2d-028a-4ef7-8602-633c23200af6", "Walmart Service Name"
     )
     # TODO: Handle 'response' of type ReconReportV1AsJsonResponse
 except ApiError as e:
@@ -6595,7 +6357,6 @@ except ApiError as e:
 | <code>report_date</code> | <code>str</code> | Date of the settlement report |
 | <code>offset</code> | <code>int</code> | starting number of the bytes, initial value for the offset is zero |
 | <code>no_of_records</code> | <code>int</code> | number of records in the report (max limit 1000) |
-| <code>wm_sec_access_token</code> | <code>str</code> | The access token retrieved in the Token API call |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID which identifies each API call and used to track and debug issues; use a random generated GUID for this ID |
 | <code>wm_svc_name</code> | <code>str</code> | Walmart Service Name |
 | <code>wm_consumer_channel_type</code> | <code>str \| None</code> | A unique ID to track the consumer request by channel. Use the Consumer Channel Type received during onboarding<br>**Default**: <code>None</code> |
@@ -6622,7 +6383,7 @@ except ApiError as e:
 </details>
 
 <details>
-<summary><code>def get_available_v1_recon_report_dates(wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> ReconReportDateResponse</code></summary>
+<summary><code>def get_available_v1_recon_report_dates(wm_qos_correlation_id: str, wm_svc_name: str, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> ReconReportDateResponse</code></summary>
 
 <dl>
 <dd>
@@ -6647,7 +6408,7 @@ This API will list all the available Marketplace reconciliation report dates for
 ```python
 try:
     response = client.reports_api.get_available_v1_recon_report_dates(
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....", "b3261d2d-028a-4ef7-8602-633c23200af6", "Walmart Service Name"
+        "b3261d2d-028a-4ef7-8602-633c23200af6", "Walmart Service Name"
     )
     # TODO: Handle 'response' of type ReconReportDateResponse
 except ApiError as e:
@@ -6659,7 +6420,7 @@ except ApiError as e:
 ```python
 try:
     response = await async_client.reports_api.get_available_v1_recon_report_dates(
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....", "b3261d2d-028a-4ef7-8602-633c23200af6", "Walmart Service Name"
+        "b3261d2d-028a-4ef7-8602-633c23200af6", "Walmart Service Name"
     )
     # TODO: Handle 'response' of type ReconReportDateResponse
 except ApiError as e:
@@ -6676,7 +6437,6 @@ except ApiError as e:
 
 | Name | Type | Description |
 | --- | --- | --- |
-| <code>wm_sec_access_token</code> | <code>str</code> | The access token retrieved in the Token API call |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID which identifies each API call and used to track and debug issues; use a random generated GUID for this ID |
 | <code>wm_svc_name</code> | <code>str</code> | Walmart Service Name |
 | <code>wm_consumer_channel_type</code> | <code>str \| None</code> | A unique ID to track the consumer request by channel. Use the Consumer Channel Type received during onboarding<br>**Default**: <code>None</code> |
@@ -6703,7 +6463,7 @@ except ApiError as e:
 </details>
 
 <details>
-<summary><code>def get_partner_performance(wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> PartnerProgramPerformanceRes</code></summary>
+<summary><code>def get_partner_performance(wm_qos_correlation_id: str, wm_svc_name: str, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> PartnerProgramPerformanceRes</code></summary>
 
 <dl>
 <dd>
@@ -6728,7 +6488,7 @@ This API will get a partner's current cycle performance
 ```python
 try:
     response = client.reports_api.get_partner_performance(
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....", "b3261d2d-028a-4ef7-8602-633c23200af6", "Walmart Service Name"
+        "b3261d2d-028a-4ef7-8602-633c23200af6", "Walmart Service Name"
     )
     # TODO: Handle 'response' of type PartnerProgramPerformanceRes
 except ApiError as e:
@@ -6740,7 +6500,7 @@ except ApiError as e:
 ```python
 try:
     response = await async_client.reports_api.get_partner_performance(
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....", "b3261d2d-028a-4ef7-8602-633c23200af6", "Walmart Service Name"
+        "b3261d2d-028a-4ef7-8602-633c23200af6", "Walmart Service Name"
     )
     # TODO: Handle 'response' of type PartnerProgramPerformanceRes
 except ApiError as e:
@@ -6757,7 +6517,6 @@ except ApiError as e:
 
 | Name | Type | Description |
 | --- | --- | --- |
-| <code>wm_sec_access_token</code> | <code>str</code> | The access token retrieved in the Token API call |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID which identifies each API call and used to track and debug issues; use a random generated GUID for this ID |
 | <code>wm_svc_name</code> | <code>str</code> | Walmart Service Name |
 | <code>wm_consumer_channel_type</code> | <code>str \| None</code> | A unique ID to track the consumer request by channel. Use the Consumer Channel Type received during onboarding<br>**Default**: <code>None</code> |
@@ -6784,7 +6543,7 @@ except ApiError as e:
 </details>
 
 <details>
-<summary><code>def get_partner_statement(wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> PartnerProgramStatementRes</code></summary>
+<summary><code>def get_partner_statement(wm_qos_correlation_id: str, wm_svc_name: str, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> PartnerProgramStatementRes</code></summary>
 
 <dl>
 <dd>
@@ -6808,9 +6567,7 @@ This API will get a partner's current cycle statement
 
 ```python
 try:
-    response = client.reports_api.get_partner_statement(
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....", "b3261d2d-028a-4ef7-8602-633c23200af6", "Walmart Service Name"
-    )
+    response = client.reports_api.get_partner_statement("b3261d2d-028a-4ef7-8602-633c23200af6", "Walmart Service Name")
     # TODO: Handle 'response' of type PartnerProgramStatementRes
 except ApiError as e:
     ...  # TODO: Handle 'e.error' of type RawError
@@ -6821,7 +6578,7 @@ except ApiError as e:
 ```python
 try:
     response = await async_client.reports_api.get_partner_statement(
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....", "b3261d2d-028a-4ef7-8602-633c23200af6", "Walmart Service Name"
+        "b3261d2d-028a-4ef7-8602-633c23200af6", "Walmart Service Name"
     )
     # TODO: Handle 'response' of type PartnerProgramStatementRes
 except ApiError as e:
@@ -6838,7 +6595,6 @@ except ApiError as e:
 
 | Name | Type | Description |
 | --- | --- | --- |
-| <code>wm_sec_access_token</code> | <code>str</code> | The access token retrieved in the Token API call |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID which identifies each API call and used to track and debug issues; use a random generated GUID for this ID |
 | <code>wm_svc_name</code> | <code>str</code> | Walmart Service Name |
 | <code>wm_consumer_channel_type</code> | <code>str \| None</code> | A unique ID to track the consumer request by channel. Use the Consumer Channel Type received during onboarding<br>**Default**: <code>None</code> |
@@ -6865,7 +6621,7 @@ except ApiError as e:
 </details>
 
 <details>
-<summary><code>def get_recon_report(report_date: str, wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> FileResponse</code></summary>
+<summary><code>def get_recon_report(report_date: str, wm_qos_correlation_id: str, wm_svc_name: str, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> FileResponse</code></summary>
 
 <dl>
 <dd>
@@ -6890,10 +6646,7 @@ Seller can download the reconciliation report for a specific date using this API
 ```python
 try:
     response = client.reports_api.get_recon_report(
-        "some example string",
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
-        "b3261d2d-028a-4ef7-8602-633c23200af6",
-        "Walmart Service Name",
+        "some example string", "b3261d2d-028a-4ef7-8602-633c23200af6", "Walmart Service Name"
     )
     # TODO: Handle 'response' of type FileResponse
 except ApiError as e:
@@ -6905,10 +6658,7 @@ except ApiError as e:
 ```python
 try:
     response = await async_client.reports_api.get_recon_report(
-        "some example string",
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
-        "b3261d2d-028a-4ef7-8602-633c23200af6",
-        "Walmart Service Name",
+        "some example string", "b3261d2d-028a-4ef7-8602-633c23200af6", "Walmart Service Name"
     )
     # TODO: Handle 'response' of type AsyncFileResponse
 except ApiError as e:
@@ -6926,7 +6676,6 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>report_date</code> | <code>str</code> | The date for which the reconcilation file is available |
-| <code>wm_sec_access_token</code> | <code>str</code> | The access token retrieved in the Token API call |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID which identifies each API call and used to track and debug issues; use a random generated GUID for this ID |
 | <code>wm_svc_name</code> | <code>str</code> | Walmart Service Name |
 | <code>wm_consumer_channel_type</code> | <code>str \| None</code> | A unique ID to track the consumer request by channel. Use the Consumer Channel Type received during onboarding<br>**Default**: <code>None</code> |
@@ -6960,7 +6709,7 @@ Mapped in first-match order -- an earlier row wins over a later range that also 
 </details>
 
 <details>
-<summary><code>def get_recon_report_v1(report_date: str, report_version: str, wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> FileResponse</code></summary>
+<summary><code>def get_recon_report_v1(report_date: str, report_version: str, wm_qos_correlation_id: str, wm_svc_name: str, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> FileResponse</code></summary>
 
 <dl>
 <dd>
@@ -6985,11 +6734,7 @@ Seller can download the reconciliation report for a specific date using this API
 ```python
 try:
     response = client.reports_api.get_recon_report_v1(
-        "some example string",
-        "some example string",
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
-        "b3261d2d-028a-4ef7-8602-633c23200af6",
-        "Walmart Service Name",
+        "some example string", "some example string", "b3261d2d-028a-4ef7-8602-633c23200af6", "Walmart Service Name"
     )
     # TODO: Handle 'response' of type FileResponse
 except ApiError as e:
@@ -7001,11 +6746,7 @@ except ApiError as e:
 ```python
 try:
     response = await async_client.reports_api.get_recon_report_v1(
-        "some example string",
-        "some example string",
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
-        "b3261d2d-028a-4ef7-8602-633c23200af6",
-        "Walmart Service Name",
+        "some example string", "some example string", "b3261d2d-028a-4ef7-8602-633c23200af6", "Walmart Service Name"
     )
     # TODO: Handle 'response' of type AsyncFileResponse
 except ApiError as e:
@@ -7024,7 +6765,6 @@ except ApiError as e:
 | --- | --- | --- |
 | <code>report_date</code> | <code>str</code> | The date for which the reconcilation file is available |
 | <code>report_version</code> | <code>str</code> | Report Version |
-| <code>wm_sec_access_token</code> | <code>str</code> | The access token retrieved in the Token API call |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID which identifies each API call and used to track and debug issues; use a random generated GUID for this ID |
 | <code>wm_svc_name</code> | <code>str</code> | Walmart Service Name |
 | <code>wm_consumer_channel_type</code> | <code>str \| None</code> | A unique ID to track the consumer request by channel. Use the Consumer Channel Type received during onboarding<br>**Default**: <code>None</code> |
@@ -8219,7 +7959,7 @@ Mapped in first-match order -- an earlier row wins over a later range that also 
 </details>
 
 <details>
-<summary><code>def search_campaign_recommendations(wm_sec_access_token: str, wm_svc_name: str, wm_qos_correlation_id: str, *, wm_global_version: WmGlobalVersionOrStr = WmGlobalVersion._3_1, wm_market: WmMarketOrStr = WmMarket.US, accept: AcceptOrStr = Accept.APPLICATION_JSON, wm_consumer_channel_type: str | None = None, body: CampaignRecommendationsSearchRequest | CampaignRecommendationsSearchRequestDict | None = None, request_options: RequestOptionsOrDict | None = None) -> CampaignRecommendationsSearchResponse</code></summary>
+<summary><code>def search_campaign_recommendations(wm_svc_name: str, wm_qos_correlation_id: str, *, wm_global_version: WmGlobalVersionOrStr = WmGlobalVersion._3_1, wm_market: WmMarketOrStr = WmMarket.US, accept: AcceptOrStr = Accept.APPLICATION_JSON, wm_consumer_channel_type: str | None = None, body: CampaignRecommendationsSearchRequest | CampaignRecommendationsSearchRequestDict | None = None, request_options: RequestOptionsOrDict | None = None) -> CampaignRecommendationsSearchResponse</code></summary>
 
 <dl>
 <dd>
@@ -8301,7 +8041,6 @@ Each recommendation includes a `recommendedValueImpact` object with up to three 
 ```python
 try:
     response = client.sem_campaign_management.search_campaign_recommendations(
-        "eyJraWQiOiIxNWNhNGIyYi0yODVjLTQ0ZDUtYmExNC05ZDk1NTlkZmUwNjgiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0....",
         "Walmart Marketplace",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         wm_global_version=WmGlobalVersion._3_1,
@@ -8319,7 +8058,6 @@ except ApiError as e:
 ```python
 try:
     response = await async_client.sem_campaign_management.search_campaign_recommendations(
-        "eyJraWQiOiIxNWNhNGIyYi0yODVjLTQ0ZDUtYmExNC05ZDk1NTlkZmUwNjgiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0....",
         "Walmart Marketplace",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         wm_global_version=WmGlobalVersion._3_1,
@@ -8342,7 +8080,6 @@ except ApiError as e:
 
 | Name | Type | Description |
 | --- | --- | --- |
-| <code>wm_sec_access_token</code> | <code>str</code> | Access token obtained from the Token API. This is required for authenticating requests to Walmart Marketplace APIs. |
 | <code>wm_svc_name</code> | <code>str</code> | Specifies the name of the Walmart service being called. |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID that identifies each API call and is used to track and debug issues. Use a randomly generated GUID for this ID. |
 | <code>wm_global_version</code> | <code>[WmGlobalVersionOrStr](walmart_apis/models/enums/wm_global_version.py)</code> | The version of the global API used.<br>**Default**: <code>WmGlobalVersion._3_1</code> |
@@ -8770,7 +8507,7 @@ Mapped in first-match order -- an earlier row wins over a later range that also 
 > Source: [SemItemDiagnostics](walmart_apis/apis/sem_item_diagnostics.py)
 
 <details>
-<summary><code>def get_issue_types(wm_sec_access_token: str, wm_svc_name: str, wm_qos_correlation_id: str, *, wm_global_version: WmGlobalVersionOrStr = WmGlobalVersion._3_1, wm_market: WmMarketOrStr = WmMarket.US, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> dict[str, IssueMetadata]</code></summary>
+<summary><code>def get_issue_types(wm_svc_name: str, wm_qos_correlation_id: str, *, wm_global_version: WmGlobalVersionOrStr = WmGlobalVersion._3_1, wm_market: WmMarketOrStr = WmMarket.US, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> dict[str, IssueMetadata]</code></summary>
 
 <dl>
 <dd>
@@ -8835,7 +8572,6 @@ The response is a map keyed by `issueType` (string), where each value is an `Iss
 ```python
 try:
     response = client.sem_item_diagnostics.get_issue_types(
-        "eyJraWQiOiIxNWNhNGIyYi0yODVjLTQ0ZDUtYmExNC05ZDk1NTlkZmUwNjgiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0....",
         "Walmart Marketplace",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         wm_global_version=WmGlobalVersion._3_1,
@@ -8851,7 +8587,6 @@ except ApiError as e:
 ```python
 try:
     response = await async_client.sem_item_diagnostics.get_issue_types(
-        "eyJraWQiOiIxNWNhNGIyYi0yODVjLTQ0ZDUtYmExNC05ZDk1NTlkZmUwNjgiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0....",
         "Walmart Marketplace",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         wm_global_version=WmGlobalVersion._3_1,
@@ -8872,7 +8607,6 @@ except ApiError as e:
 
 | Name | Type | Description |
 | --- | --- | --- |
-| <code>wm_sec_access_token</code> | <code>str</code> | Access token obtained from the Token API. This is required for authenticating requests to Walmart Marketplace APIs. |
 | <code>wm_svc_name</code> | <code>str</code> | Specifies the name of the Walmart service being called. |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID that identifies each API call and is used to track and debug issues. Use a randomly generated GUID for this ID. |
 | <code>wm_global_version</code> | <code>[WmGlobalVersionOrStr](walmart_apis/models/enums/wm_global_version.py)</code> | The version of the global API used.<br>**Default**: <code>WmGlobalVersion._3_1</code> |
@@ -8909,7 +8643,7 @@ Mapped in first-match order -- an earlier row wins over a later range that also 
 </details>
 
 <details>
-<summary><code>def search_item_issues(wm_sec_access_token: str, wm_svc_name: str, wm_qos_correlation_id: str, *, wm_global_version: WmGlobalVersionOrStr = WmGlobalVersion._3_1, wm_market: WmMarketOrStr = WmMarket.US, accept: AcceptOrStr = Accept.APPLICATION_JSON, wm_consumer_channel_type: str | None = None, body: ItemDiagnosticSearchRequest | ItemDiagnosticSearchRequestDict | None = None, request_options: RequestOptionsOrDict | None = None) -> ItemDiagnosticSearchResponse</code></summary>
+<summary><code>def search_item_issues(wm_svc_name: str, wm_qos_correlation_id: str, *, wm_global_version: WmGlobalVersionOrStr = WmGlobalVersion._3_1, wm_market: WmMarketOrStr = WmMarket.US, accept: AcceptOrStr = Accept.APPLICATION_JSON, wm_consumer_channel_type: str | None = None, body: ItemDiagnosticSearchRequest | ItemDiagnosticSearchRequestDict | None = None, request_options: RequestOptionsOrDict | None = None) -> ItemDiagnosticSearchResponse</code></summary>
 
 <dl>
 <dd>
@@ -8973,7 +8707,6 @@ Each issue type has an `isFixable` flag available via the `GET /item-issues/issu
 ```python
 try:
     response = client.sem_item_diagnostics.search_item_issues(
-        "eyJraWQiOiIxNWNhNGIyYi0yODVjLTQ0ZDUtYmExNC05ZDk1NTlkZmUwNjgiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0....",
         "Walmart Marketplace",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         wm_global_version=WmGlobalVersion._3_1,
@@ -8991,7 +8724,6 @@ except ApiError as e:
 ```python
 try:
     response = await async_client.sem_item_diagnostics.search_item_issues(
-        "eyJraWQiOiIxNWNhNGIyYi0yODVjLTQ0ZDUtYmExNC05ZDk1NTlkZmUwNjgiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0....",
         "Walmart Marketplace",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         wm_global_version=WmGlobalVersion._3_1,
@@ -9014,7 +8746,6 @@ except ApiError as e:
 
 | Name | Type | Description |
 | --- | --- | --- |
-| <code>wm_sec_access_token</code> | <code>str</code> | Access token obtained from the Token API. This is required for authenticating requests to Walmart Marketplace APIs. |
 | <code>wm_svc_name</code> | <code>str</code> | Specifies the name of the Walmart service being called. |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID that identifies each API call and is used to track and debug issues. Use a randomly generated GUID for this ID. |
 | <code>wm_global_version</code> | <code>[WmGlobalVersionOrStr](walmart_apis/models/enums/wm_global_version.py)</code> | The version of the global API used.<br>**Default**: <code>WmGlobalVersion._3_1</code> |
@@ -9343,7 +9074,7 @@ Mapped in first-match order -- an earlier row wins over a later range that also 
 > Source: [SeoRecommendations](walmart_apis/apis/seo_recommendations.py)
 
 <details>
-<summary><code>def get_seo_recommendations(wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, accept: str, *, status: Status2OrStr | None = None, limit: str | None = None, next_cursor: str | None = None, previous_cursor: str | None = None, wm_consumer_channel_type: str | None = None, body: V3SeoRecommendationGetItemsRequest | V3SeoRecommendationGetItemsRequestDict | None = None, request_options: RequestOptionsOrDict | None = None) -> V3SeoRecommendationGetItemsResponse</code></summary>
+<summary><code>def get_seo_recommendations(wm_qos_correlation_id: str, wm_svc_name: str, accept: str, *, status: Status2OrStr | None = None, limit: str | None = None, next_cursor: str | None = None, previous_cursor: str | None = None, wm_consumer_channel_type: str | None = None, body: V3SeoRecommendationGetItemsRequest | V3SeoRecommendationGetItemsRequestDict | None = None, request_options: RequestOptionsOrDict | None = None) -> V3SeoRecommendationGetItemsResponse</code></summary>
 
 <dl>
 <dd>
@@ -9368,7 +9099,6 @@ Get list of items with SEO recommendations. Sellers can filter items by status (
 ```python
 try:
     response = client.seo_recommendations.get_seo_recommendations(
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         "application/json",
@@ -9386,7 +9116,6 @@ except ApiError as e:
 ```python
 try:
     response = await async_client.seo_recommendations.get_seo_recommendations(
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         "application/json",
@@ -9409,7 +9138,6 @@ except ApiError as e:
 
 | Name | Type | Description |
 | --- | --- | --- |
-| <code>wm_sec_access_token</code> | <code>str</code> | The access tok  en retrieved in the Token API call |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID which identifies each API call and used to track and debug issues; use a random generated GUID for this ID |
 | <code>wm_svc_name</code> | <code>str</code> | Walmart Service Name |
 | <code>accept</code> | <code>str</code> | Only supported Media Type : application/json |
@@ -9450,7 +9178,7 @@ Mapped in first-match order -- an earlier row wins over a later range that also 
 </details>
 
 <details>
-<summary><code>def update_seo_recommendations(item_id: str, decision: DecisionOrStr, wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, accept: str, *, wm_consumer_channel_type: str | None = None, body: V3SeoRecommendationUpdateItemsRequest | V3SeoRecommendationUpdateItemsRequestDict | None = None, request_options: RequestOptionsOrDict | None = None) -> V3SeoRecommendationUpdateItemsResponse</code></summary>
+<summary><code>def update_seo_recommendations(item_id: str, decision: DecisionOrStr, wm_qos_correlation_id: str, wm_svc_name: str, accept: str, *, wm_consumer_channel_type: str | None = None, body: V3SeoRecommendationUpdateItemsRequest | V3SeoRecommendationUpdateItemsRequestDict | None = None, request_options: RequestOptionsOrDict | None = None) -> V3SeoRecommendationUpdateItemsResponse</code></summary>
 
 <dl>
 <dd>
@@ -9477,7 +9205,6 @@ try:
     response = client.seo_recommendations.update_seo_recommendations(
         "some example string",
         Decision.APPROVED,
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         "application/json",
@@ -9494,7 +9221,6 @@ try:
     response = await async_client.seo_recommendations.update_seo_recommendations(
         "some example string",
         Decision.APPROVED,
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         "application/json",
@@ -9516,7 +9242,6 @@ except ApiError as e:
 | --- | --- | --- |
 | <code>item_id</code> | <code>str</code> | Unique Item Identifier |
 | <code>decision</code> | <code>[DecisionOrStr](walmart_apis/models/enums/decision.py)</code> | approve/reject a recommendation |
-| <code>wm_sec_access_token</code> | <code>str</code> | The access token retrieved in the Token API call |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID which identifies each API call and used to track and debug issues; use a random generated GUID for this ID |
 | <code>wm_svc_name</code> | <code>str</code> | Walmart Service Name |
 | <code>accept</code> | <code>str</code> | Only supported Media Type : application/json |
@@ -9558,7 +9283,7 @@ Mapped in first-match order -- an earlier row wins over a later range that also 
 > Source: [ShipWithWalmart](walmart_apis/apis/ship_with_walmart.py)
 
 <details>
-<summary><code>def create_label(accept: str, wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, body: V3ShippingLabelsRequest | V3ShippingLabelsRequestDict, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> V3ShippingLabelsResponse</code></summary>
+<summary><code>def create_label(accept: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, body: V3ShippingLabelsRequest | V3ShippingLabelsRequestDict, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> V3ShippingLabelsResponse</code></summary>
 
 <dl>
 <dd>
@@ -9588,7 +9313,6 @@ Generates a shipping label using the provided shipment information. A successful
 try:
     response = client.ship_with_walmart.create_label(
         "application/json",
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         WmMarket1.US,
@@ -9633,7 +9357,6 @@ except ApiError as e:
 try:
     response = await async_client.ship_with_walmart.create_label(
         "application/json",
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         WmMarket1.US,
@@ -9683,7 +9406,6 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>accept</code> | <code>str</code> | Specifies the desired response format. The order of media types determines the priority for format selection.<br><br>**Supported values:**<br>- `application/json` : Returns tracking information only (no label file).<br>- `application/json, application/pdf` : Returns the label in PDF format.<br>- `application/json, image/png` : Returns the label in PNG format.<br><br><b style="color: green;">Market availability: Global</b> |
-| <code>wm_sec_access_token</code> | <code>str</code> | Access token obtained from the Token API. This is required for authenticating requests to Walmart Marketplace APIs.<br><br><b style="color: green;">Market availability: Global</b> |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID which identifies each API call and is used to track and debug issues. Use a randomly generated GUID for this ID.<br><br><b style="color: green;">Market availability: Global</b> |
 | <code>wm_svc_name</code> | <code>str</code> | Specifies the name of the Walmart service being called.<br>Example: Walmart Marketplace<br><br><b style="color: green;">Market availability: Global</b> |
 | <code>wm_market</code> | <code>[WmMarket1OrStr](walmart_apis/models/enums/wm_market1.py)</code> | Case-sensitive market identifier. Valid values: MX, CA, CL, US <br><br><b style="color: green;">Market availability: Global</b> |
@@ -9720,7 +9442,7 @@ Mapped in first-match order -- an earlier row wins over a later range that also 
 </details>
 
 <details>
-<summary><code>def create_label_mps(wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket11OrStr, wm_global_version: WmGlobalVersionOrStr, accept: str, body: V3ShippingMultiPackageLabelsRequest | V3ShippingMultiPackageLabelsRequestDict, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> V3ShippingMultiPackageLabelsResponse</code></summary>
+<summary><code>def create_label_mps(wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket11OrStr, wm_global_version: WmGlobalVersionOrStr, accept: str, body: V3ShippingMultiPackageLabelsRequest | V3ShippingMultiPackageLabelsRequestDict, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> V3ShippingMultiPackageLabelsResponse</code></summary>
 
 <dl>
 <dd>
@@ -9747,7 +9469,6 @@ Creates a shipping label for items, supporting multiple packages per request. A 
 ```python
 try:
     response = client.ship_with_walmart.create_label_mps(
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         WmMarket11.MX,
@@ -9817,7 +9538,6 @@ except ApiError as e:
 ```python
 try:
     response = await async_client.ship_with_walmart.create_label_mps(
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         WmMarket11.MX,
@@ -9892,7 +9612,6 @@ except ApiError as e:
 
 | Name | Type | Description |
 | --- | --- | --- |
-| <code>wm_sec_access_token</code> | <code>str</code> | Access token obtained from the Token API. This is required for authenticating requests to Walmart Marketplace APIs.<br><br><b style="color: green;">Market availability: Global</b> |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID which identifies each API call and is used to track and debug issues. Use a randomly generated GUID for this ID.<br><br><b style="color: green;">Market availability: Global</b> |
 | <code>wm_svc_name</code> | <code>str</code> | Walmart Service Name<br><br><b style="color: green;">Market availability: Global</b> |
 | <code>wm_market</code> | <code>[WmMarket11OrStr](walmart_apis/models/enums/wm_market11.py)</code> | Identifies the Walmart Marketplace region for the request. If not specified, US is used by default. Valid values: MX, CA, CL.<br><br><b style="color: green;">Market availability: Global</b> |
@@ -9931,7 +9650,7 @@ Mapped in first-match order -- an earlier row wins over a later range that also 
 </details>
 
 <details>
-<summary><code>def discard_label(carrier_short_name: str, tracking_no: str, wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket6OrStr, wm_global_version: WmGlobalVersionOrStr, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> V3ShippingLabelsCarriersTrackingsResponse</code></summary>
+<summary><code>def discard_label(carrier_short_name: str, tracking_no: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket6OrStr, wm_global_version: WmGlobalVersionOrStr, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> V3ShippingLabelsCarriersTrackingsResponse</code></summary>
 
 <dl>
 <dd>
@@ -9961,7 +9680,6 @@ try:
     response = client.ship_with_walmart.discard_label(
         "some example string",
         "some example string",
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         WmMarket6.MX,
@@ -9979,7 +9697,6 @@ try:
     response = await async_client.ship_with_walmart.discard_label(
         "some example string",
         "some example string",
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         WmMarket6.MX,
@@ -10002,7 +9719,6 @@ except ApiError as e:
 | --- | --- | --- |
 | <code>carrier_short_name</code> | <code>str</code> | The short name of the shipping carrier.<br>Use the carrierShortName value returned from the Supported Carriers API to ensure compatibility.<br><br><b style="color: green;">Market availability: US \| CA \| MX</b> |
 | <code>tracking_no</code> | <code>str</code> | The shipment tracking number.<br><br><br><br><b style="color: green;">Market availability: US \| CA \| MX</b> |
-| <code>wm_sec_access_token</code> | <code>str</code> | Access token obtained from the Token API. This is required for authenticating requests to Walmart Marketplace APIs.<br><br><b style="color: green;">Market availability: Global </b> |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID that identifies each API call and is used to track and debug issues. Use a randomly generated GUID for this ID. <br> Example: b3261d2d-028a-4ef7-8602-633c23200af6 <br> <b style="color: green;">Market availability: Global </b> |
 | <code>wm_svc_name</code> | <code>str</code> | Specifies the name of the Walmart service being called. <br> Example: Walmart Marketplace.<br><br><b style="color: green;">Market availability: Global </b> |
 | <code>wm_market</code> | <code>[WmMarket6OrStr](walmart_apis/models/enums/wm_market6.py)</code> | Identifies the Walmart Marketplace region for the request. If not specified, US is used by default. Valid values: MX, US<br><br><b style="color: green;">Market availability: Global </b> |
@@ -10038,7 +9754,7 @@ Mapped in first-match order -- an earlier row wins over a later range that also 
 </details>
 
 <details>
-<summary><code>def get_carrier_package_types(carrier_short_name: str, wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket11OrStr, wm_global_version: WmGlobalVersionOrStr, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> V3ShippingLabelsCarriersPackageTypesResponse</code></summary>
+<summary><code>def get_carrier_package_types(carrier_short_name: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket11OrStr, wm_global_version: WmGlobalVersionOrStr, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> V3ShippingLabelsCarriersPackageTypesResponse</code></summary>
 
 <dl>
 <dd>
@@ -10066,7 +9782,6 @@ This API retrieves all supported package types for the selected carrier.
 try:
     response = client.ship_with_walmart.get_carrier_package_types(
         "some example string",
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         WmMarket11.MX,
@@ -10083,7 +9798,6 @@ except ApiError as e:
 try:
     response = await async_client.ship_with_walmart.get_carrier_package_types(
         "some example string",
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         WmMarket11.MX,
@@ -10105,7 +9819,6 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>carrier_short_name</code> | <code>str</code> | carrierShortName fetched from carrier API response or pass 'ALL' to fetch all package types of supported carriers<br><br><b style="color: green;">Market availability: Global</b> |
-| <code>wm_sec_access_token</code> | <code>str</code> | Access token obtained from the Token API. This is required for authenticating requests to Walmart Marketplace APIs.<br> Example: eyJraWQiOiIxNWNhNGIyYi0yODVjLTQ0ZDUtYmExNC05ZDk1NTlkZmUwNjgiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0....<br><br><b style="color: green;">Market availability: Global</b> |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID which identifies each API call and is used to track and debug issues. Use a random generated GUID for this ID.<br><br><b style="color: green;">Market availability: Global</b> |
 | <code>wm_svc_name</code> | <code>str</code> | Walmart Service Name<br><br><b style="color: green;">Market availability: Global</b> |
 | <code>wm_market</code> | <code>[WmMarket11OrStr](walmart_apis/models/enums/wm_market11.py)</code> | Identifies the Walmart Marketplace region for the request. If not specified, US is used by default. Valid values: MX, CA, CL.<br><br><b style="color: green;">Market availability: Global</b> |
@@ -10134,7 +9847,7 @@ except ApiError as e:
 </details>
 
 <details>
-<summary><code>def get_carriers(wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket11OrStr, wm_global_version: WmGlobalVersionOrStr, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> V3ShippingLabelsCarriersResponse</code></summary>
+<summary><code>def get_carriers(wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket11OrStr, wm_global_version: WmGlobalVersionOrStr, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> V3ShippingLabelsCarriersResponse</code></summary>
 
 <dl>
 <dd>
@@ -10161,11 +9874,7 @@ This API retrieves all carriers supported by Ship With Walmart.
 ```python
 try:
     response = client.ship_with_walmart.get_carriers(
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
-        "b3261d2d-028a-4ef7-8602-633c23200af6",
-        "Walmart Service Name",
-        WmMarket11.MX,
-        WmGlobalVersion._3_1,
+        "b3261d2d-028a-4ef7-8602-633c23200af6", "Walmart Service Name", WmMarket11.MX, WmGlobalVersion._3_1
     )
     # TODO: Handle 'response' of type V3ShippingLabelsCarriersResponse
 except ApiError as e:
@@ -10177,11 +9886,7 @@ except ApiError as e:
 ```python
 try:
     response = await async_client.ship_with_walmart.get_carriers(
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
-        "b3261d2d-028a-4ef7-8602-633c23200af6",
-        "Walmart Service Name",
-        WmMarket11.MX,
-        WmGlobalVersion._3_1,
+        "b3261d2d-028a-4ef7-8602-633c23200af6", "Walmart Service Name", WmMarket11.MX, WmGlobalVersion._3_1
     )
     # TODO: Handle 'response' of type V3ShippingLabelsCarriersResponse
 except ApiError as e:
@@ -10198,7 +9903,6 @@ except ApiError as e:
 
 | Name | Type | Description |
 | --- | --- | --- |
-| <code>wm_sec_access_token</code> | <code>str</code> | The access token retrieved in the Token API call<br><br><b style="color: green;">Market availability:Global</b> |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID which identifies each API call and is used to track and debug issues. Use a randomly generated GUID for this ID.<br><br><b style="color: green;">Market availability: Global</b> |
 | <code>wm_svc_name</code> | <code>str</code> | Walmart Service Name<br><br><b style="color: green;">Market availability: Global</b> |
 | <code>wm_market</code> | <code>[WmMarket11OrStr](walmart_apis/models/enums/wm_market11.py)</code> | Case-sensitive market identifier. Valid values: MX, CA, CL<br><br><b style="color: green;">Market availability: Global</b> |
@@ -10227,7 +9931,7 @@ except ApiError as e:
 </details>
 
 <details>
-<summary><code>def get_label(purchase_order_id: str, wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket11OrStr, wm_global_version: WmGlobalVersionOrStr, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> V3ShippingLabelsPurchaseOrdersResponse</code></summary>
+<summary><code>def get_label(purchase_order_id: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket11OrStr, wm_global_version: WmGlobalVersionOrStr, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> V3ShippingLabelsPurchaseOrdersResponse</code></summary>
 
 <dl>
 <dd>
@@ -10255,7 +9959,6 @@ This API retrieves all label details generated for a purchase order id.
 try:
     response = client.ship_with_walmart.get_label(
         "some example string",
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         WmMarket11.MX,
@@ -10272,7 +9975,6 @@ except ApiError as e:
 try:
     response = await async_client.ship_with_walmart.get_label(
         "some example string",
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         WmMarket11.MX,
@@ -10294,7 +9996,6 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>purchase_order_id</code> | <code>str</code> | purchaseOrderId<br><br><b style="color: green;">Market availability: Global</b> |
-| <code>wm_sec_access_token</code> | <code>str</code> | Access token obtained from the Token API. This is required for authenticating requests to Walmart Marketplace APIs. <br> Example: eyJraWQiOiIxNWNhNGIyYi0yODVjLTQ0ZDUtYmExNC05ZDk1NTlkZmUwNjgiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0....<br><br><b style="color: green;">Market availability: Global</b> |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID which identifies each API call and is used to track and debug issues. Use a randomly generated GUID for this ID.<br><br><b style="color: green;">Market availability: Global</b> |
 | <code>wm_svc_name</code> | <code>str</code> | Walmart Service Name<br><br><b style="color: green;">Market availability: Global</b> |
 | <code>wm_market</code> | <code>[WmMarket11OrStr](walmart_apis/models/enums/wm_market11.py)</code> | Case-sensitive market identifier. Valid values: MX, CA, CL<br><br><b style="color: green;">Market availability: Global</b> |
@@ -10323,7 +10024,7 @@ except ApiError as e:
 </details>
 
 <details>
-<summary><code>def get_label_by_tracking_and_carrier(carrier_short_name: str, tracking_no: str, accept: str, wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket11OrStr, wm_global_version: WmGlobalVersionOrStr, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> None</code></summary>
+<summary><code>def get_label_by_tracking_and_carrier(carrier_short_name: str, tracking_no: str, accept: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket11OrStr, wm_global_version: WmGlobalVersionOrStr, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> None</code></summary>
 
 <dl>
 <dd>
@@ -10354,7 +10055,6 @@ try:
         "some example string",
         "some example string",
         "application/pdf",
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         WmMarket11.MX,
@@ -10372,7 +10072,6 @@ try:
         "some example string",
         "some example string",
         "application/pdf",
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         WmMarket11.MX,
@@ -10395,7 +10094,6 @@ except ApiError as e:
 | <code>carrier_short_name</code> | <code>str</code> | carrierShortName<br><br><b style="color: green;">Market availability: Global</b> |
 | <code>tracking_no</code> | <code>str</code> | trackingNo<br><br><b style="color: green;">Market availability: Global</b> |
 | <code>accept</code> | <code>str</code> | Supported media types for US, CA, MX are:\napplication/pdf, image/png. For CL, the supported media type is\napplication/pdf, image/png, application/zpl.\n\n<b style=\"color: green;\">Market availability: Global</b> |
-| <code>wm_sec_access_token</code> | <code>str</code> | Access token obtained from the Token API. This is required for authenticating requests to Walmart Marketplace APIs.<br> Example: eyJraWQiOiIxNWNhNGIyYi0yODVjLTQ0ZDUtYmExNC05ZDk1NTlkZmUwNjgiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0....<br><br><b style="color: green;">Market availability: Global</b> |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID which identifies each API call and is used to track and debug issues. Use a randomly generated GUID for this ID.<br><br><b style="color: green;">Market availability: Global</b> |
 | <code>wm_svc_name</code> | <code>str</code> | Walmart Service Name<br><br><b style="color: green;">Market availability: Global</b> |
 | <code>wm_market</code> | <code>[WmMarket11OrStr](walmart_apis/models/enums/wm_market11.py)</code> | Case-sensitive market identifier. Valid values: MX, CA, CL<br><br><b style="color: green;">Market availability: Global</b> |
@@ -10524,7 +10222,7 @@ except ApiError as e:
 </details>
 
 <details>
-<summary><code>def get_shipping_estimate(accept: str, wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket11OrStr, wm_global_version: WmGlobalVersionOrStr, body: V3ShippingLabelsShippingEstimatesRequest | V3ShippingLabelsShippingEstimatesRequestDict, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> V3ShippingLabelsShippingEstimatesResponse</code></summary>
+<summary><code>def get_shipping_estimate(accept: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket11OrStr, wm_global_version: WmGlobalVersionOrStr, body: V3ShippingLabelsShippingEstimatesRequest | V3ShippingLabelsShippingEstimatesRequestDict, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None) -> V3ShippingLabelsShippingEstimatesResponse</code></summary>
 
 <dl>
 <dd>
@@ -10552,7 +10250,6 @@ This API retrieves shipping cost estimates for available shipping services based
 try:
     response = client.ship_with_walmart.get_shipping_estimate(
         "application/json",
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         WmMarket11.MX,
@@ -10600,7 +10297,6 @@ except ApiError as e:
 try:
     response = await async_client.ship_with_walmart.get_shipping_estimate(
         "application/json",
-        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         WmMarket11.MX,
@@ -10653,7 +10349,6 @@ except ApiError as e:
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>accept</code> | <code>str</code> | Response type. The order of media types in the Accept header determines the priority for response format selection.<br><br><b style="color: green;">Market availability: Global</b> |
-| <code>wm_sec_access_token</code> | <code>str</code> | Access token obtained from the Token API. This is required for authenticating requests to Walmart Marketplace APIs.<br>Example: eyJraWQiOiIxNWNhNGIyYi0yODVjLTQ0ZDUtYmExNC05ZDk1NTlkZmUwNjgiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0....<br><br><b style="color: green;">Market availability: Global</b> |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID which identifies each API call and is used to track and debug issues. Use a randomly generated GUID for this ID.<br><br><b style="color: green;">Market availability: Global</b> |
 | <code>wm_svc_name</code> | <code>str</code> | Specifies the name of the Walmart service being called. <br> Example: Walmart Marketplace<br><br><b style="color: green;">Market availability: Global</b> |
 | <code>wm_market</code> | <code>[WmMarket11OrStr](walmart_apis/models/enums/wm_market11.py)</code> | Case-sensitive market identifier. Valid values: MX, CA, CL<br><br><b style="color: green;">Market availability: Global</b> |
@@ -12007,7 +11702,7 @@ except ApiError as e:
 > Source: [TaxFormApis](walmart_apis/apis/tax_form_apis.py)
 
 <details>
-<summary><code>def download_tax_form(payout_year: str, tax_form_type: str, form_id: str, wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_global_version: WmGlobalVersionOrStr, wm_market: str, wm_partner_id: str, wm_tenant_id: str, *, request_options: RequestOptionsOrDict | None = None) -> None</code></summary>
+<summary><code>def download_tax_form(payout_year: str, tax_form_type: str, form_id: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_global_version: WmGlobalVersionOrStr, wm_market: str, wm_partner_id: str, wm_tenant_id: str, *, request_options: RequestOptionsOrDict | None = None) -> None</code></summary>
 
 <dl>
 <dd>
@@ -12037,7 +11732,6 @@ try:
         "some example string",
         "some example string",
         "some example string",
-        "eyJraWQiOiIxNWNhNGIyYi0yODVjLTQ0ZDUtYmExNC05ZDk1NTlkZmUwNjgiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         WmGlobalVersion._3_1,
@@ -12057,7 +11751,6 @@ try:
         "some example string",
         "some example string",
         "some example string",
-        "eyJraWQiOiIxNWNhNGIyYi0yODVjLTQ0ZDUtYmExNC05ZDk1NTlkZmUwNjgiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0....",
         "b3261d2d-028a-4ef7-8602-633c23200af6",
         "Walmart Service Name",
         WmGlobalVersion._3_1,
@@ -12082,7 +11775,6 @@ except ApiError as e:
 | <code>payout_year</code> | <code>str</code> | The tax year associated with the payout (for example, 2024). <br><b style='color:green;'>Market availability: US only</b> |
 | <code>tax_form_type</code> | <code>str</code> | The tax form type to download (for example, 1099-K).<br><b style='color:green;'>Market availability: US only</b> |
 | <code>form_id</code> | <code>str</code> | The unique form ID returned by the list tax forms endpoint.<br><b style='color:green;'>Market availability: US only</b> |
-| <code>wm_sec_access_token</code> | <code>str</code> | Access token obtained from the Token API. This is required for authenticating requests to Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID that identifies each API call and is used to track and debug issues. Use a randomly generated GUID for this ID. <br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_svc_name</code> | <code>str</code> | Specifies the name of the Walmart service being called. <br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_global_version</code> | <code>[WmGlobalVersionOrStr](walmart_apis/models/enums/wm_global_version.py)</code> | The version of the global API used.<br><strong style="color: green;">Market availability: Global</strong> |
@@ -12122,7 +11814,7 @@ Mapped in first-match order -- an earlier row wins over a later range that also 
 </details>
 
 <details>
-<summary><code>def get_tax_forms(wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_global_version: WmGlobalVersionOrStr, wm_market: str, wm_partner_id: str, wm_tenant_id: str, *, request_options: RequestOptionsOrDict | None = None) -> V1SettingsGettaxformprofileResponse</code></summary>
+<summary><code>def get_tax_forms(wm_qos_correlation_id: str, wm_svc_name: str, wm_global_version: WmGlobalVersionOrStr, wm_market: str, wm_partner_id: str, wm_tenant_id: str, *, request_options: RequestOptionsOrDict | None = None) -> V1SettingsGettaxformprofileResponse</code></summary>
 
 <dl>
 <dd>
@@ -12149,13 +11841,7 @@ The Get Tax Forms API returns available tax forms for the authenticated seller, 
 ```python
 try:
     response = client.tax_form_apis.get_tax_forms(
-        "eyJraWQiOiIxNWNhNGIyYi0yODVjLTQ0ZDUtYmExNC05ZDk1NTlkZmUwNjgiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0....",
-        "b3261d2d-028a-4ef7-8602-633c23200af6",
-        "Walmart Service Name",
-        WmGlobalVersion._3_1,
-        "US",
-        "123456789",
-        "0",
+        "b3261d2d-028a-4ef7-8602-633c23200af6", "Walmart Service Name", WmGlobalVersion._3_1, "US", "123456789", "0"
     )
     # TODO: Handle 'response' of type V1SettingsGettaxformprofileResponse
 except ApiError as e:
@@ -12167,13 +11853,7 @@ except ApiError as e:
 ```python
 try:
     response = await async_client.tax_form_apis.get_tax_forms(
-        "eyJraWQiOiIxNWNhNGIyYi0yODVjLTQ0ZDUtYmExNC05ZDk1NTlkZmUwNjgiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0....",
-        "b3261d2d-028a-4ef7-8602-633c23200af6",
-        "Walmart Service Name",
-        WmGlobalVersion._3_1,
-        "US",
-        "123456789",
-        "0",
+        "b3261d2d-028a-4ef7-8602-633c23200af6", "Walmart Service Name", WmGlobalVersion._3_1, "US", "123456789", "0"
     )
     # TODO: Handle 'response' of type V1SettingsGettaxformprofileResponse
 except ApiError as e:
@@ -12190,7 +11870,6 @@ except ApiError as e:
 
 | Name | Type | Description |
 | --- | --- | --- |
-| <code>wm_sec_access_token</code> | <code>str</code> | Access token obtained from the Token API. This is required for authenticating requests to Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_qos_correlation_id</code> | <code>str</code> | A unique ID that identifies each API call and is used to track and debug issues. Use a randomly generated GUID for this ID. <br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_svc_name</code> | <code>str</code> | Specifies the name of the Walmart service being called. <br><b style='color:green;'>Market availability: Global</b> |
 | <code>wm_global_version</code> | <code>[WmGlobalVersionOrStr](walmart_apis/models/enums/wm_global_version.py)</code> | The version of the global API used.<br><strong style="color: green;">Market availability: Global</strong> |

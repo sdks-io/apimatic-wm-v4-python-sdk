@@ -5,7 +5,7 @@ from typing import Generic
 from .core import LoggingOptions, LoggingOptionsOrDict, RawClientT, RetryOptions, RetryOptionsOrDict
 from .server.environment import Environment, validate_environment
 from .server.server import Server
-from .server.server_config import Environment2Config, ProductionConfig, ServerConfig
+from .server.server_config import ProductionConfig, SandboxConfig, ServerConfig
 
 DEFAULT_TIMEOUT = 30.0
 
@@ -27,9 +27,7 @@ class BaseWalmartApisClient(Generic[RawClientT]):
         self._server = Server(
             validate_environment(environment),
             (
-                ServerConfig(
-                    production=ProductionConfig(base_url=base_url), environment2=Environment2Config(base_url=base_url)
-                )
+                ServerConfig(production=ProductionConfig(base_url=base_url), sandbox=SandboxConfig(base_url=base_url))
                 if base_url is not None
                 else ServerConfig()
             ),

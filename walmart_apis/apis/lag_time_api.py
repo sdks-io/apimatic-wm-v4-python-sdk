@@ -33,7 +33,6 @@ class LagTimeApi:
     def get_lag_time(
         self,
         sku: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -54,8 +53,6 @@ class LagTimeApi:
                 /, ?, #, [, ], @, !, $, &, ', (, ), *, +, ,, ;, =, space, {, }, or % — they must be URL-encoded. For
                 example, encode spaces as %20. No encoding is required for other characters. <strong style="color:
                 green;">Market availability: Global</strong>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs. <strong style="color: green;">Market availability: Global</strong>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID. <strong style="color: green;">Market availability: Global</strong>
             wm_svc_name: Specifies the name of the Walmart service being called. <strong style="color: green;">Market
@@ -78,7 +75,6 @@ class LagTimeApi:
         return unwrap(
             self._with_raw_response.get_lag_time(
                 sku,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -91,7 +87,6 @@ class LagTimeApi:
     def update_lag_time_bulk(
         self,
         feed_type: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -110,8 +105,6 @@ class LagTimeApi:
         Args:
             feed_type: Indicates the feed type. Use 'lagtime'. <strong style="color: green;">Market availability:
                 Global</strong>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs. <strong style="color: green;">Market availability: Global</strong>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID. <strong style="color: green;">Market availability: Global</strong>
             wm_svc_name: Specifies the name of the Walmart service being called. <strong style="color: green;">Market
@@ -134,7 +127,6 @@ class LagTimeApi:
         return unwrap(
             self._with_raw_response.update_lag_time_bulk(
                 feed_type,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -157,7 +149,6 @@ class AsyncLagTimeApi:
     async def get_lag_time(
         self,
         sku: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -178,8 +169,6 @@ class AsyncLagTimeApi:
                 /, ?, #, [, ], @, !, $, &, ', (, ), *, +, ,, ;, =, space, {, }, or % — they must be URL-encoded. For
                 example, encode spaces as %20. No encoding is required for other characters. <strong style="color:
                 green;">Market availability: Global</strong>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs. <strong style="color: green;">Market availability: Global</strong>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID. <strong style="color: green;">Market availability: Global</strong>
             wm_svc_name: Specifies the name of the Walmart service being called. <strong style="color: green;">Market
@@ -202,7 +191,6 @@ class AsyncLagTimeApi:
         return unwrap(
             await self._with_raw_response.get_lag_time(
                 sku,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -215,7 +203,6 @@ class AsyncLagTimeApi:
     async def update_lag_time_bulk(
         self,
         feed_type: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -234,8 +221,6 @@ class AsyncLagTimeApi:
         Args:
             feed_type: Indicates the feed type. Use 'lagtime'. <strong style="color: green;">Market availability:
                 Global</strong>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs. <strong style="color: green;">Market availability: Global</strong>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID. <strong style="color: green;">Market availability: Global</strong>
             wm_svc_name: Specifies the name of the Walmart service being called. <strong style="color: green;">Market
@@ -258,7 +243,6 @@ class AsyncLagTimeApi:
         return unwrap(
             await self._with_raw_response.update_lag_time_bulk(
                 feed_type,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -278,7 +262,6 @@ class LagTimeApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
     def get_lag_time(
         self,
         sku: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -299,8 +282,6 @@ class LagTimeApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
                 /, ?, #, [, ], @, !, $, &, ', (, ), *, +, ,, ;, =, space, {, }, or % — they must be URL-encoded. For
                 example, encode spaces as %20. No encoding is required for other characters. <strong style="color:
                 green;">Market availability: Global</strong>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs. <strong style="color: green;">Market availability: Global</strong>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID. <strong style="color: green;">Market availability: Global</strong>
             wm_svc_name: Specifies the name of the Walmart service being called. <strong style="color: green;">Market
@@ -321,7 +302,6 @@ class LagTimeApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
             url_template=self._server.default("/v3/lagtime"),
             query_params=[param[str]("sku", sku)],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket1OrStr]("WM_MARKET", wm_market),
@@ -337,7 +317,6 @@ class LagTimeApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
     def update_lag_time_bulk(
         self,
         feed_type: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -356,8 +335,6 @@ class LagTimeApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
         Args:
             feed_type: Indicates the feed type. Use 'lagtime'. <strong style="color: green;">Market availability:
                 Global</strong>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs. <strong style="color: green;">Market availability: Global</strong>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID. <strong style="color: green;">Market availability: Global</strong>
             wm_svc_name: Specifies the name of the Walmart service being called. <strong style="color: green;">Market
@@ -379,7 +356,6 @@ class LagTimeApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
             url_template=self._server.default("/v3/feeds"),
             query_params=[param[str]("feedType", feed_type)],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket1OrStr]("WM_MARKET", wm_market),
@@ -399,7 +375,6 @@ class AsyncLagTimeApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
     async def get_lag_time(
         self,
         sku: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -420,8 +395,6 @@ class AsyncLagTimeApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
                 /, ?, #, [, ], @, !, $, &, ', (, ), *, +, ,, ;, =, space, {, }, or % — they must be URL-encoded. For
                 example, encode spaces as %20. No encoding is required for other characters. <strong style="color:
                 green;">Market availability: Global</strong>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs. <strong style="color: green;">Market availability: Global</strong>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID. <strong style="color: green;">Market availability: Global</strong>
             wm_svc_name: Specifies the name of the Walmart service being called. <strong style="color: green;">Market
@@ -442,7 +415,6 @@ class AsyncLagTimeApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             url_template=self._server.default("/v3/lagtime"),
             query_params=[param[str]("sku", sku)],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket1OrStr]("WM_MARKET", wm_market),
@@ -458,7 +430,6 @@ class AsyncLagTimeApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
     async def update_lag_time_bulk(
         self,
         feed_type: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -477,8 +448,6 @@ class AsyncLagTimeApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
         Args:
             feed_type: Indicates the feed type. Use 'lagtime'. <strong style="color: green;">Market availability:
                 Global</strong>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs. <strong style="color: green;">Market availability: Global</strong>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID. <strong style="color: green;">Market availability: Global</strong>
             wm_svc_name: Specifies the name of the Walmart service being called. <strong style="color: green;">Market
@@ -500,7 +469,6 @@ class AsyncLagTimeApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             url_template=self._server.default("/v3/feeds"),
             query_params=[param[str]("feedType", feed_type)],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket1OrStr]("WM_MARKET", wm_market),

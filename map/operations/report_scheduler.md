@@ -10,9 +10,9 @@ Each `###` block is one operation and assumes `sdk-map.md` is loaded: blocks omi
 
 - **Route**: `DELETE /v3/reports/schedules/{scheduleId}`
 - **Auth**: `access_token`
-- **Signature**: `def delete_report_schedule(schedule_id: str, wm_svc_name: str, wm_qos_correlation_id: str, wm_sec_access_token: str, *, request_options: RequestOptionsOrDict | None = None)`
-  - required, positional: `schedule_id`, `wm_svc_name`, `wm_qos_correlation_id`, `wm_sec_access_token`
-- **Params**: `schedule_id` — path `scheduleId` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_sec_access_token` — header `WM_SEC.ACCESS_TOKEN`
+- **Signature**: `def delete_report_schedule(schedule_id: str, wm_svc_name: str, wm_qos_correlation_id: str, *, request_options: RequestOptionsOrDict | None = None)`
+  - required, positional: `schedule_id`, `wm_svc_name`, `wm_qos_correlation_id`
+- **Params**: `schedule_id` — path `scheduleId` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID`
 - **Returns (parsed)**: `RejectRecommendationsResponsePayload`
 - **Returns (raw)**: `ApiResult[RejectRecommendationsResponsePayload, RawError]`
 - **Error**: `RawError` — **Case B**
@@ -25,9 +25,9 @@ Each `###` block is one operation and assumes `sdk-map.md` is loaded: blocks omi
 
 - **Route**: `GET /v3/reports/schedules`
 - **Auth**: `access_token`
-- **Signature**: `def get_all_report_schedules(report_type: ReportType10OrStr, wm_svc_name: str, wm_qos_correlation_id: str, wm_sec_access_token: str, *, request_options: RequestOptionsOrDict | None = None)`
-  - required, positional: `report_type`, `wm_svc_name`, `wm_qos_correlation_id`, `wm_sec_access_token`
-- **Params**: `report_type` — query `reportType` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_sec_access_token` — header `WM_SEC.ACCESS_TOKEN`
+- **Signature**: `def get_all_report_schedules(report_type: ReportType10OrStr, wm_svc_name: str, wm_qos_correlation_id: str, *, request_options: RequestOptionsOrDict | None = None)`
+  - required, positional: `report_type`, `wm_svc_name`, `wm_qos_correlation_id`
+- **Params**: `report_type` — query `reportType` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID`
 - **Returns (parsed)**: `V3ReportsSchedulesResponse`
 - **Returns (raw)**: `ApiResult[V3ReportsSchedulesResponse, RawError]`
 - **Error**: `RawError` — **Case B**
@@ -41,9 +41,9 @@ Each `###` block is one operation and assumes `sdk-map.md` is loaded: blocks omi
 
 - **Route**: `GET /v3/reports/schedules/{scheduleId}`
 - **Auth**: `access_token`
-- **Signature**: `def get_report_schedule(schedule_id: str, wm_svc_name: str, wm_qos_correlation_id: str, wm_sec_access_token: str, *, request_options: RequestOptionsOrDict | None = None)`
-  - required, positional: `schedule_id`, `wm_svc_name`, `wm_qos_correlation_id`, `wm_sec_access_token`
-- **Params**: `schedule_id` — path `scheduleId` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_sec_access_token` — header `WM_SEC.ACCESS_TOKEN`
+- **Signature**: `def get_report_schedule(schedule_id: str, wm_svc_name: str, wm_qos_correlation_id: str, *, request_options: RequestOptionsOrDict | None = None)`
+  - required, positional: `schedule_id`, `wm_svc_name`, `wm_qos_correlation_id`
+- **Params**: `schedule_id` — path `scheduleId` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID`
 - **Returns (parsed)**: `V3ReportsSchedulesResponse1`
 - **Returns (raw)**: `ApiResult[V3ReportsSchedulesResponse1, RawError]`
 - **Error**: `RawError` — **Case B**
@@ -56,9 +56,9 @@ Each `###` block is one operation and assumes `sdk-map.md` is loaded: blocks omi
 
 - **Route**: `PUT /v3/reports/schedules/{scheduleId}`
 - **Auth**: `access_token`
-- **Signature**: `def update_report_schedule(schedule_id: str, wm_svc_name: str, wm_qos_correlation_id: str, wm_sec_access_token: str, *, body: V3ReportsSchedulesRequest | V3ReportsSchedulesRequestDict | None = None, request_options: RequestOptionsOrDict | None = None)`
-  - required, positional: `schedule_id`, `wm_svc_name`, `wm_qos_correlation_id`, `wm_sec_access_token`
-- **Params**: `schedule_id` — path `scheduleId` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_sec_access_token` — header `WM_SEC.ACCESS_TOKEN` · `body` — JSON body
+- **Signature**: `def update_report_schedule(schedule_id: str, wm_svc_name: str, wm_qos_correlation_id: str, *, body: V3ReportsSchedulesRequest | V3ReportsSchedulesRequestDict | None = None, request_options: RequestOptionsOrDict | None = None)`
+  - required, positional: `schedule_id`, `wm_svc_name`, `wm_qos_correlation_id`
+- **Params**: `schedule_id` — path `scheduleId` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `body` — JSON body
 - **Returns (parsed)**: `V3ReportsSchedulesResponse1`
 - **Returns (raw)**: `ApiResult[V3ReportsSchedulesResponse1, RawError]`
 - **Error**: `RawError` — **Case B**

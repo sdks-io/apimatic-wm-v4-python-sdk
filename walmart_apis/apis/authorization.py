@@ -2,13 +2,14 @@ from __future__ import annotations
 
 from uuid import UUID, uuid4
 
+from ..auth import AsyncAuthSchemes, AuthSchemes
 from ..core import (
     ApiResult,
     AsyncRawClient,
-    BaseRawResponse,
     RawClient,
     RawError,
     RequestOptionsOrDict,
+    SecuredRawResponse,
     async_json_decoder,
     form_body,
     json_decoder,
@@ -24,8 +25,8 @@ from ..server.server import Server
 
 
 class Authorization:
-    def __init__(self, client: RawClient, server: Server) -> None:
-        self._with_raw_response = AuthorizationWithRawResponse(client, server)
+    def __init__(self, client: RawClient, server: Server, auth: AuthSchemes) -> None:
+        self._with_raw_response = AuthorizationWithRawResponse(client, server, auth)
 
     def get_token_detail(
         self,
@@ -77,16 +78,15 @@ class Authorization:
     def token_api(
         self,
         wm_market: str,
-        authorization: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         *,
         wm_partner_id: str | None = None,
         wm_consumer_channel_type: str | None = None,
         grant_type: GrantType1OrStr = GrantType1.CLIENT_CREDENTIALS,
-        code: str | None = "65CA5DA313A549D49D15D3119D9AD85D",
-        redirect_uri: str | None = "https://example-client-app.com",
-        refresh_token: str | None = "APXcIoTpKMH9OQN.....",
+        code: str | None = None,
+        redirect_uri: str | None = None,
+        refresh_token: str | None = None,
         request_options: RequestOptionsOrDict | None = None,
     ) -> OauthTokenModel:
         """<p>This endpoint issues access tokens required for authenticating API requests. It supports multiple OAuth
@@ -111,8 +111,6 @@ class Authorization:
         Args:
             wm_market: Available marketplace location: us (USA), mx (Mexico), ca (Canada) or cl (Chile) <strong
                 style="color: green;">**Market availability: Global**</strong>
-            authorization: Basic authorization header. Base 64 encodes the Client ID and Client Secret retrieved in step
-                two of the integration steps. <strong style="color: green;">**Market availability: Global**</strong>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID <strong style="color: green;">**Market availability: Global**</strong>
             wm_svc_name: Walmart Service Name <strong style="color: green;">**Market availability: Global**</strong>
@@ -144,7 +142,6 @@ class Authorization:
         return unwrap(
             self._with_raw_response.token_api(
                 wm_market,
-                authorization,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_partner_id=wm_partner_id,
@@ -163,8 +160,8 @@ class Authorization:
 
 
 class AsyncAuthorization:
-    def __init__(self, client: AsyncRawClient, server: Server) -> None:
-        self._with_raw_response = AsyncAuthorizationWithRawResponse(client, server)
+    def __init__(self, client: AsyncRawClient, server: Server, auth: AsyncAuthSchemes) -> None:
+        self._with_raw_response = AsyncAuthorizationWithRawResponse(client, server, auth)
 
     async def get_token_detail(
         self,
@@ -216,16 +213,15 @@ class AsyncAuthorization:
     async def token_api(
         self,
         wm_market: str,
-        authorization: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         *,
         wm_partner_id: str | None = None,
         wm_consumer_channel_type: str | None = None,
         grant_type: GrantType1OrStr = GrantType1.CLIENT_CREDENTIALS,
-        code: str | None = "65CA5DA313A549D49D15D3119D9AD85D",
-        redirect_uri: str | None = "https://example-client-app.com",
-        refresh_token: str | None = "APXcIoTpKMH9OQN.....",
+        code: str | None = None,
+        redirect_uri: str | None = None,
+        refresh_token: str | None = None,
         request_options: RequestOptionsOrDict | None = None,
     ) -> OauthTokenModel:
         """<p>This endpoint issues access tokens required for authenticating API requests. It supports multiple OAuth
@@ -250,8 +246,6 @@ class AsyncAuthorization:
         Args:
             wm_market: Available marketplace location: us (USA), mx (Mexico), ca (Canada) or cl (Chile) <strong
                 style="color: green;">**Market availability: Global**</strong>
-            authorization: Basic authorization header. Base 64 encodes the Client ID and Client Secret retrieved in step
-                two of the integration steps. <strong style="color: green;">**Market availability: Global**</strong>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID <strong style="color: green;">**Market availability: Global**</strong>
             wm_svc_name: Walmart Service Name <strong style="color: green;">**Market availability: Global**</strong>
@@ -283,7 +277,6 @@ class AsyncAuthorization:
         return unwrap(
             await self._with_raw_response.token_api(
                 wm_market,
-                authorization,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_partner_id=wm_partner_id,
@@ -301,7 +294,7 @@ class AsyncAuthorization:
         return self._with_raw_response
 
 
-class AuthorizationWithRawResponse(BaseRawResponse[RawClient, Server]):
+class AuthorizationWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]):
     def get_token_detail(
         self,
         wm_sec_access_token: str,
@@ -353,16 +346,15 @@ class AuthorizationWithRawResponse(BaseRawResponse[RawClient, Server]):
     def token_api(
         self,
         wm_market: str,
-        authorization: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         *,
         wm_partner_id: str | None = None,
         wm_consumer_channel_type: str | None = None,
         grant_type: GrantType1OrStr = GrantType1.CLIENT_CREDENTIALS,
-        code: str | None = "65CA5DA313A549D49D15D3119D9AD85D",
-        redirect_uri: str | None = "https://example-client-app.com",
-        refresh_token: str | None = "APXcIoTpKMH9OQN.....",
+        code: str | None = None,
+        redirect_uri: str | None = None,
+        refresh_token: str | None = None,
         request_options: RequestOptionsOrDict | None = None,
     ) -> ApiResult[OauthTokenModel, TokenApiErrorBody]:
         """<p>This endpoint issues access tokens required for authenticating API requests. It supports multiple OAuth
@@ -387,8 +379,6 @@ class AuthorizationWithRawResponse(BaseRawResponse[RawClient, Server]):
         Args:
             wm_market: Available marketplace location: us (USA), mx (Mexico), ca (Canada) or cl (Chile) <strong
                 style="color: green;">**Market availability: Global**</strong>
-            authorization: Basic authorization header. Base 64 encodes the Client ID and Client Secret retrieved in step
-                two of the integration steps. <strong style="color: green;">**Market availability: Global**</strong>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID <strong style="color: green;">**Market availability: Global**</strong>
             wm_svc_name: Walmart Service Name <strong style="color: green;">**Market availability: Global**</strong>
@@ -418,7 +408,6 @@ class AuthorizationWithRawResponse(BaseRawResponse[RawClient, Server]):
             url_template=self._server.default("/v3/token"),
             headers=[
                 param[str]("WM_MARKET", wm_market),
-                param[str]("Authorization", authorization),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[str | None]("WM_PARTNER.ID", wm_partner_id),
@@ -431,13 +420,14 @@ class AuthorizationWithRawResponse(BaseRawResponse[RawClient, Server]):
                 param[str | None]("redirect_uri", redirect_uri),
                 param[str | None]("refresh_token", refresh_token),
             ),
+            auth_scheme=self._auth.basic_auth,
             decoder=json_decoder[OauthTokenModel],
             error_mapper=token_api_error_mapper,
             request_options=request_options,
         )
 
 
-class AsyncAuthorizationWithRawResponse(BaseRawResponse[AsyncRawClient, Server]):
+class AsyncAuthorizationWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, AsyncAuthSchemes]):
     async def get_token_detail(
         self,
         wm_sec_access_token: str,
@@ -489,16 +479,15 @@ class AsyncAuthorizationWithRawResponse(BaseRawResponse[AsyncRawClient, Server])
     async def token_api(
         self,
         wm_market: str,
-        authorization: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         *,
         wm_partner_id: str | None = None,
         wm_consumer_channel_type: str | None = None,
         grant_type: GrantType1OrStr = GrantType1.CLIENT_CREDENTIALS,
-        code: str | None = "65CA5DA313A549D49D15D3119D9AD85D",
-        redirect_uri: str | None = "https://example-client-app.com",
-        refresh_token: str | None = "APXcIoTpKMH9OQN.....",
+        code: str | None = None,
+        redirect_uri: str | None = None,
+        refresh_token: str | None = None,
         request_options: RequestOptionsOrDict | None = None,
     ) -> ApiResult[OauthTokenModel, TokenApiErrorBody]:
         """<p>This endpoint issues access tokens required for authenticating API requests. It supports multiple OAuth
@@ -523,8 +512,6 @@ class AsyncAuthorizationWithRawResponse(BaseRawResponse[AsyncRawClient, Server])
         Args:
             wm_market: Available marketplace location: us (USA), mx (Mexico), ca (Canada) or cl (Chile) <strong
                 style="color: green;">**Market availability: Global**</strong>
-            authorization: Basic authorization header. Base 64 encodes the Client ID and Client Secret retrieved in step
-                two of the integration steps. <strong style="color: green;">**Market availability: Global**</strong>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID <strong style="color: green;">**Market availability: Global**</strong>
             wm_svc_name: Walmart Service Name <strong style="color: green;">**Market availability: Global**</strong>
@@ -554,7 +541,6 @@ class AsyncAuthorizationWithRawResponse(BaseRawResponse[AsyncRawClient, Server])
             url_template=self._server.default("/v3/token"),
             headers=[
                 param[str]("WM_MARKET", wm_market),
-                param[str]("Authorization", authorization),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[str | None]("WM_PARTNER.ID", wm_partner_id),
@@ -567,6 +553,7 @@ class AsyncAuthorizationWithRawResponse(BaseRawResponse[AsyncRawClient, Server])
                 param[str | None]("redirect_uri", redirect_uri),
                 param[str | None]("refresh_token", refresh_token),
             ),
+            auth_scheme=self._auth.basic_auth,
             decoder=async_json_decoder[OauthTokenModel],
             error_mapper=token_api_error_mapper,
             request_options=request_options,

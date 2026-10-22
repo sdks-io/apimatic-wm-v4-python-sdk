@@ -35,7 +35,6 @@ class FeedsApi:
 
     def get_all_feed_statuses(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -65,8 +64,6 @@ class FeedsApi:
         <br><b style='color:green;'>Market availability: Global</b>
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs. <strong style="color: green;">Market availability: Global</strong>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID. <strong style="color: green;">Market availability: Global</strong>
             wm_svc_name: Specifies the name of the Walmart service being called. <strong style="color: green;">Market
@@ -98,7 +95,6 @@ class FeedsApi:
             ApiError: Not Found Internal Server Error ``error`` is ``FeedRecordResponse | RawError``."""
         return unwrap(
             self._with_raw_response.get_all_feed_statuses(
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -117,7 +113,6 @@ class FeedsApi:
         self,
         feed_id: str,
         feed_type: FeedTypeOrStr,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -140,8 +135,6 @@ class FeedsApi:
             feed_id: Feed Id of the feed. <strong style="color: green;">**Market availability: US only**</strong>
             feed_type: Feed type for which Error Report needs to be downloaded. <strong style="color: green;">**Market
                 availability: US only**</strong>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs. <strong style="color: green;">Market availability: Global</strong>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID. <strong style="color: green;">Market availability: Global</strong>
             wm_svc_name: Specifies the name of the Walmart service being called. <strong style="color: green;">Market
@@ -164,7 +157,6 @@ class FeedsApi:
             self._with_raw_response.get_feed_error_report(
                 feed_id,
                 feed_type,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -177,7 +169,6 @@ class FeedsApi:
     def get_feed_item_status(
         self,
         feed_id: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -196,8 +187,6 @@ class FeedsApi:
             feed_id: A unique ID returned from the Bulk Upload API, used for tracking the Feed File. Special characters
                 must be escaped. (e.g., feedId: '...3456@789...' must be entered in the URL as '...3456%40789). <strong
                 style="color: green;">Market availability: Global</strong>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs. <strong style="color: green;">Market availability: Global</strong>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID. <strong style="color: green;">Market availability: Global</strong>
             wm_svc_name: Specifies the name of the Walmart service being called. <strong style="color: green;">Market
@@ -228,7 +217,6 @@ class FeedsApi:
         return unwrap(
             self._with_raw_response.get_feed_item_status(
                 feed_id,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -252,7 +240,6 @@ class AsyncFeedsApi:
 
     async def get_all_feed_statuses(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -282,8 +269,6 @@ class AsyncFeedsApi:
         <br><b style='color:green;'>Market availability: Global</b>
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs. <strong style="color: green;">Market availability: Global</strong>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID. <strong style="color: green;">Market availability: Global</strong>
             wm_svc_name: Specifies the name of the Walmart service being called. <strong style="color: green;">Market
@@ -315,7 +300,6 @@ class AsyncFeedsApi:
             ApiError: Not Found Internal Server Error ``error`` is ``FeedRecordResponse | RawError``."""
         return unwrap(
             await self._with_raw_response.get_all_feed_statuses(
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -334,7 +318,6 @@ class AsyncFeedsApi:
         self,
         feed_id: str,
         feed_type: FeedTypeOrStr,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -357,8 +340,6 @@ class AsyncFeedsApi:
             feed_id: Feed Id of the feed. <strong style="color: green;">**Market availability: US only**</strong>
             feed_type: Feed type for which Error Report needs to be downloaded. <strong style="color: green;">**Market
                 availability: US only**</strong>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs. <strong style="color: green;">Market availability: Global</strong>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID. <strong style="color: green;">Market availability: Global</strong>
             wm_svc_name: Specifies the name of the Walmart service being called. <strong style="color: green;">Market
@@ -381,7 +362,6 @@ class AsyncFeedsApi:
             await self._with_raw_response.get_feed_error_report(
                 feed_id,
                 feed_type,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -394,7 +374,6 @@ class AsyncFeedsApi:
     async def get_feed_item_status(
         self,
         feed_id: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -413,8 +392,6 @@ class AsyncFeedsApi:
             feed_id: A unique ID returned from the Bulk Upload API, used for tracking the Feed File. Special characters
                 must be escaped. (e.g., feedId: '...3456@789...' must be entered in the URL as '...3456%40789). <strong
                 style="color: green;">Market availability: Global</strong>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs. <strong style="color: green;">Market availability: Global</strong>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID. <strong style="color: green;">Market availability: Global</strong>
             wm_svc_name: Specifies the name of the Walmart service being called. <strong style="color: green;">Market
@@ -445,7 +422,6 @@ class AsyncFeedsApi:
         return unwrap(
             await self._with_raw_response.get_feed_item_status(
                 feed_id,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -466,7 +442,6 @@ class AsyncFeedsApi:
 class FeedsApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]):
     def get_all_feed_statuses(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -496,8 +471,6 @@ class FeedsApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]
         <br><b style='color:green;'>Market availability: Global</b>
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs. <strong style="color: green;">Market availability: Global</strong>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID. <strong style="color: green;">Market availability: Global</strong>
             wm_svc_name: Specifies the name of the Walmart service being called. <strong style="color: green;">Market
@@ -535,7 +508,6 @@ class FeedsApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]
                 param[str | None]("limit", limit),
             ],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket1OrStr]("WM_MARKET", wm_market),
@@ -552,7 +524,6 @@ class FeedsApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]
         self,
         feed_id: str,
         feed_type: FeedTypeOrStr,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -575,8 +546,6 @@ class FeedsApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]
             feed_id: Feed Id of the feed. <strong style="color: green;">**Market availability: US only**</strong>
             feed_type: Feed type for which Error Report needs to be downloaded. <strong style="color: green;">**Market
                 availability: US only**</strong>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs. <strong style="color: green;">Market availability: Global</strong>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID. <strong style="color: green;">Market availability: Global</strong>
             wm_svc_name: Specifies the name of the Walmart service being called. <strong style="color: green;">Market
@@ -598,7 +567,6 @@ class FeedsApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]
             path_params=[param[str]("feedId", feed_id)],
             query_params=[param[FeedTypeOrStr]("feedType", feed_type)],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket1OrStr]("WM_MARKET", wm_market),
@@ -614,7 +582,6 @@ class FeedsApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]
     def get_feed_item_status(
         self,
         feed_id: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -633,8 +600,6 @@ class FeedsApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]
             feed_id: A unique ID returned from the Bulk Upload API, used for tracking the Feed File. Special characters
                 must be escaped. (e.g., feedId: '...3456@789...' must be entered in the URL as '...3456%40789). <strong
                 style="color: green;">Market availability: Global</strong>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs. <strong style="color: green;">Market availability: Global</strong>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID. <strong style="color: green;">Market availability: Global</strong>
             wm_svc_name: Specifies the name of the Walmart service being called. <strong style="color: green;">Market
@@ -668,7 +633,6 @@ class FeedsApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]
                 param[str | None]("limit", limit),
             ],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket1OrStr]("WM_MARKET", wm_market),
@@ -685,7 +649,6 @@ class FeedsApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]
 class AsyncFeedsApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, AsyncAuthSchemes]):
     async def get_all_feed_statuses(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -715,8 +678,6 @@ class AsyncFeedsApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, As
         <br><b style='color:green;'>Market availability: Global</b>
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs. <strong style="color: green;">Market availability: Global</strong>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID. <strong style="color: green;">Market availability: Global</strong>
             wm_svc_name: Specifies the name of the Walmart service being called. <strong style="color: green;">Market
@@ -754,7 +715,6 @@ class AsyncFeedsApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, As
                 param[str | None]("limit", limit),
             ],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket1OrStr]("WM_MARKET", wm_market),
@@ -771,7 +731,6 @@ class AsyncFeedsApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, As
         self,
         feed_id: str,
         feed_type: FeedTypeOrStr,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -794,8 +753,6 @@ class AsyncFeedsApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, As
             feed_id: Feed Id of the feed. <strong style="color: green;">**Market availability: US only**</strong>
             feed_type: Feed type for which Error Report needs to be downloaded. <strong style="color: green;">**Market
                 availability: US only**</strong>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs. <strong style="color: green;">Market availability: Global</strong>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID. <strong style="color: green;">Market availability: Global</strong>
             wm_svc_name: Specifies the name of the Walmart service being called. <strong style="color: green;">Market
@@ -817,7 +774,6 @@ class AsyncFeedsApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, As
             path_params=[param[str]("feedId", feed_id)],
             query_params=[param[FeedTypeOrStr]("feedType", feed_type)],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket1OrStr]("WM_MARKET", wm_market),
@@ -833,7 +789,6 @@ class AsyncFeedsApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, As
     async def get_feed_item_status(
         self,
         feed_id: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -852,8 +807,6 @@ class AsyncFeedsApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, As
             feed_id: A unique ID returned from the Bulk Upload API, used for tracking the Feed File. Special characters
                 must be escaped. (e.g., feedId: '...3456@789...' must be entered in the URL as '...3456%40789). <strong
                 style="color: green;">Market availability: Global</strong>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs. <strong style="color: green;">Market availability: Global</strong>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID. <strong style="color: green;">Market availability: Global</strong>
             wm_svc_name: Specifies the name of the Walmart service being called. <strong style="color: green;">Market
@@ -887,7 +840,6 @@ class AsyncFeedsApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, As
                 param[str | None]("limit", limit),
             ],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket1OrStr]("WM_MARKET", wm_market),

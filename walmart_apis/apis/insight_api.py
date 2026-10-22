@@ -61,7 +61,6 @@ class InsightApi:
     def get_categories_list(
         self,
         wm_global_version: WmGlobalVersionOrStr,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -81,8 +80,6 @@ class InsightApi:
 
         Args:
             wm_global_version: GLOBAL VERSION DEFAULT AS 3.1<br><b style='color:green;'>Market availability: Global</b>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Walmart Service Name<br><b style='color:green;'>Market availability: Global</b>
@@ -117,7 +114,6 @@ class InsightApi:
         return unwrap(
             self._with_raw_response.get_categories_list(
                 wm_global_version,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -136,7 +132,6 @@ class InsightApi:
     def get_listing_quality_score(
         self,
         wm_global_version: WmGlobalVersionOrStr,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -152,8 +147,6 @@ class InsightApi:
         Args:
             wm_global_version: Indicates the global version of the API. The value must be set to 3.1.<br><b
                 style='color:green;'>Market availability: Global</span></b>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Walmart Service Name<br><b style='color:green;'>Market availability: Global</b>
@@ -178,7 +171,6 @@ class InsightApi:
         return unwrap(
             self._with_raw_response.get_listing_quality_score(
                 wm_global_version,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -192,7 +184,6 @@ class InsightApi:
     def get_pro_seller_badge_info(
         self,
         wm_global_version: WmGlobalVersionOrStr,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -205,8 +196,6 @@ class InsightApi:
 
         Args:
             wm_global_version: GLOBAL VERSION DEFAULT AS 3.1<br><b style='color:green;'>Market availability: Global</b>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Walmart Service Name<br><b style='color:green;'>Market availability: Global</b>
@@ -227,7 +216,6 @@ class InsightApi:
         return unwrap(
             self._with_raw_response.get_pro_seller_badge_info(
                 wm_global_version,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -239,7 +227,6 @@ class InsightApi:
     def get_seller_incentives_info(
         self,
         wm_global_version: WmGlobalVersionOrStr,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -253,8 +240,6 @@ class InsightApi:
 
         Args:
             wm_global_version: GLOBAL VERSION DEFAULT AS 3.1<br><b style='color:green;'>Market availability: Global</b>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID. <br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Walmart Service Name<br><b style='color:green;'>Market availability: Global</b>
@@ -274,7 +259,6 @@ class InsightApi:
         return unwrap(
             self._with_raw_response.get_seller_incentives_info(
                 wm_global_version,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -287,7 +271,6 @@ class InsightApi:
         self,
         from_date: str,
         wm_global_version: WmGlobalVersionOrStr,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -302,8 +285,6 @@ class InsightApi:
             from_date: Returns all unpublished items count with reason codes since the given date period<br><b
                 style='color:green;'>Market availability: US | CA | MX</b>
             wm_global_version: GLOBAL VERSION DEFAULT AS 3.1<br><b style='color:green;'>Market availability: Global</b>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Walmart Service Name<br><b style='color:green;'>Market availability: Global</b>
@@ -324,7 +305,6 @@ class InsightApi:
             self._with_raw_response.get_unpublished_item_count(
                 from_date,
                 wm_global_version,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -337,7 +317,6 @@ class InsightApi:
         self,
         from_date: str,
         wm_global_version: WmGlobalVersionOrStr,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -357,8 +336,6 @@ class InsightApi:
             from_date: Returns all unpublished items since the given date<br><b style='color:green;'>Market
                 availability: US | CA | MX</b>
             wm_global_version: GLOBAL VERSION DEFAULT AS 3.1<br><b style='color:green;'>Market availability: Global</b>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Walmart Service Name<br><b style='color:green;'>Market availability: Global</b>
@@ -392,7 +369,6 @@ class InsightApi:
             self._with_raw_response.get_unpublished_items(
                 from_date,
                 wm_global_version,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -410,7 +386,6 @@ class InsightApi:
     def items_details_for_listing(
         self,
         wm_global_version: WmGlobalVersionOrStr,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -428,8 +403,6 @@ class InsightApi:
         Args:
             wm_global_version: GLOBAL VERSION DEFAULT AS 3.1.<br><b style='color:green;'>Market availability:
                 Global</span></b>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Walmart Service Name<br><b style='color:green;'>Market availability: Global</b>
@@ -456,7 +429,6 @@ class InsightApi:
         return unwrap(
             self._with_raw_response.items_details_for_listing(
                 wm_global_version,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -481,7 +453,6 @@ class AsyncInsightApi:
     async def get_categories_list(
         self,
         wm_global_version: WmGlobalVersionOrStr,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -501,8 +472,6 @@ class AsyncInsightApi:
 
         Args:
             wm_global_version: GLOBAL VERSION DEFAULT AS 3.1<br><b style='color:green;'>Market availability: Global</b>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Walmart Service Name<br><b style='color:green;'>Market availability: Global</b>
@@ -537,7 +506,6 @@ class AsyncInsightApi:
         return unwrap(
             await self._with_raw_response.get_categories_list(
                 wm_global_version,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -556,7 +524,6 @@ class AsyncInsightApi:
     async def get_listing_quality_score(
         self,
         wm_global_version: WmGlobalVersionOrStr,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -572,8 +539,6 @@ class AsyncInsightApi:
         Args:
             wm_global_version: Indicates the global version of the API. The value must be set to 3.1.<br><b
                 style='color:green;'>Market availability: Global</span></b>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Walmart Service Name<br><b style='color:green;'>Market availability: Global</b>
@@ -598,7 +563,6 @@ class AsyncInsightApi:
         return unwrap(
             await self._with_raw_response.get_listing_quality_score(
                 wm_global_version,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -612,7 +576,6 @@ class AsyncInsightApi:
     async def get_pro_seller_badge_info(
         self,
         wm_global_version: WmGlobalVersionOrStr,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -625,8 +588,6 @@ class AsyncInsightApi:
 
         Args:
             wm_global_version: GLOBAL VERSION DEFAULT AS 3.1<br><b style='color:green;'>Market availability: Global</b>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Walmart Service Name<br><b style='color:green;'>Market availability: Global</b>
@@ -647,7 +608,6 @@ class AsyncInsightApi:
         return unwrap(
             await self._with_raw_response.get_pro_seller_badge_info(
                 wm_global_version,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -659,7 +619,6 @@ class AsyncInsightApi:
     async def get_seller_incentives_info(
         self,
         wm_global_version: WmGlobalVersionOrStr,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -673,8 +632,6 @@ class AsyncInsightApi:
 
         Args:
             wm_global_version: GLOBAL VERSION DEFAULT AS 3.1<br><b style='color:green;'>Market availability: Global</b>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID. <br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Walmart Service Name<br><b style='color:green;'>Market availability: Global</b>
@@ -694,7 +651,6 @@ class AsyncInsightApi:
         return unwrap(
             await self._with_raw_response.get_seller_incentives_info(
                 wm_global_version,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -707,7 +663,6 @@ class AsyncInsightApi:
         self,
         from_date: str,
         wm_global_version: WmGlobalVersionOrStr,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -722,8 +677,6 @@ class AsyncInsightApi:
             from_date: Returns all unpublished items count with reason codes since the given date period<br><b
                 style='color:green;'>Market availability: US | CA | MX</b>
             wm_global_version: GLOBAL VERSION DEFAULT AS 3.1<br><b style='color:green;'>Market availability: Global</b>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Walmart Service Name<br><b style='color:green;'>Market availability: Global</b>
@@ -744,7 +697,6 @@ class AsyncInsightApi:
             await self._with_raw_response.get_unpublished_item_count(
                 from_date,
                 wm_global_version,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -757,7 +709,6 @@ class AsyncInsightApi:
         self,
         from_date: str,
         wm_global_version: WmGlobalVersionOrStr,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -777,8 +728,6 @@ class AsyncInsightApi:
             from_date: Returns all unpublished items since the given date<br><b style='color:green;'>Market
                 availability: US | CA | MX</b>
             wm_global_version: GLOBAL VERSION DEFAULT AS 3.1<br><b style='color:green;'>Market availability: Global</b>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Walmart Service Name<br><b style='color:green;'>Market availability: Global</b>
@@ -812,7 +761,6 @@ class AsyncInsightApi:
             await self._with_raw_response.get_unpublished_items(
                 from_date,
                 wm_global_version,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -830,7 +778,6 @@ class AsyncInsightApi:
     async def items_details_for_listing(
         self,
         wm_global_version: WmGlobalVersionOrStr,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -848,8 +795,6 @@ class AsyncInsightApi:
         Args:
             wm_global_version: GLOBAL VERSION DEFAULT AS 3.1.<br><b style='color:green;'>Market availability:
                 Global</span></b>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Walmart Service Name<br><b style='color:green;'>Market availability: Global</b>
@@ -876,7 +821,6 @@ class AsyncInsightApi:
         return unwrap(
             await self._with_raw_response.items_details_for_listing(
                 wm_global_version,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -898,7 +842,6 @@ class InsightApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
     def get_categories_list(
         self,
         wm_global_version: WmGlobalVersionOrStr,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -918,8 +861,6 @@ class InsightApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
 
         Args:
             wm_global_version: GLOBAL VERSION DEFAULT AS 3.1<br><b style='color:green;'>Market availability: Global</b>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Walmart Service Name<br><b style='color:green;'>Market availability: Global</b>
@@ -960,7 +901,6 @@ class InsightApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
             ],
             headers=[
                 param[WmGlobalVersionOrStr]("WM_GLOBAL_VERSION", wm_global_version),
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket1OrStr]("WM_MARKET", wm_market),
@@ -975,7 +915,6 @@ class InsightApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
     def get_listing_quality_score(
         self,
         wm_global_version: WmGlobalVersionOrStr,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -991,8 +930,6 @@ class InsightApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
         Args:
             wm_global_version: Indicates the global version of the API. The value must be set to 3.1.<br><b
                 style='color:green;'>Market availability: Global</span></b>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Walmart Service Name<br><b style='color:green;'>Market availability: Global</b>
@@ -1017,7 +954,6 @@ class InsightApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
             ],
             headers=[
                 param[WmGlobalVersionOrStr]("WM_GLOBAL_VERSION", wm_global_version),
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket1OrStr]("WM_MARKET", wm_market),
@@ -1032,7 +968,6 @@ class InsightApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
     def get_pro_seller_badge_info(
         self,
         wm_global_version: WmGlobalVersionOrStr,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -1045,8 +980,6 @@ class InsightApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
 
         Args:
             wm_global_version: GLOBAL VERSION DEFAULT AS 3.1<br><b style='color:green;'>Market availability: Global</b>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Walmart Service Name<br><b style='color:green;'>Market availability: Global</b>
@@ -1064,7 +997,6 @@ class InsightApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
             url_template=self._server.default("/v3/insights/prosellerbadge"),
             headers=[
                 param[WmGlobalVersionOrStr]("WM_GLOBAL_VERSION", wm_global_version),
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket1OrStr]("WM_MARKET", wm_market),
@@ -1079,7 +1011,6 @@ class InsightApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
     def get_seller_incentives_info(
         self,
         wm_global_version: WmGlobalVersionOrStr,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -1093,8 +1024,6 @@ class InsightApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
 
         Args:
             wm_global_version: GLOBAL VERSION DEFAULT AS 3.1<br><b style='color:green;'>Market availability: Global</b>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID. <br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Walmart Service Name<br><b style='color:green;'>Market availability: Global</b>
@@ -1112,7 +1041,6 @@ class InsightApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
             url_template=self._server.default("/v3/insights/sellerIncentives"),
             headers=[
                 param[WmGlobalVersionOrStr]("WM_GLOBAL_VERSION", wm_global_version),
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket1OrStr]("WM_MARKET", wm_market),
@@ -1128,7 +1056,6 @@ class InsightApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
         self,
         from_date: str,
         wm_global_version: WmGlobalVersionOrStr,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -1143,8 +1070,6 @@ class InsightApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
             from_date: Returns all unpublished items count with reason codes since the given date period<br><b
                 style='color:green;'>Market availability: US | CA | MX</b>
             wm_global_version: GLOBAL VERSION DEFAULT AS 3.1<br><b style='color:green;'>Market availability: Global</b>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Walmart Service Name<br><b style='color:green;'>Market availability: Global</b>
@@ -1163,7 +1088,6 @@ class InsightApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
             query_params=[param[str]("fromDate", from_date)],
             headers=[
                 param[WmGlobalVersionOrStr]("WM_GLOBAL_VERSION", wm_global_version),
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket1OrStr]("WM_MARKET", wm_market),
@@ -1179,7 +1103,6 @@ class InsightApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
         self,
         from_date: str,
         wm_global_version: WmGlobalVersionOrStr,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -1199,8 +1122,6 @@ class InsightApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
             from_date: Returns all unpublished items since the given date<br><b style='color:green;'>Market
                 availability: US | CA | MX</b>
             wm_global_version: GLOBAL VERSION DEFAULT AS 3.1<br><b style='color:green;'>Market availability: Global</b>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Walmart Service Name<br><b style='color:green;'>Market availability: Global</b>
@@ -1240,7 +1161,6 @@ class InsightApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
             ],
             headers=[
                 param[WmGlobalVersionOrStr]("WM_GLOBAL_VERSION", wm_global_version),
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket1OrStr]("WM_MARKET", wm_market),
@@ -1255,7 +1175,6 @@ class InsightApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
     def items_details_for_listing(
         self,
         wm_global_version: WmGlobalVersionOrStr,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -1273,8 +1192,6 @@ class InsightApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
         Args:
             wm_global_version: GLOBAL VERSION DEFAULT AS 3.1.<br><b style='color:green;'>Market availability:
                 Global</span></b>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Walmart Service Name<br><b style='color:green;'>Market availability: Global</b>
@@ -1304,7 +1221,6 @@ class InsightApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
             ],
             headers=[
                 param[WmGlobalVersionOrStr]("WM_GLOBAL_VERSION", wm_global_version),
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket1OrStr]("WM_MARKET", wm_market),
@@ -1325,7 +1241,6 @@ class AsyncInsightApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
     async def get_categories_list(
         self,
         wm_global_version: WmGlobalVersionOrStr,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -1345,8 +1260,6 @@ class AsyncInsightApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
 
         Args:
             wm_global_version: GLOBAL VERSION DEFAULT AS 3.1<br><b style='color:green;'>Market availability: Global</b>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Walmart Service Name<br><b style='color:green;'>Market availability: Global</b>
@@ -1387,7 +1300,6 @@ class AsyncInsightApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             ],
             headers=[
                 param[WmGlobalVersionOrStr]("WM_GLOBAL_VERSION", wm_global_version),
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket1OrStr]("WM_MARKET", wm_market),
@@ -1402,7 +1314,6 @@ class AsyncInsightApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
     async def get_listing_quality_score(
         self,
         wm_global_version: WmGlobalVersionOrStr,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -1418,8 +1329,6 @@ class AsyncInsightApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
         Args:
             wm_global_version: Indicates the global version of the API. The value must be set to 3.1.<br><b
                 style='color:green;'>Market availability: Global</span></b>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Walmart Service Name<br><b style='color:green;'>Market availability: Global</b>
@@ -1444,7 +1353,6 @@ class AsyncInsightApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             ],
             headers=[
                 param[WmGlobalVersionOrStr]("WM_GLOBAL_VERSION", wm_global_version),
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket1OrStr]("WM_MARKET", wm_market),
@@ -1459,7 +1367,6 @@ class AsyncInsightApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
     async def get_pro_seller_badge_info(
         self,
         wm_global_version: WmGlobalVersionOrStr,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -1472,8 +1379,6 @@ class AsyncInsightApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
 
         Args:
             wm_global_version: GLOBAL VERSION DEFAULT AS 3.1<br><b style='color:green;'>Market availability: Global</b>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Walmart Service Name<br><b style='color:green;'>Market availability: Global</b>
@@ -1491,7 +1396,6 @@ class AsyncInsightApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             url_template=self._server.default("/v3/insights/prosellerbadge"),
             headers=[
                 param[WmGlobalVersionOrStr]("WM_GLOBAL_VERSION", wm_global_version),
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket1OrStr]("WM_MARKET", wm_market),
@@ -1506,7 +1410,6 @@ class AsyncInsightApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
     async def get_seller_incentives_info(
         self,
         wm_global_version: WmGlobalVersionOrStr,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -1520,8 +1423,6 @@ class AsyncInsightApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
 
         Args:
             wm_global_version: GLOBAL VERSION DEFAULT AS 3.1<br><b style='color:green;'>Market availability: Global</b>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID. <br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Walmart Service Name<br><b style='color:green;'>Market availability: Global</b>
@@ -1539,7 +1440,6 @@ class AsyncInsightApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             url_template=self._server.default("/v3/insights/sellerIncentives"),
             headers=[
                 param[WmGlobalVersionOrStr]("WM_GLOBAL_VERSION", wm_global_version),
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket1OrStr]("WM_MARKET", wm_market),
@@ -1555,7 +1455,6 @@ class AsyncInsightApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
         self,
         from_date: str,
         wm_global_version: WmGlobalVersionOrStr,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -1570,8 +1469,6 @@ class AsyncInsightApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             from_date: Returns all unpublished items count with reason codes since the given date period<br><b
                 style='color:green;'>Market availability: US | CA | MX</b>
             wm_global_version: GLOBAL VERSION DEFAULT AS 3.1<br><b style='color:green;'>Market availability: Global</b>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Walmart Service Name<br><b style='color:green;'>Market availability: Global</b>
@@ -1590,7 +1487,6 @@ class AsyncInsightApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             query_params=[param[str]("fromDate", from_date)],
             headers=[
                 param[WmGlobalVersionOrStr]("WM_GLOBAL_VERSION", wm_global_version),
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket1OrStr]("WM_MARKET", wm_market),
@@ -1606,7 +1502,6 @@ class AsyncInsightApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
         self,
         from_date: str,
         wm_global_version: WmGlobalVersionOrStr,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -1626,8 +1521,6 @@ class AsyncInsightApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             from_date: Returns all unpublished items since the given date<br><b style='color:green;'>Market
                 availability: US | CA | MX</b>
             wm_global_version: GLOBAL VERSION DEFAULT AS 3.1<br><b style='color:green;'>Market availability: Global</b>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Walmart Service Name<br><b style='color:green;'>Market availability: Global</b>
@@ -1667,7 +1560,6 @@ class AsyncInsightApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             ],
             headers=[
                 param[WmGlobalVersionOrStr]("WM_GLOBAL_VERSION", wm_global_version),
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket1OrStr]("WM_MARKET", wm_market),
@@ -1682,7 +1574,6 @@ class AsyncInsightApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
     async def items_details_for_listing(
         self,
         wm_global_version: WmGlobalVersionOrStr,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -1700,8 +1591,6 @@ class AsyncInsightApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
         Args:
             wm_global_version: GLOBAL VERSION DEFAULT AS 3.1.<br><b style='color:green;'>Market availability:
                 Global</span></b>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Walmart Service Name<br><b style='color:green;'>Market availability: Global</b>
@@ -1731,7 +1620,6 @@ class AsyncInsightApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             ],
             headers=[
                 param[WmGlobalVersionOrStr]("WM_GLOBAL_VERSION", wm_global_version),
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket1OrStr]("WM_MARKET", wm_market),

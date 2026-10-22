@@ -43,7 +43,6 @@ class Notifications:
 
     def create_subscription(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket2OrStr,
@@ -76,8 +75,6 @@ class Notifications:
         <b style='color:green;'>Market availability: Global</b>
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Name of the Walmart service being called.<br><b style='color:green;'>Market availability:
@@ -99,7 +96,6 @@ class Notifications:
             ApiError: If the API responds with an error status code. ``error`` is ``RawError``."""
         return unwrap(
             self._with_raw_response.create_subscription(
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -113,7 +109,6 @@ class Notifications:
     def delete_subscription(
         self,
         subscription_id: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket2OrStr,
@@ -129,8 +124,6 @@ class Notifications:
         Args:
             subscription_id: Unique identifier of the subscription to delete.<br><b style='color:green;'>Market
                 availability: Global</b>
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Name of the Walmart service being called.<br><b style='color:green;'>Market availability:
@@ -152,7 +145,6 @@ class Notifications:
         return unwrap(
             self._with_raw_response.delete_subscription(
                 subscription_id,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -164,7 +156,6 @@ class Notifications:
 
     def get_all_subscriptions(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket2OrStr,
@@ -183,8 +174,6 @@ class Notifications:
         <b style='color:green;'>Market availability: Global</b>
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Name of the Walmart service being called.<br><b style='color:green;'>Market availability:
@@ -214,7 +203,6 @@ class Notifications:
             ApiError: If the API responds with an error status code. ``error`` is ``RawError``."""
         return unwrap(
             self._with_raw_response.get_all_subscriptions(
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -230,7 +218,6 @@ class Notifications:
 
     def get_event_types(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket2OrStr,
@@ -251,8 +238,6 @@ class Notifications:
         <b style='color:green;'>Market availability: Global</b>
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Name of the Walmart service being called.<br><b style='color:green;'>Market availability:
@@ -273,7 +258,6 @@ class Notifications:
             ApiError: If the API responds with an error status code. ``error`` is ``RawError``."""
         return unwrap(
             self._with_raw_response.get_event_types(
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -285,7 +269,6 @@ class Notifications:
 
     def test_notification(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket2OrStr,
@@ -300,8 +283,6 @@ class Notifications:
         <b style='color:green;'>Market availability: Global</b>
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Name of the Walmart service being called.<br><b style='color:green;'>Market availability:
@@ -323,7 +304,6 @@ class Notifications:
             ApiError: If the API responds with an error status code. ``error`` is ``RawError``."""
         return unwrap(
             self._with_raw_response.test_notification(
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -337,7 +317,6 @@ class Notifications:
     def update_subscription(
         self,
         subscription_id: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket2OrStr,
@@ -356,8 +335,6 @@ class Notifications:
         Args:
             subscription_id: Unique identifier of the subscription to update.<br><b style='color:green;'>Market
                 availability: Global</b>
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Name of the Walmart service being called.<br><b style='color:green;'>Market availability:
@@ -380,7 +357,6 @@ class Notifications:
         return unwrap(
             self._with_raw_response.update_subscription(
                 subscription_id,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -402,7 +378,6 @@ class AsyncNotifications:
 
     async def create_subscription(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket2OrStr,
@@ -435,8 +410,6 @@ class AsyncNotifications:
         <b style='color:green;'>Market availability: Global</b>
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Name of the Walmart service being called.<br><b style='color:green;'>Market availability:
@@ -458,7 +431,6 @@ class AsyncNotifications:
             ApiError: If the API responds with an error status code. ``error`` is ``RawError``."""
         return unwrap(
             await self._with_raw_response.create_subscription(
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -472,7 +444,6 @@ class AsyncNotifications:
     async def delete_subscription(
         self,
         subscription_id: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket2OrStr,
@@ -488,8 +459,6 @@ class AsyncNotifications:
         Args:
             subscription_id: Unique identifier of the subscription to delete.<br><b style='color:green;'>Market
                 availability: Global</b>
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Name of the Walmart service being called.<br><b style='color:green;'>Market availability:
@@ -511,7 +480,6 @@ class AsyncNotifications:
         return unwrap(
             await self._with_raw_response.delete_subscription(
                 subscription_id,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -523,7 +491,6 @@ class AsyncNotifications:
 
     async def get_all_subscriptions(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket2OrStr,
@@ -542,8 +509,6 @@ class AsyncNotifications:
         <b style='color:green;'>Market availability: Global</b>
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Name of the Walmart service being called.<br><b style='color:green;'>Market availability:
@@ -573,7 +538,6 @@ class AsyncNotifications:
             ApiError: If the API responds with an error status code. ``error`` is ``RawError``."""
         return unwrap(
             await self._with_raw_response.get_all_subscriptions(
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -589,7 +553,6 @@ class AsyncNotifications:
 
     async def get_event_types(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket2OrStr,
@@ -610,8 +573,6 @@ class AsyncNotifications:
         <b style='color:green;'>Market availability: Global</b>
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Name of the Walmart service being called.<br><b style='color:green;'>Market availability:
@@ -632,7 +593,6 @@ class AsyncNotifications:
             ApiError: If the API responds with an error status code. ``error`` is ``RawError``."""
         return unwrap(
             await self._with_raw_response.get_event_types(
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -644,7 +604,6 @@ class AsyncNotifications:
 
     async def test_notification(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket2OrStr,
@@ -659,8 +618,6 @@ class AsyncNotifications:
         <b style='color:green;'>Market availability: Global</b>
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Name of the Walmart service being called.<br><b style='color:green;'>Market availability:
@@ -682,7 +639,6 @@ class AsyncNotifications:
             ApiError: If the API responds with an error status code. ``error`` is ``RawError``."""
         return unwrap(
             await self._with_raw_response.test_notification(
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -696,7 +652,6 @@ class AsyncNotifications:
     async def update_subscription(
         self,
         subscription_id: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket2OrStr,
@@ -715,8 +670,6 @@ class AsyncNotifications:
         Args:
             subscription_id: Unique identifier of the subscription to update.<br><b style='color:green;'>Market
                 availability: Global</b>
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Name of the Walmart service being called.<br><b style='color:green;'>Market availability:
@@ -739,7 +692,6 @@ class AsyncNotifications:
         return unwrap(
             await self._with_raw_response.update_subscription(
                 subscription_id,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -758,7 +710,6 @@ class AsyncNotifications:
 class NotificationsWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]):
     def create_subscription(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket2OrStr,
@@ -791,8 +742,6 @@ class NotificationsWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSch
         <b style='color:green;'>Market availability: Global</b>
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Name of the Walmart service being called.<br><b style='color:green;'>Market availability:
@@ -813,7 +762,6 @@ class NotificationsWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSch
             http_method="POST",
             url_template=self._server.default("/v3/webhooks/subscriptions"),
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket2OrStr]("WM_MARKET", wm_market),
@@ -831,7 +779,6 @@ class NotificationsWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSch
     def delete_subscription(
         self,
         subscription_id: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket2OrStr,
@@ -847,8 +794,6 @@ class NotificationsWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSch
         Args:
             subscription_id: Unique identifier of the subscription to delete.<br><b style='color:green;'>Market
                 availability: Global</b>
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Name of the Walmart service being called.<br><b style='color:green;'>Market availability:
@@ -869,7 +814,6 @@ class NotificationsWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSch
             url_template=self._server.default("/v3/webhooks/subscriptions/{subscriptionId}"),
             path_params=[param[str]("subscriptionId", subscription_id)],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket2OrStr]("WM_MARKET", wm_market),
@@ -885,7 +829,6 @@ class NotificationsWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSch
 
     def get_all_subscriptions(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket2OrStr,
@@ -904,8 +847,6 @@ class NotificationsWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSch
         <b style='color:green;'>Market availability: Global</b>
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Name of the Walmart service being called.<br><b style='color:green;'>Market availability:
@@ -940,7 +881,6 @@ class NotificationsWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSch
                 param[str | None]("status", status),
             ],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket2OrStr]("WM_MARKET", wm_market),
@@ -955,7 +895,6 @@ class NotificationsWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSch
 
     def get_event_types(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket2OrStr,
@@ -976,8 +915,6 @@ class NotificationsWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSch
         <b style='color:green;'>Market availability: Global</b>
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Name of the Walmart service being called.<br><b style='color:green;'>Market availability:
@@ -997,7 +934,6 @@ class NotificationsWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSch
             http_method="GET",
             url_template=self._server.default("/v3/webhooks/eventTypes"),
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket2OrStr]("WM_MARKET", wm_market),
@@ -1012,7 +948,6 @@ class NotificationsWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSch
 
     def test_notification(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket2OrStr,
@@ -1027,8 +962,6 @@ class NotificationsWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSch
         <b style='color:green;'>Market availability: Global</b>
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Name of the Walmart service being called.<br><b style='color:green;'>Market availability:
@@ -1049,7 +982,6 @@ class NotificationsWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSch
             http_method="POST",
             url_template=self._server.default("/v3/webhooks/test"),
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket2OrStr]("WM_MARKET", wm_market),
@@ -1067,7 +999,6 @@ class NotificationsWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSch
     def update_subscription(
         self,
         subscription_id: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket2OrStr,
@@ -1086,8 +1017,6 @@ class NotificationsWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSch
         Args:
             subscription_id: Unique identifier of the subscription to update.<br><b style='color:green;'>Market
                 availability: Global</b>
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Name of the Walmart service being called.<br><b style='color:green;'>Market availability:
@@ -1109,7 +1038,6 @@ class NotificationsWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSch
             url_template=self._server.default("/v3/webhooks/subscriptions/{subscriptionId}"),
             path_params=[param[str]("subscriptionId", subscription_id)],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket2OrStr]("WM_MARKET", wm_market),
@@ -1128,7 +1056,6 @@ class NotificationsWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSch
 class AsyncNotificationsWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, AsyncAuthSchemes]):
     async def create_subscription(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket2OrStr,
@@ -1161,8 +1088,6 @@ class AsyncNotificationsWithRawResponse(SecuredRawResponse[AsyncRawClient, Serve
         <b style='color:green;'>Market availability: Global</b>
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Name of the Walmart service being called.<br><b style='color:green;'>Market availability:
@@ -1183,7 +1108,6 @@ class AsyncNotificationsWithRawResponse(SecuredRawResponse[AsyncRawClient, Serve
             http_method="POST",
             url_template=self._server.default("/v3/webhooks/subscriptions"),
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket2OrStr]("WM_MARKET", wm_market),
@@ -1201,7 +1125,6 @@ class AsyncNotificationsWithRawResponse(SecuredRawResponse[AsyncRawClient, Serve
     async def delete_subscription(
         self,
         subscription_id: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket2OrStr,
@@ -1217,8 +1140,6 @@ class AsyncNotificationsWithRawResponse(SecuredRawResponse[AsyncRawClient, Serve
         Args:
             subscription_id: Unique identifier of the subscription to delete.<br><b style='color:green;'>Market
                 availability: Global</b>
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Name of the Walmart service being called.<br><b style='color:green;'>Market availability:
@@ -1239,7 +1160,6 @@ class AsyncNotificationsWithRawResponse(SecuredRawResponse[AsyncRawClient, Serve
             url_template=self._server.default("/v3/webhooks/subscriptions/{subscriptionId}"),
             path_params=[param[str]("subscriptionId", subscription_id)],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket2OrStr]("WM_MARKET", wm_market),
@@ -1255,7 +1175,6 @@ class AsyncNotificationsWithRawResponse(SecuredRawResponse[AsyncRawClient, Serve
 
     async def get_all_subscriptions(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket2OrStr,
@@ -1274,8 +1193,6 @@ class AsyncNotificationsWithRawResponse(SecuredRawResponse[AsyncRawClient, Serve
         <b style='color:green;'>Market availability: Global</b>
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Name of the Walmart service being called.<br><b style='color:green;'>Market availability:
@@ -1310,7 +1227,6 @@ class AsyncNotificationsWithRawResponse(SecuredRawResponse[AsyncRawClient, Serve
                 param[str | None]("status", status),
             ],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket2OrStr]("WM_MARKET", wm_market),
@@ -1325,7 +1241,6 @@ class AsyncNotificationsWithRawResponse(SecuredRawResponse[AsyncRawClient, Serve
 
     async def get_event_types(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket2OrStr,
@@ -1346,8 +1261,6 @@ class AsyncNotificationsWithRawResponse(SecuredRawResponse[AsyncRawClient, Serve
         <b style='color:green;'>Market availability: Global</b>
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Name of the Walmart service being called.<br><b style='color:green;'>Market availability:
@@ -1367,7 +1280,6 @@ class AsyncNotificationsWithRawResponse(SecuredRawResponse[AsyncRawClient, Serve
             http_method="GET",
             url_template=self._server.default("/v3/webhooks/eventTypes"),
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket2OrStr]("WM_MARKET", wm_market),
@@ -1382,7 +1294,6 @@ class AsyncNotificationsWithRawResponse(SecuredRawResponse[AsyncRawClient, Serve
 
     async def test_notification(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket2OrStr,
@@ -1397,8 +1308,6 @@ class AsyncNotificationsWithRawResponse(SecuredRawResponse[AsyncRawClient, Serve
         <b style='color:green;'>Market availability: Global</b>
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Name of the Walmart service being called.<br><b style='color:green;'>Market availability:
@@ -1419,7 +1328,6 @@ class AsyncNotificationsWithRawResponse(SecuredRawResponse[AsyncRawClient, Serve
             http_method="POST",
             url_template=self._server.default("/v3/webhooks/test"),
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket2OrStr]("WM_MARKET", wm_market),
@@ -1437,7 +1345,6 @@ class AsyncNotificationsWithRawResponse(SecuredRawResponse[AsyncRawClient, Serve
     async def update_subscription(
         self,
         subscription_id: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket2OrStr,
@@ -1456,8 +1363,6 @@ class AsyncNotificationsWithRawResponse(SecuredRawResponse[AsyncRawClient, Serve
         Args:
             subscription_id: Unique identifier of the subscription to update.<br><b style='color:green;'>Market
                 availability: Global</b>
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Name of the Walmart service being called.<br><b style='color:green;'>Market availability:
@@ -1479,7 +1384,6 @@ class AsyncNotificationsWithRawResponse(SecuredRawResponse[AsyncRawClient, Serve
             url_template=self._server.default("/v3/webhooks/subscriptions/{subscriptionId}"),
             path_params=[param[str]("subscriptionId", subscription_id)],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket2OrStr]("WM_MARKET", wm_market),

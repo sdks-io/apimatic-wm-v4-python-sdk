@@ -82,7 +82,6 @@ class Prices:
 
     def create_strategy(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -95,8 +94,6 @@ class Prices:
         """Creates a new strategy for the seller.<br><b style='color:green;'>Market availability: US | CA | MX</b>
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Specifies the name of the Walmart service being called.<br><b style='color:green;'>Market
@@ -120,7 +117,6 @@ class Prices:
                 ``V3RepricerStrategy400Error1 | V3Token400Error1 | RawError``."""
         return unwrap(
             self._with_raw_response.create_strategy(
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -134,7 +130,6 @@ class Prices:
     def delete_strategy(
         self,
         strategy_collection_id: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -148,8 +143,6 @@ class Prices:
         Args:
             strategy_collection_id: Unique identifier used to group and manage repricing strategies across different
                 resources.<br><b style='color:green;'>Market availability: US | CA | MX</b>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Specifies the name of the Walmart service being called.<br><b style='color:green;'>Market
@@ -172,7 +165,6 @@ class Prices:
         return unwrap(
             self._with_raw_response.delete_strategy(
                 strategy_collection_id,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -184,7 +176,6 @@ class Prices:
 
     def get_all_incentives(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -212,8 +203,6 @@ class Prices:
         style='color:green;'>Market availability: US</b>
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Specifies the name of the Walmart service being called.<br><b style='color:green;'>Market
@@ -247,7 +236,6 @@ class Prices:
                 ``V3PriceIncentives400Error1 | V3Token400Error1 | RawError``."""
         return unwrap(
             self._with_raw_response.get_all_incentives(
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -265,7 +253,6 @@ class Prices:
 
     def get_repricer_feed(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -279,8 +266,6 @@ class Prices:
         MX</b>
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Specifies the name of the Walmart service being called.<br><b style='color:green;'>Market
@@ -303,7 +288,6 @@ class Prices:
                 RawError``."""
         return unwrap(
             self._with_raw_response.get_repricer_feed(
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -316,7 +300,6 @@ class Prices:
 
     def get_strategies(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -330,8 +313,6 @@ class Prices:
         """Get the list of strategies.<br><b style='color:green;'>Market availability: US | CA | MX</b>
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Specifies the name of the Walmart service being called.<br><b style='color:green;'>Market
@@ -357,7 +338,6 @@ class Prices:
                 RawError``."""
         return unwrap(
             self._with_raw_response.get_strategies(
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -372,7 +352,6 @@ class Prices:
     def price_and_promotion_bulk_uploads(
         self,
         feed_type: FeedType21OrStr,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -414,8 +393,6 @@ class Prices:
 
         Args:
             feed_type: The feed Type.<br><b style='color:green;'>Market availability: Global</b>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Specifies the name of the Walmart service being called.<br><b style='color:green;'>Market
@@ -440,7 +417,6 @@ class Prices:
         return unwrap(
             self._with_raw_response.price_and_promotion_bulk_uploads(
                 feed_type,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -454,7 +430,6 @@ class Prices:
     def reduced_referral_fee_incentives_enrollment(
         self,
         feed_type: FeedType11OrStr,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -469,8 +444,6 @@ class Prices:
 
         Args:
             feed_type: The feed Type.<br><b style='color:green;'>Market availability: US</b>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Specifies the name of the Walmart service being called.<br><b style='color:green;'>Market
@@ -495,7 +468,6 @@ class Prices:
         return unwrap(
             self._with_raw_response.reduced_referral_fee_incentives_enrollment(
                 feed_type,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -508,7 +480,6 @@ class Prices:
 
     def update_price(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -528,8 +499,6 @@ class Prices:
         Guide</a>.<br><b style='color:green;'>Market availability: CA | MX | CL</b>
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Specifies the name of the Walmart service being called.<br><b style='color:green;'>Market
@@ -553,7 +522,6 @@ class Prices:
                 RawError``."""
         return unwrap(
             self._with_raw_response.update_price(
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -567,7 +535,6 @@ class Prices:
     def update_strategy(
         self,
         strategy_collection_id: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -582,8 +549,6 @@ class Prices:
         Args:
             strategy_collection_id: Unique identifier used to group and manage repricing strategies across different
                 resources.<br><b style='color:green;'>Market availability: US | CA | MX</span></b>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</span></b>
             wm_qos_correlation_id: A unique ID which identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</span></b>
             wm_svc_name: Specifies the name of the Walmart service being called.<br><b style='color:green;'>Market
@@ -607,7 +572,6 @@ class Prices:
         return unwrap(
             self._with_raw_response.update_strategy(
                 strategy_collection_id,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -620,7 +584,6 @@ class Prices:
 
     def update_walmart_funded_incentives_enrollment_status(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -639,8 +602,6 @@ class Prices:
         isDisabled response field of the API.<br><b style='color:green;'>Market availability: US</b>
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Specifies the name of the Walmart service being called.<br><b style='color:green;'>Market
@@ -664,7 +625,6 @@ class Prices:
                 RawError``."""
         return unwrap(
             self._with_raw_response.update_walmart_funded_incentives_enrollment_status(
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -678,7 +638,6 @@ class Prices:
     def walmart_funded_incentives_enrollment(
         self,
         feed_type: FeedType2OrStr,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -699,8 +658,6 @@ class Prices:
 
         Args:
             feed_type: The feed Type.<br><b style='color:green;'>Market availability: US</b>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Specifies the name of the Walmart service being called.<br><b style='color:green;'>Market
@@ -725,7 +682,6 @@ class Prices:
         return unwrap(
             self._with_raw_response.walmart_funded_incentives_enrollment(
                 feed_type,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -747,7 +703,6 @@ class AsyncPrices:
 
     async def create_strategy(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -760,8 +715,6 @@ class AsyncPrices:
         """Creates a new strategy for the seller.<br><b style='color:green;'>Market availability: US | CA | MX</b>
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Specifies the name of the Walmart service being called.<br><b style='color:green;'>Market
@@ -785,7 +738,6 @@ class AsyncPrices:
                 ``V3RepricerStrategy400Error1 | V3Token400Error1 | RawError``."""
         return unwrap(
             await self._with_raw_response.create_strategy(
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -799,7 +751,6 @@ class AsyncPrices:
     async def delete_strategy(
         self,
         strategy_collection_id: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -813,8 +764,6 @@ class AsyncPrices:
         Args:
             strategy_collection_id: Unique identifier used to group and manage repricing strategies across different
                 resources.<br><b style='color:green;'>Market availability: US | CA | MX</b>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Specifies the name of the Walmart service being called.<br><b style='color:green;'>Market
@@ -837,7 +786,6 @@ class AsyncPrices:
         return unwrap(
             await self._with_raw_response.delete_strategy(
                 strategy_collection_id,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -849,7 +797,6 @@ class AsyncPrices:
 
     async def get_all_incentives(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -877,8 +824,6 @@ class AsyncPrices:
         style='color:green;'>Market availability: US</b>
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Specifies the name of the Walmart service being called.<br><b style='color:green;'>Market
@@ -912,7 +857,6 @@ class AsyncPrices:
                 ``V3PriceIncentives400Error1 | V3Token400Error1 | RawError``."""
         return unwrap(
             await self._with_raw_response.get_all_incentives(
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -930,7 +874,6 @@ class AsyncPrices:
 
     async def get_repricer_feed(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -944,8 +887,6 @@ class AsyncPrices:
         MX</b>
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Specifies the name of the Walmart service being called.<br><b style='color:green;'>Market
@@ -968,7 +909,6 @@ class AsyncPrices:
                 RawError``."""
         return unwrap(
             await self._with_raw_response.get_repricer_feed(
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -981,7 +921,6 @@ class AsyncPrices:
 
     async def get_strategies(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -995,8 +934,6 @@ class AsyncPrices:
         """Get the list of strategies.<br><b style='color:green;'>Market availability: US | CA | MX</b>
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Specifies the name of the Walmart service being called.<br><b style='color:green;'>Market
@@ -1022,7 +959,6 @@ class AsyncPrices:
                 RawError``."""
         return unwrap(
             await self._with_raw_response.get_strategies(
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -1037,7 +973,6 @@ class AsyncPrices:
     async def price_and_promotion_bulk_uploads(
         self,
         feed_type: FeedType21OrStr,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -1079,8 +1014,6 @@ class AsyncPrices:
 
         Args:
             feed_type: The feed Type.<br><b style='color:green;'>Market availability: Global</b>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Specifies the name of the Walmart service being called.<br><b style='color:green;'>Market
@@ -1105,7 +1038,6 @@ class AsyncPrices:
         return unwrap(
             await self._with_raw_response.price_and_promotion_bulk_uploads(
                 feed_type,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -1119,7 +1051,6 @@ class AsyncPrices:
     async def reduced_referral_fee_incentives_enrollment(
         self,
         feed_type: FeedType11OrStr,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -1134,8 +1065,6 @@ class AsyncPrices:
 
         Args:
             feed_type: The feed Type.<br><b style='color:green;'>Market availability: US</b>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Specifies the name of the Walmart service being called.<br><b style='color:green;'>Market
@@ -1160,7 +1089,6 @@ class AsyncPrices:
         return unwrap(
             await self._with_raw_response.reduced_referral_fee_incentives_enrollment(
                 feed_type,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -1173,7 +1101,6 @@ class AsyncPrices:
 
     async def update_price(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -1193,8 +1120,6 @@ class AsyncPrices:
         Guide</a>.<br><b style='color:green;'>Market availability: CA | MX | CL</b>
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Specifies the name of the Walmart service being called.<br><b style='color:green;'>Market
@@ -1218,7 +1143,6 @@ class AsyncPrices:
                 RawError``."""
         return unwrap(
             await self._with_raw_response.update_price(
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -1232,7 +1156,6 @@ class AsyncPrices:
     async def update_strategy(
         self,
         strategy_collection_id: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -1247,8 +1170,6 @@ class AsyncPrices:
         Args:
             strategy_collection_id: Unique identifier used to group and manage repricing strategies across different
                 resources.<br><b style='color:green;'>Market availability: US | CA | MX</span></b>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</span></b>
             wm_qos_correlation_id: A unique ID which identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</span></b>
             wm_svc_name: Specifies the name of the Walmart service being called.<br><b style='color:green;'>Market
@@ -1272,7 +1193,6 @@ class AsyncPrices:
         return unwrap(
             await self._with_raw_response.update_strategy(
                 strategy_collection_id,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -1285,7 +1205,6 @@ class AsyncPrices:
 
     async def update_walmart_funded_incentives_enrollment_status(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -1304,8 +1223,6 @@ class AsyncPrices:
         isDisabled response field of the API.<br><b style='color:green;'>Market availability: US</b>
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Specifies the name of the Walmart service being called.<br><b style='color:green;'>Market
@@ -1329,7 +1246,6 @@ class AsyncPrices:
                 RawError``."""
         return unwrap(
             await self._with_raw_response.update_walmart_funded_incentives_enrollment_status(
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -1343,7 +1259,6 @@ class AsyncPrices:
     async def walmart_funded_incentives_enrollment(
         self,
         feed_type: FeedType2OrStr,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -1364,8 +1279,6 @@ class AsyncPrices:
 
         Args:
             feed_type: The feed Type.<br><b style='color:green;'>Market availability: US</b>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Specifies the name of the Walmart service being called.<br><b style='color:green;'>Market
@@ -1390,7 +1303,6 @@ class AsyncPrices:
         return unwrap(
             await self._with_raw_response.walmart_funded_incentives_enrollment(
                 feed_type,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -1409,7 +1321,6 @@ class AsyncPrices:
 class PricesWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]):
     def create_strategy(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -1422,8 +1333,6 @@ class PricesWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]):
         """Creates a new strategy for the seller.<br><b style='color:green;'>Market availability: US | CA | MX</b>
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Specifies the name of the Walmart service being called.<br><b style='color:green;'>Market
@@ -1445,7 +1354,6 @@ class PricesWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]):
             http_method="POST",
             url_template=self._server.default("/v3/repricer/strategy"),
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket1OrStr]("WM_MARKET", wm_market),
@@ -1463,7 +1371,6 @@ class PricesWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]):
     def delete_strategy(
         self,
         strategy_collection_id: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -1477,8 +1384,6 @@ class PricesWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]):
         Args:
             strategy_collection_id: Unique identifier used to group and manage repricing strategies across different
                 resources.<br><b style='color:green;'>Market availability: US | CA | MX</b>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Specifies the name of the Walmart service being called.<br><b style='color:green;'>Market
@@ -1499,7 +1404,6 @@ class PricesWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]):
             url_template=self._server.default("/v3/repricer/strategy/{strategyCollectionId}"),
             path_params=[param[str]("strategyCollectionId", strategy_collection_id)],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket1OrStr]("WM_MARKET", wm_market),
@@ -1515,7 +1419,6 @@ class PricesWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]):
 
     def get_all_incentives(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -1543,8 +1446,6 @@ class PricesWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]):
         style='color:green;'>Market availability: US</b>
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Specifies the name of the Walmart service being called.<br><b style='color:green;'>Market
@@ -1584,7 +1485,6 @@ class PricesWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]):
                 param[IncentiveTypeOrStr | None]("incentiveType", incentive_type),
             ],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket1OrStr]("WM_MARKET", wm_market),
@@ -1599,7 +1499,6 @@ class PricesWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]):
 
     def get_repricer_feed(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -1613,8 +1512,6 @@ class PricesWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]):
         MX</b>
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Specifies the name of the Walmart service being called.<br><b style='color:green;'>Market
@@ -1635,7 +1532,6 @@ class PricesWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]):
             http_method="POST",
             url_template=self._server.default("/v3/repricerFeeds"),
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket1OrStr]("WM_MARKET", wm_market),
@@ -1652,7 +1548,6 @@ class PricesWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]):
 
     def get_strategies(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -1666,8 +1561,6 @@ class PricesWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]):
         """Get the list of strategies.<br><b style='color:green;'>Market availability: US | CA | MX</b>
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Specifies the name of the Walmart service being called.<br><b style='color:green;'>Market
@@ -1692,7 +1585,6 @@ class PricesWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]):
             url_template=self._server.default("/v3/repricer/strategies"),
             query_params=[param[str | None]("offset", offset), param[str | None]("limit", limit)],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket1OrStr]("WM_MARKET", wm_market),
@@ -1708,7 +1600,6 @@ class PricesWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]):
     def price_and_promotion_bulk_uploads(
         self,
         feed_type: FeedType21OrStr,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -1750,8 +1641,6 @@ class PricesWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]):
 
         Args:
             feed_type: The feed Type.<br><b style='color:green;'>Market availability: Global</b>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Specifies the name of the Walmart service being called.<br><b style='color:green;'>Market
@@ -1774,7 +1663,6 @@ class PricesWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]):
             url_template=self._server.default("/v3/feeds?feedType=PRICE_AND_PROMOTION"),
             query_params=[param[FeedType21OrStr]("feedType", feed_type)],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket1OrStr]("WM_MARKET", wm_market),
@@ -1792,7 +1680,6 @@ class PricesWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]):
     def reduced_referral_fee_incentives_enrollment(
         self,
         feed_type: FeedType11OrStr,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -1807,8 +1694,6 @@ class PricesWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]):
 
         Args:
             feed_type: The feed Type.<br><b style='color:green;'>Market availability: US</b>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Specifies the name of the Walmart service being called.<br><b style='color:green;'>Market
@@ -1831,7 +1716,6 @@ class PricesWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]):
             url_template=self._server.default("/v3/feeds?feedType=INCENTIVE_ENROLLMENT"),
             query_params=[param[FeedType11OrStr]("feedType", feed_type)],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket1OrStr]("WM_MARKET", wm_market),
@@ -1850,7 +1734,6 @@ class PricesWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]):
 
     def update_price(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -1870,8 +1753,6 @@ class PricesWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]):
         Guide</a>.<br><b style='color:green;'>Market availability: CA | MX | CL</b>
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Specifies the name of the Walmart service being called.<br><b style='color:green;'>Market
@@ -1893,7 +1774,6 @@ class PricesWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]):
             http_method="POST",
             url_template=self._server.default("/v3/price"),
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket1OrStr]("WM_MARKET", wm_market),
@@ -1911,7 +1791,6 @@ class PricesWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]):
     def update_strategy(
         self,
         strategy_collection_id: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -1926,8 +1805,6 @@ class PricesWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]):
         Args:
             strategy_collection_id: Unique identifier used to group and manage repricing strategies across different
                 resources.<br><b style='color:green;'>Market availability: US | CA | MX</span></b>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</span></b>
             wm_qos_correlation_id: A unique ID which identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</span></b>
             wm_svc_name: Specifies the name of the Walmart service being called.<br><b style='color:green;'>Market
@@ -1949,7 +1826,6 @@ class PricesWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]):
             url_template=self._server.default("/v3/repricer/strategy/{strategyCollectionId}"),
             path_params=[param[str]("strategyCollectionId", strategy_collection_id)],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket1OrStr]("WM_MARKET", wm_market),
@@ -1966,7 +1842,6 @@ class PricesWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]):
 
     def update_walmart_funded_incentives_enrollment_status(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -1985,8 +1860,6 @@ class PricesWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]):
         isDisabled response field of the API.<br><b style='color:green;'>Market availability: US</b>
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Specifies the name of the Walmart service being called.<br><b style='color:green;'>Market
@@ -2009,7 +1882,6 @@ class PricesWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]):
             url_template=self._server.default("/v3/price/incentives/wfpreference"),
             query_params=[param[bool]("autoEnrollEnabled", auto_enroll_enabled)],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket1OrStr]("WM_MARKET", wm_market),
@@ -2026,7 +1898,6 @@ class PricesWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]):
     def walmart_funded_incentives_enrollment(
         self,
         feed_type: FeedType2OrStr,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -2047,8 +1918,6 @@ class PricesWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]):
 
         Args:
             feed_type: The feed Type.<br><b style='color:green;'>Market availability: US</b>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Specifies the name of the Walmart service being called.<br><b style='color:green;'>Market
@@ -2071,7 +1940,6 @@ class PricesWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]):
             url_template=self._server.default("/v3/feeds?feedType=WALMART_FUNDED_INCENTIVES_ENROLLMENT"),
             query_params=[param[FeedType2OrStr]("feedType", feed_type)],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket1OrStr]("WM_MARKET", wm_market),
@@ -2095,7 +1963,6 @@ class PricesWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]):
 class AsyncPricesWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, AsyncAuthSchemes]):
     async def create_strategy(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -2108,8 +1975,6 @@ class AsyncPricesWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asyn
         """Creates a new strategy for the seller.<br><b style='color:green;'>Market availability: US | CA | MX</b>
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Specifies the name of the Walmart service being called.<br><b style='color:green;'>Market
@@ -2131,7 +1996,6 @@ class AsyncPricesWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asyn
             http_method="POST",
             url_template=self._server.default("/v3/repricer/strategy"),
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket1OrStr]("WM_MARKET", wm_market),
@@ -2149,7 +2013,6 @@ class AsyncPricesWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asyn
     async def delete_strategy(
         self,
         strategy_collection_id: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -2163,8 +2026,6 @@ class AsyncPricesWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asyn
         Args:
             strategy_collection_id: Unique identifier used to group and manage repricing strategies across different
                 resources.<br><b style='color:green;'>Market availability: US | CA | MX</b>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Specifies the name of the Walmart service being called.<br><b style='color:green;'>Market
@@ -2185,7 +2046,6 @@ class AsyncPricesWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asyn
             url_template=self._server.default("/v3/repricer/strategy/{strategyCollectionId}"),
             path_params=[param[str]("strategyCollectionId", strategy_collection_id)],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket1OrStr]("WM_MARKET", wm_market),
@@ -2201,7 +2061,6 @@ class AsyncPricesWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asyn
 
     async def get_all_incentives(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -2229,8 +2088,6 @@ class AsyncPricesWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asyn
         style='color:green;'>Market availability: US</b>
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Specifies the name of the Walmart service being called.<br><b style='color:green;'>Market
@@ -2270,7 +2127,6 @@ class AsyncPricesWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asyn
                 param[IncentiveTypeOrStr | None]("incentiveType", incentive_type),
             ],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket1OrStr]("WM_MARKET", wm_market),
@@ -2285,7 +2141,6 @@ class AsyncPricesWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asyn
 
     async def get_repricer_feed(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -2299,8 +2154,6 @@ class AsyncPricesWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asyn
         MX</b>
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Specifies the name of the Walmart service being called.<br><b style='color:green;'>Market
@@ -2321,7 +2174,6 @@ class AsyncPricesWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asyn
             http_method="POST",
             url_template=self._server.default("/v3/repricerFeeds"),
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket1OrStr]("WM_MARKET", wm_market),
@@ -2338,7 +2190,6 @@ class AsyncPricesWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asyn
 
     async def get_strategies(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -2352,8 +2203,6 @@ class AsyncPricesWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asyn
         """Get the list of strategies.<br><b style='color:green;'>Market availability: US | CA | MX</b>
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Specifies the name of the Walmart service being called.<br><b style='color:green;'>Market
@@ -2378,7 +2227,6 @@ class AsyncPricesWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asyn
             url_template=self._server.default("/v3/repricer/strategies"),
             query_params=[param[str | None]("offset", offset), param[str | None]("limit", limit)],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket1OrStr]("WM_MARKET", wm_market),
@@ -2394,7 +2242,6 @@ class AsyncPricesWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asyn
     async def price_and_promotion_bulk_uploads(
         self,
         feed_type: FeedType21OrStr,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -2436,8 +2283,6 @@ class AsyncPricesWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asyn
 
         Args:
             feed_type: The feed Type.<br><b style='color:green;'>Market availability: Global</b>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Specifies the name of the Walmart service being called.<br><b style='color:green;'>Market
@@ -2460,7 +2305,6 @@ class AsyncPricesWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asyn
             url_template=self._server.default("/v3/feeds?feedType=PRICE_AND_PROMOTION"),
             query_params=[param[FeedType21OrStr]("feedType", feed_type)],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket1OrStr]("WM_MARKET", wm_market),
@@ -2478,7 +2322,6 @@ class AsyncPricesWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asyn
     async def reduced_referral_fee_incentives_enrollment(
         self,
         feed_type: FeedType11OrStr,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -2493,8 +2336,6 @@ class AsyncPricesWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asyn
 
         Args:
             feed_type: The feed Type.<br><b style='color:green;'>Market availability: US</b>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Specifies the name of the Walmart service being called.<br><b style='color:green;'>Market
@@ -2517,7 +2358,6 @@ class AsyncPricesWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asyn
             url_template=self._server.default("/v3/feeds?feedType=INCENTIVE_ENROLLMENT"),
             query_params=[param[FeedType11OrStr]("feedType", feed_type)],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket1OrStr]("WM_MARKET", wm_market),
@@ -2536,7 +2376,6 @@ class AsyncPricesWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asyn
 
     async def update_price(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -2556,8 +2395,6 @@ class AsyncPricesWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asyn
         Guide</a>.<br><b style='color:green;'>Market availability: CA | MX | CL</b>
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Specifies the name of the Walmart service being called.<br><b style='color:green;'>Market
@@ -2579,7 +2416,6 @@ class AsyncPricesWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asyn
             http_method="POST",
             url_template=self._server.default("/v3/price"),
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket1OrStr]("WM_MARKET", wm_market),
@@ -2597,7 +2433,6 @@ class AsyncPricesWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asyn
     async def update_strategy(
         self,
         strategy_collection_id: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -2612,8 +2447,6 @@ class AsyncPricesWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asyn
         Args:
             strategy_collection_id: Unique identifier used to group and manage repricing strategies across different
                 resources.<br><b style='color:green;'>Market availability: US | CA | MX</span></b>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</span></b>
             wm_qos_correlation_id: A unique ID which identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</span></b>
             wm_svc_name: Specifies the name of the Walmart service being called.<br><b style='color:green;'>Market
@@ -2635,7 +2468,6 @@ class AsyncPricesWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asyn
             url_template=self._server.default("/v3/repricer/strategy/{strategyCollectionId}"),
             path_params=[param[str]("strategyCollectionId", strategy_collection_id)],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket1OrStr]("WM_MARKET", wm_market),
@@ -2652,7 +2484,6 @@ class AsyncPricesWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asyn
 
     async def update_walmart_funded_incentives_enrollment_status(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -2671,8 +2502,6 @@ class AsyncPricesWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asyn
         isDisabled response field of the API.<br><b style='color:green;'>Market availability: US</b>
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Specifies the name of the Walmart service being called.<br><b style='color:green;'>Market
@@ -2695,7 +2524,6 @@ class AsyncPricesWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asyn
             url_template=self._server.default("/v3/price/incentives/wfpreference"),
             query_params=[param[bool]("autoEnrollEnabled", auto_enroll_enabled)],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket1OrStr]("WM_MARKET", wm_market),
@@ -2712,7 +2540,6 @@ class AsyncPricesWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asyn
     async def walmart_funded_incentives_enrollment(
         self,
         feed_type: FeedType2OrStr,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -2733,8 +2560,6 @@ class AsyncPricesWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asyn
 
         Args:
             feed_type: The feed Type.<br><b style='color:green;'>Market availability: US</b>
-            wm_sec_access_token: Access token obtained from the Token API. Required for authenticating requests to
-                Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.<br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Specifies the name of the Walmart service being called.<br><b style='color:green;'>Market
@@ -2757,7 +2582,6 @@ class AsyncPricesWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, Asyn
             url_template=self._server.default("/v3/feeds?feedType=WALMART_FUNDED_INCENTIVES_ENROLLMENT"),
             query_params=[param[FeedType2OrStr]("feedType", feed_type)],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket1OrStr]("WM_MARKET", wm_market),

@@ -10,9 +10,9 @@ Each `###` block is one operation and assumes `sdk-map.md` is loaded: blocks omi
 
 - **Route**: `GET /v3/inventory`
 - **Auth**: `access_token`
-- **Signature**: `def get_inventory(sku: str, wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, *, ship_node: str | None = None, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None)`
-  - required, positional: `sku`, `wm_sec_access_token`, `wm_qos_correlation_id`, `wm_svc_name`, `wm_market`, `wm_global_version`
-- **Params**: `sku` — query · `ship_node` — query `shipNode` · `wm_sec_access_token` — header `WM_SEC.ACCESS_TOKEN` · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_market` — header `WM_MARKET` · `wm_global_version` — header `WM_GLOBAL_VERSION` · `wm_consumer_channel_type` — header `WM_CONSUMER.CHANNEL.TYPE`
+- **Signature**: `def get_inventory(sku: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, *, ship_node: str | None = None, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None)`
+  - required, positional: `sku`, `wm_qos_correlation_id`, `wm_svc_name`, `wm_market`, `wm_global_version`
+- **Params**: `sku` — query · `ship_node` — query `shipNode` · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_market` — header `WM_MARKET` · `wm_global_version` — header `WM_GLOBAL_VERSION` · `wm_consumer_channel_type` — header `WM_CONSUMER.CHANNEL.TYPE`
 - **Returns (parsed)**: `Inventory1`
 - **Returns (raw)**: `ApiResult[Inventory1, GetInventoryErrorBody]`
 - **Error**: `GetInventoryErrorBody` — **Case A (typed)**
@@ -29,9 +29,9 @@ Each `###` block is one operation and assumes `sdk-map.md` is loaded: blocks omi
 
 - **Route**: `GET /v3/inventories`
 - **Auth**: `access_token`
-- **Signature**: `def get_multi_node_inventory_for_all_sku_and_all_ship_nodes(wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, *, limit: str | None = "10", next_cursor: str | None = None, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None)`
-  - required, positional: `wm_sec_access_token`, `wm_qos_correlation_id`, `wm_svc_name`, `wm_market`, `wm_global_version`
-- **Params**: `limit` — query · `next_cursor` — query `nextCursor` · `wm_sec_access_token` — header `WM_SEC.ACCESS_TOKEN` · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_market` — header `WM_MARKET` · `wm_global_version` — header `WM_GLOBAL_VERSION` · `wm_consumer_channel_type` — header `WM_CONSUMER.CHANNEL.TYPE`
+- **Signature**: `def get_multi_node_inventory_for_all_sku_and_all_ship_nodes(wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, *, limit: str | None = "10", next_cursor: str | None = None, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None)`
+  - required, positional: `wm_qos_correlation_id`, `wm_svc_name`, `wm_market`, `wm_global_version`
+- **Params**: `limit` — query · `next_cursor` — query `nextCursor` · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_market` — header `WM_MARKET` · `wm_global_version` — header `WM_GLOBAL_VERSION` · `wm_consumer_channel_type` — header `WM_CONSUMER.CHANNEL.TYPE`
 - **Returns (parsed)**: `MultiNodeInventoryFetchResponseDto`
 - **Returns (raw)**: `ApiResult[MultiNodeInventoryFetchResponseDto, GetMultiNodeInventoryForAllSkuAndAllShipNodesErrorBody]`
 - **Error**: `GetMultiNodeInventoryForAllSkuAndAllShipNodesErrorBody` — **Case A (typed)**
@@ -49,9 +49,9 @@ Each `###` block is one operation and assumes `sdk-map.md` is loaded: blocks omi
 
 - **Route**: `GET /v3/inventories/{sku}`
 - **Auth**: `access_token`
-- **Signature**: `def get_multi_node_inventory_for_sku_and_all_shipnodes(sku: str, wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, *, ship_node: str | None = None, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None)`
-  - required, positional: `sku`, `wm_sec_access_token`, `wm_qos_correlation_id`, `wm_svc_name`, `wm_market`, `wm_global_version`
-- **Params**: `sku` — path · `ship_node` — query `shipNode` · `wm_sec_access_token` — header `WM_SEC.ACCESS_TOKEN` · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_market` — header `WM_MARKET` · `wm_global_version` — header `WM_GLOBAL_VERSION` · `wm_consumer_channel_type` — header `WM_CONSUMER.CHANNEL.TYPE`
+- **Signature**: `def get_multi_node_inventory_for_sku_and_all_shipnodes(sku: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, *, ship_node: str | None = None, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None)`
+  - required, positional: `sku`, `wm_qos_correlation_id`, `wm_svc_name`, `wm_market`, `wm_global_version`
+- **Params**: `sku` — path · `ship_node` — query `shipNode` · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_market` — header `WM_MARKET` · `wm_global_version` — header `WM_GLOBAL_VERSION` · `wm_consumer_channel_type` — header `WM_CONSUMER.CHANNEL.TYPE`
 - **Returns (parsed)**: `InventoriesDto`
 - **Returns (raw)**: `ApiResult[InventoriesDto, GetMultiNodeInventoryForSkuAndAllShipnodesErrorBody]`
 - **Error**: `GetMultiNodeInventoryForSkuAndAllShipnodesErrorBody` — **Case A (typed)**
@@ -68,9 +68,9 @@ Each `###` block is one operation and assumes `sdk-map.md` is loaded: blocks omi
 
 - **Route**: `GET /v3/fulfillment/inventory`
 - **Auth**: `access_token`
-- **Signature**: `def get_wfs_inventory(wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, *, sku: str | None = None, from_modified_date: str | None = None, to_modified_date: str | None = None, limit: str | None = "10", offset: str | None = "0", ship_node_type: str | None = None, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None)`
-  - required, positional: `wm_sec_access_token`, `wm_qos_correlation_id`, `wm_svc_name`, `wm_market`, `wm_global_version`
-- **Params**: `sku` — query · `from_modified_date` — query `fromModifiedDate` · `to_modified_date` — query `toModifiedDate` · `limit` — query · `offset` — query · `ship_node_type` — query `shipNodeType` · `wm_sec_access_token` — header `WM_SEC.ACCESS_TOKEN` · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_market` — header `WM_MARKET` · `wm_global_version` — header `WM_GLOBAL_VERSION` · `wm_consumer_channel_type` — header `WM_CONSUMER.CHANNEL.TYPE`
+- **Signature**: `def get_wfs_inventory(wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, *, sku: str | None = None, from_modified_date: str | None = None, to_modified_date: str | None = None, limit: str | None = "10", offset: str | None = "0", ship_node_type: str | None = None, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None)`
+  - required, positional: `wm_qos_correlation_id`, `wm_svc_name`, `wm_market`, `wm_global_version`
+- **Params**: `sku` — query · `from_modified_date` — query `fromModifiedDate` · `to_modified_date` — query `toModifiedDate` · `limit` — query · `offset` — query · `ship_node_type` — query `shipNodeType` · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_market` — header `WM_MARKET` · `wm_global_version` — header `WM_GLOBAL_VERSION` · `wm_consumer_channel_type` — header `WM_CONSUMER.CHANNEL.TYPE`
 - **Returns (parsed)**: `V3FulfillmentInventoryResponse`
 - **Returns (raw)**: `ApiResult[V3FulfillmentInventoryResponse, GetWfsinventoryErrorBody]`
 - **Error**: `GetWfsinventoryErrorBody` — **Case A (typed)**
@@ -88,9 +88,9 @@ Each `###` block is one operation and assumes `sdk-map.md` is loaded: blocks omi
 
 - **Route**: `POST /v3/feeds`
 - **Auth**: `access_token`
-- **Signature**: `def update_bulk_inventory(feed_type: FeedType1OrStr, wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, file: FileInput, *, ship_node: str | None = None, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None)`
-  - required, positional: `feed_type`, `wm_sec_access_token`, `wm_qos_correlation_id`, `wm_svc_name`, `wm_market`, `wm_global_version`, `file`
-- **Params**: `feed_type` — query `feedType` · `ship_node` — query `shipNode` · `wm_sec_access_token` — header `WM_SEC.ACCESS_TOKEN` · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_market` — header `WM_MARKET` · `wm_global_version` — header `WM_GLOBAL_VERSION` · `wm_consumer_channel_type` — header `WM_CONSUMER.CHANNEL.TYPE` · `file` — multipart file
+- **Signature**: `def update_bulk_inventory(feed_type: FeedType1OrStr, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, file: FileInput, *, ship_node: str | None = None, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None)`
+  - required, positional: `feed_type`, `wm_qos_correlation_id`, `wm_svc_name`, `wm_market`, `wm_global_version`, `file`
+- **Params**: `feed_type` — query `feedType` · `ship_node` — query `shipNode` · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_market` — header `WM_MARKET` · `wm_global_version` — header `WM_GLOBAL_VERSION` · `wm_consumer_channel_type` — header `WM_CONSUMER.CHANNEL.TYPE` · `file` — multipart file
 - **Returns (parsed)**: `FeedId`
 - **Returns (raw)**: `ApiResult[FeedId, RawError]`
 - **Error**: `RawError` — **Case B**
@@ -106,9 +106,9 @@ Each `###` block is one operation and assumes `sdk-map.md` is loaded: blocks omi
 
 - **Route**: `PUT /v3/inventory`
 - **Auth**: `access_token`
-- **Signature**: `def update_inventory_for_an_item(sku: str, wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, body: V3InventoryRequest | V3InventoryRequestDict, *, ship_node: str | None = None, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None)`
-  - required, positional: `sku`, `wm_sec_access_token`, `wm_qos_correlation_id`, `wm_svc_name`, `wm_market`, `wm_global_version`, `body`
-- **Params**: `sku` — query · `ship_node` — query `shipNode` · `wm_sec_access_token` — header `WM_SEC.ACCESS_TOKEN` · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_market` — header `WM_MARKET` · `wm_global_version` — header `WM_GLOBAL_VERSION` · `wm_consumer_channel_type` — header `WM_CONSUMER.CHANNEL.TYPE` · `body` — JSON body
+- **Signature**: `def update_inventory_for_an_item(sku: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, body: V3InventoryRequest | V3InventoryRequestDict, *, ship_node: str | None = None, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None)`
+  - required, positional: `sku`, `wm_qos_correlation_id`, `wm_svc_name`, `wm_market`, `wm_global_version`, `body`
+- **Params**: `sku` — query · `ship_node` — query `shipNode` · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_market` — header `WM_MARKET` · `wm_global_version` — header `WM_GLOBAL_VERSION` · `wm_consumer_channel_type` — header `WM_CONSUMER.CHANNEL.TYPE` · `body` — JSON body
 - **Returns (parsed)**: `Inventory1`
 - **Returns (raw)**: `ApiResult[Inventory1, UpdateInventoryForAnItemErrorBody]`
 - **Error**: `UpdateInventoryForAnItemErrorBody` — **Case A (typed)**
@@ -127,9 +127,9 @@ Each `###` block is one operation and assumes `sdk-map.md` is loaded: blocks omi
 
 - **Route**: `PUT /v3/inventories/{sku}`
 - **Auth**: `access_token`
-- **Signature**: `def update_multi_node_inventory(sku: str, wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, body: V3InventoriesRequest | V3InventoriesRequestDict, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None)`
-  - required, positional: `sku`, `wm_sec_access_token`, `wm_qos_correlation_id`, `wm_svc_name`, `wm_market`, `wm_global_version`, `body`
-- **Params**: `sku` — path · `wm_sec_access_token` — header `WM_SEC.ACCESS_TOKEN` · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_market` — header `WM_MARKET` · `wm_global_version` — header `WM_GLOBAL_VERSION` · `wm_consumer_channel_type` — header `WM_CONSUMER.CHANNEL.TYPE` · `body` — JSON body
+- **Signature**: `def update_multi_node_inventory(sku: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, body: V3InventoriesRequest | V3InventoriesRequestDict, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None)`
+  - required, positional: `sku`, `wm_qos_correlation_id`, `wm_svc_name`, `wm_market`, `wm_global_version`, `body`
+- **Params**: `sku` — path · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_market` — header `WM_MARKET` · `wm_global_version` — header `WM_GLOBAL_VERSION` · `wm_consumer_channel_type` — header `WM_CONSUMER.CHANNEL.TYPE` · `body` — JSON body
 - **Returns (parsed)**: `MultiNodeInventoryUpdateResponseDto`
 - **Returns (raw)**: `ApiResult[MultiNodeInventoryUpdateResponseDto, UpdateMultiNodeInventoryErrorBody]`
 - **Error**: `UpdateMultiNodeInventoryErrorBody` — **Case A (typed)**

@@ -281,6 +281,7 @@ from .gmv4 import Gmv4, Gmv4Dict
 from .gmv_amount import GmvAmount, GmvAmountDict
 from .gmv_amount2 import GmvAmount2, GmvAmount2Dict
 from .header import Header, HeaderDict
+from .header1 import Header1, Header1Dict
 from .header2 import Header2, Header2Dict
 from .headers import Headers, HeadersDict
 from .history import History, HistoryDict
@@ -2077,6 +2078,8 @@ __all__ = [
     "GmvAmountDict",
     "GmvDict",
     "Header",
+    "Header1",
+    "Header1Dict",
     "Header2",
     "Header2Dict",
     "HeaderDict",

@@ -33,7 +33,6 @@ class ReportsApi:
 
     def get_available_recon_report_dates(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         *,
@@ -43,7 +42,6 @@ class ReportsApi:
         """This API will list all the available Marketplace reconciliation report dates for the Seller.
 
         Args:
-            wm_sec_access_token: The access token retrieved in the Token API call
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID
             wm_svc_name: Walmart Service Name
@@ -59,7 +57,6 @@ class ReportsApi:
             ApiError: If the API responds with an error status code. ``error`` is ``RawError``."""
         return unwrap(
             self._with_raw_response.get_available_recon_report_dates(
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_consumer_channel_type=wm_consumer_channel_type,
@@ -72,7 +69,6 @@ class ReportsApi:
         report_date: str,
         offset: int,
         no_of_records: int,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         *,
@@ -87,7 +83,6 @@ class ReportsApi:
             report_date: Date of the settlement report
             offset: starting number of the bytes, initial value for the offset is zero
             no_of_records: number of records in the report (max limit 1000)
-            wm_sec_access_token: The access token retrieved in the Token API call
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID
             wm_svc_name: Walmart Service Name
@@ -106,7 +101,6 @@ class ReportsApi:
                 report_date,
                 offset,
                 no_of_records,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_consumer_channel_type=wm_consumer_channel_type,
@@ -116,7 +110,6 @@ class ReportsApi:
 
     def get_available_v1_recon_report_dates(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         *,
@@ -126,7 +119,6 @@ class ReportsApi:
         """This API will list all the available Marketplace reconciliation report dates for the Seller.
 
         Args:
-            wm_sec_access_token: The access token retrieved in the Token API call
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID
             wm_svc_name: Walmart Service Name
@@ -142,7 +134,6 @@ class ReportsApi:
             ApiError: If the API responds with an error status code. ``error`` is ``RawError``."""
         return unwrap(
             self._with_raw_response.get_available_v1_recon_report_dates(
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_consumer_channel_type=wm_consumer_channel_type,
@@ -152,7 +143,6 @@ class ReportsApi:
 
     def get_partner_performance(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         *,
@@ -162,7 +152,6 @@ class ReportsApi:
         """This API will get a partner's current cycle performance
 
         Args:
-            wm_sec_access_token: The access token retrieved in the Token API call
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID
             wm_svc_name: Walmart Service Name
@@ -178,7 +167,6 @@ class ReportsApi:
             ApiError: If the API responds with an error status code. ``error`` is ``RawError``."""
         return unwrap(
             self._with_raw_response.get_partner_performance(
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_consumer_channel_type=wm_consumer_channel_type,
@@ -188,7 +176,6 @@ class ReportsApi:
 
     def get_partner_statement(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         *,
@@ -198,7 +185,6 @@ class ReportsApi:
         """This API will get a partner's current cycle statement
 
         Args:
-            wm_sec_access_token: The access token retrieved in the Token API call
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID
             wm_svc_name: Walmart Service Name
@@ -214,7 +200,6 @@ class ReportsApi:
             ApiError: If the API responds with an error status code. ``error`` is ``RawError``."""
         return unwrap(
             self._with_raw_response.get_partner_statement(
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_consumer_channel_type=wm_consumer_channel_type,
@@ -225,7 +210,6 @@ class ReportsApi:
     def get_recon_report(
         self,
         report_date: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         *,
@@ -237,7 +221,6 @@ class ReportsApi:
 
         Args:
             report_date: The date for which the reconcilation file is available
-            wm_sec_access_token: The access token retrieved in the Token API call
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID
             wm_svc_name: Walmart Service Name
@@ -254,7 +237,6 @@ class ReportsApi:
         return unwrap(
             self._with_raw_response.get_recon_report(
                 report_date,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_consumer_channel_type=wm_consumer_channel_type,
@@ -266,7 +248,6 @@ class ReportsApi:
         self,
         report_date: str,
         report_version: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         *,
@@ -279,7 +260,6 @@ class ReportsApi:
         Args:
             report_date: The date for which the reconcilation file is available
             report_version: Report Version
-            wm_sec_access_token: The access token retrieved in the Token API call
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID
             wm_svc_name: Walmart Service Name
@@ -297,7 +277,6 @@ class ReportsApi:
             self._with_raw_response.get_recon_report_v1(
                 report_date,
                 report_version,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_consumer_channel_type=wm_consumer_channel_type,
@@ -316,7 +295,6 @@ class AsyncReportsApi:
 
     async def get_available_recon_report_dates(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         *,
@@ -326,7 +304,6 @@ class AsyncReportsApi:
         """This API will list all the available Marketplace reconciliation report dates for the Seller.
 
         Args:
-            wm_sec_access_token: The access token retrieved in the Token API call
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID
             wm_svc_name: Walmart Service Name
@@ -342,7 +319,6 @@ class AsyncReportsApi:
             ApiError: If the API responds with an error status code. ``error`` is ``RawError``."""
         return unwrap(
             await self._with_raw_response.get_available_recon_report_dates(
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_consumer_channel_type=wm_consumer_channel_type,
@@ -355,7 +331,6 @@ class AsyncReportsApi:
         report_date: str,
         offset: int,
         no_of_records: int,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         *,
@@ -370,7 +345,6 @@ class AsyncReportsApi:
             report_date: Date of the settlement report
             offset: starting number of the bytes, initial value for the offset is zero
             no_of_records: number of records in the report (max limit 1000)
-            wm_sec_access_token: The access token retrieved in the Token API call
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID
             wm_svc_name: Walmart Service Name
@@ -389,7 +363,6 @@ class AsyncReportsApi:
                 report_date,
                 offset,
                 no_of_records,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_consumer_channel_type=wm_consumer_channel_type,
@@ -399,7 +372,6 @@ class AsyncReportsApi:
 
     async def get_available_v1_recon_report_dates(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         *,
@@ -409,7 +381,6 @@ class AsyncReportsApi:
         """This API will list all the available Marketplace reconciliation report dates for the Seller.
 
         Args:
-            wm_sec_access_token: The access token retrieved in the Token API call
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID
             wm_svc_name: Walmart Service Name
@@ -425,7 +396,6 @@ class AsyncReportsApi:
             ApiError: If the API responds with an error status code. ``error`` is ``RawError``."""
         return unwrap(
             await self._with_raw_response.get_available_v1_recon_report_dates(
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_consumer_channel_type=wm_consumer_channel_type,
@@ -435,7 +405,6 @@ class AsyncReportsApi:
 
     async def get_partner_performance(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         *,
@@ -445,7 +414,6 @@ class AsyncReportsApi:
         """This API will get a partner's current cycle performance
 
         Args:
-            wm_sec_access_token: The access token retrieved in the Token API call
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID
             wm_svc_name: Walmart Service Name
@@ -461,7 +429,6 @@ class AsyncReportsApi:
             ApiError: If the API responds with an error status code. ``error`` is ``RawError``."""
         return unwrap(
             await self._with_raw_response.get_partner_performance(
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_consumer_channel_type=wm_consumer_channel_type,
@@ -471,7 +438,6 @@ class AsyncReportsApi:
 
     async def get_partner_statement(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         *,
@@ -481,7 +447,6 @@ class AsyncReportsApi:
         """This API will get a partner's current cycle statement
 
         Args:
-            wm_sec_access_token: The access token retrieved in the Token API call
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID
             wm_svc_name: Walmart Service Name
@@ -497,7 +462,6 @@ class AsyncReportsApi:
             ApiError: If the API responds with an error status code. ``error`` is ``RawError``."""
         return unwrap(
             await self._with_raw_response.get_partner_statement(
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_consumer_channel_type=wm_consumer_channel_type,
@@ -508,7 +472,6 @@ class AsyncReportsApi:
     async def get_recon_report(
         self,
         report_date: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         *,
@@ -520,7 +483,6 @@ class AsyncReportsApi:
 
         Args:
             report_date: The date for which the reconcilation file is available
-            wm_sec_access_token: The access token retrieved in the Token API call
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID
             wm_svc_name: Walmart Service Name
@@ -537,7 +499,6 @@ class AsyncReportsApi:
         return unwrap(
             await self._with_raw_response.get_recon_report(
                 report_date,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_consumer_channel_type=wm_consumer_channel_type,
@@ -549,7 +510,6 @@ class AsyncReportsApi:
         self,
         report_date: str,
         report_version: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         *,
@@ -562,7 +522,6 @@ class AsyncReportsApi:
         Args:
             report_date: The date for which the reconcilation file is available
             report_version: Report Version
-            wm_sec_access_token: The access token retrieved in the Token API call
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID
             wm_svc_name: Walmart Service Name
@@ -580,7 +539,6 @@ class AsyncReportsApi:
             await self._with_raw_response.get_recon_report_v1(
                 report_date,
                 report_version,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_consumer_channel_type=wm_consumer_channel_type,
@@ -596,7 +554,6 @@ class AsyncReportsApi:
 class ReportsApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]):
     def get_available_recon_report_dates(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         *,
@@ -606,7 +563,6 @@ class ReportsApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
         """This API will list all the available Marketplace reconciliation report dates for the Seller.
 
         Args:
-            wm_sec_access_token: The access token retrieved in the Token API call
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID
             wm_svc_name: Walmart Service Name
@@ -621,7 +577,6 @@ class ReportsApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
             http_method="GET",
             url_template=self._server.default("/v3/report/reconreport/availableReconFiles"),
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[str | None]("WM_CONSUMER.CHANNEL.TYPE", wm_consumer_channel_type),
@@ -637,7 +592,6 @@ class ReportsApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
         report_date: str,
         offset: int,
         no_of_records: int,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         *,
@@ -652,7 +606,6 @@ class ReportsApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
             report_date: Date of the settlement report
             offset: starting number of the bytes, initial value for the offset is zero
             no_of_records: number of records in the report (max limit 1000)
-            wm_sec_access_token: The access token retrieved in the Token API call
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID
             wm_svc_name: Walmart Service Name
@@ -672,7 +625,6 @@ class ReportsApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
                 param[int]("noOfRecords", no_of_records),
             ],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[str | None]("WM_CONSUMER.CHANNEL.TYPE", wm_consumer_channel_type),
@@ -685,7 +637,6 @@ class ReportsApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
 
     def get_available_v1_recon_report_dates(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         *,
@@ -695,7 +646,6 @@ class ReportsApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
         """This API will list all the available Marketplace reconciliation report dates for the Seller.
 
         Args:
-            wm_sec_access_token: The access token retrieved in the Token API call
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID
             wm_svc_name: Walmart Service Name
@@ -710,7 +660,6 @@ class ReportsApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
             http_method="GET",
             url_template=self._server.default("/v3/report/reconreport/availableReconFiles?reportVersion=v1"),
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[str | None]("WM_CONSUMER.CHANNEL.TYPE", wm_consumer_channel_type),
@@ -723,7 +672,6 @@ class ReportsApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
 
     def get_partner_performance(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         *,
@@ -733,7 +681,6 @@ class ReportsApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
         """This API will get a partner's current cycle performance
 
         Args:
-            wm_sec_access_token: The access token retrieved in the Token API call
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID
             wm_svc_name: Walmart Service Name
@@ -748,7 +695,6 @@ class ReportsApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
             http_method="GET",
             url_template=self._server.default("/v3/report/payment/performance"),
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[str | None]("WM_CONSUMER.CHANNEL.TYPE", wm_consumer_channel_type),
@@ -761,7 +707,6 @@ class ReportsApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
 
     def get_partner_statement(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         *,
@@ -771,7 +716,6 @@ class ReportsApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
         """This API will get a partner's current cycle statement
 
         Args:
-            wm_sec_access_token: The access token retrieved in the Token API call
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID
             wm_svc_name: Walmart Service Name
@@ -786,7 +730,6 @@ class ReportsApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
             http_method="GET",
             url_template=self._server.default("/v3/report/payment/statement"),
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[str | None]("WM_CONSUMER.CHANNEL.TYPE", wm_consumer_channel_type),
@@ -800,7 +743,6 @@ class ReportsApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
     def get_recon_report(
         self,
         report_date: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         *,
@@ -812,7 +754,6 @@ class ReportsApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
 
         Args:
             report_date: The date for which the reconcilation file is available
-            wm_sec_access_token: The access token retrieved in the Token API call
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID
             wm_svc_name: Walmart Service Name
@@ -828,7 +769,6 @@ class ReportsApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
             url_template=self._server.default("/v3/report/reconreport/reconFile"),
             query_params=[param[str]("reportDate", report_date)],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[str | None]("WM_CONSUMER.CHANNEL.TYPE", wm_consumer_channel_type),
@@ -843,7 +783,6 @@ class ReportsApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
         self,
         report_date: str,
         report_version: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         *,
@@ -856,7 +795,6 @@ class ReportsApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
         Args:
             report_date: The date for which the reconcilation file is available
             report_version: Report Version
-            wm_sec_access_token: The access token retrieved in the Token API call
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID
             wm_svc_name: Walmart Service Name
@@ -872,7 +810,6 @@ class ReportsApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
             url_template=self._server.default("/v3/report/reconreport/reconFile?reportVersion=v1"),
             query_params=[param[str]("reportDate", report_date), param[str]("reportVersion", report_version)],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[str | None]("WM_CONSUMER.CHANNEL.TYPE", wm_consumer_channel_type),
@@ -887,7 +824,6 @@ class ReportsApiWithRawResponse(SecuredRawResponse[RawClient, Server, AuthScheme
 class AsyncReportsApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, AsyncAuthSchemes]):
     async def get_available_recon_report_dates(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         *,
@@ -897,7 +833,6 @@ class AsyncReportsApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
         """This API will list all the available Marketplace reconciliation report dates for the Seller.
 
         Args:
-            wm_sec_access_token: The access token retrieved in the Token API call
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID
             wm_svc_name: Walmart Service Name
@@ -912,7 +847,6 @@ class AsyncReportsApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             http_method="GET",
             url_template=self._server.default("/v3/report/reconreport/availableReconFiles"),
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[str | None]("WM_CONSUMER.CHANNEL.TYPE", wm_consumer_channel_type),
@@ -928,7 +862,6 @@ class AsyncReportsApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
         report_date: str,
         offset: int,
         no_of_records: int,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         *,
@@ -943,7 +876,6 @@ class AsyncReportsApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             report_date: Date of the settlement report
             offset: starting number of the bytes, initial value for the offset is zero
             no_of_records: number of records in the report (max limit 1000)
-            wm_sec_access_token: The access token retrieved in the Token API call
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID
             wm_svc_name: Walmart Service Name
@@ -963,7 +895,6 @@ class AsyncReportsApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
                 param[int]("noOfRecords", no_of_records),
             ],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[str | None]("WM_CONSUMER.CHANNEL.TYPE", wm_consumer_channel_type),
@@ -976,7 +907,6 @@ class AsyncReportsApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
 
     async def get_available_v1_recon_report_dates(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         *,
@@ -986,7 +916,6 @@ class AsyncReportsApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
         """This API will list all the available Marketplace reconciliation report dates for the Seller.
 
         Args:
-            wm_sec_access_token: The access token retrieved in the Token API call
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID
             wm_svc_name: Walmart Service Name
@@ -1001,7 +930,6 @@ class AsyncReportsApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             http_method="GET",
             url_template=self._server.default("/v3/report/reconreport/availableReconFiles?reportVersion=v1"),
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[str | None]("WM_CONSUMER.CHANNEL.TYPE", wm_consumer_channel_type),
@@ -1014,7 +942,6 @@ class AsyncReportsApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
 
     async def get_partner_performance(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         *,
@@ -1024,7 +951,6 @@ class AsyncReportsApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
         """This API will get a partner's current cycle performance
 
         Args:
-            wm_sec_access_token: The access token retrieved in the Token API call
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID
             wm_svc_name: Walmart Service Name
@@ -1039,7 +965,6 @@ class AsyncReportsApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             http_method="GET",
             url_template=self._server.default("/v3/report/payment/performance"),
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[str | None]("WM_CONSUMER.CHANNEL.TYPE", wm_consumer_channel_type),
@@ -1052,7 +977,6 @@ class AsyncReportsApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
 
     async def get_partner_statement(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         *,
@@ -1062,7 +986,6 @@ class AsyncReportsApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
         """This API will get a partner's current cycle statement
 
         Args:
-            wm_sec_access_token: The access token retrieved in the Token API call
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID
             wm_svc_name: Walmart Service Name
@@ -1077,7 +1000,6 @@ class AsyncReportsApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             http_method="GET",
             url_template=self._server.default("/v3/report/payment/statement"),
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[str | None]("WM_CONSUMER.CHANNEL.TYPE", wm_consumer_channel_type),
@@ -1091,7 +1013,6 @@ class AsyncReportsApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
     async def get_recon_report(
         self,
         report_date: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         *,
@@ -1103,7 +1024,6 @@ class AsyncReportsApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
 
         Args:
             report_date: The date for which the reconcilation file is available
-            wm_sec_access_token: The access token retrieved in the Token API call
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID
             wm_svc_name: Walmart Service Name
@@ -1119,7 +1039,6 @@ class AsyncReportsApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             url_template=self._server.default("/v3/report/reconreport/reconFile"),
             query_params=[param[str]("reportDate", report_date)],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[str | None]("WM_CONSUMER.CHANNEL.TYPE", wm_consumer_channel_type),
@@ -1134,7 +1053,6 @@ class AsyncReportsApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
         self,
         report_date: str,
         report_version: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         *,
@@ -1147,7 +1065,6 @@ class AsyncReportsApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
         Args:
             report_date: The date for which the reconcilation file is available
             report_version: Report Version
-            wm_sec_access_token: The access token retrieved in the Token API call
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID
             wm_svc_name: Walmart Service Name
@@ -1163,7 +1080,6 @@ class AsyncReportsApiWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, 
             url_template=self._server.default("/v3/report/reconreport/reconFile?reportVersion=v1"),
             query_params=[param[str]("reportDate", report_date), param[str]("reportVersion", report_version)],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[str | None]("WM_CONSUMER.CHANNEL.TYPE", wm_consumer_channel_type),

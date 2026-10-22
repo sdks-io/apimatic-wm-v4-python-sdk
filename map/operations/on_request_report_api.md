@@ -10,9 +10,9 @@ Each `###` block is one operation and assumes `sdk-map.md` is loaded: blocks omi
 
 - **Route**: `GET /v3/reports/downloadReport`
 - **Auth**: `access_token`
-- **Signature**: `def download_report(request_id: str, wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, accept: str, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None)`
-  - required, positional: `request_id`, `wm_sec_access_token`, `wm_qos_correlation_id`, `wm_svc_name`, `wm_market`, `wm_global_version`, `accept`
-- **Params**: `request_id` — query `requestId` · `wm_sec_access_token` — header `WM_SEC.ACCESS_TOKEN` · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_market` — header `WM_MARKET` · `wm_global_version` — header `WM_GLOBAL_VERSION` · `accept` — header `Accept` · `wm_consumer_channel_type` — header `WM_CONSUMER.CHANNEL.TYPE`
+- **Signature**: `def download_report(request_id: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, accept: str, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None)`
+  - required, positional: `request_id`, `wm_qos_correlation_id`, `wm_svc_name`, `wm_market`, `wm_global_version`, `accept`
+- **Params**: `request_id` — query `requestId` · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_market` — header `WM_MARKET` · `wm_global_version` — header `WM_GLOBAL_VERSION` · `accept` — header `Accept` · `wm_consumer_channel_type` — header `WM_CONSUMER.CHANNEL.TYPE`
 - **Returns (parsed)**: `DownloadReportResponse`
 - **Returns (raw)**: `ApiResult[DownloadReportResponse, RawError]`
 - **Error**: `RawError` — **Case B**
@@ -27,9 +27,9 @@ Each `###` block is one operation and assumes `sdk-map.md` is loaded: blocks omi
 
 - **Route**: `GET /v3/reports/reportRequests`
 - **Auth**: `access_token`
-- **Signature**: `def get_requests_status(report_type: ReportType4OrStr, wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, accept: str, *, report_version: str | None = None, request_status: RequestStatus4OrStr | None = None, request_submission_start_date: str | None = None, request_submission_end_date: str | None = None, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None)`
-  - required, positional: `report_type`, `wm_sec_access_token`, `wm_qos_correlation_id`, `wm_svc_name`, `wm_market`, `wm_global_version`, `accept`
-- **Params**: `report_type` — query `reportType` · `report_version` — query `reportVersion` · `request_status` — query `requestStatus` · `request_submission_start_date` — query `requestSubmissionStartDate` · `request_submission_end_date` — query `requestSubmissionEndDate` · `wm_sec_access_token` — header `WM_SEC.ACCESS_TOKEN` · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_market` — header `WM_MARKET` · `wm_global_version` — header `WM_GLOBAL_VERSION` · `accept` — header `Accept` · `wm_consumer_channel_type` — header `WM_CONSUMER.CHANNEL.TYPE`
+- **Signature**: `def get_requests_status(report_type: ReportType4OrStr, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, accept: str, *, report_version: str | None = None, request_status: RequestStatus4OrStr | None = None, request_submission_start_date: str | None = None, request_submission_end_date: str | None = None, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None)`
+  - required, positional: `report_type`, `wm_qos_correlation_id`, `wm_svc_name`, `wm_market`, `wm_global_version`, `accept`
+- **Params**: `report_type` — query `reportType` · `report_version` — query `reportVersion` · `request_status` — query `requestStatus` · `request_submission_start_date` — query `requestSubmissionStartDate` · `request_submission_end_date` — query `requestSubmissionEndDate` · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_market` — header `WM_MARKET` · `wm_global_version` — header `WM_GLOBAL_VERSION` · `accept` — header `Accept` · `wm_consumer_channel_type` — header `WM_CONSUMER.CHANNEL.TYPE`
 - **Returns (parsed)**: `RequestsStatusResponse`
 - **Returns (raw)**: `ApiResult[RequestsStatusResponse, RawError]`
 - **Error**: `RawError` — **Case B**
@@ -46,9 +46,9 @@ Each `###` block is one operation and assumes `sdk-map.md` is loaded: blocks omi
 
 - **Route**: `GET /v3/reports/reportRequests/{requestId}`
 - **Auth**: `access_token`
-- **Signature**: `def get_single_request_status(request_id: str, wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, accept: str, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None)`
-  - required, positional: `request_id`, `wm_sec_access_token`, `wm_qos_correlation_id`, `wm_svc_name`, `wm_market`, `wm_global_version`, `accept`
-- **Params**: `request_id` — path `requestId` · `wm_sec_access_token` — header `WM_SEC.ACCESS_TOKEN` · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_market` — header `WM_MARKET` · `wm_global_version` — header `WM_GLOBAL_VERSION` · `accept` — header `Accept` · `wm_consumer_channel_type` — header `WM_CONSUMER.CHANNEL.TYPE`
+- **Signature**: `def get_single_request_status(request_id: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, accept: str, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None)`
+  - required, positional: `request_id`, `wm_qos_correlation_id`, `wm_svc_name`, `wm_market`, `wm_global_version`, `accept`
+- **Params**: `request_id` — path `requestId` · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_market` — header `WM_MARKET` · `wm_global_version` — header `WM_GLOBAL_VERSION` · `accept` — header `Accept` · `wm_consumer_channel_type` — header `WM_CONSUMER.CHANNEL.TYPE`
 - **Returns (parsed)**: `RequestStatusResponse`
 - **Returns (raw)**: `ApiResult[RequestStatusResponse, RawError]`
 - **Error**: `RawError` — **Case B**

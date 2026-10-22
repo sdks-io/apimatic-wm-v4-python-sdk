@@ -246,7 +246,7 @@ Sub-pages chunk per `###` block: each block is self-contained given the table ab
 
 | Group | Count | Directory (module = `<type_name>.py`) |
 | --- | --- | --- |
-| Models (`SdkBaseModel` pydantic classes) | 959 | `walmart_apis/models/` |
+| Models (`SdkBaseModel` pydantic classes) | 960 | `walmart_apis/models/` |
 | Enums (`Enum` over `str`) — Python member names + wire values | 188 | `walmart_apis/models/enums/` |
 | Unions (discriminated) — `TypeAlias` over the arms, tagged via `WireDiscriminator(…)` | 1 | `walmart_apis/models/unions/` |
 | Unions (plain) — `TypeAlias` over the arms | 7 | `walmart_apis/models/unions/` |
@@ -289,8 +289,8 @@ A scheme you did not configure is skipped silently rather than raising, and the 
 
 | Environment | Base URL | Hosting | Override point |
 | --- | --- | --- | --- |
-| `"production"` *(default)* | `https://marketplace.walmartapis.com` | Production URL, Specifies the production URL., Specifies the production URL., Production URL, Specifies the production URL., Specifies the production URL., Refers to the URL used for accessing the production server., Specifies the production URL., Refers to the URL used for accessing the production server., Production URL, Production URL, Production server for all APIs., Production URL, Production URL, Production URL, Base URL for production requests., Production URL, Production URL, Production URL, Refers to the URL used for accessing the production server. | `base_url="https://…"` |
-| `"environment2"` | `https://sandbox.walmartapis.com` | Sandbox URL, Specifies the sandbox URL., Specifies the sandbox URL., Sandbox URL, Specifies the sandbox URL., Specifies the sandbox URL., Refers to the URL used for accessing the sandbox server., Specifies the sandbox URL., Refers to the URL used for accessing the sandbox server., Sandbox URL, Sandbox URL, Sandbox URL, Sandbox URL, Sandbox URL, Base URL for sandbox requests., Sandbox URL, Sandbox URL, Sandbox URL, Refers to the URL used for accessing the sandbox server. | `base_url="https://…"` |
+| `"production"` *(default)* | `https://marketplace.walmartapis.com` | — | `base_url="https://…"` |
+| `"sandbox"` | `https://sandbox.walmartapis.com` | — | `base_url="https://…"` |
 
 Pick a row with `environment=`.
 

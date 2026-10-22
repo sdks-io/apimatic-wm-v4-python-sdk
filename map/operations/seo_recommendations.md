@@ -10,9 +10,9 @@ Each `###` block is one operation and assumes `sdk-map.md` is loaded: blocks omi
 
 - **Route**: `POST /v3/seo/recommendation/getItems`
 - **Auth**: `access_token`
-- **Signature**: `def get_seo_recommendations(wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, accept: str, *, status: Status2OrStr | None = None, limit: str | None = None, next_cursor: str | None = None, previous_cursor: str | None = None, wm_consumer_channel_type: str | None = None, body: V3SeoRecommendationGetItemsRequest | V3SeoRecommendationGetItemsRequestDict | None = None, request_options: RequestOptionsOrDict | None = None)`
-  - required, positional: `wm_sec_access_token`, `wm_qos_correlation_id`, `wm_svc_name`, `accept`
-- **Params**: `status` — query · `limit` — query · `next_cursor` — query · `previous_cursor` — query · `wm_sec_access_token` — header `WM_SEC.ACCESS_TOKEN` · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_svc_name` — header `WM_SVC.NAME` · `accept` — header `Accept` · `wm_consumer_channel_type` — header `WM_CONSUMER.CHANNEL.TYPE` · `body` — JSON body
+- **Signature**: `def get_seo_recommendations(wm_qos_correlation_id: str, wm_svc_name: str, accept: str, *, status: Status2OrStr | None = None, limit: str | None = None, next_cursor: str | None = None, previous_cursor: str | None = None, wm_consumer_channel_type: str | None = None, body: V3SeoRecommendationGetItemsRequest | V3SeoRecommendationGetItemsRequestDict | None = None, request_options: RequestOptionsOrDict | None = None)`
+  - required, positional: `wm_qos_correlation_id`, `wm_svc_name`, `accept`
+- **Params**: `status` — query · `limit` — query · `next_cursor` — query · `previous_cursor` — query · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_svc_name` — header `WM_SVC.NAME` · `accept` — header `Accept` · `wm_consumer_channel_type` — header `WM_CONSUMER.CHANNEL.TYPE` · `body` — JSON body
 - **Returns (parsed)**: `V3SeoRecommendationGetItemsResponse`
 - **Returns (raw)**: `ApiResult[V3SeoRecommendationGetItemsResponse, GetSeoRecommendationsErrorBody]`
 - **Error**: `GetSeoRecommendationsErrorBody` — **Case A (typed)**
@@ -32,9 +32,9 @@ Each `###` block is one operation and assumes `sdk-map.md` is loaded: blocks omi
 
 - **Route**: `POST /v3/seo/recommendation/updateItems/{itemId}/{decision}`
 - **Auth**: `access_token`
-- **Signature**: `def update_seo_recommendations(item_id: str, decision: DecisionOrStr, wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, accept: str, *, wm_consumer_channel_type: str | None = None, body: V3SeoRecommendationUpdateItemsRequest | V3SeoRecommendationUpdateItemsRequestDict | None = None, request_options: RequestOptionsOrDict | None = None)`
-  - required, positional: `item_id`, `decision`, `wm_sec_access_token`, `wm_qos_correlation_id`, `wm_svc_name`, `accept`
-- **Params**: `item_id` — path `itemId` · `decision` — path · `wm_sec_access_token` — header `WM_SEC.ACCESS_TOKEN` · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_svc_name` — header `WM_SVC.NAME` · `accept` — header `Accept` · `wm_consumer_channel_type` — header `WM_CONSUMER.CHANNEL.TYPE` · `body` — JSON body
+- **Signature**: `def update_seo_recommendations(item_id: str, decision: DecisionOrStr, wm_qos_correlation_id: str, wm_svc_name: str, accept: str, *, wm_consumer_channel_type: str | None = None, body: V3SeoRecommendationUpdateItemsRequest | V3SeoRecommendationUpdateItemsRequestDict | None = None, request_options: RequestOptionsOrDict | None = None)`
+  - required, positional: `item_id`, `decision`, `wm_qos_correlation_id`, `wm_svc_name`, `accept`
+- **Params**: `item_id` — path `itemId` · `decision` — path · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_svc_name` — header `WM_SVC.NAME` · `accept` — header `Accept` · `wm_consumer_channel_type` — header `WM_CONSUMER.CHANNEL.TYPE` · `body` — JSON body
 - **Returns (parsed)**: `V3SeoRecommendationUpdateItemsResponse`
 - **Returns (raw)**: `ApiResult[V3SeoRecommendationUpdateItemsResponse, UpdateSeoRecommendationsErrorBody]`
 - **Error**: `UpdateSeoRecommendationsErrorBody` — **Case A (typed)**

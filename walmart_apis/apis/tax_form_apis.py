@@ -30,7 +30,6 @@ class TaxFormApis:
         payout_year: str,
         tax_form_type: str,
         form_id: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_global_version: WmGlobalVersionOrStr,
@@ -51,8 +50,6 @@ class TaxFormApis:
                 availability: US only</b>
             form_id: The unique form ID returned by the list tax forms endpoint.<br><b style='color:green;'>Market
                 availability: US only</b>
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID. <br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Specifies the name of the Walmart service being called. <br><b style='color:green;'>Market
@@ -80,7 +77,6 @@ class TaxFormApis:
                 payout_year,
                 tax_form_type,
                 form_id,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_global_version,
@@ -93,7 +89,6 @@ class TaxFormApis:
 
     def get_tax_forms(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_global_version: WmGlobalVersionOrStr,
@@ -109,8 +104,6 @@ class TaxFormApis:
         <b style='color:green;'>Market availability: US only</b>
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID. <br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Specifies the name of the Walmart service being called. <br><b style='color:green;'>Market
@@ -135,7 +128,6 @@ class TaxFormApis:
                 V1SettingsGettaxformprofile404Error1 | V1SettingsGettaxformprofile500Error1 | RawError``."""
         return unwrap(
             self._with_raw_response.get_tax_forms(
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_global_version,
@@ -160,7 +152,6 @@ class AsyncTaxFormApis:
         payout_year: str,
         tax_form_type: str,
         form_id: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_global_version: WmGlobalVersionOrStr,
@@ -181,8 +172,6 @@ class AsyncTaxFormApis:
                 availability: US only</b>
             form_id: The unique form ID returned by the list tax forms endpoint.<br><b style='color:green;'>Market
                 availability: US only</b>
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID. <br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Specifies the name of the Walmart service being called. <br><b style='color:green;'>Market
@@ -210,7 +199,6 @@ class AsyncTaxFormApis:
                 payout_year,
                 tax_form_type,
                 form_id,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_global_version,
@@ -223,7 +211,6 @@ class AsyncTaxFormApis:
 
     async def get_tax_forms(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_global_version: WmGlobalVersionOrStr,
@@ -239,8 +226,6 @@ class AsyncTaxFormApis:
         <b style='color:green;'>Market availability: US only</b>
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID. <br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Specifies the name of the Walmart service being called. <br><b style='color:green;'>Market
@@ -265,7 +250,6 @@ class AsyncTaxFormApis:
                 V1SettingsGettaxformprofile404Error1 | V1SettingsGettaxformprofile500Error1 | RawError``."""
         return unwrap(
             await self._with_raw_response.get_tax_forms(
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_global_version,
@@ -287,7 +271,6 @@ class TaxFormApisWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchem
         payout_year: str,
         tax_form_type: str,
         form_id: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_global_version: WmGlobalVersionOrStr,
@@ -308,8 +291,6 @@ class TaxFormApisWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchem
                 availability: US only</b>
             form_id: The unique form ID returned by the list tax forms endpoint.<br><b style='color:green;'>Market
                 availability: US only</b>
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID. <br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Specifies the name of the Walmart service being called. <br><b style='color:green;'>Market
@@ -335,7 +316,6 @@ class TaxFormApisWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchem
                 param[str]("formId", form_id),
             ],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmGlobalVersionOrStr]("WM_GLOBAL_VERSION", wm_global_version),
@@ -351,7 +331,6 @@ class TaxFormApisWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchem
 
     def get_tax_forms(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_global_version: WmGlobalVersionOrStr,
@@ -367,8 +346,6 @@ class TaxFormApisWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchem
         <b style='color:green;'>Market availability: US only</b>
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID. <br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Specifies the name of the Walmart service being called. <br><b style='color:green;'>Market
@@ -390,7 +367,6 @@ class TaxFormApisWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchem
             http_method="GET",
             url_template=self._server.default("/v1/settings/gettaxformprofile"),
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmGlobalVersionOrStr]("WM_GLOBAL_VERSION", wm_global_version),
@@ -411,7 +387,6 @@ class AsyncTaxFormApisWithRawResponse(SecuredRawResponse[AsyncRawClient, Server,
         payout_year: str,
         tax_form_type: str,
         form_id: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_global_version: WmGlobalVersionOrStr,
@@ -432,8 +407,6 @@ class AsyncTaxFormApisWithRawResponse(SecuredRawResponse[AsyncRawClient, Server,
                 availability: US only</b>
             form_id: The unique form ID returned by the list tax forms endpoint.<br><b style='color:green;'>Market
                 availability: US only</b>
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID. <br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Specifies the name of the Walmart service being called. <br><b style='color:green;'>Market
@@ -459,7 +432,6 @@ class AsyncTaxFormApisWithRawResponse(SecuredRawResponse[AsyncRawClient, Server,
                 param[str]("formId", form_id),
             ],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmGlobalVersionOrStr]("WM_GLOBAL_VERSION", wm_global_version),
@@ -475,7 +447,6 @@ class AsyncTaxFormApisWithRawResponse(SecuredRawResponse[AsyncRawClient, Server,
 
     async def get_tax_forms(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_global_version: WmGlobalVersionOrStr,
@@ -491,8 +462,6 @@ class AsyncTaxFormApisWithRawResponse(SecuredRawResponse[AsyncRawClient, Server,
         <b style='color:green;'>Market availability: US only</b>
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.<br><b style='color:green;'>Market availability: Global</b>
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID. <br><b style='color:green;'>Market availability: Global</b>
             wm_svc_name: Specifies the name of the Walmart service being called. <br><b style='color:green;'>Market
@@ -514,7 +483,6 @@ class AsyncTaxFormApisWithRawResponse(SecuredRawResponse[AsyncRawClient, Server,
             http_method="GET",
             url_template=self._server.default("/v1/settings/gettaxformprofile"),
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmGlobalVersionOrStr]("WM_GLOBAL_VERSION", wm_global_version),

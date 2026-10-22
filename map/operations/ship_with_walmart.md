@@ -10,9 +10,9 @@ Each `###` block is one operation and assumes `sdk-map.md` is loaded: blocks omi
 
 - **Route**: `POST /v3/shipping/labels`
 - **Auth**: `access_token`
-- **Signature**: `def create_label(accept: str, wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, body: V3ShippingLabelsRequest | V3ShippingLabelsRequestDict, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None)`
-  - required, positional: `accept`, `wm_sec_access_token`, `wm_qos_correlation_id`, `wm_svc_name`, `wm_market`, `wm_global_version`, `body`
-- **Params**: `accept` — header `Accept` · `wm_sec_access_token` — header `WM_SEC.ACCESS_TOKEN` · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_market` — header `WM_MARKET` · `wm_global_version` — header `WM_GLOBAL_VERSION` · `wm_consumer_channel_type` — header `WM_CONSUMER.CHANNEL.TYPE` · `body` — JSON body
+- **Signature**: `def create_label(accept: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket1OrStr, wm_global_version: WmGlobalVersionOrStr, body: V3ShippingLabelsRequest | V3ShippingLabelsRequestDict, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None)`
+  - required, positional: `accept`, `wm_qos_correlation_id`, `wm_svc_name`, `wm_market`, `wm_global_version`, `body`
+- **Params**: `accept` — header `Accept` · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_market` — header `WM_MARKET` · `wm_global_version` — header `WM_GLOBAL_VERSION` · `wm_consumer_channel_type` — header `WM_CONSUMER.CHANNEL.TYPE` · `body` — JSON body
 - **Returns (parsed)**: `V3ShippingLabelsResponse`
 - **Returns (raw)**: `ApiResult[V3ShippingLabelsResponse, CreateLabelErrorBody]`
 - **Error**: `CreateLabelErrorBody` — **Case A (typed)**
@@ -32,9 +32,9 @@ Each `###` block is one operation and assumes `sdk-map.md` is loaded: blocks omi
 
 - **Route**: `POST /v3/shipping/multi-package/labels`
 - **Auth**: `access_token`
-- **Signature**: `def create_label_mps(wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket11OrStr, wm_global_version: WmGlobalVersionOrStr, accept: str, body: V3ShippingMultiPackageLabelsRequest | V3ShippingMultiPackageLabelsRequestDict, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None)`
-  - required, positional: `wm_sec_access_token`, `wm_qos_correlation_id`, `wm_svc_name`, `wm_market`, `wm_global_version`, `accept`, `body`
-- **Params**: `wm_sec_access_token` — header `WM_SEC.ACCESS_TOKEN` · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_market` — header `WM_MARKET` · `wm_global_version` — header `WM_GLOBAL_VERSION` · `accept` — header `Accept` · `wm_consumer_channel_type` — header `WM_CONSUMER.CHANNEL.TYPE` · `body` — JSON body
+- **Signature**: `def create_label_mps(wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket11OrStr, wm_global_version: WmGlobalVersionOrStr, accept: str, body: V3ShippingMultiPackageLabelsRequest | V3ShippingMultiPackageLabelsRequestDict, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None)`
+  - required, positional: `wm_qos_correlation_id`, `wm_svc_name`, `wm_market`, `wm_global_version`, `accept`, `body`
+- **Params**: `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_market` — header `WM_MARKET` · `wm_global_version` — header `WM_GLOBAL_VERSION` · `accept` — header `Accept` · `wm_consumer_channel_type` — header `WM_CONSUMER.CHANNEL.TYPE` · `body` — JSON body
 - **Returns (parsed)**: `V3ShippingMultiPackageLabelsResponse`
 - **Returns (raw)**: `ApiResult[V3ShippingMultiPackageLabelsResponse, CreateLabelMpsErrorBody]`
 - **Error**: `CreateLabelMpsErrorBody` — **Case A (typed)**
@@ -55,9 +55,9 @@ Each `###` block is one operation and assumes `sdk-map.md` is loaded: blocks omi
 
 - **Route**: `DELETE /v3/shipping/labels/carriers/{carrierShortName}/trackings/{trackingNo}`
 - **Auth**: `access_token`
-- **Signature**: `def discard_label(carrier_short_name: str, tracking_no: str, wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket6OrStr, wm_global_version: WmGlobalVersionOrStr, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None)`
-  - required, positional: `carrier_short_name`, `tracking_no`, `wm_sec_access_token`, `wm_qos_correlation_id`, `wm_svc_name`, `wm_market`, `wm_global_version`
-- **Params**: `carrier_short_name` — path `carrierShortName` · `tracking_no` — path `trackingNo` · `wm_sec_access_token` — header `WM_SEC.ACCESS_TOKEN` · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_market` — header `WM_MARKET` · `wm_global_version` — header `WM_GLOBAL_VERSION` · `wm_consumer_channel_type` — header `WM_CONSUMER.CHANNEL.TYPE`
+- **Signature**: `def discard_label(carrier_short_name: str, tracking_no: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket6OrStr, wm_global_version: WmGlobalVersionOrStr, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None)`
+  - required, positional: `carrier_short_name`, `tracking_no`, `wm_qos_correlation_id`, `wm_svc_name`, `wm_market`, `wm_global_version`
+- **Params**: `carrier_short_name` — path `carrierShortName` · `tracking_no` — path `trackingNo` · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_market` — header `WM_MARKET` · `wm_global_version` — header `WM_GLOBAL_VERSION` · `wm_consumer_channel_type` — header `WM_CONSUMER.CHANNEL.TYPE`
 - **Returns (parsed)**: `V3ShippingLabelsCarriersTrackingsResponse`
 - **Returns (raw)**: `ApiResult[V3ShippingLabelsCarriersTrackingsResponse, DiscardLabelErrorBody]`
 - **Error**: `DiscardLabelErrorBody` — **Case A (typed)**
@@ -75,9 +75,9 @@ Each `###` block is one operation and assumes `sdk-map.md` is loaded: blocks omi
 
 - **Route**: `GET /v3/shipping/labels/carriers/{carrierShortName}/package-types`
 - **Auth**: `access_token`
-- **Signature**: `def get_carrier_package_types(carrier_short_name: str, wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket11OrStr, wm_global_version: WmGlobalVersionOrStr, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None)`
-  - required, positional: `carrier_short_name`, `wm_sec_access_token`, `wm_qos_correlation_id`, `wm_svc_name`, `wm_market`, `wm_global_version`
-- **Params**: `carrier_short_name` — path `carrierShortName` · `wm_sec_access_token` — header `WM_SEC.ACCESS_TOKEN` · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_market` — header `WM_MARKET` · `wm_global_version` — header `WM_GLOBAL_VERSION` · `wm_consumer_channel_type` — header `WM_CONSUMER.CHANNEL.TYPE`
+- **Signature**: `def get_carrier_package_types(carrier_short_name: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket11OrStr, wm_global_version: WmGlobalVersionOrStr, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None)`
+  - required, positional: `carrier_short_name`, `wm_qos_correlation_id`, `wm_svc_name`, `wm_market`, `wm_global_version`
+- **Params**: `carrier_short_name` — path `carrierShortName` · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_market` — header `WM_MARKET` · `wm_global_version` — header `WM_GLOBAL_VERSION` · `wm_consumer_channel_type` — header `WM_CONSUMER.CHANNEL.TYPE`
 - **Returns (parsed)**: `V3ShippingLabelsCarriersPackageTypesResponse`
 - **Returns (raw)**: `ApiResult[V3ShippingLabelsCarriersPackageTypesResponse, RawError]`
 - **Error**: `RawError` — **Case B**
@@ -92,9 +92,9 @@ Each `###` block is one operation and assumes `sdk-map.md` is loaded: blocks omi
 
 - **Route**: `GET /v3/shipping/labels/carriers`
 - **Auth**: `access_token`
-- **Signature**: `def get_carriers(wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket11OrStr, wm_global_version: WmGlobalVersionOrStr, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None)`
-  - required, positional: `wm_sec_access_token`, `wm_qos_correlation_id`, `wm_svc_name`, `wm_market`, `wm_global_version`
-- **Params**: `wm_sec_access_token` — header `WM_SEC.ACCESS_TOKEN` · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_market` — header `WM_MARKET` · `wm_global_version` — header `WM_GLOBAL_VERSION` · `wm_consumer_channel_type` — header `WM_CONSUMER.CHANNEL.TYPE`
+- **Signature**: `def get_carriers(wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket11OrStr, wm_global_version: WmGlobalVersionOrStr, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None)`
+  - required, positional: `wm_qos_correlation_id`, `wm_svc_name`, `wm_market`, `wm_global_version`
+- **Params**: `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_market` — header `WM_MARKET` · `wm_global_version` — header `WM_GLOBAL_VERSION` · `wm_consumer_channel_type` — header `WM_CONSUMER.CHANNEL.TYPE`
 - **Returns (parsed)**: `V3ShippingLabelsCarriersResponse`
 - **Returns (raw)**: `ApiResult[V3ShippingLabelsCarriersResponse, RawError]`
 - **Error**: `RawError` — **Case B**
@@ -109,9 +109,9 @@ Each `###` block is one operation and assumes `sdk-map.md` is loaded: blocks omi
 
 - **Route**: `GET /v3/shipping/labels/purchase-orders/{purchaseOrderId}`
 - **Auth**: `access_token`
-- **Signature**: `def get_label(purchase_order_id: str, wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket11OrStr, wm_global_version: WmGlobalVersionOrStr, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None)`
-  - required, positional: `purchase_order_id`, `wm_sec_access_token`, `wm_qos_correlation_id`, `wm_svc_name`, `wm_market`, `wm_global_version`
-- **Params**: `purchase_order_id` — path `purchaseOrderId` · `wm_sec_access_token` — header `WM_SEC.ACCESS_TOKEN` · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_market` — header `WM_MARKET` · `wm_global_version` — header `WM_GLOBAL_VERSION` · `wm_consumer_channel_type` — header `WM_CONSUMER.CHANNEL.TYPE`
+- **Signature**: `def get_label(purchase_order_id: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket11OrStr, wm_global_version: WmGlobalVersionOrStr, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None)`
+  - required, positional: `purchase_order_id`, `wm_qos_correlation_id`, `wm_svc_name`, `wm_market`, `wm_global_version`
+- **Params**: `purchase_order_id` — path `purchaseOrderId` · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_market` — header `WM_MARKET` · `wm_global_version` — header `WM_GLOBAL_VERSION` · `wm_consumer_channel_type` — header `WM_CONSUMER.CHANNEL.TYPE`
 - **Returns (parsed)**: `V3ShippingLabelsPurchaseOrdersResponse`
 - **Returns (raw)**: `ApiResult[V3ShippingLabelsPurchaseOrdersResponse, RawError]`
 - **Error**: `RawError` — **Case B**
@@ -126,9 +126,9 @@ Each `###` block is one operation and assumes `sdk-map.md` is loaded: blocks omi
 
 - **Route**: `GET /v3/shipping/labels/carriers/{carrierShortName}/trackings/{trackingNo}`
 - **Auth**: `access_token`
-- **Signature**: `def get_label_by_tracking_and_carrier(carrier_short_name: str, tracking_no: str, accept: str, wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket11OrStr, wm_global_version: WmGlobalVersionOrStr, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None)`
-  - required, positional: `carrier_short_name`, `tracking_no`, `accept`, `wm_sec_access_token`, `wm_qos_correlation_id`, `wm_svc_name`, `wm_market`, `wm_global_version`
-- **Params**: `carrier_short_name` — path `carrierShortName` · `tracking_no` — path `trackingNo` · `accept` — header · `wm_sec_access_token` — header `WM_SEC.ACCESS_TOKEN` · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_market` — header `WM_MARKET` · `wm_global_version` — header `WM_GLOBAL_VERSION` · `wm_consumer_channel_type` — header `WM_CONSUMER.CHANNEL.TYPE`
+- **Signature**: `def get_label_by_tracking_and_carrier(carrier_short_name: str, tracking_no: str, accept: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket11OrStr, wm_global_version: WmGlobalVersionOrStr, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None)`
+  - required, positional: `carrier_short_name`, `tracking_no`, `accept`, `wm_qos_correlation_id`, `wm_svc_name`, `wm_market`, `wm_global_version`
+- **Params**: `carrier_short_name` — path `carrierShortName` · `tracking_no` — path `trackingNo` · `accept` — header · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_market` — header `WM_MARKET` · `wm_global_version` — header `WM_GLOBAL_VERSION` · `wm_consumer_channel_type` — header `WM_CONSUMER.CHANNEL.TYPE`
 - **Returns (parsed)**: `None`
 - **Returns (raw)**: `ApiResult[None, RawError]`
 - **Error**: `RawError` — **Case B**
@@ -158,9 +158,9 @@ Each `###` block is one operation and assumes `sdk-map.md` is loaded: blocks omi
 
 - **Route**: `POST /v3/shipping/labels/shipping-estimates`
 - **Auth**: `access_token`
-- **Signature**: `def get_shipping_estimate(accept: str, wm_sec_access_token: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket11OrStr, wm_global_version: WmGlobalVersionOrStr, body: V3ShippingLabelsShippingEstimatesRequest | V3ShippingLabelsShippingEstimatesRequestDict, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None)`
-  - required, positional: `accept`, `wm_sec_access_token`, `wm_qos_correlation_id`, `wm_svc_name`, `wm_market`, `wm_global_version`, `body`
-- **Params**: `accept` — header `Accept` · `wm_sec_access_token` — header `WM_SEC.ACCESS_TOKEN` · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_market` — header `WM_MARKET` · `wm_global_version` — header `WM_GLOBAL_VERSION` · `wm_consumer_channel_type` — header `WM_CONSUMER.CHANNEL.TYPE` · `body` — JSON body
+- **Signature**: `def get_shipping_estimate(accept: str, wm_qos_correlation_id: str, wm_svc_name: str, wm_market: WmMarket11OrStr, wm_global_version: WmGlobalVersionOrStr, body: V3ShippingLabelsShippingEstimatesRequest | V3ShippingLabelsShippingEstimatesRequestDict, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None)`
+  - required, positional: `accept`, `wm_qos_correlation_id`, `wm_svc_name`, `wm_market`, `wm_global_version`, `body`
+- **Params**: `accept` — header `Accept` · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_market` — header `WM_MARKET` · `wm_global_version` — header `WM_GLOBAL_VERSION` · `wm_consumer_channel_type` — header `WM_CONSUMER.CHANNEL.TYPE` · `body` — JSON body
 - **Returns (parsed)**: `V3ShippingLabelsShippingEstimatesResponse`
 - **Returns (raw)**: `ApiResult[V3ShippingLabelsShippingEstimatesResponse, GetShippingEstimateErrorBody]`
 - **Error**: `GetShippingEstimateErrorBody` — **Case A (typed)**

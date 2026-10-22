@@ -32,7 +32,6 @@ class SemItemDiagnostics:
 
     def get_issue_types(
         self,
-        wm_sec_access_token: str,
         wm_svc_name: str,
         wm_qos_correlation_id: str,
         *,
@@ -106,8 +105,6 @@ class SemItemDiagnostics:
             yellow for ``LIMITED`` (reduced SEM performance)
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.
             wm_svc_name: Specifies the name of the Walmart service being called.
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.
@@ -128,7 +125,6 @@ class SemItemDiagnostics:
                 ``error`` is ``ErrorResponse | ErrorResponse429 | RawError``."""
         return unwrap(
             self._with_raw_response.get_issue_types(
-                wm_sec_access_token,
                 wm_svc_name,
                 wm_qos_correlation_id,
                 wm_global_version=wm_global_version,
@@ -140,7 +136,6 @@ class SemItemDiagnostics:
 
     def search_item_issues(
         self,
-        wm_sec_access_token: str,
         wm_svc_name: str,
         wm_qos_correlation_id: str,
         *,
@@ -212,8 +207,6 @@ class SemItemDiagnostics:
             should display these as informational — the seller cannot directly resolve them.
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.
             wm_svc_name: Specifies the name of the Walmart service being called.
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.
@@ -242,7 +235,6 @@ class SemItemDiagnostics:
                 ``ErrorResponse | ErrorResponse429 | RawError``."""
         return unwrap(
             self._with_raw_response.search_item_issues(
-                wm_sec_access_token,
                 wm_svc_name,
                 wm_qos_correlation_id,
                 wm_global_version=wm_global_version,
@@ -265,7 +257,6 @@ class AsyncSemItemDiagnostics:
 
     async def get_issue_types(
         self,
-        wm_sec_access_token: str,
         wm_svc_name: str,
         wm_qos_correlation_id: str,
         *,
@@ -339,8 +330,6 @@ class AsyncSemItemDiagnostics:
             yellow for ``LIMITED`` (reduced SEM performance)
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.
             wm_svc_name: Specifies the name of the Walmart service being called.
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.
@@ -361,7 +350,6 @@ class AsyncSemItemDiagnostics:
                 ``error`` is ``ErrorResponse | ErrorResponse429 | RawError``."""
         return unwrap(
             await self._with_raw_response.get_issue_types(
-                wm_sec_access_token,
                 wm_svc_name,
                 wm_qos_correlation_id,
                 wm_global_version=wm_global_version,
@@ -373,7 +361,6 @@ class AsyncSemItemDiagnostics:
 
     async def search_item_issues(
         self,
-        wm_sec_access_token: str,
         wm_svc_name: str,
         wm_qos_correlation_id: str,
         *,
@@ -445,8 +432,6 @@ class AsyncSemItemDiagnostics:
             should display these as informational — the seller cannot directly resolve them.
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.
             wm_svc_name: Specifies the name of the Walmart service being called.
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.
@@ -475,7 +460,6 @@ class AsyncSemItemDiagnostics:
                 ``ErrorResponse | ErrorResponse429 | RawError``."""
         return unwrap(
             await self._with_raw_response.search_item_issues(
-                wm_sec_access_token,
                 wm_svc_name,
                 wm_qos_correlation_id,
                 wm_global_version=wm_global_version,
@@ -495,7 +479,6 @@ class AsyncSemItemDiagnostics:
 class SemItemDiagnosticsWithRawResponse(SecuredRawResponse[RawClient, Server, AuthSchemes]):
     def get_issue_types(
         self,
-        wm_sec_access_token: str,
         wm_svc_name: str,
         wm_qos_correlation_id: str,
         *,
@@ -569,8 +552,6 @@ class SemItemDiagnosticsWithRawResponse(SecuredRawResponse[RawClient, Server, Au
             yellow for ``LIMITED`` (reduced SEM performance)
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.
             wm_svc_name: Specifies the name of the Walmart service being called.
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.
@@ -587,7 +568,6 @@ class SemItemDiagnosticsWithRawResponse(SecuredRawResponse[RawClient, Server, Au
             http_method="GET",
             url_template=self._server.default("/v3/advertising/sem/item-issues/issue-types"),
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[WmGlobalVersionOrStr]("WM_GLOBAL_VERSION", wm_global_version),
@@ -602,7 +582,6 @@ class SemItemDiagnosticsWithRawResponse(SecuredRawResponse[RawClient, Server, Au
 
     def search_item_issues(
         self,
-        wm_sec_access_token: str,
         wm_svc_name: str,
         wm_qos_correlation_id: str,
         *,
@@ -674,8 +653,6 @@ class SemItemDiagnosticsWithRawResponse(SecuredRawResponse[RawClient, Server, Au
             should display these as informational — the seller cannot directly resolve them.
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.
             wm_svc_name: Specifies the name of the Walmart service being called.
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.
@@ -698,7 +675,6 @@ class SemItemDiagnosticsWithRawResponse(SecuredRawResponse[RawClient, Server, Au
             http_method="POST",
             url_template=self._server.default("/v3/advertising/sem/item-issues/search"),
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[WmGlobalVersionOrStr]("WM_GLOBAL_VERSION", wm_global_version),
@@ -718,7 +694,6 @@ class SemItemDiagnosticsWithRawResponse(SecuredRawResponse[RawClient, Server, Au
 class AsyncSemItemDiagnosticsWithRawResponse(SecuredRawResponse[AsyncRawClient, Server, AsyncAuthSchemes]):
     async def get_issue_types(
         self,
-        wm_sec_access_token: str,
         wm_svc_name: str,
         wm_qos_correlation_id: str,
         *,
@@ -792,8 +767,6 @@ class AsyncSemItemDiagnosticsWithRawResponse(SecuredRawResponse[AsyncRawClient, 
             yellow for ``LIMITED`` (reduced SEM performance)
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.
             wm_svc_name: Specifies the name of the Walmart service being called.
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.
@@ -810,7 +783,6 @@ class AsyncSemItemDiagnosticsWithRawResponse(SecuredRawResponse[AsyncRawClient, 
             http_method="GET",
             url_template=self._server.default("/v3/advertising/sem/item-issues/issue-types"),
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[WmGlobalVersionOrStr]("WM_GLOBAL_VERSION", wm_global_version),
@@ -825,7 +797,6 @@ class AsyncSemItemDiagnosticsWithRawResponse(SecuredRawResponse[AsyncRawClient, 
 
     async def search_item_issues(
         self,
-        wm_sec_access_token: str,
         wm_svc_name: str,
         wm_qos_correlation_id: str,
         *,
@@ -897,8 +868,6 @@ class AsyncSemItemDiagnosticsWithRawResponse(SecuredRawResponse[AsyncRawClient, 
             should display these as informational — the seller cannot directly resolve them.
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.
             wm_svc_name: Specifies the name of the Walmart service being called.
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.
@@ -921,7 +890,6 @@ class AsyncSemItemDiagnosticsWithRawResponse(SecuredRawResponse[AsyncRawClient, 
             http_method="POST",
             url_template=self._server.default("/v3/advertising/sem/item-issues/search"),
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[WmGlobalVersionOrStr]("WM_GLOBAL_VERSION", wm_global_version),

@@ -10,9 +10,9 @@ Each `###` block is one operation and assumes `sdk-map.md` is loaded: blocks omi
 
 - **Route**: `GET /v3/advertising/sem/item-issues/issue-types`
 - **Auth**: `access_token`
-- **Signature**: `def get_issue_types(wm_sec_access_token: str, wm_svc_name: str, wm_qos_correlation_id: str, *, wm_global_version: WmGlobalVersionOrStr = WmGlobalVersion._3_1, wm_market: WmMarketOrStr = WmMarket.US, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None)`
-  - required, positional: `wm_sec_access_token`, `wm_svc_name`, `wm_qos_correlation_id`
-- **Params**: `wm_sec_access_token` — header `WM_SEC.ACCESS_TOKEN` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_global_version` — header `WM_GLOBAL_VERSION` · `wm_market` — header `WM_MARKET` · `wm_consumer_channel_type` — header `WM_CONSUMER.CHANNEL.TYPE`
+- **Signature**: `def get_issue_types(wm_svc_name: str, wm_qos_correlation_id: str, *, wm_global_version: WmGlobalVersionOrStr = WmGlobalVersion._3_1, wm_market: WmMarketOrStr = WmMarket.US, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None)`
+  - required, positional: `wm_svc_name`, `wm_qos_correlation_id`
+- **Params**: `wm_svc_name` — header `WM_SVC.NAME` · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_global_version` — header `WM_GLOBAL_VERSION` · `wm_market` — header `WM_MARKET` · `wm_consumer_channel_type` — header `WM_CONSUMER.CHANNEL.TYPE`
 - **Returns (parsed)**: `dict[str, IssueMetadata]`
 - **Returns (raw)**: `ApiResult[dict[str, IssueMetadata], GetIssueTypesErrorBody]`
 - **Error**: `GetIssueTypesErrorBody` — **Case A (typed)**
@@ -31,9 +31,9 @@ Each `###` block is one operation and assumes `sdk-map.md` is loaded: blocks omi
 
 - **Route**: `POST /v3/advertising/sem/item-issues/search`
 - **Auth**: `access_token`
-- **Signature**: `def search_item_issues(wm_sec_access_token: str, wm_svc_name: str, wm_qos_correlation_id: str, *, wm_global_version: WmGlobalVersionOrStr = WmGlobalVersion._3_1, wm_market: WmMarketOrStr = WmMarket.US, accept: AcceptOrStr = Accept.APPLICATION_JSON, wm_consumer_channel_type: str | None = None, body: ItemDiagnosticSearchRequest | ItemDiagnosticSearchRequestDict | None = None, request_options: RequestOptionsOrDict | None = None)`
-  - required, positional: `wm_sec_access_token`, `wm_svc_name`, `wm_qos_correlation_id`
-- **Params**: `wm_sec_access_token` — header `WM_SEC.ACCESS_TOKEN` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_global_version` — header `WM_GLOBAL_VERSION` · `wm_market` — header `WM_MARKET` · `accept` — header `Accept` · `wm_consumer_channel_type` — header `WM_CONSUMER.CHANNEL.TYPE` · `body` — JSON body
+- **Signature**: `def search_item_issues(wm_svc_name: str, wm_qos_correlation_id: str, *, wm_global_version: WmGlobalVersionOrStr = WmGlobalVersion._3_1, wm_market: WmMarketOrStr = WmMarket.US, accept: AcceptOrStr = Accept.APPLICATION_JSON, wm_consumer_channel_type: str | None = None, body: ItemDiagnosticSearchRequest | ItemDiagnosticSearchRequestDict | None = None, request_options: RequestOptionsOrDict | None = None)`
+  - required, positional: `wm_svc_name`, `wm_qos_correlation_id`
+- **Params**: `wm_svc_name` — header `WM_SVC.NAME` · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_global_version` — header `WM_GLOBAL_VERSION` · `wm_market` — header `WM_MARKET` · `accept` — header `Accept` · `wm_consumer_channel_type` — header `WM_CONSUMER.CHANNEL.TYPE` · `body` — JSON body
 - **Returns (parsed)**: `ItemDiagnosticSearchResponse`
 - **Returns (raw)**: `ApiResult[ItemDiagnosticSearchResponse, SearchItemIssuesErrorBody]`
 - **Error**: `SearchItemIssuesErrorBody` — **Case A (typed)**

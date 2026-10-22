@@ -23,9 +23,10 @@ Each `###` block is one operation and assumes `sdk-map.md` is loaded: blocks omi
 ### client.authorization.token_api
 
 - **Route**: `POST /v3/token`
-- **Signature**: `def token_api(wm_market: str, authorization: str, wm_qos_correlation_id: str, wm_svc_name: str, *, wm_partner_id: str | None = None, wm_consumer_channel_type: str | None = None, grant_type: GrantType1OrStr = GrantType1.CLIENT_CREDENTIALS, code: str | None = "65CA5DA313A549D49D15D3119D9AD85D", redirect_uri: str | None = "https://example-client-app.com", refresh_token: str | None = "APXcIoTpKMH9OQN.....", request_options: RequestOptionsOrDict | None = None)`
-  - required, positional: `wm_market`, `authorization`, `wm_qos_correlation_id`, `wm_svc_name`
-- **Params**: `wm_market` — header `WM_MARKET` · `authorization` — header `Authorization` · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_partner_id` — header `WM_PARTNER.ID` · `wm_consumer_channel_type` — header `WM_CONSUMER.CHANNEL.TYPE` · `grant_type` — form field · `code` — form field · `redirect_uri` — form field · `refresh_token` — form field
+- **Auth**: `basic_auth`
+- **Signature**: `def token_api(wm_market: str, wm_qos_correlation_id: str, wm_svc_name: str, *, wm_partner_id: str | None = None, wm_consumer_channel_type: str | None = None, grant_type: GrantType1OrStr = GrantType1.CLIENT_CREDENTIALS, code: str | None = None, redirect_uri: str | None = None, refresh_token: str | None = None, request_options: RequestOptionsOrDict | None = None)`
+  - required, positional: `wm_market`, `wm_qos_correlation_id`, `wm_svc_name`
+- **Params**: `wm_market` — header `WM_MARKET` · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_partner_id` — header `WM_PARTNER.ID` · `wm_consumer_channel_type` — header `WM_CONSUMER.CHANNEL.TYPE` · `grant_type` — form field · `code` — form field · `redirect_uri` — form field · `refresh_token` — form field
 - **Returns (parsed)**: `OauthTokenModel`
 - **Returns (raw)**: `ApiResult[OauthTokenModel, TokenApiErrorBody]`
 - **Error**: `TokenApiErrorBody` — **Case A (typed)**

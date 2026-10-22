@@ -34,7 +34,6 @@ class ReportScheduler:
         schedule_id: str,
         wm_svc_name: str,
         wm_qos_correlation_id: str,
-        wm_sec_access_token: str,
         *,
         request_options: RequestOptionsOrDict | None = None,
     ) -> RejectRecommendationsResponsePayload:
@@ -47,8 +46,6 @@ class ReportScheduler:
             wm_svc_name: Specifies the name of the Walmart service being called.
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.
             request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
                 count and statuses.
 
@@ -59,7 +56,7 @@ class ReportScheduler:
             ApiError: If the API responds with an error status code. ``error`` is ``RawError``."""
         return unwrap(
             self._with_raw_response.delete_report_schedule(
-                schedule_id, wm_svc_name, wm_qos_correlation_id, wm_sec_access_token, request_options=request_options
+                schedule_id, wm_svc_name, wm_qos_correlation_id, request_options=request_options
             ),
         )
 
@@ -68,7 +65,6 @@ class ReportScheduler:
         report_type: ReportType10OrStr,
         wm_svc_name: str,
         wm_qos_correlation_id: str,
-        wm_sec_access_token: str,
         *,
         request_options: RequestOptionsOrDict | None = None,
     ) -> V3ReportsSchedulesResponse:
@@ -82,8 +78,6 @@ class ReportScheduler:
             wm_svc_name: Specifies the name of the Walmart service being called.
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.
             request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
                 count and statuses.
 
@@ -94,7 +88,7 @@ class ReportScheduler:
             ApiError: If the API responds with an error status code. ``error`` is ``RawError``."""
         return unwrap(
             self._with_raw_response.get_all_report_schedules(
-                report_type, wm_svc_name, wm_qos_correlation_id, wm_sec_access_token, request_options=request_options
+                report_type, wm_svc_name, wm_qos_correlation_id, request_options=request_options
             ),
         )
 
@@ -103,7 +97,6 @@ class ReportScheduler:
         schedule_id: str,
         wm_svc_name: str,
         wm_qos_correlation_id: str,
-        wm_sec_access_token: str,
         *,
         request_options: RequestOptionsOrDict | None = None,
     ) -> V3ReportsSchedulesResponse1:
@@ -116,8 +109,6 @@ class ReportScheduler:
             wm_svc_name: Specifies the name of the Walmart service being called.
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.
             request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
                 count and statuses.
 
@@ -128,7 +119,7 @@ class ReportScheduler:
             ApiError: If the API responds with an error status code. ``error`` is ``RawError``."""
         return unwrap(
             self._with_raw_response.get_report_schedule(
-                schedule_id, wm_svc_name, wm_qos_correlation_id, wm_sec_access_token, request_options=request_options
+                schedule_id, wm_svc_name, wm_qos_correlation_id, request_options=request_options
             ),
         )
 
@@ -137,7 +128,6 @@ class ReportScheduler:
         schedule_id: str,
         wm_svc_name: str,
         wm_qos_correlation_id: str,
-        wm_sec_access_token: str,
         *,
         body: V3ReportsSchedulesRequest | V3ReportsSchedulesRequestDict | None = None,
         request_options: RequestOptionsOrDict | None = None,
@@ -152,8 +142,6 @@ class ReportScheduler:
             wm_svc_name: Specifies the name of the Walmart service being called.
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.
             body: The request body.
             request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
                 count and statuses.
@@ -165,12 +153,7 @@ class ReportScheduler:
             ApiError: If the API responds with an error status code. ``error`` is ``RawError``."""
         return unwrap(
             self._with_raw_response.update_report_schedule(
-                schedule_id,
-                wm_svc_name,
-                wm_qos_correlation_id,
-                wm_sec_access_token,
-                body=body,
-                request_options=request_options,
+                schedule_id, wm_svc_name, wm_qos_correlation_id, body=body, request_options=request_options
             ),
         )
 
@@ -188,7 +171,6 @@ class AsyncReportScheduler:
         schedule_id: str,
         wm_svc_name: str,
         wm_qos_correlation_id: str,
-        wm_sec_access_token: str,
         *,
         request_options: RequestOptionsOrDict | None = None,
     ) -> RejectRecommendationsResponsePayload:
@@ -201,8 +183,6 @@ class AsyncReportScheduler:
             wm_svc_name: Specifies the name of the Walmart service being called.
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.
             request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
                 count and statuses.
 
@@ -213,7 +193,7 @@ class AsyncReportScheduler:
             ApiError: If the API responds with an error status code. ``error`` is ``RawError``."""
         return unwrap(
             await self._with_raw_response.delete_report_schedule(
-                schedule_id, wm_svc_name, wm_qos_correlation_id, wm_sec_access_token, request_options=request_options
+                schedule_id, wm_svc_name, wm_qos_correlation_id, request_options=request_options
             ),
         )
 
@@ -222,7 +202,6 @@ class AsyncReportScheduler:
         report_type: ReportType10OrStr,
         wm_svc_name: str,
         wm_qos_correlation_id: str,
-        wm_sec_access_token: str,
         *,
         request_options: RequestOptionsOrDict | None = None,
     ) -> V3ReportsSchedulesResponse:
@@ -236,8 +215,6 @@ class AsyncReportScheduler:
             wm_svc_name: Specifies the name of the Walmart service being called.
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.
             request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
                 count and statuses.
 
@@ -248,7 +225,7 @@ class AsyncReportScheduler:
             ApiError: If the API responds with an error status code. ``error`` is ``RawError``."""
         return unwrap(
             await self._with_raw_response.get_all_report_schedules(
-                report_type, wm_svc_name, wm_qos_correlation_id, wm_sec_access_token, request_options=request_options
+                report_type, wm_svc_name, wm_qos_correlation_id, request_options=request_options
             ),
         )
 
@@ -257,7 +234,6 @@ class AsyncReportScheduler:
         schedule_id: str,
         wm_svc_name: str,
         wm_qos_correlation_id: str,
-        wm_sec_access_token: str,
         *,
         request_options: RequestOptionsOrDict | None = None,
     ) -> V3ReportsSchedulesResponse1:
@@ -270,8 +246,6 @@ class AsyncReportScheduler:
             wm_svc_name: Specifies the name of the Walmart service being called.
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.
             request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
                 count and statuses.
 
@@ -282,7 +256,7 @@ class AsyncReportScheduler:
             ApiError: If the API responds with an error status code. ``error`` is ``RawError``."""
         return unwrap(
             await self._with_raw_response.get_report_schedule(
-                schedule_id, wm_svc_name, wm_qos_correlation_id, wm_sec_access_token, request_options=request_options
+                schedule_id, wm_svc_name, wm_qos_correlation_id, request_options=request_options
             ),
         )
 
@@ -291,7 +265,6 @@ class AsyncReportScheduler:
         schedule_id: str,
         wm_svc_name: str,
         wm_qos_correlation_id: str,
-        wm_sec_access_token: str,
         *,
         body: V3ReportsSchedulesRequest | V3ReportsSchedulesRequestDict | None = None,
         request_options: RequestOptionsOrDict | None = None,
@@ -306,8 +279,6 @@ class AsyncReportScheduler:
             wm_svc_name: Specifies the name of the Walmart service being called.
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.
             body: The request body.
             request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
                 count and statuses.
@@ -319,12 +290,7 @@ class AsyncReportScheduler:
             ApiError: If the API responds with an error status code. ``error`` is ``RawError``."""
         return unwrap(
             await self._with_raw_response.update_report_schedule(
-                schedule_id,
-                wm_svc_name,
-                wm_qos_correlation_id,
-                wm_sec_access_token,
-                body=body,
-                request_options=request_options,
+                schedule_id, wm_svc_name, wm_qos_correlation_id, body=body, request_options=request_options
             ),
         )
 
@@ -339,7 +305,6 @@ class ReportSchedulerWithRawResponse(SecuredRawResponse[RawClient, Server, AuthS
         schedule_id: str,
         wm_svc_name: str,
         wm_qos_correlation_id: str,
-        wm_sec_access_token: str,
         *,
         request_options: RequestOptionsOrDict | None = None,
     ) -> ApiResult[RejectRecommendationsResponsePayload, RawError]:
@@ -352,8 +317,6 @@ class ReportSchedulerWithRawResponse(SecuredRawResponse[RawClient, Server, AuthS
             wm_svc_name: Specifies the name of the Walmart service being called.
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.
             request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
                 count and statuses.
 
@@ -366,7 +329,6 @@ class ReportSchedulerWithRawResponse(SecuredRawResponse[RawClient, Server, AuthS
             headers=[
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[UUID]("Idempotency-Key", uuid4()),
             ],
             auth_scheme=self._auth.access_token,
@@ -380,7 +342,6 @@ class ReportSchedulerWithRawResponse(SecuredRawResponse[RawClient, Server, AuthS
         report_type: ReportType10OrStr,
         wm_svc_name: str,
         wm_qos_correlation_id: str,
-        wm_sec_access_token: str,
         *,
         request_options: RequestOptionsOrDict | None = None,
     ) -> ApiResult[V3ReportsSchedulesResponse, RawError]:
@@ -394,8 +355,6 @@ class ReportSchedulerWithRawResponse(SecuredRawResponse[RawClient, Server, AuthS
             wm_svc_name: Specifies the name of the Walmart service being called.
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.
             request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
                 count and statuses.
 
@@ -406,9 +365,7 @@ class ReportSchedulerWithRawResponse(SecuredRawResponse[RawClient, Server, AuthS
             url_template=self._server.default("/v3/reports/schedules"),
             query_params=[param[ReportType10OrStr]("reportType", report_type)],
             headers=[
-                param[str]("WM_SVC.NAME", wm_svc_name),
-                param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
+                param[str]("WM_SVC.NAME", wm_svc_name), param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id)
             ],
             auth_scheme=self._auth.access_token,
             decoder=json_decoder[V3ReportsSchedulesResponse],
@@ -421,7 +378,6 @@ class ReportSchedulerWithRawResponse(SecuredRawResponse[RawClient, Server, AuthS
         schedule_id: str,
         wm_svc_name: str,
         wm_qos_correlation_id: str,
-        wm_sec_access_token: str,
         *,
         request_options: RequestOptionsOrDict | None = None,
     ) -> ApiResult[V3ReportsSchedulesResponse1, RawError]:
@@ -434,8 +390,6 @@ class ReportSchedulerWithRawResponse(SecuredRawResponse[RawClient, Server, AuthS
             wm_svc_name: Specifies the name of the Walmart service being called.
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.
             request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
                 count and statuses.
 
@@ -446,9 +400,7 @@ class ReportSchedulerWithRawResponse(SecuredRawResponse[RawClient, Server, AuthS
             url_template=self._server.default("/v3/reports/schedules/{scheduleId}"),
             path_params=[param[str]("scheduleId", schedule_id)],
             headers=[
-                param[str]("WM_SVC.NAME", wm_svc_name),
-                param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
+                param[str]("WM_SVC.NAME", wm_svc_name), param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id)
             ],
             auth_scheme=self._auth.access_token,
             decoder=json_decoder[V3ReportsSchedulesResponse1],
@@ -461,7 +413,6 @@ class ReportSchedulerWithRawResponse(SecuredRawResponse[RawClient, Server, AuthS
         schedule_id: str,
         wm_svc_name: str,
         wm_qos_correlation_id: str,
-        wm_sec_access_token: str,
         *,
         body: V3ReportsSchedulesRequest | V3ReportsSchedulesRequestDict | None = None,
         request_options: RequestOptionsOrDict | None = None,
@@ -476,8 +427,6 @@ class ReportSchedulerWithRawResponse(SecuredRawResponse[RawClient, Server, AuthS
             wm_svc_name: Specifies the name of the Walmart service being called.
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.
             body: The request body.
             request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
                 count and statuses.
@@ -491,7 +440,6 @@ class ReportSchedulerWithRawResponse(SecuredRawResponse[RawClient, Server, AuthS
             headers=[
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[UUID]("Idempotency-Key", uuid4()),
             ],
             body=json_body[V3ReportsSchedulesRequest | V3ReportsSchedulesRequestDict | None](body),
@@ -508,7 +456,6 @@ class AsyncReportSchedulerWithRawResponse(SecuredRawResponse[AsyncRawClient, Ser
         schedule_id: str,
         wm_svc_name: str,
         wm_qos_correlation_id: str,
-        wm_sec_access_token: str,
         *,
         request_options: RequestOptionsOrDict | None = None,
     ) -> ApiResult[RejectRecommendationsResponsePayload, RawError]:
@@ -521,8 +468,6 @@ class AsyncReportSchedulerWithRawResponse(SecuredRawResponse[AsyncRawClient, Ser
             wm_svc_name: Specifies the name of the Walmart service being called.
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.
             request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
                 count and statuses.
 
@@ -535,7 +480,6 @@ class AsyncReportSchedulerWithRawResponse(SecuredRawResponse[AsyncRawClient, Ser
             headers=[
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[UUID]("Idempotency-Key", uuid4()),
             ],
             auth_scheme=self._auth.access_token,
@@ -549,7 +493,6 @@ class AsyncReportSchedulerWithRawResponse(SecuredRawResponse[AsyncRawClient, Ser
         report_type: ReportType10OrStr,
         wm_svc_name: str,
         wm_qos_correlation_id: str,
-        wm_sec_access_token: str,
         *,
         request_options: RequestOptionsOrDict | None = None,
     ) -> ApiResult[V3ReportsSchedulesResponse, RawError]:
@@ -563,8 +506,6 @@ class AsyncReportSchedulerWithRawResponse(SecuredRawResponse[AsyncRawClient, Ser
             wm_svc_name: Specifies the name of the Walmart service being called.
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.
             request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
                 count and statuses.
 
@@ -575,9 +516,7 @@ class AsyncReportSchedulerWithRawResponse(SecuredRawResponse[AsyncRawClient, Ser
             url_template=self._server.default("/v3/reports/schedules"),
             query_params=[param[ReportType10OrStr]("reportType", report_type)],
             headers=[
-                param[str]("WM_SVC.NAME", wm_svc_name),
-                param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
+                param[str]("WM_SVC.NAME", wm_svc_name), param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id)
             ],
             auth_scheme=self._auth.access_token,
             decoder=async_json_decoder[V3ReportsSchedulesResponse],
@@ -590,7 +529,6 @@ class AsyncReportSchedulerWithRawResponse(SecuredRawResponse[AsyncRawClient, Ser
         schedule_id: str,
         wm_svc_name: str,
         wm_qos_correlation_id: str,
-        wm_sec_access_token: str,
         *,
         request_options: RequestOptionsOrDict | None = None,
     ) -> ApiResult[V3ReportsSchedulesResponse1, RawError]:
@@ -603,8 +541,6 @@ class AsyncReportSchedulerWithRawResponse(SecuredRawResponse[AsyncRawClient, Ser
             wm_svc_name: Specifies the name of the Walmart service being called.
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.
             request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
                 count and statuses.
 
@@ -615,9 +551,7 @@ class AsyncReportSchedulerWithRawResponse(SecuredRawResponse[AsyncRawClient, Ser
             url_template=self._server.default("/v3/reports/schedules/{scheduleId}"),
             path_params=[param[str]("scheduleId", schedule_id)],
             headers=[
-                param[str]("WM_SVC.NAME", wm_svc_name),
-                param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
+                param[str]("WM_SVC.NAME", wm_svc_name), param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id)
             ],
             auth_scheme=self._auth.access_token,
             decoder=async_json_decoder[V3ReportsSchedulesResponse1],
@@ -630,7 +564,6 @@ class AsyncReportSchedulerWithRawResponse(SecuredRawResponse[AsyncRawClient, Ser
         schedule_id: str,
         wm_svc_name: str,
         wm_qos_correlation_id: str,
-        wm_sec_access_token: str,
         *,
         body: V3ReportsSchedulesRequest | V3ReportsSchedulesRequestDict | None = None,
         request_options: RequestOptionsOrDict | None = None,
@@ -645,8 +578,6 @@ class AsyncReportSchedulerWithRawResponse(SecuredRawResponse[AsyncRawClient, Ser
             wm_svc_name: Specifies the name of the Walmart service being called.
             wm_qos_correlation_id: A unique ID which identifies each API call and used to track and debug issues; use a
                 random generated GUID for this ID
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.
             body: The request body.
             request_options: Per-call overrides for this one request, such as a timeout, extra headers, or its retry
                 count and statuses.
@@ -660,7 +591,6 @@ class AsyncReportSchedulerWithRawResponse(SecuredRawResponse[AsyncRawClient, Ser
             headers=[
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[UUID]("Idempotency-Key", uuid4()),
             ],
             body=json_body[V3ReportsSchedulesRequest | V3ReportsSchedulesRequestDict | None](body),

@@ -105,7 +105,7 @@ class AsyncWalmartApisClient(BaseWalmartApisClient[AsyncRawClient]):
 
     @cached_property
     def authorization(self) -> AsyncAuthorization:
-        return AsyncAuthorization(self._raw_client, self._server)
+        return AsyncAuthorization(self._raw_client, self._server, self._auth)
 
     @cached_property
     def disputes(self) -> AsyncDisputes:

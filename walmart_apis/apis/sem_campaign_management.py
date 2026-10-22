@@ -170,7 +170,6 @@ class SemCampaignManagement:
 
     def search_campaign_recommendations(
         self,
-        wm_sec_access_token: str,
         wm_svc_name: str,
         wm_qos_correlation_id: str,
         *,
@@ -253,8 +252,6 @@ class SemCampaignManagement:
         - **maxRecommendation**: An aggressive upper-bound option
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.
             wm_svc_name: Specifies the name of the Walmart service being called.
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.
@@ -280,7 +277,6 @@ class SemCampaignManagement:
                 ``ErrorResponse | ErrorResponse429 | RawError``."""
         return unwrap(
             self._with_raw_response.search_campaign_recommendations(
-                wm_sec_access_token,
                 wm_svc_name,
                 wm_qos_correlation_id,
                 wm_global_version=wm_global_version,
@@ -516,7 +512,6 @@ class AsyncSemCampaignManagement:
 
     async def search_campaign_recommendations(
         self,
-        wm_sec_access_token: str,
         wm_svc_name: str,
         wm_qos_correlation_id: str,
         *,
@@ -599,8 +594,6 @@ class AsyncSemCampaignManagement:
         - **maxRecommendation**: An aggressive upper-bound option
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.
             wm_svc_name: Specifies the name of the Walmart service being called.
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.
@@ -626,7 +619,6 @@ class AsyncSemCampaignManagement:
                 ``ErrorResponse | ErrorResponse429 | RawError``."""
         return unwrap(
             await self._with_raw_response.search_campaign_recommendations(
-                wm_sec_access_token,
                 wm_svc_name,
                 wm_qos_correlation_id,
                 wm_global_version=wm_global_version,
@@ -867,7 +859,6 @@ class SemCampaignManagementWithRawResponse(SecuredRawResponse[RawClient, Server,
 
     def search_campaign_recommendations(
         self,
-        wm_sec_access_token: str,
         wm_svc_name: str,
         wm_qos_correlation_id: str,
         *,
@@ -950,8 +941,6 @@ class SemCampaignManagementWithRawResponse(SecuredRawResponse[RawClient, Server,
         - **maxRecommendation**: An aggressive upper-bound option
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.
             wm_svc_name: Specifies the name of the Walmart service being called.
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.
@@ -971,7 +960,6 @@ class SemCampaignManagementWithRawResponse(SecuredRawResponse[RawClient, Server,
             http_method="POST",
             url_template=self._server.default("/v3/advertising/sem/campaigns/recommendations/search"),
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[WmGlobalVersionOrStr]("WM_GLOBAL_VERSION", wm_global_version),
@@ -1220,7 +1208,6 @@ class AsyncSemCampaignManagementWithRawResponse(SecuredRawResponse[AsyncRawClien
 
     async def search_campaign_recommendations(
         self,
-        wm_sec_access_token: str,
         wm_svc_name: str,
         wm_qos_correlation_id: str,
         *,
@@ -1303,8 +1290,6 @@ class AsyncSemCampaignManagementWithRawResponse(SecuredRawResponse[AsyncRawClien
         - **maxRecommendation**: An aggressive upper-bound option
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.
             wm_svc_name: Specifies the name of the Walmart service being called.
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID.
@@ -1324,7 +1309,6 @@ class AsyncSemCampaignManagementWithRawResponse(SecuredRawResponse[AsyncRawClien
             http_method="POST",
             url_template=self._server.default("/v3/advertising/sem/campaigns/recommendations/search"),
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[WmGlobalVersionOrStr]("WM_GLOBAL_VERSION", wm_global_version),

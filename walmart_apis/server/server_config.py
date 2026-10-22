@@ -11,7 +11,7 @@ class ProductionConfig(BaseModel):
     base_url: str = "https://marketplace.walmartapis.com"
 
 
-class Environment2Config(BaseModel):
+class SandboxConfig(BaseModel):
     model_config = ConfigDict(frozen=True, extra="forbid")
     base_url: str = "https://sandbox.walmartapis.com"
 
@@ -19,8 +19,8 @@ class Environment2Config(BaseModel):
 class ServerConfig(BaseModel):
     model_config = ConfigDict(frozen=True, extra="forbid")
     production: ProductionConfig = Field(default_factory=ProductionConfig)
-    environment2: Environment2Config = Field(default_factory=Environment2Config)
+    sandbox: SandboxConfig = Field(default_factory=SandboxConfig)
 
     def resolve(self, environment: Environment, path: str) -> UrlTemplate:
-        variant = self.production if environment == "production" else self.environment2
+        variant = self.production if environment == "production" else self.sandbox
         return UrlTemplate(base_url=variant.base_url, path=path)

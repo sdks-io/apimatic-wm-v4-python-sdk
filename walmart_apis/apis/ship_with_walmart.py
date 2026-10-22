@@ -61,7 +61,6 @@ class ShipWithWalmart:
     def create_label(
         self,
         accept: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -86,8 +85,6 @@ class ShipWithWalmart:
                 selection. **Supported values:** - ``application/json`` : Returns tracking information only (no label
                 file). - ``application/json, application/pdf`` : Returns the label in PDF format. - ``application/json,
                 image/png`` : Returns the label in PNG format. <b style="color: green;">Market availability: Global</b>
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs. <b style="color: green;">Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID. <b style="color: green;">Market availability: Global</b>
             wm_svc_name: Specifies the name of the Walmart service being called.<br>Example: Walmart Marketplace <b
@@ -110,7 +107,6 @@ class ShipWithWalmart:
         return unwrap(
             self._with_raw_response.create_label(
                 accept,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -123,7 +119,6 @@ class ShipWithWalmart:
 
     def create_label_mps(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket11OrStr,
@@ -143,8 +138,6 @@ class ShipWithWalmart:
         <b style="color: green;">Market availability: CA | MX</b>
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs. <b style="color: green;">Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID. <b style="color: green;">Market availability: Global</b>
             wm_svc_name: Walmart Service Name <b style="color: green;">Market availability: Global</b>
@@ -168,7 +161,6 @@ class ShipWithWalmart:
                 V3ShippingMultiPackageLabels500Error1 | RawError``."""
         return unwrap(
             self._with_raw_response.create_label_mps(
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -184,7 +176,6 @@ class ShipWithWalmart:
         self,
         carrier_short_name: str,
         tracking_no: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket6OrStr,
@@ -204,8 +195,6 @@ class ShipWithWalmart:
                 the Supported Carriers API to ensure compatibility. <b style="color: green;">Market availability: US |
                 CA | MX</b>
             tracking_no: The shipment tracking number. <b style="color: green;">Market availability: US | CA | MX</b>
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs. <b style="color: green;">Market availability: Global </b>
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID. <br> Example: b3261d2d-028a-4ef7-8602-633c23200af6 <br> <b
                 style="color: green;">Market availability: Global </b>
@@ -229,7 +218,6 @@ class ShipWithWalmart:
             self._with_raw_response.discard_label(
                 carrier_short_name,
                 tracking_no,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -242,7 +230,6 @@ class ShipWithWalmart:
     def get_carrier_package_types(
         self,
         carrier_short_name: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket11OrStr,
@@ -258,10 +245,6 @@ class ShipWithWalmart:
         Args:
             carrier_short_name: carrierShortName fetched from carrier API response or pass 'ALL' to fetch all package
                 types of supported carriers <b style="color: green;">Market availability: Global</b>
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.<br> Example:
-                eyJraWQiOiIxNWNhNGIyYi0yODVjLTQ0ZDUtYmExNC05ZDk1NTlkZmUwNjgiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0....
-                <b style="color: green;">Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and is used to track and debug issues. Use
                 a random generated GUID for this ID. <b style="color: green;">Market availability: Global</b>
             wm_svc_name: Walmart Service Name <b style="color: green;">Market availability: Global</b>
@@ -282,7 +265,6 @@ class ShipWithWalmart:
         return unwrap(
             self._with_raw_response.get_carrier_package_types(
                 carrier_short_name,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -294,7 +276,6 @@ class ShipWithWalmart:
 
     def get_carriers(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket11OrStr,
@@ -308,8 +289,6 @@ class ShipWithWalmart:
         <b style="color: green;">Market availability: Global</b>
 
         Args:
-            wm_sec_access_token: The access token retrieved in the Token API call <b style="color: green;">Market
-                availability:Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID. <b style="color: green;">Market availability: Global</b>
             wm_svc_name: Walmart Service Name <b style="color: green;">Market availability: Global</b>
@@ -329,7 +308,6 @@ class ShipWithWalmart:
             ApiError: If the API responds with an error status code. ``error`` is ``RawError``."""
         return unwrap(
             self._with_raw_response.get_carriers(
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -342,7 +320,6 @@ class ShipWithWalmart:
     def get_label(
         self,
         purchase_order_id: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket11OrStr,
@@ -357,10 +334,6 @@ class ShipWithWalmart:
 
         Args:
             purchase_order_id: purchaseOrderId <b style="color: green;">Market availability: Global</b>
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs. <br> Example:
-                eyJraWQiOiIxNWNhNGIyYi0yODVjLTQ0ZDUtYmExNC05ZDk1NTlkZmUwNjgiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0....
-                <b style="color: green;">Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID. <b style="color: green;">Market availability: Global</b>
             wm_svc_name: Walmart Service Name <b style="color: green;">Market availability: Global</b>
@@ -381,7 +354,6 @@ class ShipWithWalmart:
         return unwrap(
             self._with_raw_response.get_label(
                 purchase_order_id,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -396,7 +368,6 @@ class ShipWithWalmart:
         carrier_short_name: str,
         tracking_no: str,
         accept: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket11OrStr,
@@ -421,10 +392,6 @@ class ShipWithWalmart:
             accept: Supported media types for US, CA, MX are:\napplication/pdf, image/png. For CL, the supported media
                 type is\napplication/pdf, image/png, application/zpl.\n\n<b style=\"color: green;\">Market availability:
                 Global</b>
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.<br> Example:
-                eyJraWQiOiIxNWNhNGIyYi0yODVjLTQ0ZDUtYmExNC05ZDk1NTlkZmUwNjgiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0....
-                <b style="color: green;">Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID. <b style="color: green;">Market availability: Global</b>
             wm_svc_name: Walmart Service Name <b style="color: green;">Market availability: Global</b>
@@ -447,7 +414,6 @@ class ShipWithWalmart:
                 carrier_short_name,
                 tracking_no,
                 accept,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -525,7 +491,6 @@ class ShipWithWalmart:
     def get_shipping_estimate(
         self,
         accept: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket11OrStr,
@@ -543,10 +508,6 @@ class ShipWithWalmart:
         Args:
             accept: Response type. The order of media types in the Accept header determines the priority for response
                 format selection. <b style="color: green;">Market availability: Global</b>
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.<br>Example:
-                eyJraWQiOiIxNWNhNGIyYi0yODVjLTQ0ZDUtYmExNC05ZDk1NTlkZmUwNjgiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0....
-                <b style="color: green;">Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID. <b style="color: green;">Market availability: Global</b>
             wm_svc_name: Specifies the name of the Walmart service being called. <br> Example: Walmart Marketplace <b
@@ -569,7 +530,6 @@ class ShipWithWalmart:
         return unwrap(
             self._with_raw_response.get_shipping_estimate(
                 accept,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -665,7 +625,6 @@ class AsyncShipWithWalmart:
     async def create_label(
         self,
         accept: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -690,8 +649,6 @@ class AsyncShipWithWalmart:
                 selection. **Supported values:** - ``application/json`` : Returns tracking information only (no label
                 file). - ``application/json, application/pdf`` : Returns the label in PDF format. - ``application/json,
                 image/png`` : Returns the label in PNG format. <b style="color: green;">Market availability: Global</b>
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs. <b style="color: green;">Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID. <b style="color: green;">Market availability: Global</b>
             wm_svc_name: Specifies the name of the Walmart service being called.<br>Example: Walmart Marketplace <b
@@ -714,7 +671,6 @@ class AsyncShipWithWalmart:
         return unwrap(
             await self._with_raw_response.create_label(
                 accept,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -727,7 +683,6 @@ class AsyncShipWithWalmart:
 
     async def create_label_mps(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket11OrStr,
@@ -747,8 +702,6 @@ class AsyncShipWithWalmart:
         <b style="color: green;">Market availability: CA | MX</b>
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs. <b style="color: green;">Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID. <b style="color: green;">Market availability: Global</b>
             wm_svc_name: Walmart Service Name <b style="color: green;">Market availability: Global</b>
@@ -772,7 +725,6 @@ class AsyncShipWithWalmart:
                 V3ShippingMultiPackageLabels500Error1 | RawError``."""
         return unwrap(
             await self._with_raw_response.create_label_mps(
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -788,7 +740,6 @@ class AsyncShipWithWalmart:
         self,
         carrier_short_name: str,
         tracking_no: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket6OrStr,
@@ -808,8 +759,6 @@ class AsyncShipWithWalmart:
                 the Supported Carriers API to ensure compatibility. <b style="color: green;">Market availability: US |
                 CA | MX</b>
             tracking_no: The shipment tracking number. <b style="color: green;">Market availability: US | CA | MX</b>
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs. <b style="color: green;">Market availability: Global </b>
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID. <br> Example: b3261d2d-028a-4ef7-8602-633c23200af6 <br> <b
                 style="color: green;">Market availability: Global </b>
@@ -833,7 +782,6 @@ class AsyncShipWithWalmart:
             await self._with_raw_response.discard_label(
                 carrier_short_name,
                 tracking_no,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -846,7 +794,6 @@ class AsyncShipWithWalmart:
     async def get_carrier_package_types(
         self,
         carrier_short_name: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket11OrStr,
@@ -862,10 +809,6 @@ class AsyncShipWithWalmart:
         Args:
             carrier_short_name: carrierShortName fetched from carrier API response or pass 'ALL' to fetch all package
                 types of supported carriers <b style="color: green;">Market availability: Global</b>
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.<br> Example:
-                eyJraWQiOiIxNWNhNGIyYi0yODVjLTQ0ZDUtYmExNC05ZDk1NTlkZmUwNjgiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0....
-                <b style="color: green;">Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and is used to track and debug issues. Use
                 a random generated GUID for this ID. <b style="color: green;">Market availability: Global</b>
             wm_svc_name: Walmart Service Name <b style="color: green;">Market availability: Global</b>
@@ -886,7 +829,6 @@ class AsyncShipWithWalmart:
         return unwrap(
             await self._with_raw_response.get_carrier_package_types(
                 carrier_short_name,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -898,7 +840,6 @@ class AsyncShipWithWalmart:
 
     async def get_carriers(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket11OrStr,
@@ -912,8 +853,6 @@ class AsyncShipWithWalmart:
         <b style="color: green;">Market availability: Global</b>
 
         Args:
-            wm_sec_access_token: The access token retrieved in the Token API call <b style="color: green;">Market
-                availability:Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID. <b style="color: green;">Market availability: Global</b>
             wm_svc_name: Walmart Service Name <b style="color: green;">Market availability: Global</b>
@@ -933,7 +872,6 @@ class AsyncShipWithWalmart:
             ApiError: If the API responds with an error status code. ``error`` is ``RawError``."""
         return unwrap(
             await self._with_raw_response.get_carriers(
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -946,7 +884,6 @@ class AsyncShipWithWalmart:
     async def get_label(
         self,
         purchase_order_id: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket11OrStr,
@@ -961,10 +898,6 @@ class AsyncShipWithWalmart:
 
         Args:
             purchase_order_id: purchaseOrderId <b style="color: green;">Market availability: Global</b>
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs. <br> Example:
-                eyJraWQiOiIxNWNhNGIyYi0yODVjLTQ0ZDUtYmExNC05ZDk1NTlkZmUwNjgiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0....
-                <b style="color: green;">Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID. <b style="color: green;">Market availability: Global</b>
             wm_svc_name: Walmart Service Name <b style="color: green;">Market availability: Global</b>
@@ -985,7 +918,6 @@ class AsyncShipWithWalmart:
         return unwrap(
             await self._with_raw_response.get_label(
                 purchase_order_id,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -1000,7 +932,6 @@ class AsyncShipWithWalmart:
         carrier_short_name: str,
         tracking_no: str,
         accept: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket11OrStr,
@@ -1025,10 +956,6 @@ class AsyncShipWithWalmart:
             accept: Supported media types for US, CA, MX are:\napplication/pdf, image/png. For CL, the supported media
                 type is\napplication/pdf, image/png, application/zpl.\n\n<b style=\"color: green;\">Market availability:
                 Global</b>
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.<br> Example:
-                eyJraWQiOiIxNWNhNGIyYi0yODVjLTQ0ZDUtYmExNC05ZDk1NTlkZmUwNjgiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0....
-                <b style="color: green;">Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID. <b style="color: green;">Market availability: Global</b>
             wm_svc_name: Walmart Service Name <b style="color: green;">Market availability: Global</b>
@@ -1051,7 +978,6 @@ class AsyncShipWithWalmart:
                 carrier_short_name,
                 tracking_no,
                 accept,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -1129,7 +1055,6 @@ class AsyncShipWithWalmart:
     async def get_shipping_estimate(
         self,
         accept: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket11OrStr,
@@ -1147,10 +1072,6 @@ class AsyncShipWithWalmart:
         Args:
             accept: Response type. The order of media types in the Accept header determines the priority for response
                 format selection. <b style="color: green;">Market availability: Global</b>
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.<br>Example:
-                eyJraWQiOiIxNWNhNGIyYi0yODVjLTQ0ZDUtYmExNC05ZDk1NTlkZmUwNjgiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0....
-                <b style="color: green;">Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID. <b style="color: green;">Market availability: Global</b>
             wm_svc_name: Specifies the name of the Walmart service being called. <br> Example: Walmart Marketplace <b
@@ -1173,7 +1094,6 @@ class AsyncShipWithWalmart:
         return unwrap(
             await self._with_raw_response.get_shipping_estimate(
                 accept,
-                wm_sec_access_token,
                 wm_qos_correlation_id,
                 wm_svc_name,
                 wm_market,
@@ -1266,7 +1186,6 @@ class ShipWithWalmartWithRawResponse(SecuredRawResponse[RawClient, Server, AuthS
     def create_label(
         self,
         accept: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -1291,8 +1210,6 @@ class ShipWithWalmartWithRawResponse(SecuredRawResponse[RawClient, Server, AuthS
                 selection. **Supported values:** - ``application/json`` : Returns tracking information only (no label
                 file). - ``application/json, application/pdf`` : Returns the label in PDF format. - ``application/json,
                 image/png`` : Returns the label in PNG format. <b style="color: green;">Market availability: Global</b>
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs. <b style="color: green;">Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID. <b style="color: green;">Market availability: Global</b>
             wm_svc_name: Specifies the name of the Walmart service being called.<br>Example: Walmart Marketplace <b
@@ -1314,7 +1231,6 @@ class ShipWithWalmartWithRawResponse(SecuredRawResponse[RawClient, Server, AuthS
             url_template=self._server.default("/v3/shipping/labels"),
             headers=[
                 param[str]("Accept", accept),
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket1OrStr]("WM_MARKET", wm_market),
@@ -1331,7 +1247,6 @@ class ShipWithWalmartWithRawResponse(SecuredRawResponse[RawClient, Server, AuthS
 
     def create_label_mps(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket11OrStr,
@@ -1351,8 +1266,6 @@ class ShipWithWalmartWithRawResponse(SecuredRawResponse[RawClient, Server, AuthS
         <b style="color: green;">Market availability: CA | MX</b>
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs. <b style="color: green;">Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID. <b style="color: green;">Market availability: Global</b>
             wm_svc_name: Walmart Service Name <b style="color: green;">Market availability: Global</b>
@@ -1374,7 +1287,6 @@ class ShipWithWalmartWithRawResponse(SecuredRawResponse[RawClient, Server, AuthS
             http_method="POST",
             url_template=self._server.default("/v3/shipping/multi-package/labels"),
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket11OrStr]("WM_MARKET", wm_market),
@@ -1394,7 +1306,6 @@ class ShipWithWalmartWithRawResponse(SecuredRawResponse[RawClient, Server, AuthS
         self,
         carrier_short_name: str,
         tracking_no: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket6OrStr,
@@ -1414,8 +1325,6 @@ class ShipWithWalmartWithRawResponse(SecuredRawResponse[RawClient, Server, AuthS
                 the Supported Carriers API to ensure compatibility. <b style="color: green;">Market availability: US |
                 CA | MX</b>
             tracking_no: The shipment tracking number. <b style="color: green;">Market availability: US | CA | MX</b>
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs. <b style="color: green;">Market availability: Global </b>
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID. <br> Example: b3261d2d-028a-4ef7-8602-633c23200af6 <br> <b
                 style="color: green;">Market availability: Global </b>
@@ -1437,7 +1346,6 @@ class ShipWithWalmartWithRawResponse(SecuredRawResponse[RawClient, Server, AuthS
             url_template=self._server.default("/v3/shipping/labels/carriers/{carrierShortName}/trackings/{trackingNo}"),
             path_params=[param[str]("carrierShortName", carrier_short_name), param[str]("trackingNo", tracking_no)],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket6OrStr]("WM_MARKET", wm_market),
@@ -1454,7 +1362,6 @@ class ShipWithWalmartWithRawResponse(SecuredRawResponse[RawClient, Server, AuthS
     def get_carrier_package_types(
         self,
         carrier_short_name: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket11OrStr,
@@ -1470,10 +1377,6 @@ class ShipWithWalmartWithRawResponse(SecuredRawResponse[RawClient, Server, AuthS
         Args:
             carrier_short_name: carrierShortName fetched from carrier API response or pass 'ALL' to fetch all package
                 types of supported carriers <b style="color: green;">Market availability: Global</b>
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.<br> Example:
-                eyJraWQiOiIxNWNhNGIyYi0yODVjLTQ0ZDUtYmExNC05ZDk1NTlkZmUwNjgiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0....
-                <b style="color: green;">Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and is used to track and debug issues. Use
                 a random generated GUID for this ID. <b style="color: green;">Market availability: Global</b>
             wm_svc_name: Walmart Service Name <b style="color: green;">Market availability: Global</b>
@@ -1493,7 +1396,6 @@ class ShipWithWalmartWithRawResponse(SecuredRawResponse[RawClient, Server, AuthS
             url_template=self._server.default("/v3/shipping/labels/carriers/{carrierShortName}/package-types"),
             path_params=[param[str]("carrierShortName", carrier_short_name)],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket11OrStr]("WM_MARKET", wm_market),
@@ -1508,7 +1410,6 @@ class ShipWithWalmartWithRawResponse(SecuredRawResponse[RawClient, Server, AuthS
 
     def get_carriers(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket11OrStr,
@@ -1522,8 +1423,6 @@ class ShipWithWalmartWithRawResponse(SecuredRawResponse[RawClient, Server, AuthS
         <b style="color: green;">Market availability: Global</b>
 
         Args:
-            wm_sec_access_token: The access token retrieved in the Token API call <b style="color: green;">Market
-                availability:Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID. <b style="color: green;">Market availability: Global</b>
             wm_svc_name: Walmart Service Name <b style="color: green;">Market availability: Global</b>
@@ -1542,7 +1441,6 @@ class ShipWithWalmartWithRawResponse(SecuredRawResponse[RawClient, Server, AuthS
             http_method="GET",
             url_template=self._server.default("/v3/shipping/labels/carriers"),
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket11OrStr]("WM_MARKET", wm_market),
@@ -1558,7 +1456,6 @@ class ShipWithWalmartWithRawResponse(SecuredRawResponse[RawClient, Server, AuthS
     def get_label(
         self,
         purchase_order_id: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket11OrStr,
@@ -1573,10 +1470,6 @@ class ShipWithWalmartWithRawResponse(SecuredRawResponse[RawClient, Server, AuthS
 
         Args:
             purchase_order_id: purchaseOrderId <b style="color: green;">Market availability: Global</b>
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs. <br> Example:
-                eyJraWQiOiIxNWNhNGIyYi0yODVjLTQ0ZDUtYmExNC05ZDk1NTlkZmUwNjgiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0....
-                <b style="color: green;">Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID. <b style="color: green;">Market availability: Global</b>
             wm_svc_name: Walmart Service Name <b style="color: green;">Market availability: Global</b>
@@ -1596,7 +1489,6 @@ class ShipWithWalmartWithRawResponse(SecuredRawResponse[RawClient, Server, AuthS
             url_template=self._server.default("/v3/shipping/labels/purchase-orders/{purchaseOrderId}"),
             path_params=[param[str]("purchaseOrderId", purchase_order_id)],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket11OrStr]("WM_MARKET", wm_market),
@@ -1614,7 +1506,6 @@ class ShipWithWalmartWithRawResponse(SecuredRawResponse[RawClient, Server, AuthS
         carrier_short_name: str,
         tracking_no: str,
         accept: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket11OrStr,
@@ -1639,10 +1530,6 @@ class ShipWithWalmartWithRawResponse(SecuredRawResponse[RawClient, Server, AuthS
             accept: Supported media types for US, CA, MX are:\napplication/pdf, image/png. For CL, the supported media
                 type is\napplication/pdf, image/png, application/zpl.\n\n<b style=\"color: green;\">Market availability:
                 Global</b>
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.<br> Example:
-                eyJraWQiOiIxNWNhNGIyYi0yODVjLTQ0ZDUtYmExNC05ZDk1NTlkZmUwNjgiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0....
-                <b style="color: green;">Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID. <b style="color: green;">Market availability: Global</b>
             wm_svc_name: Walmart Service Name <b style="color: green;">Market availability: Global</b>
@@ -1663,7 +1550,6 @@ class ShipWithWalmartWithRawResponse(SecuredRawResponse[RawClient, Server, AuthS
             path_params=[param[str]("carrierShortName", carrier_short_name), param[str]("trackingNo", tracking_no)],
             headers=[
                 param[str]("accept", accept),
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket11OrStr]("WM_MARKET", wm_market),
@@ -1746,7 +1632,6 @@ class ShipWithWalmartWithRawResponse(SecuredRawResponse[RawClient, Server, AuthS
     def get_shipping_estimate(
         self,
         accept: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket11OrStr,
@@ -1764,10 +1649,6 @@ class ShipWithWalmartWithRawResponse(SecuredRawResponse[RawClient, Server, AuthS
         Args:
             accept: Response type. The order of media types in the Accept header determines the priority for response
                 format selection. <b style="color: green;">Market availability: Global</b>
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.<br>Example:
-                eyJraWQiOiIxNWNhNGIyYi0yODVjLTQ0ZDUtYmExNC05ZDk1NTlkZmUwNjgiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0....
-                <b style="color: green;">Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID. <b style="color: green;">Market availability: Global</b>
             wm_svc_name: Specifies the name of the Walmart service being called. <br> Example: Walmart Marketplace <b
@@ -1789,7 +1670,6 @@ class ShipWithWalmartWithRawResponse(SecuredRawResponse[RawClient, Server, AuthS
             url_template=self._server.default("/v3/shipping/labels/shipping-estimates"),
             headers=[
                 param[str]("Accept", accept),
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket11OrStr]("WM_MARKET", wm_market),
@@ -1885,7 +1765,6 @@ class AsyncShipWithWalmartWithRawResponse(SecuredRawResponse[AsyncRawClient, Ser
     async def create_label(
         self,
         accept: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket1OrStr,
@@ -1910,8 +1789,6 @@ class AsyncShipWithWalmartWithRawResponse(SecuredRawResponse[AsyncRawClient, Ser
                 selection. **Supported values:** - ``application/json`` : Returns tracking information only (no label
                 file). - ``application/json, application/pdf`` : Returns the label in PDF format. - ``application/json,
                 image/png`` : Returns the label in PNG format. <b style="color: green;">Market availability: Global</b>
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs. <b style="color: green;">Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID. <b style="color: green;">Market availability: Global</b>
             wm_svc_name: Specifies the name of the Walmart service being called.<br>Example: Walmart Marketplace <b
@@ -1933,7 +1810,6 @@ class AsyncShipWithWalmartWithRawResponse(SecuredRawResponse[AsyncRawClient, Ser
             url_template=self._server.default("/v3/shipping/labels"),
             headers=[
                 param[str]("Accept", accept),
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket1OrStr]("WM_MARKET", wm_market),
@@ -1950,7 +1826,6 @@ class AsyncShipWithWalmartWithRawResponse(SecuredRawResponse[AsyncRawClient, Ser
 
     async def create_label_mps(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket11OrStr,
@@ -1970,8 +1845,6 @@ class AsyncShipWithWalmartWithRawResponse(SecuredRawResponse[AsyncRawClient, Ser
         <b style="color: green;">Market availability: CA | MX</b>
 
         Args:
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs. <b style="color: green;">Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID. <b style="color: green;">Market availability: Global</b>
             wm_svc_name: Walmart Service Name <b style="color: green;">Market availability: Global</b>
@@ -1993,7 +1866,6 @@ class AsyncShipWithWalmartWithRawResponse(SecuredRawResponse[AsyncRawClient, Ser
             http_method="POST",
             url_template=self._server.default("/v3/shipping/multi-package/labels"),
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket11OrStr]("WM_MARKET", wm_market),
@@ -2013,7 +1885,6 @@ class AsyncShipWithWalmartWithRawResponse(SecuredRawResponse[AsyncRawClient, Ser
         self,
         carrier_short_name: str,
         tracking_no: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket6OrStr,
@@ -2033,8 +1904,6 @@ class AsyncShipWithWalmartWithRawResponse(SecuredRawResponse[AsyncRawClient, Ser
                 the Supported Carriers API to ensure compatibility. <b style="color: green;">Market availability: US |
                 CA | MX</b>
             tracking_no: The shipment tracking number. <b style="color: green;">Market availability: US | CA | MX</b>
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs. <b style="color: green;">Market availability: Global </b>
             wm_qos_correlation_id: A unique ID that identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID. <br> Example: b3261d2d-028a-4ef7-8602-633c23200af6 <br> <b
                 style="color: green;">Market availability: Global </b>
@@ -2056,7 +1925,6 @@ class AsyncShipWithWalmartWithRawResponse(SecuredRawResponse[AsyncRawClient, Ser
             url_template=self._server.default("/v3/shipping/labels/carriers/{carrierShortName}/trackings/{trackingNo}"),
             path_params=[param[str]("carrierShortName", carrier_short_name), param[str]("trackingNo", tracking_no)],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket6OrStr]("WM_MARKET", wm_market),
@@ -2073,7 +1941,6 @@ class AsyncShipWithWalmartWithRawResponse(SecuredRawResponse[AsyncRawClient, Ser
     async def get_carrier_package_types(
         self,
         carrier_short_name: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket11OrStr,
@@ -2089,10 +1956,6 @@ class AsyncShipWithWalmartWithRawResponse(SecuredRawResponse[AsyncRawClient, Ser
         Args:
             carrier_short_name: carrierShortName fetched from carrier API response or pass 'ALL' to fetch all package
                 types of supported carriers <b style="color: green;">Market availability: Global</b>
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.<br> Example:
-                eyJraWQiOiIxNWNhNGIyYi0yODVjLTQ0ZDUtYmExNC05ZDk1NTlkZmUwNjgiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0....
-                <b style="color: green;">Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and is used to track and debug issues. Use
                 a random generated GUID for this ID. <b style="color: green;">Market availability: Global</b>
             wm_svc_name: Walmart Service Name <b style="color: green;">Market availability: Global</b>
@@ -2112,7 +1975,6 @@ class AsyncShipWithWalmartWithRawResponse(SecuredRawResponse[AsyncRawClient, Ser
             url_template=self._server.default("/v3/shipping/labels/carriers/{carrierShortName}/package-types"),
             path_params=[param[str]("carrierShortName", carrier_short_name)],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket11OrStr]("WM_MARKET", wm_market),
@@ -2127,7 +1989,6 @@ class AsyncShipWithWalmartWithRawResponse(SecuredRawResponse[AsyncRawClient, Ser
 
     async def get_carriers(
         self,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket11OrStr,
@@ -2141,8 +2002,6 @@ class AsyncShipWithWalmartWithRawResponse(SecuredRawResponse[AsyncRawClient, Ser
         <b style="color: green;">Market availability: Global</b>
 
         Args:
-            wm_sec_access_token: The access token retrieved in the Token API call <b style="color: green;">Market
-                availability:Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID. <b style="color: green;">Market availability: Global</b>
             wm_svc_name: Walmart Service Name <b style="color: green;">Market availability: Global</b>
@@ -2161,7 +2020,6 @@ class AsyncShipWithWalmartWithRawResponse(SecuredRawResponse[AsyncRawClient, Ser
             http_method="GET",
             url_template=self._server.default("/v3/shipping/labels/carriers"),
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket11OrStr]("WM_MARKET", wm_market),
@@ -2177,7 +2035,6 @@ class AsyncShipWithWalmartWithRawResponse(SecuredRawResponse[AsyncRawClient, Ser
     async def get_label(
         self,
         purchase_order_id: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket11OrStr,
@@ -2192,10 +2049,6 @@ class AsyncShipWithWalmartWithRawResponse(SecuredRawResponse[AsyncRawClient, Ser
 
         Args:
             purchase_order_id: purchaseOrderId <b style="color: green;">Market availability: Global</b>
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs. <br> Example:
-                eyJraWQiOiIxNWNhNGIyYi0yODVjLTQ0ZDUtYmExNC05ZDk1NTlkZmUwNjgiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0....
-                <b style="color: green;">Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID. <b style="color: green;">Market availability: Global</b>
             wm_svc_name: Walmart Service Name <b style="color: green;">Market availability: Global</b>
@@ -2215,7 +2068,6 @@ class AsyncShipWithWalmartWithRawResponse(SecuredRawResponse[AsyncRawClient, Ser
             url_template=self._server.default("/v3/shipping/labels/purchase-orders/{purchaseOrderId}"),
             path_params=[param[str]("purchaseOrderId", purchase_order_id)],
             headers=[
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket11OrStr]("WM_MARKET", wm_market),
@@ -2233,7 +2085,6 @@ class AsyncShipWithWalmartWithRawResponse(SecuredRawResponse[AsyncRawClient, Ser
         carrier_short_name: str,
         tracking_no: str,
         accept: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket11OrStr,
@@ -2258,10 +2109,6 @@ class AsyncShipWithWalmartWithRawResponse(SecuredRawResponse[AsyncRawClient, Ser
             accept: Supported media types for US, CA, MX are:\napplication/pdf, image/png. For CL, the supported media
                 type is\napplication/pdf, image/png, application/zpl.\n\n<b style=\"color: green;\">Market availability:
                 Global</b>
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.<br> Example:
-                eyJraWQiOiIxNWNhNGIyYi0yODVjLTQ0ZDUtYmExNC05ZDk1NTlkZmUwNjgiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0....
-                <b style="color: green;">Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID. <b style="color: green;">Market availability: Global</b>
             wm_svc_name: Walmart Service Name <b style="color: green;">Market availability: Global</b>
@@ -2282,7 +2129,6 @@ class AsyncShipWithWalmartWithRawResponse(SecuredRawResponse[AsyncRawClient, Ser
             path_params=[param[str]("carrierShortName", carrier_short_name), param[str]("trackingNo", tracking_no)],
             headers=[
                 param[str]("accept", accept),
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket11OrStr]("WM_MARKET", wm_market),
@@ -2365,7 +2211,6 @@ class AsyncShipWithWalmartWithRawResponse(SecuredRawResponse[AsyncRawClient, Ser
     async def get_shipping_estimate(
         self,
         accept: str,
-        wm_sec_access_token: str,
         wm_qos_correlation_id: str,
         wm_svc_name: str,
         wm_market: WmMarket11OrStr,
@@ -2383,10 +2228,6 @@ class AsyncShipWithWalmartWithRawResponse(SecuredRawResponse[AsyncRawClient, Ser
         Args:
             accept: Response type. The order of media types in the Accept header determines the priority for response
                 format selection. <b style="color: green;">Market availability: Global</b>
-            wm_sec_access_token: Access token obtained from the Token API. This is required for authenticating requests
-                to Walmart Marketplace APIs.<br>Example:
-                eyJraWQiOiIxNWNhNGIyYi0yODVjLTQ0ZDUtYmExNC05ZDk1NTlkZmUwNjgiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0....
-                <b style="color: green;">Market availability: Global</b>
             wm_qos_correlation_id: A unique ID which identifies each API call and is used to track and debug issues. Use
                 a randomly generated GUID for this ID. <b style="color: green;">Market availability: Global</b>
             wm_svc_name: Specifies the name of the Walmart service being called. <br> Example: Walmart Marketplace <b
@@ -2408,7 +2249,6 @@ class AsyncShipWithWalmartWithRawResponse(SecuredRawResponse[AsyncRawClient, Ser
             url_template=self._server.default("/v3/shipping/labels/shipping-estimates"),
             headers=[
                 param[str]("Accept", accept),
-                param[str]("WM_SEC.ACCESS_TOKEN", wm_sec_access_token),
                 param[str]("WM_QOS.CORRELATION_ID", wm_qos_correlation_id),
                 param[str]("WM_SVC.NAME", wm_svc_name),
                 param[WmMarket11OrStr]("WM_MARKET", wm_market),

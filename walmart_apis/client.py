@@ -103,7 +103,7 @@ class WalmartApisClient(BaseWalmartApisClient[RawClient]):
 
     @cached_property
     def authorization(self) -> Authorization:
-        return Authorization(self._raw_client, self._server)
+        return Authorization(self._raw_client, self._server, self._auth)
 
     @cached_property
     def disputes(self) -> Disputes:
