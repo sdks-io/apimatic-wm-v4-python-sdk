@@ -1,19 +1,42 @@
 from __future__ import annotations
 
+from typing import Any
+
+from pydantic import Field
 from typing_extensions import NotRequired, TypedDict
 
 from ..core import UNSET, Optional, SdkBaseModel
+from .cause import Cause, CauseDict
+from .enums.category import CategoryOrStr
+from .enums.gateway_error_category import GatewayErrorCategoryOrStr
+from .enums.severity import SeverityOrStr
 
 
 class Error3(SdkBaseModel):
-    """Error response returned when the request is unsuccessful."""
-
     code: str
-    message: str
-    details: Optional[str] = UNSET
+    field: Optional[str] = UNSET
+    description: Optional[str] = UNSET
+    info: Optional[str] = UNSET
+    severity: Optional[SeverityOrStr] = UNSET
+    category: Optional[CategoryOrStr] = UNSET
+    causes: Optional[list[Cause]] = UNSET
+    error_identifiers: Optional[dict[str, Any]] = Field(default=UNSET, alias="errorIdentifiers")
+    component: Optional[str] = UNSET
+    type_: Optional[str] = Field(default=UNSET, alias="type")
+    service_name: Optional[str] = Field(default=UNSET, alias="serviceName")
+    gateway_error_category: Optional[GatewayErrorCategoryOrStr] = Field(default=UNSET, alias="gatewayErrorCategory")
 
 
 class Error3Dict(TypedDict):
     code: str
-    message: str
-    details: NotRequired[str]
+    field: NotRequired[str]
+    description: NotRequired[str]
+    info: NotRequired[str]
+    severity: NotRequired[SeverityOrStr]
+    category: NotRequired[CategoryOrStr]
+    causes: NotRequired[list[CauseDict]]
+    error_identifiers: NotRequired[dict[str, Any]]
+    component: NotRequired[str]
+    type_: NotRequired[str]
+    service_name: NotRequired[str]
+    gateway_error_category: NotRequired[GatewayErrorCategoryOrStr]

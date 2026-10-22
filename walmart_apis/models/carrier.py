@@ -1,17 +1,25 @@
 from __future__ import annotations
 
-from typing_extensions import TypedDict
+from pydantic import Field
+from typing_extensions import NotRequired, TypedDict
 
-from ..core import SdkBaseModel
+from ..core import UNSET, Optional, SdkBaseModel
 
 
 class Carrier(SdkBaseModel):
-    id: str
-    name: str
-    """Carrier display name. Walmart-specific enum-widening for internally-fulfilled carriers (e.g. WALMART_GROUND) is
-    captured by leaving this as a free string rather than a closed enum."""
+    """carriers"""
+
+    carrier_id: Optional[str] = Field(default=UNSET, alias="carrierId")
+    """The carrier ID. A unique identifier for the carrier."""
+
+    short_name: Optional[str] = Field(default=UNSET, alias="shortName")
+    """The carrier short name."""
+
+    carrier_name: Optional[str] = Field(default=UNSET, alias="carrierName")
+    """The carrier name."""
 
 
 class CarrierDict(TypedDict):
-    id: str
-    name: str
+    carrier_id: NotRequired[str]
+    short_name: NotRequired[str]
+    carrier_name: NotRequired[str]

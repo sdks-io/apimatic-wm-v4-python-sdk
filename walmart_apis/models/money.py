@@ -1,18 +1,21 @@
 from __future__ import annotations
 
-from pydantic import Field
 from typing_extensions import NotRequired, TypedDict
 
 from ..core import UNSET, Optional, SdkBaseModel
+from .enums.currency17 import Currency17OrStr
 
 
 class Money(SdkBaseModel):
-    amount: Optional[str] = UNSET
-    """Monetary amount as string to preserve precision"""
+    """Estimated Rate"""
 
-    currency_code: str = Field(default="USD", alias="currencyCode")
+    amount: Optional[float] = UNSET
+    """Monetary amount expressed as a decimal number."""
+
+    currency: Optional[Currency17OrStr] = UNSET
+    """Three-letter currency code (example, USD, MXN, CAD)."""
 
 
 class MoneyDict(TypedDict):
-    amount: NotRequired[str]
-    currency_code: NotRequired[str]
+    amount: NotRequired[float]
+    currency: NotRequired[Currency17OrStr]

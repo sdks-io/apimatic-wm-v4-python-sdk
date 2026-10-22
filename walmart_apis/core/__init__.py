@@ -155,6 +155,7 @@ from .files import (
     NamedFile,
 )
 from .httpx2_transport import AsyncHttpx2Client, Httpx2Client
+from .logging import LoggingOptions, LoggingOptionsDict, LoggingOptionsOrDict
 from .models import SdkBaseModel
 from .optionality import UNSET, Optional, OptionalNullable, UnsetType
 from .pagination import (
@@ -246,6 +247,10 @@ __all__ = [
     "RetryOptions",
     "RetryOptionsDict",
     "RetryOptionsOrDict",
+    # Logging
+    "LoggingOptions",
+    "LoggingOptionsDict",
+    "LoggingOptionsOrDict",
     # Authentication
     "AuthParams",
     "AuthScheme",

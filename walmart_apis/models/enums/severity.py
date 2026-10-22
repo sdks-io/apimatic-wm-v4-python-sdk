@@ -5,9 +5,9 @@ from ...core import open_enum_validator
 
 
 class Severity(str, Enum):
-    ERROR = "ERROR"
-    WARNING = "WARNING"
     INFO = "INFO"
+    WARN = "WARN"
+    ERROR = "ERROR"
 
     __str__ = str.__str__
 

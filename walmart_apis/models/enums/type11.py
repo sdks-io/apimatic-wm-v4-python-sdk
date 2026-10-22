@@ -5,8 +5,12 @@ from ...core import open_enum_validator
 
 
 class Type11(str, Enum):
-    PICKUP = "PICKUP"
-    DROPOFF = "DROPOFF"
+    """Document category; one of PROOF_OF_DAMAGED_ITEM, INVOICE, OTHER, PPOD."""
+
+    PROOF_OF_DAMAGED_ITEM = "PROOF_OF_DAMAGED_ITEM"
+    INVOICE = "INVOICE"
+    OTHER = "OTHER"
+    PPOD = "PPOD"
 
     __str__ = str.__str__
 

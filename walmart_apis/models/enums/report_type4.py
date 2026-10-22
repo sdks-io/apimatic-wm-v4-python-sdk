@@ -1,0 +1,28 @@
+from enum import Enum
+from typing import Annotated, TypeAlias
+
+from ...core import open_enum_validator
+
+
+class ReportType4(str, Enum):
+    ITEM = "ITEM"
+    INVENTORY = "INVENTORY"
+    CANCELLATION = "CANCELLATION"
+    DELIVERY_DEFECT = "DELIVERY_DEFECT"
+    ITEM_PERFORMANCE = "ITEM_PERFORMANCE"
+    PROMO = "PROMO"
+    RETURN_OVERRIDES = "RETURN_OVERRIDES"
+    CPA = "CPA"
+    SHIPPING_CONFIGURATION = "SHIPPING_CONFIGURATION"
+    SHIPPING_PROGRAM = "SHIPPING_PROGRAM"
+    FITMENT_MISSING_ATTR = "FITMENT_MISSING_ATTR"
+    FITMENT_ACES_COVERAGE = "FITMENT_ACES_COVERAGE"
+    BUYBOX = "BUYBOX"
+    ASSORTMENT_RECOMMENDATIONS = "ASSORTMENT_RECOMMENDATIONS"
+    LAGTIME = "LAGTIME"
+    INVENTORY_RECOMMENDATIONS = "INVENTORY_RECOMMENDATIONS"
+
+    __str__ = str.__str__
+
+
+ReportType4OrStr: TypeAlias = Annotated[ReportType4 | str, open_enum_validator(ReportType4)]

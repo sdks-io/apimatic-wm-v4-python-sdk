@@ -13,7 +13,4 @@ class Server:
     config: ServerConfig
 
     def default(self, path: str) -> UrlTemplate:
-        return self.config.default.resolve(self.environment, path)
-
-    def default1(self, path: str) -> UrlTemplate:
-        return self.config.default1.resolve(self.environment, path)
+        return self.config.resolve(self.environment, path)

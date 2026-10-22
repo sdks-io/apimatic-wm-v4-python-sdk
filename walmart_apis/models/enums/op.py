@@ -5,11 +5,8 @@ from ...core import open_enum_validator
 
 
 class Op(str, Enum):
-    """Patch operation type (JSON Patch)"""
-
-    ADD = "add"
-    REPLACE = "replace"
-    DELETE = "delete"
+    EQUALS = "equals"
+    BETWEEN = "between"
 
     __str__ = str.__str__
 

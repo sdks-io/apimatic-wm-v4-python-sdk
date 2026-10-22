@@ -5,11 +5,10 @@ from ...core import open_enum_validator
 
 
 class Name(str, Enum):
-    """Duration category of the investigation."""
+    """Name of the AddOn type."""
 
-    RESEARCHING_QUANTITY_IN_SHORT_TERM = "researchingQuantityInShortTerm"
-    RESEARCHING_QUANTITY_IN_MID_TERM = "researchingQuantityInMidTerm"
-    RESEARCHING_QUANTITY_IN_LONG_TERM = "researchingQuantityInLongTerm"
+    SIGNATURE = "SIGNATURE"
+    INSURANCE = "INSURANCE"
 
     __str__ = str.__str__
 

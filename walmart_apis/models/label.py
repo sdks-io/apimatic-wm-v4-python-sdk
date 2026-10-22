@@ -4,23 +4,17 @@ from pydantic import Field
 from typing_extensions import NotRequired, TypedDict
 
 from ..core import UNSET, Optional, SdkBaseModel
-from .enums.label_format import LabelFormatOrStr
-from .enums.standard_id_for_label import StandardIdForLabelOrStr
-from .file_contents import FileContents, FileContentsDict
-from .label_dimensions import LabelDimensions, LabelDimensionsDict
+from .carrier_info_list import CarrierInfoList, CarrierInfoListDict
 
 
 class Label(SdkBaseModel):
-    custom_text_for_label: Optional[str] = Field(default=UNSET, alias="customTextForLabel")
-    dimensions: Optional[LabelDimensions] = UNSET
-    file_contents: Optional[FileContents] = Field(default=UNSET, alias="fileContents")
-    label_format: Optional[LabelFormatOrStr] = Field(default=UNSET, alias="labelFormat")
-    standard_id_for_label: Optional[StandardIdForLabelOrStr] = Field(default=UNSET, alias="standardIdForLabel")
+    label_image_url: Optional[str] = Field(default=UNSET, alias="labelImageURL")
+    """Url to get the return label.<br><b style='color:green;'>Market availability: US</b>"""
+
+    carrier_info_list: Optional[list[CarrierInfoList]] = Field(default=UNSET, alias="carrierInfoList")
+    """Carrier information for the return.<br><b style='color:green;'>Market availability: US</b>"""
 
 
 class LabelDict(TypedDict):
-    custom_text_for_label: NotRequired[str]
-    dimensions: NotRequired[LabelDimensionsDict]
-    file_contents: NotRequired[FileContentsDict]
-    label_format: NotRequired[LabelFormatOrStr]
-    standard_id_for_label: NotRequired[StandardIdForLabelOrStr]
+    label_image_url: NotRequired[str]
+    carrier_info_list: NotRequired[list[CarrierInfoListDict]]

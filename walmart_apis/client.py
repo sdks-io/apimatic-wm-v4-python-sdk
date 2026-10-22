@@ -5,64 +5,54 @@ from types import TracebackType
 
 from typing_extensions import Self
 
+from .apis.assortment_recommendations import AssortmentRecommendations
 from .apis.authorization import Authorization
-from .apis.catalog import Catalog
-from .apis.data_kiosk import DataKiosk
 from .apis.disputes import Disputes
-from .apis.feeds import Feeds
-from .apis.final_payout import FinalPayout
-from .apis.finances import Finances
-from .apis.fulfillment_outbound import FulfillmentOutbound
-from .apis.inventory import Inventory
-from .apis.listings_items import ListingsItems
-from .apis.listings_restrictions import ListingsRestrictions
-from .apis.merchant_fulfillment import MerchantFulfillment
-from .apis.messaging import Messaging
+from .apis.feeds_api import FeedsApi
+from .apis.insight_api import InsightApi
+from .apis.inventory_api import InventoryApi
+from .apis.lag_time_api import LagTimeApi
 from .apis.notifications import Notifications
-from .apis.orders import Orders
-from .apis.payouts import Payouts
-from .apis.product_fees import ProductFees
-from .apis.product_pricing import ProductPricing
-from .apis.product_type_definitions import ProductTypeDefinitions
-from .apis.reconciliation import Reconciliation
-from .apis.report_schedules import ReportSchedules
-from .apis.reports import Reports
-from .apis.sales import Sales
-from .apis.sellers import Sellers
-from .apis.settlement import Settlement
-from .apis.shipping import Shipping
-from .apis.solicitations import Solicitations
-from .apis.uploads import Uploads
-from .apis.wfs_inbound import WfsInbound
-from .apis.wfs_inventory import WfsInventory
-from .auth import AuthSchemes, SellerAuthAuthorizationCodeScope, SellerAuthClientCredentialsScope, WalletAuthScope
+from .apis.on_request_report import OnRequestReport
+from .apis.on_request_report_api import OnRequestReportApi
+from .apis.prices import Prices
+from .apis.promotions import Promotions
+from .apis.recommendations_api import RecommendationsApi
+from .apis.report_scheduler import ReportScheduler
+from .apis.reports_api import ReportsApi
+from .apis.returns_refund import ReturnsRefund
+from .apis.reviews import Reviews
+from .apis.rich_media import RichMedia
+from .apis.sem_campaign_management import SemCampaignManagement
+from .apis.sem_catalog import SemCatalog
+from .apis.sem_item_diagnostics import SemItemDiagnostics
+from .apis.sem_reporting import SemReporting
+from .apis.seo_recommendations import SeoRecommendations
+from .apis.ship_with_walmart import ShipWithWalmart
+from .apis.shipment_protection import ShipmentProtection
+from .apis.simplified_shipping_settings import SimplifiedShippingSettings
+from .apis.tax_form_apis import TaxFormApis
+from .apis.walmart_seller_fulfilled import WalmartSellerFulfilled
+from .apis.wsr_attribution_reports import WsrAttributionReports
+from .auth import AuthSchemes
 from .base_client import DEFAULT_TIMEOUT, BaseWalmartApisClient
 from .core import (
     OPERATING_SYSTEM,
     PYTHON_RUNTIME,
-    AuthorizationCodeCredentials,
-    AuthorizationCodeCredentialsOrDict,
-    AuthorizationCodeTokenSource,
+    ApiKeyHeaderScheme,
     BasicAuthCredentials,
     BasicAuthCredentialsOrDict,
     BasicAuthScheme,
-    ClientCredentials,
-    ClientCredentialsOrDict,
-    ClientCredentialsTokenSource,
+    BearerAuthScheme,
     HttpClient,
     Httpx2Client,
-    OAuth2RefreshableScheme,
-    OAuth2Scheme,
+    LoggingOptionsOrDict,
     RawClient,
-    RefreshableTokenSource,
     RetryOptionsOrDict,
-    TokenSource,
-    client_secret_basic,
     no_auth,
     param,
 )
 from .server.environment import Environment
-from .server.server_config import ServerConfigOrDict
 
 
 class WalmartApisClient(BaseWalmartApisClient[RawClient]):
@@ -70,220 +60,158 @@ class WalmartApisClient(BaseWalmartApisClient[RawClient]):
         self,
         *,
         environment: Environment = "production",
+        base_url: str | None = None,
         timeout: float = DEFAULT_TIMEOUT,
-        server_config: ServerConfigOrDict | None = None,
         retry_options: int | RetryOptionsOrDict | None = None,
+        logging_options: LoggingOptionsOrDict | None = None,
         custom_http_client: HttpClient | None = None,
-        seller_auth_authorization_code: (
-            AuthorizationCodeCredentialsOrDict[SellerAuthAuthorizationCodeScope] | None
-        ) = None,
-        seller_auth_authorization_code_token_source: (
-            RefreshableTokenSource[AuthorizationCodeCredentials[SellerAuthAuthorizationCodeScope]] | None
-        ) = None,
-        seller_auth_client_credentials: ClientCredentialsOrDict[SellerAuthClientCredentialsScope] | None = None,
-        seller_auth_client_credentials_token_source: (
-            TokenSource[ClientCredentials[SellerAuthClientCredentialsScope]] | None
-        ) = None,
-        basic_client_auth: BasicAuthCredentialsOrDict | None = None,
-        wallet_auth: ClientCredentialsOrDict[WalletAuthScope] | None = None,
-        wallet_auth_token_source: TokenSource[ClientCredentials[WalletAuthScope]] | None = None,
+        basic_auth: BasicAuthCredentialsOrDict | None = None,
+        bearer_auth: str | None = None,
+        access_token: str | None = None,
     ) -> None:
         super().__init__(
-            environment=environment, timeout=timeout, server_config=server_config, retry_options=retry_options
+            environment=environment,
+            base_url=base_url,
+            timeout=timeout,
+            retry_options=retry_options,
+            logging_options=logging_options,
         )
         self._raw_client = RawClient(
             http_client=custom_http_client if custom_http_client is not None else Httpx2Client(timeout=timeout),
             retry_options=self._retry_options,
+            logging_options=self._logging_options,
             global_headers=[
-                param[str]("User-Agent", "WalmartApisClient/v4 Python"),
+                param[str]("User-Agent", "WalmartApisClient/1.0 Python"),
                 param[str]("X-APIMatic-Lang", "Python"),
-                param[str]("X-APIMatic-Package-Version", "v4"),
+                param[str]("X-APIMatic-Package-Version", "1.0"),
                 param[str]("X-APIMatic-Gen-Version", "4.0.0"),
                 param[str]("X-APIMatic-OS", OPERATING_SYSTEM),
                 param[str]("X-APIMatic-Runtime", PYTHON_RUNTIME),
             ],
         )
         self._auth = AuthSchemes(
-            seller_auth_authorization_code=(
-                OAuth2RefreshableScheme(
-                    credentials=AuthorizationCodeCredentials[SellerAuthAuthorizationCodeScope].coerce(
-                        seller_auth_authorization_code
-                    ),
-                    source=(
-                        seller_auth_authorization_code_token_source
-                        if seller_auth_authorization_code_token_source is not None
-                        else AuthorizationCodeTokenSource[SellerAuthAuthorizationCodeScope](
-                            client=self._raw_client,
-                            authorization_url=self._server.default("/auth/v4/authorize"),
-                            token_url=self._server.default("/auth/v4/token"),
-                            refresh_url=self._server.default("/auth/v4/token"),
-                            placement=client_secret_basic,
-                        )
-                    ),
-                )
-                if seller_auth_authorization_code is not None
-                else no_auth
-            ),
-            seller_auth_client_credentials=(
-                OAuth2Scheme(
-                    credentials=ClientCredentials[SellerAuthClientCredentialsScope].coerce(
-                        seller_auth_client_credentials
-                    ),
-                    source=(
-                        seller_auth_client_credentials_token_source
-                        if seller_auth_client_credentials_token_source is not None
-                        else ClientCredentialsTokenSource[SellerAuthClientCredentialsScope](
-                            client=self._raw_client,
-                            token_url=self._server.default("/auth/v4/token"),
-                            placement=client_secret_basic,
-                        )
-                    ),
-                )
-                if seller_auth_client_credentials is not None
-                else no_auth
-            ),
-            basic_client_auth=(
-                BasicAuthScheme(BasicAuthCredentials.coerce(basic_client_auth))
-                if basic_client_auth is not None
-                else no_auth
-            ),
-            wallet_auth=(
-                OAuth2Scheme(
-                    credentials=ClientCredentials[WalletAuthScope].coerce(wallet_auth),
-                    source=(
-                        wallet_auth_token_source
-                        if wallet_auth_token_source is not None
-                        else ClientCredentialsTokenSource[WalletAuthScope](
-                            client=self._raw_client,
-                            token_url=self._server.default1("/auth/token"),
-                            placement=client_secret_basic,
-                        )
-                    ),
-                )
-                if wallet_auth is not None
-                else no_auth
+            basic_auth=BasicAuthScheme(BasicAuthCredentials.coerce(basic_auth)) if basic_auth is not None else no_auth,
+            bearer_auth=BearerAuthScheme(bearer_auth) if bearer_auth is not None else no_auth,
+            access_token=(
+                ApiKeyHeaderScheme("WM_SEC.ACCESS_TOKEN", access_token) if access_token is not None else no_auth
             ),
         )
 
     @cached_property
+    def assortment_recommendations(self) -> AssortmentRecommendations:
+        return AssortmentRecommendations(self._raw_client, self._server)
+
+    @cached_property
     def authorization(self) -> Authorization:
-        return Authorization(self._raw_client, self._server, self._auth)
-
-    @cached_property
-    def catalog(self) -> Catalog:
-        return Catalog(self._raw_client, self._server, self._auth)
-
-    @cached_property
-    def data_kiosk(self) -> DataKiosk:
-        return DataKiosk(self._raw_client, self._server, self._auth)
+        return Authorization(self._raw_client, self._server)
 
     @cached_property
     def disputes(self) -> Disputes:
-        return Disputes(self._raw_client, self._server, self._auth)
+        return Disputes(self._raw_client, self._server)
 
     @cached_property
-    def feeds(self) -> Feeds:
-        return Feeds(self._raw_client, self._server, self._auth)
+    def feeds_api(self) -> FeedsApi:
+        return FeedsApi(self._raw_client, self._server, self._auth)
 
     @cached_property
-    def final_payout(self) -> FinalPayout:
-        return FinalPayout(self._raw_client, self._server, self._auth)
+    def insight_api(self) -> InsightApi:
+        return InsightApi(self._raw_client, self._server, self._auth)
 
     @cached_property
-    def finances(self) -> Finances:
-        return Finances(self._raw_client, self._server, self._auth)
+    def inventory_api(self) -> InventoryApi:
+        return InventoryApi(self._raw_client, self._server, self._auth)
 
     @cached_property
-    def fulfillment_outbound(self) -> FulfillmentOutbound:
-        return FulfillmentOutbound(self._raw_client, self._server, self._auth)
-
-    @cached_property
-    def inventory(self) -> Inventory:
-        return Inventory(self._raw_client, self._server, self._auth)
-
-    @cached_property
-    def listings_items(self) -> ListingsItems:
-        return ListingsItems(self._raw_client, self._server, self._auth)
-
-    @cached_property
-    def listings_restrictions(self) -> ListingsRestrictions:
-        return ListingsRestrictions(self._raw_client, self._server, self._auth)
-
-    @cached_property
-    def merchant_fulfillment(self) -> MerchantFulfillment:
-        return MerchantFulfillment(self._raw_client, self._server, self._auth)
-
-    @cached_property
-    def orders(self) -> Orders:
-        return Orders(self._raw_client, self._server, self._auth)
-
-    @cached_property
-    def payouts(self) -> Payouts:
-        return Payouts(self._raw_client, self._server, self._auth)
-
-    @cached_property
-    def product_type_definitions(self) -> ProductTypeDefinitions:
-        return ProductTypeDefinitions(self._raw_client, self._server, self._auth)
-
-    @cached_property
-    def reconciliation(self) -> Reconciliation:
-        return Reconciliation(self._raw_client, self._server, self._auth)
-
-    @cached_property
-    def report_schedules(self) -> ReportSchedules:
-        return ReportSchedules(self._raw_client, self._server, self._auth)
-
-    @cached_property
-    def reports(self) -> Reports:
-        return Reports(self._raw_client, self._server, self._auth)
-
-    @cached_property
-    def sellers(self) -> Sellers:
-        return Sellers(self._raw_client, self._server, self._auth)
-
-    @cached_property
-    def settlement(self) -> Settlement:
-        return Settlement(self._raw_client, self._server, self._auth)
-
-    @cached_property
-    def uploads(self) -> Uploads:
-        return Uploads(self._raw_client, self._server, self._auth)
-
-    @cached_property
-    def wfs_inventory(self) -> WfsInventory:
-        return WfsInventory(self._raw_client, self._server, self._auth)
-
-    @cached_property
-    def messaging(self) -> Messaging:
-        return Messaging(self._raw_client, self._server, self._auth)
+    def lag_time_api(self) -> LagTimeApi:
+        return LagTimeApi(self._raw_client, self._server, self._auth)
 
     @cached_property
     def notifications(self) -> Notifications:
         return Notifications(self._raw_client, self._server, self._auth)
 
     @cached_property
-    def product_fees(self) -> ProductFees:
-        return ProductFees(self._raw_client, self._server, self._auth)
+    def on_request_report(self) -> OnRequestReport:
+        return OnRequestReport(self._raw_client, self._server, self._auth)
 
     @cached_property
-    def product_pricing(self) -> ProductPricing:
-        return ProductPricing(self._raw_client, self._server, self._auth)
+    def on_request_report_api(self) -> OnRequestReportApi:
+        return OnRequestReportApi(self._raw_client, self._server, self._auth)
 
     @cached_property
-    def sales(self) -> Sales:
-        return Sales(self._raw_client, self._server, self._auth)
+    def prices(self) -> Prices:
+        return Prices(self._raw_client, self._server, self._auth)
 
     @cached_property
-    def shipping(self) -> Shipping:
-        return Shipping(self._raw_client, self._server, self._auth)
+    def promotions(self) -> Promotions:
+        return Promotions(self._raw_client, self._server)
 
     @cached_property
-    def solicitations(self) -> Solicitations:
-        return Solicitations(self._raw_client, self._server, self._auth)
+    def recommendations_api(self) -> RecommendationsApi:
+        return RecommendationsApi(self._raw_client, self._server)
 
     @cached_property
-    def wfs_inbound(self) -> WfsInbound:
-        return WfsInbound(self._raw_client, self._server, self._auth)
+    def report_scheduler(self) -> ReportScheduler:
+        return ReportScheduler(self._raw_client, self._server, self._auth)
+
+    @cached_property
+    def reports_api(self) -> ReportsApi:
+        return ReportsApi(self._raw_client, self._server, self._auth)
+
+    @cached_property
+    def returns_refund(self) -> ReturnsRefund:
+        return ReturnsRefund(self._raw_client, self._server, self._auth)
+
+    @cached_property
+    def reviews(self) -> Reviews:
+        return Reviews(self._raw_client, self._server, self._auth)
+
+    @cached_property
+    def rich_media(self) -> RichMedia:
+        return RichMedia(self._raw_client, self._server, self._auth)
+
+    @cached_property
+    def sem_campaign_management(self) -> SemCampaignManagement:
+        return SemCampaignManagement(self._raw_client, self._server, self._auth)
+
+    @cached_property
+    def sem_catalog(self) -> SemCatalog:
+        return SemCatalog(self._raw_client, self._server, self._auth)
+
+    @cached_property
+    def sem_item_diagnostics(self) -> SemItemDiagnostics:
+        return SemItemDiagnostics(self._raw_client, self._server, self._auth)
+
+    @cached_property
+    def sem_reporting(self) -> SemReporting:
+        return SemReporting(self._raw_client, self._server, self._auth)
+
+    @cached_property
+    def seo_recommendations(self) -> SeoRecommendations:
+        return SeoRecommendations(self._raw_client, self._server, self._auth)
+
+    @cached_property
+    def ship_with_walmart(self) -> ShipWithWalmart:
+        return ShipWithWalmart(self._raw_client, self._server, self._auth)
+
+    @cached_property
+    def shipment_protection(self) -> ShipmentProtection:
+        return ShipmentProtection(self._raw_client, self._server)
+
+    @cached_property
+    def simplified_shipping_settings(self) -> SimplifiedShippingSettings:
+        return SimplifiedShippingSettings(self._raw_client, self._server)
+
+    @cached_property
+    def tax_form_apis(self) -> TaxFormApis:
+        return TaxFormApis(self._raw_client, self._server, self._auth)
+
+    @cached_property
+    def wsr_attribution_reports(self) -> WsrAttributionReports:
+        return WsrAttributionReports(self._raw_client, self._server, self._auth)
+
+    @cached_property
+    def walmart_seller_fulfilled(self) -> WalmartSellerFulfilled:
+        return WalmartSellerFulfilled(self._raw_client, self._server)
 
     def close(self) -> None:
         self._raw_client.http_client.close()

@@ -174,12 +174,14 @@ class KeysetState(Generic[PayloadT]):
 class LinkState(Generic[PayloadT]):
     """Moves by following the next-page link a response gives, in its body or its ``Link`` header.
 
-    Following a link replaces both ``url_template`` (with the link's path) and ``query_params`` (with its
-    query). The link is resolved against the URL this state renders and must keep its scheme, host and port;
-    a link to another origin raises instead of being followed. The walk stops when the next link is missing,
-    empty or ``UNSET``, or when it renders to the same URL as this state."""
+    ``path_params`` fill the placeholders of the first ``url_template``. Following a link replaces
+    ``url_template`` (with the link's path), ``path_params`` (with none, since that path is literal) and
+    ``query_params`` (with its query). The link is resolved against the URL this state renders and must keep
+    its scheme, host and port; a link to another origin raises instead of being followed. The walk stops when
+    the next link is missing, empty or ``UNSET``, or when it renders to the same URL as this state."""
 
     url_template: UrlTemplate
+    path_params: Sequence[Param[Any]] = ()
     query_params: Sequence[Param[Any]]
     next_link: Callable[[PayloadT, Mapping[str, str]], OptionalNullable[str]]
 
@@ -191,11 +193,11 @@ class LinkState(Generic[PayloadT]):
         next_link = self.next_link(payload, headers)
         if not next_link:
             return None
-        current_url = build_url(self.url_template, query_params=self.query_params)
+        current_url = build_url(self.url_template, path_params=self.path_params, query_params=self.query_params)
         next_template, link_params = _resolve_next_link(current_url, next_link)
         if build_url(next_template, query_params=link_params) == current_url:
             return None
-        return replace(self, url_template=next_template, query_params=link_params)
+        return replace(self, url_template=next_template, path_params=(), query_params=link_params)
 
 
 def _resolve_next_link(current_url: str, next_link: str) -> tuple[UrlTemplate, tuple[Param[Any], ...]]:

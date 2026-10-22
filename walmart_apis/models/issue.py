@@ -4,23 +4,20 @@ from pydantic import Field
 from typing_extensions import NotRequired, TypedDict
 
 from ..core import UNSET, Optional, SdkBaseModel
-from .enums.severity import SeverityOrStr
+from .enums.issue_type import IssueTypeOrStr
 
 
 class Issue(SdkBaseModel):
-    code: str
-    """Machine-readable issue code"""
+    """Issue affecting an item. Contains the issue type identifier only.
 
-    message: str
-    """Human-readable issue message (locale-aware)"""
+    The ``issueType`` serves as a lookup key into the issue metadata returned by the ``GET /item-issues/issue-types``
+    reference endpoint. All static metadata (name, description, category, fixability, help links) lives in that
+    endpoint's response."""
 
-    severity: SeverityOrStr
-    attribute_names: Optional[list[str]] = Field(default=UNSET, alias="attributeNames")
-    """Affected attribute names"""
+    issue_type: Optional[IssueTypeOrStr] = Field(default=UNSET, alias="issueType")
+    """Lookup key into the issue metadata returned by the ``GET /item-issues/issue-types`` endpoint. Maps to one of the
+    supported issue type enum values."""
 
 
 class IssueDict(TypedDict):
-    code: str
-    message: str
-    severity: SeverityOrStr
-    attribute_names: NotRequired[list[str]]
+    issue_type: NotRequired[IssueTypeOrStr]

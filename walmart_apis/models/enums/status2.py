@@ -5,9 +5,9 @@ from ...core import open_enum_validator
 
 
 class Status2(str, Enum):
-    OPEN = "Open"
-    CLOSED = "Closed"
-    TRANSFERRED = "Transferred"
+    REJECTED = "REJECTED"
+    APPROVED = "APPROVED"
+    NEW_ITEMS = "NEW_ITEMS"
 
     __str__ = str.__str__
 

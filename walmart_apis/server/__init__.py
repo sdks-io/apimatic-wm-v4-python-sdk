@@ -1,47 +1,5 @@
 from .environment import Environment
 from .server import Server
-from .server_config import (
-    Default1Config,
-    Default1ConfigDict,
-    Default1Environment2Config,
-    Default1Environment2ConfigDict,
-    Default1Environment3Config,
-    Default1Environment3ConfigDict,
-    Default1ProductionConfig,
-    Default1ProductionConfigDict,
-    DefaultConfig,
-    DefaultConfigDict,
-    DefaultEnvironment2Config,
-    DefaultEnvironment2ConfigDict,
-    DefaultEnvironment3Config,
-    DefaultEnvironment3ConfigDict,
-    DefaultProductionConfig,
-    DefaultProductionConfigDict,
-    ServerConfig,
-    ServerConfigDict,
-    ServerConfigOrDict,
-)
+from .server_config import Environment2Config, ProductionConfig, ServerConfig
 
-__all__ = [
-    "Default1Config",
-    "Default1ConfigDict",
-    "Default1Environment2Config",
-    "Default1Environment2ConfigDict",
-    "Default1Environment3Config",
-    "Default1Environment3ConfigDict",
-    "Default1ProductionConfig",
-    "Default1ProductionConfigDict",
-    "DefaultConfig",
-    "DefaultConfigDict",
-    "DefaultEnvironment2Config",
-    "DefaultEnvironment2ConfigDict",
-    "DefaultEnvironment3Config",
-    "DefaultEnvironment3ConfigDict",
-    "DefaultProductionConfig",
-    "DefaultProductionConfigDict",
-    "Environment",
-    "Server",
-    "ServerConfig",
-    "ServerConfigDict",
-    "ServerConfigOrDict",
-]
+__all__ = ["Environment", "Environment2Config", "ProductionConfig", "Server", "ServerConfig"]

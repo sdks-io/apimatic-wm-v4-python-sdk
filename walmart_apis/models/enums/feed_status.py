@@ -5,9 +5,11 @@ from ...core import open_enum_validator
 
 
 class FeedStatus(str, Enum):
+    """Can be one of the following: RECEIVED, INPROGRESS, PROCESSED, or ERROR"""
+
     RECEIVED = "RECEIVED"
-    IN_PROGRESS = "IN_PROGRESS"
-    DONE = "DONE"
+    INPROGRESS = "INPROGRESS"
+    PROCESSED = "PROCESSED"
     ERROR = "ERROR"
 
     __str__ = str.__str__

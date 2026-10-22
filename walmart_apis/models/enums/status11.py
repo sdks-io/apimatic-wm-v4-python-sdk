@@ -5,11 +5,14 @@ from ...core import open_enum_validator
 
 
 class Status11(str, Enum):
-    PENDING = "Pending"
-    PROCESSING = "Processing"
-    COMPLETED = "Completed"
-    FAILED = "Failed"
-    ON_HOLD = "OnHold"
+    """| Attribute | Description | Data Type |
+    | --- | ----------- | ------- |
+    | ENROLL | To enroll items into the program | string |
+    | DISENROLL | To opt out items from the program | string |
+    <br><b style='color:green;'>Market availability: US only</b>"""
+
+    ENROLL = "ENROLL"
+    DISENROLL = "DISENROLL"
 
     __str__ = str.__str__
 

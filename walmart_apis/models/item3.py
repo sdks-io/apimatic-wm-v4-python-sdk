@@ -1,24 +1,30 @@
 from __future__ import annotations
 
-from pydantic import Field
 from typing_extensions import NotRequired, TypedDict
 
 from ..core import UNSET, Optional, SdkBaseModel
-from .money import Money, MoneyDict
-from .weight import Weight, WeightDict
+from .recommendation import Recommendation, RecommendationDict
 
 
 class Item3(SdkBaseModel):
-    quantity: int
-    description: str
-    unit_price: Optional[Money] = Field(default=UNSET, alias="unitPrice")
-    unit_weight: Optional[Weight] = Field(default=UNSET, alias="unitWeight")
-    seller_sku: Optional[str] = Field(default=UNSET, alias="sellerSku")
+    item_id: Optional[str] = UNSET
+    product_name: Optional[str] = UNSET
+    short_description: Optional[str] = UNSET
+    image_url: Optional[str] = UNSET
+    sku: Optional[str] = UNSET
+    walmart_url: Optional[str] = UNSET
+    product_type: Optional[str] = UNSET
+    status: Optional[str] = UNSET
+    recommendation: Optional[Recommendation] = UNSET
 
 
 class Item3Dict(TypedDict):
-    quantity: int
-    description: str
-    unit_price: NotRequired[MoneyDict]
-    unit_weight: NotRequired[WeightDict]
-    seller_sku: NotRequired[str]
+    item_id: NotRequired[str]
+    product_name: NotRequired[str]
+    short_description: NotRequired[str]
+    image_url: NotRequired[str]
+    sku: NotRequired[str]
+    walmart_url: NotRequired[str]
+    product_type: NotRequired[str]
+    status: NotRequired[str]
+    recommendation: NotRequired[RecommendationDict]

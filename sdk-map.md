@@ -10,7 +10,7 @@
 | Root package | `walmart_apis` |
 | Distribution name | `apimatic-wm-v4-sdk` |
 | Requires | Python 3.10 or later |
-| API spec version | `v4` |
+| API spec version | `1.0` |
 | Generator | APIMatic |
 
 Staleness check: the API spec version above changes when the SDK is regenerated from a new spec, and the package version is what `pip show` reports for the installed SDK. If a lookup here fails at import, re-read the module named in the row.
@@ -25,23 +25,12 @@ All `Source` paths on this map and its sub-pages are relative to the **SDK root*
 
 ```python
 from walmart_apis import WalmartApisClient
-from walmart_apis.auth import SellerAuthAuthorizationCodeScope, SellerAuthClientCredentialsScope, WalletAuthScope
-from walmart_apis.core import AuthorizationCodeCredentials, BasicAuthCredentials, ClientCredentials
-
-
-def prompt(url: str) -> str:
-    return input(f"Open {url}, then paste the code: ")
-
+from walmart_apis.core import BasicAuthCredentials
 
 client = WalmartApisClient(
-    seller_auth_authorization_code=AuthorizationCodeCredentials[SellerAuthAuthorizationCodeScope](
-        client_id="YOUR_CLIENT_ID", redirect_uri="YOUR_REDIRECT_URI", prompt_for_authorization_code=prompt
-    ),
-    seller_auth_client_credentials=ClientCredentials[SellerAuthClientCredentialsScope](
-        client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET"
-    ),
-    basic_client_auth=BasicAuthCredentials(username="YOUR_USERNAME", password="YOUR_PASSWORD"),
-    wallet_auth=ClientCredentials[WalletAuthScope](client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET"),
+    basic_auth=BasicAuthCredentials(username="YOUR_USERNAME", password="YOUR_PASSWORD"),
+    bearer_auth="YOUR_BEARER_TOKEN",
+    access_token="YOUR_API_KEY",
     environment="production",
 )
 
@@ -55,28 +44,17 @@ Alternatively, scope it — `with WalmartApisClient(...) as client:` closes the 
 ### Asynchronous client
 
 ```python
-from asyncio import run, to_thread
+from asyncio import run
 
 from walmart_apis import AsyncWalmartApisClient
-from walmart_apis.auth import SellerAuthAuthorizationCodeScope, SellerAuthClientCredentialsScope, WalletAuthScope
-from walmart_apis.core import AsyncAuthorizationCodeCredentials, BasicAuthCredentials, ClientCredentials
-
-
-async def prompt(url: str) -> str:
-    print(f"Open {url}")
-    return await to_thread(input, "Paste the code: ")
+from walmart_apis.core import BasicAuthCredentials
 
 
 async def main() -> None:
     client = AsyncWalmartApisClient(
-        seller_auth_authorization_code=AsyncAuthorizationCodeCredentials[SellerAuthAuthorizationCodeScope](
-            client_id="YOUR_CLIENT_ID", redirect_uri="YOUR_REDIRECT_URI", prompt_for_authorization_code=prompt
-        ),
-        seller_auth_client_credentials=ClientCredentials[SellerAuthClientCredentialsScope](
-            client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET"
-        ),
-        basic_client_auth=BasicAuthCredentials(username="YOUR_USERNAME", password="YOUR_PASSWORD"),
-        wallet_auth=ClientCredentials[WalletAuthScope](client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET"),
+        basic_auth=BasicAuthCredentials(username="YOUR_USERNAME", password="YOUR_PASSWORD"),
+        bearer_auth="YOUR_BEARER_TOKEN",
+        access_token="YOUR_API_KEY",
         environment="production",
     )
     # TODO: call endpoints here, awaiting each -- see api-reference.md
@@ -94,47 +72,31 @@ Alternatively, scope it — `async with AsyncWalmartApisClient(...) as client:` 
 
 `close()` / `aclose()` closes the transport even when you supplied one via `custom_http_client=` / `custom_async_http_client=`, and a closed client cannot be reused.
 
-Every API group is a property on the client (e.g. `client.authorization`). Every constructor argument is optional and keyword-only. Sources: `walmart_apis/client.py`, `walmart_apis/async_client.py`:
+Every API group is a property on the client (e.g. `client.assortment_recommendations`). Every constructor argument is optional and keyword-only. Sources: `walmart_apis/client.py`, `walmart_apis/async_client.py`:
 
 | Keyword | Sync Type | Async Type | Default |
 | --- | --- | --- | --- |
 | `environment` | `Environment` | `Environment` | `"production"` |
+| `base_url` | `str \| None` | `str \| None` | `None` |
 | `timeout` | `float` | `float` | `30.0` seconds |
-| `server_config` | `ServerConfigOrDict \| None` | `ServerConfigOrDict \| None` | `None` |
 | `retry_options` | `int \| RetryOptionsOrDict \| None` | `int \| RetryOptionsOrDict \| None` | `None` |
+| `logging_options` | `LoggingOptionsOrDict \| None` | `LoggingOptionsOrDict \| None` | `None` |
 | `custom_http_client` | `HttpClient \| None` | — | `None` |
 | `custom_async_http_client` | — | `AsyncHttpClient \| None` | `None` |
-| `seller_auth_authorization_code` | `AuthorizationCodeCredentialsOrDict[SellerAuthAuthorizationCodeScope] \| None` | `AsyncAuthorizationCodeCredentialsOrDict[SellerAuthAuthorizationCodeScope] \| None` | `None` |
-| `seller_auth_authorization_code_token_source` | `RefreshableTokenSource[AuthorizationCodeCredentials[SellerAuthAuthorizationCodeScope]] \| None` | `AsyncRefreshableTokenSource[AsyncAuthorizationCodeCredentials[SellerAuthAuthorizationCodeScope]] \| None` | `None` |
-| `seller_auth_client_credentials` | `ClientCredentialsOrDict[SellerAuthClientCredentialsScope] \| None` | `ClientCredentialsOrDict[SellerAuthClientCredentialsScope] \| None` | `None` |
-| `seller_auth_client_credentials_token_source` | `TokenSource[ClientCredentials[SellerAuthClientCredentialsScope]] \| None` | `AsyncTokenSource[ClientCredentials[SellerAuthClientCredentialsScope]] \| None` | `None` |
-| `basic_client_auth` | `BasicAuthCredentialsOrDict \| None` | `BasicAuthCredentialsOrDict \| None` | `None` |
-| `wallet_auth` | `ClientCredentialsOrDict[WalletAuthScope] \| None` | `ClientCredentialsOrDict[WalletAuthScope] \| None` | `None` |
-| `wallet_auth_token_source` | `TokenSource[ClientCredentials[WalletAuthScope]] \| None` | `AsyncTokenSource[ClientCredentials[WalletAuthScope]] \| None` | `None` |
+| `basic_auth` | `BasicAuthCredentialsOrDict \| None` | `BasicAuthCredentialsOrDict \| None` | `None` |
+| `bearer_auth` | `str \| None` | `str \| None` | `None` |
+| `access_token` | `str \| None` | `str \| None` | `None` |
 
 The types those columns name — where each imports from and, for a credentials dict, its keys:
 
 | Type | Import from | Shape |
 | --- | --- | --- |
 | `Environment` | `walmart_apis.server` | `Literal` of the Environments table's names |
-| `ServerConfigOrDict` | `walmart_apis.server` | keys as the Servers & auth tables read |
 | `RetryOptionsOrDict` | `walmart_apis.core` | a retry count, `RetryOptions`, or a dict: `max_retries: int` · `initial_delay: float` · `backoff_factor: float` · `max_delay: float` · `max_jitter: float` · `status_codes_to_retry: frozenset[int]` · `http_methods_to_retry: frozenset[HttpMethod]` |
+| `LoggingOptionsOrDict` | `walmart_apis.core` | `LoggingOptions` or a dict: `log_request_headers: bool` · `log_response_headers: bool` · `log_request_body: bool` · `body_size_limit: int` · `redaction_placeholder: str` · `unmask_headers: AbstractSet[str]` · `mask_headers: AbstractSet[str]` · `mask_keys: AbstractSet[str]` |
 | `HttpClient` | `walmart_apis.core` | protocol — `send(request: HttpRequest) -> HttpResponse` · `close()`; `send` returns once the head has arrived and never reads the body, and raises `TransportError` (from `core`) when no response arrives — anything else it raises is never retried |
-| `AuthorizationCodeCredentialsOrDict` | `walmart_apis.core` | `AuthorizationCodeCredentials` or a dict: `client_id: str` · `client_secret: str \| None` · `redirect_uri: str` · `scopes: list[Scope] \| None` · `state: str \| None` · `pkce: PkceMethod \| None = "S256"` · `prompt_for_authorization_code: AuthorizationCodePrompt` |
-| `SellerAuthAuthorizationCodeScope` | `walmart_apis.auth` | `Enum` of the declared scopes |
-| `RefreshableTokenSource` | `walmart_apis.core` | protocol — `fetch(credentials) -> OAuthTokenRefreshable` · `refresh(credentials, refresh_token) -> OAuthTokenRefreshable \| None` |
-| `AuthorizationCodeCredentials` | `walmart_apis.core` | `client_id: str` · `client_secret: str \| None` · `redirect_uri: str` · `scopes: list[Scope] \| None` · `state: str \| None` · `pkce: PkceMethod \| None = "S256"` · `prompt_for_authorization_code: AuthorizationCodePrompt` |
-| `ClientCredentialsOrDict` | `walmart_apis.core` | `ClientCredentials` or a dict: `client_id: str` · `client_secret: str` · `scopes: list[Scope] \| None` |
-| `SellerAuthClientCredentialsScope` | `walmart_apis.auth` | `Enum` of the declared scopes |
-| `TokenSource` | `walmart_apis.core` | protocol — `fetch(credentials) -> OAuthToken` |
-| `ClientCredentials` | `walmart_apis.core` | `client_id: str` · `client_secret: str` · `scopes: list[Scope] \| None` |
 | `BasicAuthCredentialsOrDict` | `walmart_apis.core` | `BasicAuthCredentials` or a dict: `username: str` · `password: str` |
-| `WalletAuthScope` | `walmart_apis.auth` | `Enum` of the declared scopes |
 | `AsyncHttpClient` | `walmart_apis.core` | protocol — `async send(request: HttpRequest) -> AsyncHttpResponse` · `async aclose()`; the same obligation, awaited |
-| `AsyncAuthorizationCodeCredentialsOrDict` | `walmart_apis.core` | `AsyncAuthorizationCodeCredentials` or a dict: `client_id: str` · `client_secret: str \| None` · `redirect_uri: str` · `scopes: list[Scope] \| None` · `state: str \| None` · `pkce: PkceMethod \| None = "S256"` · `prompt_for_authorization_code: AsyncAuthorizationCodePrompt` |
-| `AsyncRefreshableTokenSource` | `walmart_apis.core` | protocol — `async fetch(credentials) -> OAuthTokenRefreshable` · `async refresh(credentials, refresh_token) -> OAuthTokenRefreshable \| None` |
-| `AsyncAuthorizationCodeCredentials` | `walmart_apis.core` | `client_id: str` · `client_secret: str \| None` · `redirect_uri: str` · `scopes: list[Scope] \| None` · `state: str \| None` · `pkce: PkceMethod \| None = "S256"` · `prompt_for_authorization_code: AsyncAuthorizationCodePrompt` |
-| `AsyncTokenSource` | `walmart_apis.core` | protocol — `async fetch(credentials) -> OAuthToken` |
 
 ### Retries — on by default
 
@@ -155,6 +117,25 @@ The types those columns name — where each imports from and, for a credentials 
 The wait before retry *n* is `initial_delay × backoff_factor^(n−1)` plus up to `max_jitter` of random delay, the sum capped at `max_delay`; a `Retry-After` header replaces it, trimmed to `max_delay`.
 
 A single call overrides two of these through `request_options` (`walmart_apis/core/request_options.py`): `max_retries` and `status_codes_to_retry`, each merged over the client's policy field by field — `request_options={"max_retries": 0}` turns retrying off for that one call and leaves every other call alone.
+
+### Logging — off by default
+
+Every HTTP exchange is written through the standard `logging` module under the `walmart_apis` logger, and the SDK configures nothing itself. Set that logger's level to turn it on: INFO writes the request line and a 2xx response line, WARNING a non-2xx response line and each retry, ERROR a call that ends in an exception, and DEBUG the header dumps and the request body that the flags below turn on. Or set `WALMART_APIS_LOG=info|debug` before the process starts: it sets the level, turns the three flags on for `debug`, and adds a stderr handler only where nothing listens.
+
+`LoggingOptions` fields (source: `walmart_apis/core/logging.py`). Pass only the fields you change; each one left out takes its default, and a name set you pass replaces its default:
+
+| Field | Type | Default |
+| --- | --- | --- |
+| `log_request_headers` | `bool` | `False` |
+| `log_response_headers` | `bool` | `False` |
+| `log_request_body` | `bool` | `False` |
+| `body_size_limit` | `int` (bytes) | `32768` |
+| `redaction_placeholder` | `str` | `"REDACTED"` |
+| `unmask_headers` | `AbstractSet[str]` | `frozenset()` |
+| `mask_headers` | `AbstractSet[str]` | `frozenset()` |
+| `mask_keys` | `AbstractSet[str]` | `frozenset({"sig", "signature", "access_token", "apikey", "api_key", "client_secret", "password", "refresh_token", "code", "assertion", "client_assertion"})` |
+
+A single call is quietened through `request_options` (`walmart_apis/core/request_options.py`): `log_level`, a `logging` level constant, is a floor below which that call's records are not written; it never turns a dump or the body on. A header value prints `REDACTED` unless its name is on the runtime's safe list, a query value unless its key is a paging name, and a form field whose key is in `mask_keys` always; a JSON body prints as sent; a response body is never logged.
 
 ---
 
@@ -182,30 +163,30 @@ Typed error bodies (the arms of a Case A alias) are ordinary models — no speci
 
 ```python
 try:
-    client.authorization.authorize(
-        ResponseType1.CODE,
+    response = client.assortment_recommendations.get_assortment_recommendation_trends(
         "some example string",
-        "https://example.com",
-        "some example string",
-        "some example string",
-        "some example string",
-        CodeChallengeMethod.S256,
+        WmGlobalVersion._3_1,
+        "eyJraWQiOiIzZjVhYTFmNS1hYWE5LTQzM.....",
+        "b3261d2d-028a-4ef7-8602-633c23200af6",
+        "Walmart Service Name",
+        WmMarket1.US,
+        trend_types="PRICE_TRENDS,DEMAND_TRENDS",
     )
 except ApiError as e:
-    # Case A — typed error: e.error is AuthorizeErrorBody
-    if isinstance(e.error, AuthorizeError):
-        # Handle 400
+    # Case A — typed error: e.error is GetAssortmentRecommendationTrendsErrorBody
+    if isinstance(e.error, ErrorResponse1):
+        # Handle 400, 500
         print(e.error)
     if isinstance(e.error, RawError):
         # Any other error status
         print(e.status_code, e.error.text())
 ```
 
-**Raw (`.with_raw_response`) variants: present on every operation** — the same call returns `ApiResult` instead of raising, with the same body on `Failure.error`. Of **174 operations**, **174 are Case A (typed)** and **0 are Case B (raw)**.
+**Raw (`.with_raw_response`) variants: present on every operation** — the same call returns `ApiResult` instead of raising, with the same body on `Failure.error`. Of **117 operations**, **85 are Case A (typed)** and **32 are Case B (raw)**.
 
 ---
 
-## Operations — by controller (30 pages, 174 operations)
+## Operations — by controller (29 pages, 117 operations)
 
 Each links to a sub-page with one block per operation, headed by its full accessor path: the HTTP verb and route (for a mock, a raw request or a provider-side log — never reconstruct it from the method name), the sync parsed signature with its required positional parameters, each parameter's role and — where it differs — wire name, both return types, and its error case — **Case A** names the alias and the status each arm maps from, **Case B** names `RawError`. Every block also carries a **Type sources** table — every *generated* type it names, with the module that declares it. A runtime type — a file alias, a date/time or byte converter — is not listed there.
 
@@ -216,8 +197,8 @@ Each links to a sub-page with one block per operation, headed by its full access
 | **Four spellings, one signature** — the same method name and parameters on `Client` and `AsyncClient`, each also reachable through `.with_raw_response`; the async twin is a coroutine to `await`, with the same return types and error case, and where the **Async Type** column differs, pass the type it names | Getting a client |
 | **Parsed raises, raw returns** — `ApiError` versus `ApiResult` | Error-handling model |
 | **Case B error is always `RawError`** — also the last arm of every Case A alias, where a block's **Error arms** bullet ends in it | Error-handling model |
-| **A trailing `request_options`** — keyword-only and optional, for per-call overrides such as a timeout, extra headers, `max_retries` or `status_codes_to_retry`; every signature ends with it | here (`walmart_apis/core/request_options.py`), Retries |
-| **Each operation names its own server** — this SDK declares several, so every block carries a **Server** bullet with the server's key in `server_config=` | its block |
+| **A trailing `request_options`** — keyword-only and optional, for per-call overrides such as a timeout, extra headers, `max_retries`, `status_codes_to_retry` or `log_level`; every signature ends with it | here (`walmart_apis/core/request_options.py`), Retries, Logging |
+| **Base URL is the selected environment's** — this SDK's only server, one URL per `environment=`; override it with `base_url="https://…"` | Servers & auth |
 | **Parameter names are literal** — signatures are generated code verbatim, and everything behind the bare `*` must be passed by name | here |
 | **A parameter's wire name is its Python name** — sent as-is on the path, query string, header or body, unless the block's **Params** bullet carries a wire name beside the role | here |
 
@@ -225,54 +206,55 @@ Each links to a sub-page with one block per operation, headed by its full access
 
 Sub-pages chunk per `###` block: each block is self-contained given the table above, and assumes this page is loaded beside it.
 
-| Controller | Ops | Page |
-| --- | --- | --- |
-| `client.authorization` | 3 | [map/operations/authorization.md](map/operations/authorization.md) |
-| `client.catalog` | 2 | [map/operations/catalog.md](map/operations/catalog.md) |
-| `client.data_kiosk` | 5 | [map/operations/data_kiosk.md](map/operations/data_kiosk.md) |
-| `client.disputes` | 1 | [map/operations/disputes.md](map/operations/disputes.md) |
-| `client.feeds` | 5 | [map/operations/feeds.md](map/operations/feeds.md) |
-| `client.final_payout` | 2 | [map/operations/final_payout.md](map/operations/final_payout.md) |
-| `client.finances` | 4 | [map/operations/finances.md](map/operations/finances.md) |
-| `client.fulfillment_outbound` | 7 | [map/operations/fulfillment_outbound.md](map/operations/fulfillment_outbound.md) |
-| `client.inventory` | 4 | [map/operations/inventory.md](map/operations/inventory.md) |
-| `client.listings_items` | 5 | [map/operations/listings_items.md](map/operations/listings_items.md) |
-| `client.listings_restrictions` | 1 | [map/operations/listings_restrictions.md](map/operations/listings_restrictions.md) |
-| `client.merchant_fulfillment` | 5 | [map/operations/merchant_fulfillment.md](map/operations/merchant_fulfillment.md) |
-| `client.orders` | 14 | [map/operations/orders.md](map/operations/orders.md) |
-| `client.payouts` | 5 | [map/operations/payouts.md](map/operations/payouts.md) |
-| `client.product_type_definitions` | 2 | [map/operations/product_type_definitions.md](map/operations/product_type_definitions.md) |
-| `client.reconciliation` | 3 | [map/operations/reconciliation.md](map/operations/reconciliation.md) |
-| `client.report_schedules` | 4 | [map/operations/report_schedules.md](map/operations/report_schedules.md) |
-| `client.reports` | 7 | [map/operations/reports.md](map/operations/reports.md) |
-| `client.sellers` | 2 | [map/operations/sellers.md](map/operations/sellers.md) |
-| `client.settlement` | 3 | [map/operations/settlement.md](map/operations/settlement.md) |
-| `client.uploads` | 1 | [map/operations/uploads.md](map/operations/uploads.md) |
-| `client.wfs_inventory` | 1 | [map/operations/wfs_inventory.md](map/operations/wfs_inventory.md) |
-| `client.messaging` | 11 | [map/operations/messaging.md](map/operations/messaging.md) |
-| `client.notifications` | 9 | [map/operations/notifications.md](map/operations/notifications.md) |
-| `client.product_fees` | 3 | [map/operations/product_fees.md](map/operations/product_fees.md) |
-| `client.product_pricing` | 8 | [map/operations/product_pricing.md](map/operations/product_pricing.md) |
-| `client.sales` | 1 | [map/operations/sales.md](map/operations/sales.md) |
-| `client.shipping` | 9 | [map/operations/shipping.md](map/operations/shipping.md) |
-| `client.solicitations` | 2 | [map/operations/solicitations.md](map/operations/solicitations.md) |
-| `client.wfs_inbound` | 45 | [map/operations/wfs_inbound.md](map/operations/wfs_inbound.md) |
+| Controller | Class | Ops | Page |
+| --- | --- | --- | --- |
+| `client.assortment_recommendations` | `AssortmentRecommendations` / `AsyncAssortmentRecommendations` | 5 | [map/operations/assortment_recommendations.md](map/operations/assortment_recommendations.md) |
+| `client.authorization` | `Authorization` / `AsyncAuthorization` | 2 | [map/operations/authorization.md](map/operations/authorization.md) |
+| `client.disputes` | `Disputes` / `AsyncDisputes` | 2 | [map/operations/disputes.md](map/operations/disputes.md) |
+| `client.feeds_api` | `FeedsApi` / `AsyncFeedsApi` | 3 | [map/operations/feeds_api.md](map/operations/feeds_api.md) |
+| `client.insight_api` | `InsightApi` / `AsyncInsightApi` | 7 | [map/operations/insight_api.md](map/operations/insight_api.md) |
+| `client.inventory_api` | `InventoryApi` / `AsyncInventoryApi` | 7 | [map/operations/inventory_api.md](map/operations/inventory_api.md) |
+| `client.lag_time_api` | `LagTimeApi` / `AsyncLagTimeApi` | 2 | [map/operations/lag_time_api.md](map/operations/lag_time_api.md) |
+| `client.notifications` | `Notifications` / `AsyncNotifications` | 6 | [map/operations/notifications.md](map/operations/notifications.md) |
+| `client.on_request_report` | `OnRequestReport` / `AsyncOnRequestReport` | 1 | [map/operations/on_request_report.md](map/operations/on_request_report.md) |
+| `client.on_request_report_api` | `OnRequestReportApi` / `AsyncOnRequestReportApi` | 3 | [map/operations/on_request_report_api.md](map/operations/on_request_report_api.md) |
+| `client.prices` | `Prices` / `AsyncPrices` | 11 | [map/operations/prices.md](map/operations/prices.md) |
+| `client.promotions` | `Promotions` / `AsyncPromotions` | 3 | [map/operations/promotions.md](map/operations/promotions.md) |
+| `client.recommendations_api` | `RecommendationsApi` / `AsyncRecommendationsApi` | 4 | [map/operations/recommendations_api.md](map/operations/recommendations_api.md) |
+| `client.report_scheduler` | `ReportScheduler` / `AsyncReportScheduler` | 4 | [map/operations/report_scheduler.md](map/operations/report_scheduler.md) |
+| `client.reports_api` | `ReportsApi` / `AsyncReportsApi` | 7 | [map/operations/reports_api.md](map/operations/reports_api.md) |
+| `client.returns_refund` | `ReturnsRefund` / `AsyncReturnsRefund` | 3 | [map/operations/returns_refund.md](map/operations/returns_refund.md) |
+| `client.reviews` | `Reviews` / `AsyncReviews` | 3 | [map/operations/reviews.md](map/operations/reviews.md) |
+| `client.rich_media` | `RichMedia` / `AsyncRichMedia` | 2 | [map/operations/rich_media.md](map/operations/rich_media.md) |
+| `client.sem_campaign_management` | `SemCampaignManagement` / `AsyncSemCampaignManagement` | 6 | [map/operations/sem_campaign_management.md](map/operations/sem_campaign_management.md) |
+| `client.sem_catalog` | `SemCatalog` / `AsyncSemCatalog` | 2 | [map/operations/sem_catalog.md](map/operations/sem_catalog.md) |
+| `client.sem_item_diagnostics` | `SemItemDiagnostics` / `AsyncSemItemDiagnostics` | 2 | [map/operations/sem_item_diagnostics.md](map/operations/sem_item_diagnostics.md) |
+| `client.sem_reporting` | `SemReporting` / `AsyncSemReporting` | 3 | [map/operations/sem_reporting.md](map/operations/sem_reporting.md) |
+| `client.seo_recommendations` | `SeoRecommendations` / `AsyncSeoRecommendations` | 2 | [map/operations/seo_recommendations.md](map/operations/seo_recommendations.md) |
+| `client.ship_with_walmart` | `ShipWithWalmart` / `AsyncShipWithWalmart` | 10 | [map/operations/ship_with_walmart.md](map/operations/ship_with_walmart.md) |
+| `client.shipment_protection` | `ShipmentProtection` / `AsyncShipmentProtection` | 6 | [map/operations/shipment_protection.md](map/operations/shipment_protection.md) |
+| `client.simplified_shipping_settings` | `SimplifiedShippingSettings` / `AsyncSimplifiedShippingSettings` | 5 | [map/operations/simplified_shipping_settings.md](map/operations/simplified_shipping_settings.md) |
+| `client.tax_form_apis` | `TaxFormApis` / `AsyncTaxFormApis` | 2 | [map/operations/tax_form_apis.md](map/operations/tax_form_apis.md) |
+| `client.wsr_attribution_reports` | `WsrAttributionReports` / `AsyncWsrAttributionReports` | 3 | [map/operations/wsr_attribution_reports.md](map/operations/wsr_attribution_reports.md) |
+| `client.walmart_seller_fulfilled` | `WalmartSellerFulfilled` / `AsyncWalmartSellerFulfilled` | 1 | [map/operations/walmart_seller_fulfilled.md](map/operations/walmart_seller_fulfilled.md) |
 
 ---
 
 ## Models — where they live, how to build them
 
-**Shapes live only in the source.** Every module under `walmart_apis/models/` declares one type plus its input companion, and every module under `walmart_apis/errors/` one alias plus the mapper that builds it; no two share a name. Take a type's module from the operation's **Type sources** table. When no retrieved chunk names it, the module is the type name in snake_case under the kind's directory below (`AccessPoint` ↔ `access_point.py`; an error alias drops its `Body` suffix: `CreateWarrantyErrorBody` ↔ `create_warranty_error.py`). Never grep for a type.
+**Shapes live only in the source.** Every module under `walmart_apis/models/` declares one type plus its input companion, and every module under `walmart_apis/errors/` one alias plus the mapper that builds it; no two share a name. Take a type's module from the operation's **Type sources** table. When no retrieved chunk names it, the module is the type name in snake_case under the kind's directory below (`AccountConfigs10` ↔ `account_configs10.py`; an error alias drops its `Body` suffix: `GetReturnsErrorBody` ↔ `get_returns_error.py`). Never grep for a type.
 
 | Group | Count | Directory (module = `<type_name>.py`) |
 | --- | --- | --- |
-| Models (`SdkBaseModel` pydantic classes) | 410 | `walmart_apis/models/` |
-| Enums (`Enum` over `str` / `int`) — Python member names + wire values | 119 | `walmart_apis/models/enums/` |
-| Error aliases (one per Case A operation) | 174 | `walmart_apis/errors/` |
+| Models (`SdkBaseModel` pydantic classes) | 959 | `walmart_apis/models/` |
+| Enums (`Enum` over `str`) — Python member names + wire values | 188 | `walmart_apis/models/enums/` |
+| Unions (discriminated) — `TypeAlias` over the arms, tagged via `WireDiscriminator(…)` | 1 | `walmart_apis/models/unions/` |
+| Unions (plain) — `TypeAlias` over the arms | 7 | `walmart_apis/models/unions/` |
+| Error aliases (one per Case A operation) | 85 | `walmart_apis/errors/` |
 
-Conventions: a model is a `SdkBaseModel` (pydantic) class; a field whose wire name differs from its Python name carries it as `Field(alias=…)` (`access_point_id` ↔ `"accessPointId"`) — read the alias off the field rather than deriving it. An omittable field is annotated `Optional[T]` and defaults to `UNSET`, and one that may also be explicitly null is `OptionalNullable[T]`; both come from `core` and neither is `typing.Optional` — there is no `None` arm unless the spec declared the property nullable, so passing `None` to the first is a type error rather than a value that serializes.
+Conventions: a model is a `SdkBaseModel` (pydantic) class; a field whose wire name differs from its Python name carries it as `Field(alias=…)` (`shipping_priority` ↔ `"shippingPriority"`) — read the alias off the field rather than deriving it. An omittable field is annotated `Optional[T]` and defaults to `UNSET`, and one that may also be explicitly null is `OptionalNullable[T]`; both come from `core` and neither is `typing.Optional` — there is no `None` arm unless the spec declared the property nullable, so passing `None` to the first is a type error rather than a value that serializes.
 
-Every model and enum also has an **input companion**, exported beside it from the same package (`AccessPoint` ↔ `AccessPointDict`). Wherever a signature names the companion you may pass either the model instance or a plain dict with the same keys, whichever reads better at the call site. An enum is a real `Enum` subclass over `str` / `int`; its companion is spelled `<Name>OrStr` or `<Name>OrInt` (`AccountStatus` ↔ `AccountStatusOrStr`) and additionally accepts a wire value this SDK version does not know.
+Every model, enum and union also has an **input companion**, exported beside it from the same package (`AccountConfigs10` ↔ `AccountConfigs10Dict`). Wherever a signature names the companion you may pass either the model instance or a plain dict with the same keys, whichever reads better at the call site. An enum is a real `Enum` subclass over `str`; its companion is spelled `<Name>OrStr` or `<Name>OrInt` (`Accept` ↔ `AcceptOrStr`) and additionally accepts a wire value this SDK version does not know. A union is a `TypeAlias` over its arms — a discriminated one names the wire key its arms are told apart by, so build the arm you mean and the union supplies the tag for any arm whose own schema does not declare it.
 
 Import paths by content type (`from <package> import <Name>`):
 
@@ -282,6 +264,7 @@ Import paths by content type (`from <package> import <Name>`):
 | Operation controllers | `walmart_apis.apis` |
 | Models | `walmart_apis.models` |
 | Enums | `walmart_apis.models.enums` |
+| Unions | `walmart_apis.models.unions`, `walmart_apis.models` |
 | Error aliases | `walmart_apis.errors` |
 | Core runtime (`ApiError`, `ApiResult`, `RawError`, …) | `walmart_apis.core` |
 
@@ -289,13 +272,11 @@ Import paths by content type (`from <package> import <Name>`):
 
 ## Servers & auth
 
-**OAuth2 (authorization code).** Pass `seller_auth_authorization_code` your client id, redirect URI and authorization code; authorization is at `/auth/v4/authorize` and tokens come from `/auth/v4/token`, both on the `default` server. Scopes are the `SellerAuthAuthorizationCodeScope` alias.
+**Basic auth.** Pass `basic_auth={"username": …, "password": …}`, or a `BasicAuthCredentials`.
 
-**OAuth2 (client credentials).** Pass `seller_auth_client_credentials` your client id and secret; tokens come from `/auth/v4/token` on the `default` server. Scopes are the `SellerAuthClientCredentialsScope` alias.
+**Bearer token.** Pass `bearer_auth="<token>"`.
 
-**Basic auth.** Pass `basic_client_auth={"username": …, "password": …}`, or a `BasicAuthCredentials`.
-
-**OAuth2 (client credentials).** Pass `wallet_auth` your client id and secret; tokens come from `/auth/token` on the `default1` server. Scopes are the `WalletAuthScope` alias.
+**API key (header `WM_SEC.ACCESS_TOKEN`).** Pass `access_token="<api_key>"`; sent as the `WM_SEC.ACCESS_TOKEN` request header.
 
 Operation blocks name their scheme in an **Auth** bullet; an operation whose spec declares no scheme carries no such bullet.
 
@@ -304,20 +285,12 @@ Operation blocks name their scheme in an **Auth** bullet; an operation whose spe
 
 A scheme you did not configure is skipped silently rather than raising, and the request is sent anyway — so an authentication failure can mean no credential was sent rather than a bad one.
 
-**Environments.** `environment=` selects the target environment (`walmart_apis/server/environment.py`):
+**Environments.** `environment=` selects the target environment (`walmart_apis/server/environment.py`); this SDK's one server (`walmart_apis/server/server_config.py`) has a base URL per environment:
 
-| Environment | Hosting |
-| --- | --- |
-| `"production"` *(default)* | Production |
-| `"environment2"` | Sandbox |
-| `"environment3"` | mock |
+| Environment | Base URL | Hosting | Override point |
+| --- | --- | --- | --- |
+| `"production"` *(default)* | `https://marketplace.walmartapis.com` | Production URL, Specifies the production URL., Specifies the production URL., Production URL, Specifies the production URL., Specifies the production URL., Refers to the URL used for accessing the production server., Specifies the production URL., Refers to the URL used for accessing the production server., Production URL, Production URL, Production server for all APIs., Production URL, Production URL, Production URL, Base URL for production requests., Production URL, Production URL, Production URL, Refers to the URL used for accessing the production server. | `base_url="https://…"` |
+| `"environment2"` | `https://sandbox.walmartapis.com` | Sandbox URL, Specifies the sandbox URL., Specifies the sandbox URL., Sandbox URL, Specifies the sandbox URL., Specifies the sandbox URL., Refers to the URL used for accessing the sandbox server., Specifies the sandbox URL., Refers to the URL used for accessing the sandbox server., Sandbox URL, Sandbox URL, Sandbox URL, Sandbox URL, Sandbox URL, Base URL for sandbox requests., Sandbox URL, Sandbox URL, Sandbox URL, Refers to the URL used for accessing the sandbox server. | `base_url="https://…"` |
 
-**2 servers.** Base-URL templates and override points (`walmart_apis/server/server_config.py`):
-
-| Server | `"production"` base URL | `"environment2"` base URL | `"environment3"` base URL | Override point |
-| --- | --- | --- | --- | --- |
-| `default` | `https://marketplace.walmart.com/seller` | `https://sandbox.marketplace.walmart.com/seller` | `https://walmart-apis-mock-server.onrender.com/seller` | `{"default": {"production": {"base_url": …}}}` (and the other environments) |
-| `default1` | `https://marketplace.walmart.com/seller/v1` | `https://sandbox.marketplace.walmart.com/seller/v1` | `https://walmart-apis-mock-server.onrender.com/seller/v1` | `{"default1": {"production": {"base_url": …}}}` (and the other environments) |
-
-Pick a row with `environment=`, and override any of these by passing `server_config=` a dict nested exactly as the columns above read — `{"default": {"production": {"base_url": …}}}` — with each row's variables sitting beside its `base_url`.
+Pick a row with `environment=`.
 

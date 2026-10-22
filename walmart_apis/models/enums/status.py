@@ -5,9 +5,9 @@ from ...core import open_enum_validator
 
 
 class Status(str, Enum):
-    BUYABLE = "BUYABLE"
-    SUPPRESSED = "SUPPRESSED"
-    DISCOVERABLE = "DISCOVERABLE"
+    """Status of the issue submitted."""
+
+    ACKNOWLEDGED = "ACKNOWLEDGED"
 
     __str__ = str.__str__
 

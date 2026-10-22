@@ -5,11 +5,12 @@ from ...core import open_enum_validator
 
 
 class GrantType(str, Enum):
-    """The OAuth grant type."""
+    """Type of grant requested. <br /> **Available grant types:** authorization_code, refresh_token and
+    client_credentials"""
 
-    CLIENT_CREDENTIALS = "client_credentials"
     AUTHORIZATION_CODE = "authorization_code"
     REFRESH_TOKEN = "refresh_token"
+    CLIENT_CREDENTIALS = "client_credentials"
 
     __str__ = str.__str__
 

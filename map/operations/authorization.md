@@ -2,68 +2,41 @@
 
 # Authorization — operations
 
-Accessor: `client.authorization` · Source: `walmart_apis/apis/authorization.py` · 3 operations
+Accessor: `client.authorization` · Source: `walmart_apis/apis/authorization.py` · 2 operations
 
 Each `###` block is one operation and assumes `sdk-map.md` is loaded: blocks omit what its invariants table covers and are otherwise self-contained, so chunk at block level. Signatures are the sync parsed spelling; the async and raw spellings take the same parameters (see sdk-map.md). **Type sources** names the module declaring each type an operation mentions, so resolving a body, return or error payload is a lookup rather than a search; the runtime types `RawError` and `ApiResult` are excluded.
 
-### client.authorization.authorize
+### client.authorization.get_token_detail
 
-- **Route**: `GET /auth/v4/authorize`
-- **Server**: `default`
-- **Signature**: `def authorize(response_type: ResponseType1OrStr, client_id: str, redirect_uri: str, scope: str, state: str, code_challenge: str, code_challenge_method: CodeChallengeMethodOrStr, *, request_options: RequestOptionsOrDict | None = None)`
-  - required, positional: `response_type`, `client_id`, `redirect_uri`, `scope`, `state`, `code_challenge`, `code_challenge_method`
-- **Params**: `response_type` — query · `client_id` — query · `redirect_uri` — query · `scope` — query · `state` — query · `code_challenge` — query · `code_challenge_method` — query
-- **Returns (parsed)**: `None`
-- **Returns (raw)**: `ApiResult[None, AuthorizeErrorBody]`
-- **Error**: `AuthorizeErrorBody` — **Case A (typed)**
-- **Error arms**: `AuthorizeError` [400] · `OauthErrorModel` [429, 500] · `RawError` [anything unmapped]
+- **Route**: `GET /v3/token/detail`
+- **Signature**: `def get_token_detail(wm_sec_access_token: str, wm_market: str, content_type: str, wm_qos_correlation_id: str, wm_svc_name: str, *, wm_consumer_channel_type: str | None = None, request_options: RequestOptionsOrDict | None = None)`
+  - required, positional: `wm_sec_access_token`, `wm_market`, `content_type`, `wm_qos_correlation_id`, `wm_svc_name`
+- **Params**: `wm_sec_access_token` — header `WM_SEC.ACCESS_TOKEN` · `wm_market` — header `WM_MARKET` · `content_type` — header `Content-Type` · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_consumer_channel_type` — header `WM_CONSUMER.CHANNEL.TYPE`
+- **Returns (parsed)**: `TokenDetailResponse`
+- **Returns (raw)**: `ApiResult[TokenDetailResponse, RawError]`
+- **Error**: `RawError` — **Case B**
 
 | Type | Source |
 | --- | --- |
-| `ResponseType1OrStr` | `walmart_apis/models/enums/response_type1.py` |
-| `CodeChallengeMethodOrStr` | `walmart_apis/models/enums/code_challenge_method.py` |
-| `AuthorizeErrorBody` | `walmart_apis/errors/authorize_error.py` |
-| `AuthorizeError` | `walmart_apis/models/authorize_error.py` |
-| `OauthErrorModel` | `walmart_apis/models/oauth_error_model.py` |
+| `TokenDetailResponse` | `walmart_apis/models/token_detail_response.py` |
 
-### client.authorization.create_token
+### client.authorization.token_api
 
-- **Route**: `POST /auth/v4/token`
-- **Auth**: `basic_client_auth`
-- **Server**: `default`
-- **Signature**: `def create_token(grant_type: GrantTypeOrStr, *, client_id: str | None = None, client_secret: str | None = None, code: str | None = None, code_verifier: str | None = None, refresh_token: str | None = None, redirect_uri: str | None = None, scope: str | None = None, request_options: RequestOptionsOrDict | None = None)`
-  - required, positional: `grant_type`
-- **Params**: `grant_type` — form field · `client_id` — form field · `client_secret` — form field · `code` — form field · `code_verifier` — form field · `refresh_token` — form field · `redirect_uri` — form field · `scope` — form field
-- **Returns (parsed)**: `TokenResponse`
-- **Returns (raw)**: `ApiResult[TokenResponse, CreateTokenErrorBody]`
-- **Error**: `CreateTokenErrorBody` — **Case A (typed)**
-- **Error arms**: `OauthErrorModel` [400, 401, 429, 500] · `RawError` [anything unmapped]
+- **Route**: `POST /v3/token`
+- **Signature**: `def token_api(wm_market: str, authorization: str, wm_qos_correlation_id: str, wm_svc_name: str, *, wm_partner_id: str | None = None, wm_consumer_channel_type: str | None = None, grant_type: GrantType1OrStr = GrantType1.CLIENT_CREDENTIALS, code: str | None = "65CA5DA313A549D49D15D3119D9AD85D", redirect_uri: str | None = "https://example-client-app.com", refresh_token: str | None = "APXcIoTpKMH9OQN.....", request_options: RequestOptionsOrDict | None = None)`
+  - required, positional: `wm_market`, `authorization`, `wm_qos_correlation_id`, `wm_svc_name`
+- **Params**: `wm_market` — header `WM_MARKET` · `authorization` — header `Authorization` · `wm_qos_correlation_id` — header `WM_QOS.CORRELATION_ID` · `wm_svc_name` — header `WM_SVC.NAME` · `wm_partner_id` — header `WM_PARTNER.ID` · `wm_consumer_channel_type` — header `WM_CONSUMER.CHANNEL.TYPE` · `grant_type` — form field · `code` — form field · `redirect_uri` — form field · `refresh_token` — form field
+- **Returns (parsed)**: `OauthTokenModel`
+- **Returns (raw)**: `ApiResult[OauthTokenModel, TokenApiErrorBody]`
+- **Error**: `TokenApiErrorBody` — **Case A (typed)**
+- **Error arms**: `V3Token400Error1` [400] · `V3Token401Error1` [401] · `V3Token500Error1` [500] · `RawError` [anything unmapped]
 
 | Type | Source |
 | --- | --- |
-| `GrantTypeOrStr` | `walmart_apis/models/enums/grant_type.py` |
-| `TokenResponse` | `walmart_apis/models/token_response.py` |
-| `CreateTokenErrorBody` | `walmart_apis/errors/create_token_error.py` |
-| `OauthErrorModel` | `walmart_apis/models/oauth_error_model.py` |
-
-### client.authorization.register_client
-
-- **Route**: `POST /auth/v4/register`
-- **Server**: `default`
-- **Signature**: `def register_client(body: ClientRegistrationRequest | ClientRegistrationRequestDict, *, request_options: RequestOptionsOrDict | None = None)`
-  - required, positional: `body`
-- **Params**: `body` — JSON body
-- **Returns (parsed)**: `ClientRegistrationResponse`
-- **Returns (raw)**: `ApiResult[ClientRegistrationResponse, RegisterClientErrorBody]`
-- **Error**: `RegisterClientErrorBody` — **Case A (typed)**
-- **Error arms**: `RegistrationError` [400, 401] · `OauthErrorModel` [429, 500] · `RawError` [anything unmapped]
-
-| Type | Source |
-| --- | --- |
-| `ClientRegistrationRequest` | `walmart_apis/models/client_registration_request.py` |
-| `ClientRegistrationRequestDict` | `walmart_apis/models/client_registration_request.py` |
-| `ClientRegistrationResponse` | `walmart_apis/models/client_registration_response.py` |
-| `RegisterClientErrorBody` | `walmart_apis/errors/register_client_error.py` |
-| `RegistrationError` | `walmart_apis/models/registration_error.py` |
-| `OauthErrorModel` | `walmart_apis/models/oauth_error_model.py` |
+| `GrantType1OrStr` | `walmart_apis/models/enums/grant_type1.py` |
+| `OauthTokenModel` | `walmart_apis/models/oauth_token_model.py` |
+| `TokenApiErrorBody` | `walmart_apis/errors/token_api_error.py` |
+| `V3Token400Error1` | `walmart_apis/models/v3_token400_error1.py` |
+| `V3Token401Error1` | `walmart_apis/models/v3_token401_error1.py` |
+| `V3Token500Error1` | `walmart_apis/models/v3_token500_error1.py` |
 

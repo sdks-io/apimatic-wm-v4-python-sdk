@@ -5,64 +5,54 @@ from types import TracebackType
 
 from typing_extensions import Self
 
+from .apis.assortment_recommendations import AsyncAssortmentRecommendations
 from .apis.authorization import AsyncAuthorization
-from .apis.catalog import AsyncCatalog
-from .apis.data_kiosk import AsyncDataKiosk
 from .apis.disputes import AsyncDisputes
-from .apis.feeds import AsyncFeeds
-from .apis.final_payout import AsyncFinalPayout
-from .apis.finances import AsyncFinances
-from .apis.fulfillment_outbound import AsyncFulfillmentOutbound
-from .apis.inventory import AsyncInventory
-from .apis.listings_items import AsyncListingsItems
-from .apis.listings_restrictions import AsyncListingsRestrictions
-from .apis.merchant_fulfillment import AsyncMerchantFulfillment
-from .apis.messaging import AsyncMessaging
+from .apis.feeds_api import AsyncFeedsApi
+from .apis.insight_api import AsyncInsightApi
+from .apis.inventory_api import AsyncInventoryApi
+from .apis.lag_time_api import AsyncLagTimeApi
 from .apis.notifications import AsyncNotifications
-from .apis.orders import AsyncOrders
-from .apis.payouts import AsyncPayouts
-from .apis.product_fees import AsyncProductFees
-from .apis.product_pricing import AsyncProductPricing
-from .apis.product_type_definitions import AsyncProductTypeDefinitions
-from .apis.reconciliation import AsyncReconciliation
-from .apis.report_schedules import AsyncReportSchedules
-from .apis.reports import AsyncReports
-from .apis.sales import AsyncSales
-from .apis.sellers import AsyncSellers
-from .apis.settlement import AsyncSettlement
-from .apis.shipping import AsyncShipping
-from .apis.solicitations import AsyncSolicitations
-from .apis.uploads import AsyncUploads
-from .apis.wfs_inbound import AsyncWfsInbound
-from .apis.wfs_inventory import AsyncWfsInventory
-from .auth import AsyncAuthSchemes, SellerAuthAuthorizationCodeScope, SellerAuthClientCredentialsScope, WalletAuthScope
+from .apis.on_request_report import AsyncOnRequestReport
+from .apis.on_request_report_api import AsyncOnRequestReportApi
+from .apis.prices import AsyncPrices
+from .apis.promotions import AsyncPromotions
+from .apis.recommendations_api import AsyncRecommendationsApi
+from .apis.report_scheduler import AsyncReportScheduler
+from .apis.reports_api import AsyncReportsApi
+from .apis.returns_refund import AsyncReturnsRefund
+from .apis.reviews import AsyncReviews
+from .apis.rich_media import AsyncRichMedia
+from .apis.sem_campaign_management import AsyncSemCampaignManagement
+from .apis.sem_catalog import AsyncSemCatalog
+from .apis.sem_item_diagnostics import AsyncSemItemDiagnostics
+from .apis.sem_reporting import AsyncSemReporting
+from .apis.seo_recommendations import AsyncSeoRecommendations
+from .apis.ship_with_walmart import AsyncShipWithWalmart
+from .apis.shipment_protection import AsyncShipmentProtection
+from .apis.simplified_shipping_settings import AsyncSimplifiedShippingSettings
+from .apis.tax_form_apis import AsyncTaxFormApis
+from .apis.walmart_seller_fulfilled import AsyncWalmartSellerFulfilled
+from .apis.wsr_attribution_reports import AsyncWsrAttributionReports
+from .auth import AsyncAuthSchemes
 from .base_client import DEFAULT_TIMEOUT, BaseWalmartApisClient
 from .core import (
     OPERATING_SYSTEM,
     PYTHON_RUNTIME,
-    AsyncAuthorizationCodeCredentials,
-    AsyncAuthorizationCodeCredentialsOrDict,
-    AsyncAuthorizationCodeTokenSource,
-    AsyncClientCredentialsTokenSource,
+    ApiKeyHeaderScheme,
     AsyncHttpClient,
     AsyncHttpx2Client,
-    AsyncOAuth2RefreshableScheme,
-    AsyncOAuth2Scheme,
     AsyncRawClient,
-    AsyncRefreshableTokenSource,
-    AsyncTokenSource,
     BasicAuthCredentials,
     BasicAuthCredentialsOrDict,
     BasicAuthScheme,
-    ClientCredentials,
-    ClientCredentialsOrDict,
+    BearerAuthScheme,
+    LoggingOptionsOrDict,
     RetryOptionsOrDict,
-    client_secret_basic,
     no_auth,
     param,
 )
 from .server.environment import Environment
-from .server.server_config import ServerConfigOrDict
 
 
 class AsyncWalmartApisClient(BaseWalmartApisClient[AsyncRawClient]):
@@ -70,222 +60,160 @@ class AsyncWalmartApisClient(BaseWalmartApisClient[AsyncRawClient]):
         self,
         *,
         environment: Environment = "production",
+        base_url: str | None = None,
         timeout: float = DEFAULT_TIMEOUT,
-        server_config: ServerConfigOrDict | None = None,
         retry_options: int | RetryOptionsOrDict | None = None,
+        logging_options: LoggingOptionsOrDict | None = None,
         custom_async_http_client: AsyncHttpClient | None = None,
-        seller_auth_authorization_code: (
-            AsyncAuthorizationCodeCredentialsOrDict[SellerAuthAuthorizationCodeScope] | None
-        ) = None,
-        seller_auth_authorization_code_token_source: (
-            AsyncRefreshableTokenSource[AsyncAuthorizationCodeCredentials[SellerAuthAuthorizationCodeScope]] | None
-        ) = None,
-        seller_auth_client_credentials: ClientCredentialsOrDict[SellerAuthClientCredentialsScope] | None = None,
-        seller_auth_client_credentials_token_source: (
-            AsyncTokenSource[ClientCredentials[SellerAuthClientCredentialsScope]] | None
-        ) = None,
-        basic_client_auth: BasicAuthCredentialsOrDict | None = None,
-        wallet_auth: ClientCredentialsOrDict[WalletAuthScope] | None = None,
-        wallet_auth_token_source: AsyncTokenSource[ClientCredentials[WalletAuthScope]] | None = None,
+        basic_auth: BasicAuthCredentialsOrDict | None = None,
+        bearer_auth: str | None = None,
+        access_token: str | None = None,
     ) -> None:
         super().__init__(
-            environment=environment, timeout=timeout, server_config=server_config, retry_options=retry_options
+            environment=environment,
+            base_url=base_url,
+            timeout=timeout,
+            retry_options=retry_options,
+            logging_options=logging_options,
         )
         self._raw_client = AsyncRawClient(
             http_client=(
                 custom_async_http_client if custom_async_http_client is not None else AsyncHttpx2Client(timeout=timeout)
             ),
             retry_options=self._retry_options,
+            logging_options=self._logging_options,
             global_headers=[
-                param[str]("User-Agent", "WalmartApisClient/v4 Python"),
+                param[str]("User-Agent", "WalmartApisClient/1.0 Python"),
                 param[str]("X-APIMatic-Lang", "Python"),
-                param[str]("X-APIMatic-Package-Version", "v4"),
+                param[str]("X-APIMatic-Package-Version", "1.0"),
                 param[str]("X-APIMatic-Gen-Version", "4.0.0"),
                 param[str]("X-APIMatic-OS", OPERATING_SYSTEM),
                 param[str]("X-APIMatic-Runtime", PYTHON_RUNTIME),
             ],
         )
         self._auth = AsyncAuthSchemes(
-            seller_auth_authorization_code=(
-                AsyncOAuth2RefreshableScheme(
-                    credentials=AsyncAuthorizationCodeCredentials[SellerAuthAuthorizationCodeScope].coerce(
-                        seller_auth_authorization_code
-                    ),
-                    source=(
-                        seller_auth_authorization_code_token_source
-                        if seller_auth_authorization_code_token_source is not None
-                        else AsyncAuthorizationCodeTokenSource[SellerAuthAuthorizationCodeScope](
-                            client=self._raw_client,
-                            authorization_url=self._server.default("/auth/v4/authorize"),
-                            token_url=self._server.default("/auth/v4/token"),
-                            refresh_url=self._server.default("/auth/v4/token"),
-                            placement=client_secret_basic,
-                        )
-                    ),
-                )
-                if seller_auth_authorization_code is not None
-                else no_auth
-            ),
-            seller_auth_client_credentials=(
-                AsyncOAuth2Scheme(
-                    credentials=ClientCredentials[SellerAuthClientCredentialsScope].coerce(
-                        seller_auth_client_credentials
-                    ),
-                    source=(
-                        seller_auth_client_credentials_token_source
-                        if seller_auth_client_credentials_token_source is not None
-                        else AsyncClientCredentialsTokenSource[SellerAuthClientCredentialsScope](
-                            client=self._raw_client,
-                            token_url=self._server.default("/auth/v4/token"),
-                            placement=client_secret_basic,
-                        )
-                    ),
-                )
-                if seller_auth_client_credentials is not None
-                else no_auth
-            ),
-            basic_client_auth=(
-                BasicAuthScheme(BasicAuthCredentials.coerce(basic_client_auth))
-                if basic_client_auth is not None
-                else no_auth
-            ),
-            wallet_auth=(
-                AsyncOAuth2Scheme(
-                    credentials=ClientCredentials[WalletAuthScope].coerce(wallet_auth),
-                    source=(
-                        wallet_auth_token_source
-                        if wallet_auth_token_source is not None
-                        else AsyncClientCredentialsTokenSource[WalletAuthScope](
-                            client=self._raw_client,
-                            token_url=self._server.default1("/auth/token"),
-                            placement=client_secret_basic,
-                        )
-                    ),
-                )
-                if wallet_auth is not None
-                else no_auth
+            basic_auth=BasicAuthScheme(BasicAuthCredentials.coerce(basic_auth)) if basic_auth is not None else no_auth,
+            bearer_auth=BearerAuthScheme(bearer_auth) if bearer_auth is not None else no_auth,
+            access_token=(
+                ApiKeyHeaderScheme("WM_SEC.ACCESS_TOKEN", access_token) if access_token is not None else no_auth
             ),
         )
 
     @cached_property
+    def assortment_recommendations(self) -> AsyncAssortmentRecommendations:
+        return AsyncAssortmentRecommendations(self._raw_client, self._server)
+
+    @cached_property
     def authorization(self) -> AsyncAuthorization:
-        return AsyncAuthorization(self._raw_client, self._server, self._auth)
-
-    @cached_property
-    def catalog(self) -> AsyncCatalog:
-        return AsyncCatalog(self._raw_client, self._server, self._auth)
-
-    @cached_property
-    def data_kiosk(self) -> AsyncDataKiosk:
-        return AsyncDataKiosk(self._raw_client, self._server, self._auth)
+        return AsyncAuthorization(self._raw_client, self._server)
 
     @cached_property
     def disputes(self) -> AsyncDisputes:
-        return AsyncDisputes(self._raw_client, self._server, self._auth)
+        return AsyncDisputes(self._raw_client, self._server)
 
     @cached_property
-    def feeds(self) -> AsyncFeeds:
-        return AsyncFeeds(self._raw_client, self._server, self._auth)
+    def feeds_api(self) -> AsyncFeedsApi:
+        return AsyncFeedsApi(self._raw_client, self._server, self._auth)
 
     @cached_property
-    def final_payout(self) -> AsyncFinalPayout:
-        return AsyncFinalPayout(self._raw_client, self._server, self._auth)
+    def insight_api(self) -> AsyncInsightApi:
+        return AsyncInsightApi(self._raw_client, self._server, self._auth)
 
     @cached_property
-    def finances(self) -> AsyncFinances:
-        return AsyncFinances(self._raw_client, self._server, self._auth)
+    def inventory_api(self) -> AsyncInventoryApi:
+        return AsyncInventoryApi(self._raw_client, self._server, self._auth)
 
     @cached_property
-    def fulfillment_outbound(self) -> AsyncFulfillmentOutbound:
-        return AsyncFulfillmentOutbound(self._raw_client, self._server, self._auth)
-
-    @cached_property
-    def inventory(self) -> AsyncInventory:
-        return AsyncInventory(self._raw_client, self._server, self._auth)
-
-    @cached_property
-    def listings_items(self) -> AsyncListingsItems:
-        return AsyncListingsItems(self._raw_client, self._server, self._auth)
-
-    @cached_property
-    def listings_restrictions(self) -> AsyncListingsRestrictions:
-        return AsyncListingsRestrictions(self._raw_client, self._server, self._auth)
-
-    @cached_property
-    def merchant_fulfillment(self) -> AsyncMerchantFulfillment:
-        return AsyncMerchantFulfillment(self._raw_client, self._server, self._auth)
-
-    @cached_property
-    def orders(self) -> AsyncOrders:
-        return AsyncOrders(self._raw_client, self._server, self._auth)
-
-    @cached_property
-    def payouts(self) -> AsyncPayouts:
-        return AsyncPayouts(self._raw_client, self._server, self._auth)
-
-    @cached_property
-    def product_type_definitions(self) -> AsyncProductTypeDefinitions:
-        return AsyncProductTypeDefinitions(self._raw_client, self._server, self._auth)
-
-    @cached_property
-    def reconciliation(self) -> AsyncReconciliation:
-        return AsyncReconciliation(self._raw_client, self._server, self._auth)
-
-    @cached_property
-    def report_schedules(self) -> AsyncReportSchedules:
-        return AsyncReportSchedules(self._raw_client, self._server, self._auth)
-
-    @cached_property
-    def reports(self) -> AsyncReports:
-        return AsyncReports(self._raw_client, self._server, self._auth)
-
-    @cached_property
-    def sellers(self) -> AsyncSellers:
-        return AsyncSellers(self._raw_client, self._server, self._auth)
-
-    @cached_property
-    def settlement(self) -> AsyncSettlement:
-        return AsyncSettlement(self._raw_client, self._server, self._auth)
-
-    @cached_property
-    def uploads(self) -> AsyncUploads:
-        return AsyncUploads(self._raw_client, self._server, self._auth)
-
-    @cached_property
-    def wfs_inventory(self) -> AsyncWfsInventory:
-        return AsyncWfsInventory(self._raw_client, self._server, self._auth)
-
-    @cached_property
-    def messaging(self) -> AsyncMessaging:
-        return AsyncMessaging(self._raw_client, self._server, self._auth)
+    def lag_time_api(self) -> AsyncLagTimeApi:
+        return AsyncLagTimeApi(self._raw_client, self._server, self._auth)
 
     @cached_property
     def notifications(self) -> AsyncNotifications:
         return AsyncNotifications(self._raw_client, self._server, self._auth)
 
     @cached_property
-    def product_fees(self) -> AsyncProductFees:
-        return AsyncProductFees(self._raw_client, self._server, self._auth)
+    def on_request_report(self) -> AsyncOnRequestReport:
+        return AsyncOnRequestReport(self._raw_client, self._server, self._auth)
 
     @cached_property
-    def product_pricing(self) -> AsyncProductPricing:
-        return AsyncProductPricing(self._raw_client, self._server, self._auth)
+    def on_request_report_api(self) -> AsyncOnRequestReportApi:
+        return AsyncOnRequestReportApi(self._raw_client, self._server, self._auth)
 
     @cached_property
-    def sales(self) -> AsyncSales:
-        return AsyncSales(self._raw_client, self._server, self._auth)
+    def prices(self) -> AsyncPrices:
+        return AsyncPrices(self._raw_client, self._server, self._auth)
 
     @cached_property
-    def shipping(self) -> AsyncShipping:
-        return AsyncShipping(self._raw_client, self._server, self._auth)
+    def promotions(self) -> AsyncPromotions:
+        return AsyncPromotions(self._raw_client, self._server)
 
     @cached_property
-    def solicitations(self) -> AsyncSolicitations:
-        return AsyncSolicitations(self._raw_client, self._server, self._auth)
+    def recommendations_api(self) -> AsyncRecommendationsApi:
+        return AsyncRecommendationsApi(self._raw_client, self._server)
 
     @cached_property
-    def wfs_inbound(self) -> AsyncWfsInbound:
-        return AsyncWfsInbound(self._raw_client, self._server, self._auth)
+    def report_scheduler(self) -> AsyncReportScheduler:
+        return AsyncReportScheduler(self._raw_client, self._server, self._auth)
+
+    @cached_property
+    def reports_api(self) -> AsyncReportsApi:
+        return AsyncReportsApi(self._raw_client, self._server, self._auth)
+
+    @cached_property
+    def returns_refund(self) -> AsyncReturnsRefund:
+        return AsyncReturnsRefund(self._raw_client, self._server, self._auth)
+
+    @cached_property
+    def reviews(self) -> AsyncReviews:
+        return AsyncReviews(self._raw_client, self._server, self._auth)
+
+    @cached_property
+    def rich_media(self) -> AsyncRichMedia:
+        return AsyncRichMedia(self._raw_client, self._server, self._auth)
+
+    @cached_property
+    def sem_campaign_management(self) -> AsyncSemCampaignManagement:
+        return AsyncSemCampaignManagement(self._raw_client, self._server, self._auth)
+
+    @cached_property
+    def sem_catalog(self) -> AsyncSemCatalog:
+        return AsyncSemCatalog(self._raw_client, self._server, self._auth)
+
+    @cached_property
+    def sem_item_diagnostics(self) -> AsyncSemItemDiagnostics:
+        return AsyncSemItemDiagnostics(self._raw_client, self._server, self._auth)
+
+    @cached_property
+    def sem_reporting(self) -> AsyncSemReporting:
+        return AsyncSemReporting(self._raw_client, self._server, self._auth)
+
+    @cached_property
+    def seo_recommendations(self) -> AsyncSeoRecommendations:
+        return AsyncSeoRecommendations(self._raw_client, self._server, self._auth)
+
+    @cached_property
+    def ship_with_walmart(self) -> AsyncShipWithWalmart:
+        return AsyncShipWithWalmart(self._raw_client, self._server, self._auth)
+
+    @cached_property
+    def shipment_protection(self) -> AsyncShipmentProtection:
+        return AsyncShipmentProtection(self._raw_client, self._server)
+
+    @cached_property
+    def simplified_shipping_settings(self) -> AsyncSimplifiedShippingSettings:
+        return AsyncSimplifiedShippingSettings(self._raw_client, self._server)
+
+    @cached_property
+    def tax_form_apis(self) -> AsyncTaxFormApis:
+        return AsyncTaxFormApis(self._raw_client, self._server, self._auth)
+
+    @cached_property
+    def wsr_attribution_reports(self) -> AsyncWsrAttributionReports:
+        return AsyncWsrAttributionReports(self._raw_client, self._server, self._auth)
+
+    @cached_property
+    def walmart_seller_fulfilled(self) -> AsyncWalmartSellerFulfilled:
+        return AsyncWalmartSellerFulfilled(self._raw_client, self._server)
 
     async def aclose(self) -> None:
         await self._raw_client.http_client.aclose()
